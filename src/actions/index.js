@@ -1,6 +1,4 @@
-const d = ::console.info;
-
-// https://github.com/angular/angular.js/blob/master/src/ngResource/resource.js
+// @inspiration https://github.com/angular/angular.js/blob/master/src/ngResource/resource.js
 
 import fetch from 'isomorphic-fetch';
 import {getActionType} from './../types';

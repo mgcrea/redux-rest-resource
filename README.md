@@ -4,8 +4,6 @@
 
 Redux REST resource generates types, actions and reducers to easily interact with a REST API.
 
-Inspired by [Angular.js resource](https://github.com/angular/angular.js/blob/master/src/ngResource/resource.js).
-
 ## Usage
 
 ### Quickstart
@@ -86,6 +84,7 @@ Inspired by [Angular.js resource](https://github.com/angular/angular.js/blob/mas
 + http://olouv.com
 + http://github.com/mgcrea
 
+Inspired by the [AngularJS resource](https://github.com/angular/angular.js/blob/master/src/ngResource/resource.js).
 
 ## License
 
