@@ -14,7 +14,7 @@ import {getActionType} from '../src/types';
 import {createActions, getActionName} from '../src/actions';
 import {defaultActions} from '../src/defaults';
 import {values} from 'lodash';
-require('debug-utils');
+try { require('debug-utils'); } catch (err) {}; // eslint-disable-line
 
 // Configuration
 const name = 'user';
@@ -66,7 +66,7 @@ describe('createActions', () => {
       .then(done)
       .catch(done);
   });
-  it.only('.get()', (done) => {
+  it('.get()', (done) => {
     const actionKey = 'get';
     const type = getActionType({name, actionKey});
     const body = {id: 1, firstName: 'Olivier'};

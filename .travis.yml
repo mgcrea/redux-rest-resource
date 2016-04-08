@@ -1,0 +1,24 @@
+language: node_js
+sudo: false
+node_js:
+  - "4.2"
+  - "stable"
+
+env:
+  global:
+    - CODE_CLIMATE_TOKEN=2385bc32c7e416f44f08dee4ef616244b40fc9f77cf18708426aa94ec6e24adf
+
+before_script:
+  - date --rfc-2822
+
+script:
+  - npm test
+  - npm run lint
+  - npm run test-coverage
+
+after_script:
+  - cat coverage/lcov.info | codeclimate-test-reporter
+
+addons:
+  code_climate:
+    repo_token: 2385bc32c7e416f44f08dee4ef616244b40fc9f77cf18708426aa94ec6e24adf
