@@ -2,18 +2,18 @@
   "name": "redux-rest-resource",
   "description": "",
   "version": "0.2.0",
-  "main": "index.js",
+  "main": "lib/index.js",
   "author": "Olivier Louvignes <olivier@mg-crea.com>",
   "repository": "github:react-toolbox/react-toolbox-example",
   "license": "MIT",
   "scripts": {
-    "start": "cross-env NODE_ENV=development node webpack.server.js",
+    "start": "npm run test:watch",
     "lint": "cross-env NODE_ENV=test eslint src/",
     "test": "cross-env NODE_ENV=test mocha --compilers js:babel-register --recursive",
-    "test-coverage": "cross-env NODE_ENV=test nyc --reporter=lcov npm test -- --reporter dot && nyc report",
     "test:watch": "npm run test -- --watch",
-    "build": "cross-env NODE_ENV=production webpack",
-    "deploy": "gh-pages -d build"
+    "test-coverage": "cross-env NODE_ENV=test nyc --reporter=lcov npm test -- --reporter dot && nyc report",
+    "compile": "cross-env NODE_ENV=production babel src/ -d lib/ -s",
+    "prepublish": "npm run compile"
   },
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
