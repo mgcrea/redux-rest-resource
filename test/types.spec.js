@@ -7,7 +7,7 @@ import expect from 'expect';
 import {createTypes, getActionType} from '../src/types';
 import {defaultActions} from '../src/defaults';
 import {values} from 'lodash';
-require('debug-utils');
+try { require('debug-utils'); } catch (err) {}; // eslint-disable-line
 
 describe('createTypes', () => {
   it('should throw if name is undefined', () => {
