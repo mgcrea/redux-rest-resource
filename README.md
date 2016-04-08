@@ -13,7 +13,7 @@ Inspired by [Angular.js resource](https://github.com/angular/angular.js/blob/mas
 1. Export created types, actions and reducers (eg. in `containers/Users/store/index.js`)
 
     ```js
-    import {createResource} from 'modules/redux-rest-resource';
+    import {createResource} from 'redux-rest-resource';
 
     const hostUrl = 'https://api.mlab.com:443/api/1/databases/sandbox/collections';
     const apiKey = 'yvDjirE9MCIi800xMxi9EKETm8e9FUBR';
@@ -28,26 +28,19 @@ Inspired by [Angular.js resource](https://github.com/angular/angular.js/blob/mas
 
     ```js
     import {combineReducers} from 'redux';
-    import {reducers as users} from 'containers/Users/store';
+    import {reducers as userReducers} from 'containers/Users/store';
     export default combineReducers({
-      users
+      users: userReducers
     });
     ```
 
 3. Enjoy actions inside connected components!
 
     ```js
-    import {actions as userActions} from './store';
+    import {actions as userActions} from 'containers/Users/store';
     import UserListItem from './UserListItem';
 
     class UserList extends Component {
-
-      static propTypes = {
-        actions: PropTypes.object,
-        users: PropTypes.shape({
-          items: PropTypes.array
-        })
-      };
 
       componentDidMount() {
         const {actions} = this.props;
