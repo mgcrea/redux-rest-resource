@@ -14,7 +14,7 @@ before_script:
 script:
   - npm test
   - npm run lint
-  - npm run test-coverage
+  - npm run test:coverage
 
 after_script:
   - cat coverage/lcov.info | codeclimate-test-reporter

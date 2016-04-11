@@ -8,16 +8,17 @@
   "license": "MIT",
   "scripts": {
     "start": "npm run test:watch",
-    "lint": "cross-env NODE_ENV=test eslint src/",
-    "test": "cross-env NODE_ENV=test mocha --compilers js:babel-register --recursive",
+    "test": "mocha",
     "test:watch": "npm run test -- --watch",
-    "test-coverage": "cross-env NODE_ENV=test nyc --reporter=lcov npm test -- --reporter dot && nyc report",
-    "compile": "cross-env NODE_ENV=production babel src/ -d lib/ -s",
+    "test:coverage": "nyc --reporter=lcov npm test -- --reporter dot && nyc report",
+    "lint": "eslint src/",
+    "compile": "rimraf lib/*; babel src/ -d lib/ -s",
+    "compile:watch": "npm run compile -- -w",
     "prepublish": "npm run compile"
   },
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
-    "redux": "^3.3.1"
+    "redux": "^3.4.0"
   },
   "devDependencies": {
     "babel-cli": "^6.7.5",
@@ -34,10 +35,10 @@
     "eslint-config-airbnb": "^6.2.0",
     "eslint-plugin-react": "^4.3.0",
     "expect": "^1.16.0",
-    "lodash": "^4.8.2",
+    "lodash": "^4.9.0",
     "mocha": "^2.4.5",
     "nock": "^8.0.0",
-    "nyc": "^6.2.1",
+    "nyc": "^6.4.0",
     "redux-mock-store": "^1.0.2",
     "redux-thunk": "^2.0.1"
   }

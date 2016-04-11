@@ -3,7 +3,7 @@
 const PROTOCOL_AND_DOMAIN_REGEX = /^https?:\/\/[^\/]*/;
 const NUMBER_REGEX = /^\\d+$/;
 // const isString = string => typeof string === 'string';
-const isObject = object => typeof object === 'object' && !Array.isArray(object);
+const isObject = object => typeof object === 'object';
 
 /**
  * This method is intended for encoding *key* or *value* parts of query component. We need a
@@ -70,14 +70,3 @@ const buildFetchUrl = ({url, urlParams, context, stripTrailingSlashes = true}) =
 };
 
 export {parseUrlParams, buildFetchUrl};
-
-/*
-if (paramInfo.isQueryParamValue) {
-                encodedVal = encodeUriQuery(val, true);
-              } else {
-                encodedVal = encodeUriSegment(val);
-              }
-              url = url.replace(new RegExp(":" + urlParam + "(\\W|$)", "g"), function(match, p1) {
-                return encodedVal + p1;
-              });
-              */
