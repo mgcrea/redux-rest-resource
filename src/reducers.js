@@ -11,7 +11,7 @@ const initialState = {
 };
 
 const createReducers = ({types}) => (state = initialState, action) => {
-  if (!action.type.startsWith('@@resource/')) {
+  if (!String(action.type).startsWith('@@resource/')) {
     return state;
   }
   switch (action.type) {
