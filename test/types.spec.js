@@ -4,7 +4,7 @@ import expect from 'expect';
 // import * as reducers from './helpers/reducers'
 
 // import {createResource} from '../src';
-import {createTypes, getActionType} from '../src/types';
+import {createTypes, getActionKey, getActionType} from '../src/types';
 import {defaultActions} from '../src/defaults';
 import {values} from 'lodash';
 try { require('debug-utils'); } catch (err) {}; // eslint-disable-line
@@ -19,7 +19,7 @@ describe('createTypes', () => {
   it('should properly return an object with properly named keys', () => {
     const name = 'user';
     const types = createTypes({name});
-    const expectedKeys = Object.keys(defaultActions).map(actionKey => actionKey.toUpperCase());
+    const expectedKeys = Object.keys(defaultActions).map(actionKey => getActionKey({actionKey}));
     expect(Object.keys(types)).toEqual(expectedKeys);
     const expectedValuesFn = action => expect(action).toBeA('string');
     values(types).forEach(expectedValuesFn);
