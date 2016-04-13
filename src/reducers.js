@@ -1,6 +1,5 @@
 
 // http://facebook.github.io/react/docs/update.html
-const d = ::console.info;
 
 const initialState = {
   isFetching: false,
