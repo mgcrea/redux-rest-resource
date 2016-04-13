@@ -10,9 +10,9 @@ import thunk from 'redux-thunk';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-import {createTypes, getActionKey, getActionType} from '../src/types';
-import {createReducers, initialState} from '../src/reducers';
-import {defaultActions} from '../src/defaults';
+import {createTypes, getActionKey, getActionType} from '../../src/types';
+import {createReducers, initialState} from '../../src/reducers';
+import {defaultActions} from '../../src/defaults';
 import {values} from 'lodash';
 try { require('debug-utils'); } catch (err) {}; // eslint-disable-line
 

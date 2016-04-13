@@ -1,11 +1,6 @@
 import expect from 'expect';
-// import {createStore, combineReducers} from '../src/index'
-// import {addTodo, dispatchInMiddle, throwError, unknownAction} from './helpers/actionCreators'
-// import * as reducers from './helpers/reducers'
-
-// import {createResource} from '../src';
-import {createTypes, getActionKey, getActionType} from '../src/types';
-import {defaultActions} from '../src/defaults';
+import {createTypes, getActionKey, getActionType} from '../../src/types';
+import {defaultActions} from '../../src/defaults';
 import {values} from 'lodash';
 try { require('debug-utils'); } catch (err) {}; // eslint-disable-line
 
