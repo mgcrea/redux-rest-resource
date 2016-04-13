@@ -6,7 +6,7 @@ import {applyTransformPipeline, buildTransformPipeline} from './transform';
 import {parseUrlParams, buildFetchUrl} from './url';
 
 import {defaultActions, defaultHeaders, defaultTransformResponsePipeline} from './../defaults';
-
+// const d = ::console.info;
 const getActionName = ({name, actionKey, actionOpts = {}}) => `${actionKey}${name.charAt(0).toUpperCase()}${name.substr(1)}${actionOpts.isArray ? 's' : ''}`;
 
 const buildFetchOpts = ({context, actionOpts}) => {
@@ -35,15 +35,15 @@ const createActions = ({name, actions = {}, url}) => { // eslint-disable-line ar
     // Actual action function
     const actionFunc = context => dispatch => {
       // First dispatch a pending action
-      dispatch(context ? {type, status: 'pending', context} : {type, status: 'pending'});
+      dispatch({type, status: 'pending', context});
       const fetchUrl = buildFetchUrl({url, urlParams, context});
       // d('fetchUrl', fetchUrl);
       const fetchOptions = buildFetchOpts({context, actionOpts});
       // d(`${name}Actions.${actionName}()`, fetchUrl, fetchOptions);
       return fetch(fetchUrl, fetchOptions)
         .then(applyTransformPipeline(buildTransformPipeline(defaultTransformResponsePipeline, actionOpts.transformResponse)))
-        .then(body => dispatch({type, status: 'resolved', body, receivedAt: Date.now()}))
-        .catch(err => dispatch({type, status: 'rejected', err, receivedAt: Date.now()}));
+        .then(body => dispatch({type, status: 'resolved', context, body, receivedAt: Date.now()}))
+        .catch(err => dispatch({type, status: 'rejected', context, err, receivedAt: Date.now()}));
     };
     return Object.assign(actionFuncs, {[actionName]: actionFunc});
   }, {});

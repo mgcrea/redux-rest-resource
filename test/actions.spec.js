@@ -49,17 +49,17 @@ describe('createActions', () => {
     const actionKey = 'create';
     const action = getActionName({name, actionKey});
     const type = getActionType({name, actionKey});
-    const data = {firstName: 'Olivier'};
+    const context = {firstName: 'Olivier'};
     const body = {ok: true};
     nock(host)
-      .post('/users', data)
+      .post('/users', context)
       .reply(200, body);
     const store = mockStore({users: {}});
     const expectedActions = [
-      {status: 'pending', type, context: data},
-      {status: 'resolved', type, body, receivedAt: null}
+      {status: 'pending', type, context},
+      {status: 'resolved', type, context, body, receivedAt: null}
     ];
-    store.dispatch(actionFuncs[action](data))
+    store.dispatch(actionFuncs[action](context))
       .then(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
@@ -72,17 +72,17 @@ describe('createActions', () => {
     const actionKey = 'fetch';
     const action = getActionName({name, actionKey, actionOpts: {isArray: true}});
     const type = getActionType({name, actionKey});
-    const data = {};
+    const context = {};
     const body = [{id: 1, firstName: 'Olivier'}];
     nock(host)
       .get('/users')
       .reply(200, body);
     const store = mockStore({users: {}});
     const expectedActions = [
-      {status: 'pending', type, context: data},
-      {status: 'resolved', type, body, receivedAt: null}
+      {status: 'pending', type, context},
+      {status: 'resolved', type, context, body, receivedAt: null}
     ];
-    store.dispatch(actionFuncs[action](data))
+    store.dispatch(actionFuncs[action](context))
       .then(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
@@ -95,17 +95,17 @@ describe('createActions', () => {
     const actionKey = 'get';
     const action = getActionName({name, actionKey});
     const type = getActionType({name, actionKey});
-    const data = {id: 1};
+    const context = {id: 1};
     const body = {id: 1, firstName: 'Olivier'};
     nock(host)
-      .get(`/users/${data.id}`)
+      .get(`/users/${context.id}`)
       .reply(200, body);
     const store = mockStore({users: {}});
     const expectedActions = [
-      {status: 'pending', type, context: data},
-      {status: 'resolved', type, body, receivedAt: null}
+      {status: 'pending', type, context},
+      {status: 'resolved', type, context, body, receivedAt: null}
     ];
-    store.dispatch(actionFuncs[action](data))
+    store.dispatch(actionFuncs[action](context))
       .then(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
@@ -118,17 +118,17 @@ describe('createActions', () => {
     const actionKey = 'update';
     const action = getActionName({name, actionKey});
     const type = getActionType({name, actionKey});
-    const data = {id: 1, firstName: 'Olivier'};
+    const context = {id: 1, firstName: 'Olivier'};
     const body = {ok: true};
     nock(host)
-      .patch(`/users/${data.id}`, data)
+      .patch(`/users/${context.id}`, context)
       .reply(200, body);
     const store = mockStore({users: {}});
     const expectedActions = [
-      {status: 'pending', type, context: data},
-      {status: 'resolved', type, body, receivedAt: null}
+      {status: 'pending', type, context},
+      {status: 'resolved', type, context, body, receivedAt: null}
     ];
-    store.dispatch(actionFuncs[action](data))
+    store.dispatch(actionFuncs[action](context))
       .then(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
@@ -141,17 +141,17 @@ describe('createActions', () => {
     const actionKey = 'delete';
     const action = getActionName({name, actionKey});
     const type = getActionType({name, actionKey});
-    const data = {id: 1};
+    const context = {id: 1};
     const body = {ok: true};
     nock(host)
-      .delete(`/users/${data.id}`)
+      .delete(`/users/${context.id}`)
       .reply(200, body);
     const store = mockStore({users: {}});
     const expectedActions = [
-      {status: 'pending', type, context: data},
-      {status: 'resolved', type, body, receivedAt: null}
+      {status: 'pending', type, context},
+      {status: 'resolved', type, context, body, receivedAt: null}
     ];
-    store.dispatch(actionFuncs[action](data))
+    store.dispatch(actionFuncs[action](context))
       .then(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
