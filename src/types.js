@@ -1,14 +1,19 @@
 
+const upperSnakeCase = (string) =>
+  String(string.split('').reduce((soFar, letter, index) => {
+    const charCode = letter.charCodeAt(0);
+    return soFar + (index && charCode < 97 ? `_${letter}` : letter).toUpperCase();
+  }, ''));
+
 const getNamespace = ({name}) =>
-  `@@resource/${name.toUpperCase()}`;
+  `@@resource/${upperSnakeCase(name)}`;
 
 const getActionKey = ({name, pluralName, actionKey, actionOpts = {}}) => {
   // `${actionKey.toUpperCase()}`;
   const _pluralName = pluralName || `${name}s`;
-  return `${actionKey.toUpperCase()}_${(actionOpts.isArray ? _pluralName : name).toUpperCase()}`;
+  return `${actionKey.toUpperCase()}_${upperSnakeCase(actionOpts.isArray ? _pluralName : name)}`;
 };
 
-// @TODO snakeCase?
 const getActionType = ({name, actionKey}) =>
   // `${actionKey.toUpperCase()}_${name.toUpperCase()}${action.isArray ? 'S' : ''}`;
   `${getNamespace({name})}/${actionKey.toUpperCase()}`;
