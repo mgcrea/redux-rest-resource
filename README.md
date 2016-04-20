@@ -121,7 +121,7 @@ defaultActions = {
 - You can easily combine multiple resources:
 
 ```js
-import {createResource, mergeReducers} from 'redux-rest-resource/src';
+import {createResource, mergeReducers} from 'redux-rest-resource';
 
 const hostUrl = 'http://localhost:3000';
 const libraryResource = createResource({
