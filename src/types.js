@@ -1,16 +1,16 @@
-import {defaultActions} from './defaults';
 
 const getActionKey = ({actionKey}) =>
   `${actionKey.toUpperCase()}`;
 
+// @TODO snakeCase
 const getActionType = ({name, actionKey}) =>
   // `${actionKey.toUpperCase()}_${name.toUpperCase()}${action.isArray ? 'S' : ''}`;
-  `@@resource/${name}/${actionKey.toUpperCase()}`;
+  `@@resource/${name.toUpperCase()}/${actionKey.toUpperCase()}`;
 
-const createTypes = ({name}) => {
+const createTypes = ({name, actions}) => {
   const types = {};
-  Object.keys(defaultActions).forEach(actionKey => {
-    const action = defaultActions[actionKey];
+  Object.keys(actions).forEach(actionKey => {
+    const action = actions[actionKey];
     const type = getActionType({name, action, actionKey});
     types[getActionKey({name, actionKey})] = type;
   });

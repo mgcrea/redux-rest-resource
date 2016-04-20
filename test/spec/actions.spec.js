@@ -1,5 +1,5 @@
-import expect, {createSpy, spyOn, isSpy} from 'expect'
-import nock from 'nock'
+import expect, {createSpy, spyOn, isSpy} from 'expect';
+import nock from 'nock';
 // import {createStore, combineReducers} from '../src/index'
 // import {addTodo, dispatchInMiddle, throwError, unknownAction} from './helpers/actionCreators'
 // import * as reducers from './helpers/reducers'
@@ -29,12 +29,12 @@ describe('createActions', () => {
     }).toThrow();
   });
   it('should return an object with properly named keys', () => {
-    const actionFuncs = createActions({name, url});
+    const actionFuncs = createActions({name, url, actions: defaultActions});
     const expectedKeys = Object.keys(defaultActions).map(actionKey => getActionName({name, actionKey, actionOpts: defaultActions[actionKey]}));
     expect(Object.keys(actionFuncs)).toEqual(expectedKeys);
   });
   it('should return an object with properly typed values', () => {
-    const actionFuncs = createActions({name, url});
+    const actionFuncs = createActions({name, url, actions: defaultActions});
     const expectedValuesFn = action => expect(action).toBeA('function');
     values(actionFuncs).forEach(expectedValuesFn);
   });
@@ -44,7 +44,7 @@ describe('createActions', () => {
   afterEach(() => {
     nock.cleanAll();
   });
-  const actionFuncs = createActions({name, url});
+  const actionFuncs = createActions({name, url, actions: defaultActions});
   it('.create()', (done) => {
     const actionKey = 'create';
     const action = getActionName({name, actionKey});

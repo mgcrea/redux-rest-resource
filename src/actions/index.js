@@ -7,7 +7,14 @@ import {parseUrlParams, buildFetchUrl} from './url';
 
 import {defaultActions, defaultHeaders, defaultTransformResponsePipeline} from './../defaults';
 // const d = ::console.info;
-const getActionName = ({name, actionKey, actionOpts = {}}) => `${actionKey}${name.charAt(0).toUpperCase()}${name.substr(1)}${actionOpts.isArray ? 's' : ''}`;
+
+const ucfirst = (str) =>
+  str.charAt(0).toUpperCase() + str.substr(1);
+
+const getActionName = ({name, pluralName, actionKey, actionOpts = {}}) => {
+  const _pluralName = pluralName || `${name}s`;
+  return `${actionKey}${ucfirst(actionOpts.isArray ? _pluralName : name)}`;
+};
 
 const buildFetchOpts = ({context, actionOpts}) => {
   const opts = {
@@ -23,15 +30,14 @@ const buildFetchOpts = ({context, actionOpts}) => {
   return opts;
 };
 
-
-const createActions = ({name, actions = {}, url}) => { // eslint-disable-line arrow-body-style
+const createActions = ({name, pluralName, actions = {}, url}) => { // eslint-disable-line arrow-body-style
   const urlParams = parseUrlParams(url);
   return Object.keys(defaultActions).reduce((actionFuncs, actionKey) => {
-    const type = getActionType({name, actionKey});
-    // Extend defaultActions with passed actions opts
-    const actionOpts = {...(actions[actionKey] || {}), ...defaultActions[actionKey]};
+    const action = defaultActions[actionKey];
+    const actionOpts = actions[actionKey];
+    const type = getActionType({name, action, actionKey});
     // Compute actual function name
-    const actionName = getActionName({name, actionKey, actionOpts});
+    const actionName = getActionName({name, pluralName, actionKey, actionOpts});
     // Actual action function
     const actionFunc = context => dispatch => {
       // First dispatch a pending action
@@ -45,7 +51,7 @@ const createActions = ({name, actions = {}, url}) => { // eslint-disable-line ar
         .then(body => dispatch({type, status: 'resolved', context, body, receivedAt: Date.now()}))
         .catch(err => dispatch({type, status: 'rejected', context, err, receivedAt: Date.now()}));
     };
-    return Object.assign(actionFuncs, {[actionName]: actionFunc});
+    return {...actionFuncs, [actionName]: actionFunc};
   }, {});
 };
 

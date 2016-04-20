@@ -18,11 +18,11 @@
   },
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
-    "redux": "^3.4.0"
+    "redux": "^3.5.0"
   },
   "devDependencies": {
     "babel-cli": "^6.7.5",
-    "babel-eslint": "^6.0.2",
+    "babel-eslint": "^6.0.3",
     "babel-plugin-transform-class-properties": "^6.6.0",
     "babel-plugin-transform-function-bind": "^6.5.2",
     "babel-plugin-transform-object-rest-spread": "^6.6.5",
@@ -31,11 +31,11 @@
     "babel-register": "^6.7.2",
     "codeclimate-test-reporter": "^0.3.1",
     "cross-env": "^1.0.7",
-    "eslint": "^2.7.0",
+    "eslint": "^2.8.0",
     "eslint-config-airbnb": "^7.0.0",
-    "eslint-plugin-react": "^4.3.0",
-    "expect": "^1.16.0",
-    "lodash": "^4.11.0",
+    "eslint-plugin-react": "^5.0.1",
+    "expect": "^1.18.0",
+    "lodash": "^4.11.1",
     "mocha": "^2.4.5",
     "nock": "^8.0.0",
     "nyc": "^6.4.0",

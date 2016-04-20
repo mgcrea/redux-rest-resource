@@ -29,12 +29,12 @@ describe('createReducers', () => {
     }).toThrow();
   });
   it('should return a reduce function', () => {
-    const types = createTypes({name});
+    const types = createTypes({name, actions: defaultActions});
     const reducers = createReducers({types});
     expect(reducers).toBeA('function');
   });
   it('should return the initial state', () => {
-    const types = createTypes({name});
+    const types = createTypes({name, actions: defaultActions});
     const reducers = createReducers({types});
     expect(reducers(undefined, {})).
       toEqual(initialState);
@@ -42,7 +42,7 @@ describe('createReducers', () => {
 });
 
 describe('createReducers', () => {
-  const types = createTypes({name, url});
+  const types = createTypes({name, actions: defaultActions});
   const reducers = createReducers({types});
   it('should handle CREATE action', () => {
     const actionKey = 'create';
