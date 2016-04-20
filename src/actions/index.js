@@ -43,7 +43,6 @@ const createActions = ({name, pluralName, url, actions = {}}) => { // eslint-dis
       // First dispatch a pending action
       dispatch({type, status: 'pending', context});
       const fetchUrl = buildFetchUrl({url, urlParams, context});
-      // d('fetchUrl', fetchUrl);
       const fetchOptions = buildFetchOpts({context, actionOpts});
       // d(`${name}Actions.${actionName}()`, fetchUrl, fetchOptions);
       return fetch(fetchUrl, fetchOptions)

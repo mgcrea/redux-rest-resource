@@ -21,7 +21,7 @@ const combineReducers = (...reducers) =>
 const mergeReducers = (baseReducer, ...reducers) => {
   const combinedReducers = combineReducers.apply(null, reducers);
   return (state, action) =>
-    Object.assign(combinedReducers(state, action), baseReducer(state, action));
+    baseReducer(combinedReducers(state, action), action);
 };
 
 export {reduceReducers, combineReducers, mergeReducers};
