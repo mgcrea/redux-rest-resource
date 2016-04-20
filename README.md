@@ -96,7 +96,7 @@ Object.keys(actions) = [
 ### Options
 
 | **Option** | **Type** | **Description** |
-|----------|-------|
+|------------|----------|-----------------|
 | name | String | Actual name of the resource (required) |
 | pluralName | String | Plural name of the resource (optional) |
 | url | String | Actual url of the resource (required) |
@@ -105,7 +105,7 @@ Object.keys(actions) = [
 #### Default actions options
 
 | **Option** | **Type** | **Description** |
-|----------|-------|
+|------------|----------|-----------------|
 | method | String | Method used by fetch (required) |
 | isArray | Boolean | Whether we should expect an returned Array (optional) |
 | transformResponse | Function/Array | Transform returned response (required) |
