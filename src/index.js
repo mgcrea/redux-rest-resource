@@ -7,7 +7,7 @@ import {defaultActions} from './defaults';
 import {createActions} from './actions';
 import {createReducers} from './reducers';
 import {createTypes} from './types';
-
+export {reduceReducers, combineReducers, mergeReducers} from './reducers/helpers';
 
 const mergeObjects = (object, ...sources) => {
   const concat = Array.prototype.concat;
@@ -23,7 +23,7 @@ export function createResource({name, url, actions = {}, ...args}) {
   const actionsOpts = mergeObjects({}, defaultActions, actions);
   return {
     actions: createActions({name, url, actions: actionsOpts, ...args}),
-    reducers: createReducers({name}),
+    reducers: createReducers({name, ...args}),
     types: createTypes({name, actions: actionsOpts, ...args})
   };
 }

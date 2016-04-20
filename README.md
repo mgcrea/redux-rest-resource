@@ -122,8 +122,7 @@ defaultActions = {
 - You can easily combine multiple resources:
 
 ```js
-import {createResource} from 'redux-rest-resource';
-import {combineReducers} from 'redux';
+import {createResource, mergeReducers} from 'redux-rest-resource/src';
 
 const hostUrl = 'http://localhost:3000';
 const libraryResource = createResource({
@@ -138,7 +137,7 @@ const libraryAssetResource = createResource({
 
 const types = {...libraryResource.types, ...libraryAssetResource.types};
 const actions = {...libraryResource.actions, ...libraryAssetResource.actions};
-const reducers = combineReducers([libraryResource.reducers, libraryAssetResource.reducers]);
+const reducers = mergeReducers(libraryResource.reducers, {assets: libraryAssetResource.reducers});
 export {types, actions, reducers};
 ```
 

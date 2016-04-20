@@ -12,12 +12,12 @@ const initialState = {
 
 import {getNamespace} from './../types';
 
-const createReducers = ({name}) => (state = initialState, action) => {
+const createReducers = ({name}) => (state = {...initialState, name}, action) => {
   const namespace = `${getNamespace({name})}/`;
+  // Only process relevant action types
   if (!String(action.type).startsWith(namespace)) {
     return state;
   }
-  // d(action);
   const type = action.type.substr(namespace.length);
   switch (type) {
     case 'CREATE':

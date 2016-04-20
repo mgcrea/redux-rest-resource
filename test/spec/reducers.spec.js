@@ -18,6 +18,7 @@ try { require('debug-utils'); } catch (err) {}; // eslint-disable-line
 
 // Configuration
 const name = 'user';
+initialState.name = name;
 const host = 'http://localhost:3000';
 const url = `${host}/users/:id`;
 
