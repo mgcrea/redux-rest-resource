@@ -10,13 +10,17 @@ const initialState = {
   isFetchingItem: false
 };
 
-const createReducers = ({types}) => (state = initialState, action) => {
-  if (!String(action.type).startsWith('@@resource/')) {
+import {getNamespace} from './../types';
+
+const createReducers = ({name}) => (state = initialState, action) => {
+  const namespace = `${getNamespace({name})}/`;
+  if (!String(action.type).startsWith(namespace)) {
     return state;
   }
   // d(action);
-  switch (action.type) {
-    case types.CREATE:
+  const type = action.type.substr(namespace.length);
+  switch (type) {
+    case 'CREATE':
       switch (action.status) {
         case 'pending':
           // Add object to store as soon as possible?
@@ -40,7 +44,7 @@ const createReducers = ({types}) => (state = initialState, action) => {
         default:
           return state;
       }
-    case types.FETCH:
+    case 'FETCH':
       switch (action.status) {
         case 'pending':
           return Object.assign({}, state, {
@@ -62,7 +66,7 @@ const createReducers = ({types}) => (state = initialState, action) => {
         default:
           return state;
       }
-    case types.GET:
+    case 'GET':
       switch (action.status) {
         case 'pending':
           return {...state,
@@ -82,7 +86,7 @@ const createReducers = ({types}) => (state = initialState, action) => {
         default:
           return state;
       }
-    case types.UPDATE:
+    case 'UPDATE':
       switch (action.status) {
         case 'pending':
           // Update object in store as soon as possible?
@@ -105,7 +109,7 @@ const createReducers = ({types}) => (state = initialState, action) => {
         default:
           return state;
       }
-    case types.DELETE:
+    case 'DELETE':
       switch (action.status) {
         case 'pending':
           // Update object in store as soon as possible?

@@ -66,6 +66,31 @@ Redux REST resource generates types, actions and reducers to easily interact wit
     )(UserList);
     ```
 
+#### Exported types
+
+```js
+types = {
+  "CREATE_USER": "@@resource/USER/CREATE",
+  "FETCH_USERS": "@@resource/USER/FETCH",
+  "GET_USER": "@@resource/USER/GET",
+  "UPDATE_USER": "@@resource/USER/UPDATE",
+  "DELETE_USER": "@@resource/USER/DELETE",
+  "CHARGE_USER": "@@resource/USER/CHARGE"
+}
+```
+
+#### Exported actions
+
+```js
+Object.keys(actions) = [
+  "createUser",
+  "fetchUsers",
+  "getUser",
+  "updateUser",
+  "deleteUser"
+]
+```
+
 
 ### Available scripts
 
@@ -74,7 +99,7 @@ Redux REST resource generates types, actions and reducers to easily interact wit
 | test | Run mocha unit tests |
 | lint | Run eslint static tests |
 | test:watch | Run and watch mocha unit tests |
-| build | Compile the library |
+| compile | Compile the library |
 
 
 ## Authors

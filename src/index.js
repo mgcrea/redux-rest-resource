@@ -19,12 +19,11 @@ const mergeObjects = (object, ...sources) => {
   }, object);
 };
 
-export function createResource({name, actions = {}, ...args}) {
+export function createResource({name, url, actions = {}, ...args}) {
   const actionsOpts = mergeObjects({}, defaultActions, actions);
-  const types = createTypes({name, actions: actionsOpts, ...args});
   return {
-    actions: createActions({name, types, actions: actionsOpts, ...args}),
-    reducers: createReducers({types}),
-    types
+    actions: createActions({name, url, actions: actionsOpts, ...args}),
+    reducers: createReducers({name}),
+    types: createTypes({name, actions: actionsOpts, ...args})
   };
 }

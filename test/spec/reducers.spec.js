@@ -30,12 +30,12 @@ describe('createReducers', () => {
   });
   it('should return a reduce function', () => {
     const types = createTypes({name, actions: defaultActions});
-    const reducers = createReducers({types});
+    const reducers = createReducers({name, types});
     expect(reducers).toBeA('function');
   });
   it('should return the initial state', () => {
     const types = createTypes({name, actions: defaultActions});
-    const reducers = createReducers({types});
+    const reducers = createReducers({name, types});
     expect(reducers(undefined, {})).
       toEqual(initialState);
   });
@@ -43,10 +43,11 @@ describe('createReducers', () => {
 
 describe('createReducers', () => {
   const types = createTypes({name, actions: defaultActions});
-  const reducers = createReducers({types});
+  const reducers = createReducers({name, types});
   it('should handle CREATE action', () => {
     const actionKey = 'create';
-    const type = types[getActionKey({actionKey})];
+    const actionOpts = defaultActions[actionKey];
+    const type = types[getActionKey({name, actionKey, actionOpts})];
     const context = {firstName: 'Olivier'};
     let status;
 
@@ -67,7 +68,8 @@ describe('createReducers', () => {
   });
   it('should handle FETCH action', () => {
     const actionKey = 'fetch';
-    const type = types[getActionKey({actionKey})];
+    const actionOpts = defaultActions[actionKey];
+    const type = types[getActionKey({name, actionKey, actionOpts})];
     let status;
 
     status = 'pending';
@@ -87,7 +89,8 @@ describe('createReducers', () => {
   });
   it('should handle GET action', () => {
     const actionKey = 'get';
-    const type = types[getActionKey({actionKey})];
+    const actionOpts = defaultActions[actionKey];
+    const type = types[getActionKey({name, actionKey, actionOpts})];
     const context = {id: 1};
     let status;
 
@@ -108,7 +111,8 @@ describe('createReducers', () => {
   });
   it('should handle UPDATE action', () => {
     const actionKey = 'update';
-    const type = types[getActionKey({actionKey})];
+    const actionOpts = defaultActions[actionKey];
+    const type = types[getActionKey({name, actionKey, actionOpts})];
     const initialItems = [{id: 1, firstName: 'Olivier', lastName: 'Louvignes'}];
     const customInitialState = {...initialState, items: initialItems};
     const context = {id: 1, firstName: 'Olivia'};
@@ -132,7 +136,8 @@ describe('createReducers', () => {
   });
   it('should handle DELETE action', () => {
     const actionKey = 'delete';
-    const type = types[getActionKey({actionKey})];
+    const actionOpts = defaultActions[actionKey];
+    const type = types[getActionKey({name, actionKey, actionOpts})];
     const initialItems = [{id: 1, firstName: 'Olivier', lastName: 'Louvignes'}];
     const customInitialState = {...initialState, items: initialItems};
     const context = {id: 1};

@@ -5,7 +5,7 @@ import {getActionType} from './../types';
 import {applyTransformPipeline, buildTransformPipeline} from './transform';
 import {parseUrlParams, buildFetchUrl} from './url';
 
-import {defaultActions, defaultHeaders, defaultTransformResponsePipeline} from './../defaults';
+import {defaultHeaders, defaultTransformResponsePipeline} from './../defaults';
 // const d = ::console.info;
 
 const ucfirst = (str) =>
@@ -30,10 +30,10 @@ const buildFetchOpts = ({context, actionOpts}) => {
   return opts;
 };
 
-const createActions = ({name, pluralName, actions = {}, url}) => { // eslint-disable-line arrow-body-style
+const createActions = ({name, pluralName, url, actions = {}}) => { // eslint-disable-line arrow-body-style
   const urlParams = parseUrlParams(url);
-  return Object.keys(defaultActions).reduce((actionFuncs, actionKey) => {
-    const action = defaultActions[actionKey];
+  return Object.keys(actions).reduce((actionFuncs, actionKey) => {
+    const action = actions[actionKey];
     const actionOpts = actions[actionKey];
     const type = getActionType({name, action, actionKey});
     // Compute actual function name
@@ -55,4 +55,4 @@ const createActions = ({name, pluralName, actions = {}, url}) => { // eslint-dis
   }, {});
 };
 
-export {defaultActions, defaultHeaders, getActionName, createActions};
+export {getActionName, createActions};
