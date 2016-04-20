@@ -4,6 +4,8 @@
 
 Redux REST resource does generate types, actions and reducers to easily interact with a REST API.
 
+Relies on `isomorphic-fetch` to perform HTTP requests.
+
 ## Usage
 
 ### Quickstart
@@ -90,7 +92,23 @@ Object.keys(actions) = [
 ]
 ```
 
-#### Default actions opts
+
+### Options
+
+| **Option** | **Type** | **Description** |
+|----------|-------|
+| name | String | Actual name of the resource (required) |
+| pluralName | String | Plural name of the resource (optional) |
+| url | String | Actual url of the resource (required) |
+| actions | Object | Action extra options, merged with defaults (optional) |
+
+#### Default actions options
+
+| **Option** | **Type** | **Description** |
+|----------|-------|
+| method | String | Method used by fetch (required) |
+| isArray | Boolean | Whether we should expect an returned Array (optional) |
+| transformResponse | Function/Array | Transform returned response (required) |
 
 ```js
 import {defaultActions} from 'redux-rest-resource/lib/defaults';
@@ -115,6 +133,7 @@ defaultActions = {
   }
 }
 ```
+
 
 ### Advanced Usage
 
