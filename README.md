@@ -91,6 +91,31 @@ Object.keys(actions) = [
 ]
 ```
 
+#### Default actions opts
+
+```js
+import {defaultActions} from 'redux-rest-resource/lib/defaults';
+
+defaultActions = {
+  "create": {
+    "method": "post",
+    "alias": "save"
+  },
+  "fetch": {
+    "method": "get",
+    "isArray": true
+  },
+  "get": {
+    "method": "get"
+  },
+  "update": {
+    "method": "patch"
+  },
+  "delete": {
+    "method": "delete"
+  }
+}
+```
 
 ### Available scripts
 

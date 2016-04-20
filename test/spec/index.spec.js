@@ -18,7 +18,6 @@ describe('createResource', () => {
     expect(types).toBeA('object');
     expect(actions).toBeA('object');
     expect(reducers).toBeA('function');
-    console.log(JSON.stringify(Object.keys(actions), null, 2));
   });
   it('should properly merge action opts', () => {
     const {types, actions, reducers} = createResource({name, url, actions: {get: {foo: 'bar'}, charge: {method: 'post'}}});
