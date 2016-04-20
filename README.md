@@ -74,8 +74,7 @@ types = {
   "FETCH_USERS": "@@resource/USER/FETCH",
   "GET_USER": "@@resource/USER/GET",
   "UPDATE_USER": "@@resource/USER/UPDATE",
-  "DELETE_USER": "@@resource/USER/DELETE",
-  "CHARGE_USER": "@@resource/USER/CHARGE"
+  "DELETE_USER": "@@resource/USER/DELETE"
 }
 ```
 
