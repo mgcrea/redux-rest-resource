@@ -117,6 +117,12 @@ defaultActions = {
 }
 ```
 
+### Roadmap
+
+- Freeze API after beta feedback
+- Maybe support different naming strategies
+- Support optimistic updates
+
 ### Available scripts
 
 | **Script** | **Description** |
