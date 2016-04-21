@@ -1,6 +1,6 @@
 {
   "name": "redux-rest-resource",
-  "description": "",
+  "description": "Generates types, actions and reducers for you to easily interact with any REST API.",
   "version": "0.3.2",
   "main": "lib/index.js",
   "author": "Olivier Louvignes <olivier@mg-crea.com>",
@@ -46,5 +46,16 @@
   },
   "peerDependencies": {
     "redux-thunk": "^2.0.1"
-  }
+  },
+  "keywords": [
+    "elm",
+    "flux",
+    "functional",
+    "http",
+    "reducer",
+    "redux",
+    "resource",
+    "rest",
+    "state"
+  ]
 }
