@@ -4,7 +4,9 @@
 
 Redux REST resource generates types, actions and reducers for you to easily interact with a REST API.
 
-Relies on `isomorphic-fetch` to perform HTTP requests.
+- Relies on [isomorphic-fetch](https://github.com/matthew-andrews/isomorphic-fetch) to perform HTTP requests.
+
+- Requires [redux-thunk](https://github.com/gaearon/redux-thunk) to handle async actions.
 
 ## Usage
 

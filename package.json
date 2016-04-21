@@ -43,5 +43,8 @@
     "redux-mock-store": "^1.0.2",
     "redux-thunk": "^2.0.1",
     "rimraf": "^2.5.2"
+  },
+  "peerDependencies": {
+    "redux-thunk": "^2.0.1"
   }
 }
