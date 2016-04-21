@@ -18,14 +18,11 @@ const getActionType = ({name, actionKey}) =>
   // `${actionKey.toUpperCase()}_${name.toUpperCase()}${action.isArray ? 'S' : ''}`;
   `${getNamespace({name})}/${actionKey.toUpperCase()}`;
 
-const createTypes = ({name, actions}) => {
-  const types = {};
-  Object.keys(actions).forEach(actionKey => {
+const createTypes = ({name, actions}) =>
+  Object.keys(actions).reduce((types, actionKey) => {
     const actionOpts = actions[actionKey];
     const type = getActionType({name, actionOpts, actionKey});
-    types[getActionKey({name, actionOpts, actionKey})] = type;
-  });
-  return types;
-};
+    return Object.assign(types, {[getActionKey({name, actionOpts, actionKey})]: type});
+  }, {});
 
 export {createTypes, getNamespace, getActionKey, getActionType};
