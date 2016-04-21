@@ -100,8 +100,8 @@ Object.keys(actions) = [
 | **Option** | **Type** | **Description** |
 |------------|----------|-----------------|
 | name | String | Actual name of the resource (required) |
-| pluralName | String | Plural name of the resource (optional) |
 | url | String | Actual url of the resource (required) |
+| pluralName | String | Plural name of the resource (optional) |
 | actions | Object | Action extra options, merged with defaults (optional) |
 
 #### Default actions options
@@ -110,7 +110,7 @@ Object.keys(actions) = [
 |------------|----------|-----------------|
 | method | String | Method used by fetch (required) |
 | isArray | Boolean | Whether we should expect an returned Array (optional) |
-| transformResponse | Function/Array | Transform returned response (required) |
+| transformResponse | Function/Array | Transform returned response (optional) |
 
 ```js
 import {defaultActions} from 'redux-rest-resource/lib/defaults';
