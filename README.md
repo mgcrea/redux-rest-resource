@@ -39,6 +39,8 @@ Redux REST resource generates types, actions and reducers for you to easily inte
 3. Use provided actions inside connected components
 
     ```js
+    import {bindActionCreators} from 'redux';
+    import {connect} from 'react-redux';
     import {actions as userActions} from 'containers/Users/store';
     import UserListItem from './UserListItem';
 
