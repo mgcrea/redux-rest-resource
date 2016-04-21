@@ -1,10 +1,6 @@
-import expect, {createSpy, spyOn, isSpy} from 'expect';
+import expect from 'expect';
 import nock from 'nock';
-// import {createStore, combineReducers} from '../src/index'
-// import {addTodo, dispatchInMiddle, throwError, unknownAction} from './helpers/actionCreators'
-// import * as reducers from './helpers/reducers'
 
-// import {createResource} from '../src';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 const middlewares = [thunk];

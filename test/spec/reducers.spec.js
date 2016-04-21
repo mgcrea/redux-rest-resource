@@ -1,26 +1,11 @@
-import expect, {createSpy, spyOn, isSpy} from 'expect'
-import nock from 'nock'
-// import {createStore, combineReducers} from '../src/index'
-// import {addTodo, dispatchInMiddle, throwError, unknownAction} from './helpers/actionCreators'
-// import * as reducers from './helpers/reducers'
-
-// import {createResource} from '../src';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares);
-
-import {createTypes, getActionKey, getActionType} from '../../src/types';
+import expect from 'expect';
+import {createTypes, getActionKey} from '../../src/types';
 import {createReducers, initialState} from '../../src/reducers';
 import {defaultActions} from '../../src/defaults';
-import {values} from 'lodash';
-try { require('debug-utils'); } catch (err) {}; // eslint-disable-line
 
 // Configuration
 const name = 'user';
 initialState.name = name;
-const host = 'http://localhost:3000';
-const url = `${host}/users/:id`;
 
 describe('createReducers', () => {
   it('should throw if name is undefined', () => {

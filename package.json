@@ -11,7 +11,7 @@
     "test": "mocha",
     "test:watch": "npm run test -- --watch",
     "test:coverage": "nyc --reporter=lcov npm test -- --reporter dot && nyc report",
-    "lint": "eslint src/",
+    "lint": "eslint src/ test/",
     "compile": "rimraf lib/*; babel src/ -d lib/ -s",
     "compile:watch": "npm run compile -- -w",
     "prepublish": "npm run compile"
