@@ -1,7 +1,7 @@
 {
   "name": "redux-rest-resource",
   "description": "",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "main": "lib/index.js",
   "author": "Olivier Louvignes <olivier@mg-crea.com>",
   "repository": "github:mgcrea/redux-rest-resource",
