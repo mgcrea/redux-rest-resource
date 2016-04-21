@@ -2,7 +2,7 @@
 
 [![project status](https://img.shields.io/badge/status-beta-blue.svg?style=flat)](https://github.com/mgcrea/redux-rest-resource) [![license](https://img.shields.io/github/license/mgcrea/redux-rest-resource.svg?style=flat)](https://tldrlegal.com/license/mit-license) [![build status](http://img.shields.io/travis/mgcrea/redux-rest-resource/master.svg?style=flat)](http://travis-ci.org/mgcrea/redux-rest-resource) [![dependencies status](https://img.shields.io/david/mgcrea/redux-rest-resource.svg?style=flat)](https://david-dm.org/mgcrea/redux-rest-resource) [![devDependencies status](https://img.shields.io/david/dev/mgcrea/redux-rest-resource.svg?style=flat)](https://david-dm.org/mgcrea/redux-rest-resource#info=devDependencies) [![coverage status](http://img.shields.io/codeclimate/coverage/github/mgcrea/redux-rest-resource.svg?style=flat)](https://codeclimate.com/github/mgcrea/redux-rest-resource) [![climate status](https://img.shields.io/codeclimate/github/mgcrea/redux-rest-resource.svg?style=flat)](https://codeclimate.com/github/mgcrea/redux-rest-resource)
 
-Redux REST resource does generate types, actions and reducers to easily interact with a REST API.
+Redux REST resource generates types, actions and reducers for you to easily interact with a REST API.
 
 Relies on `isomorphic-fetch` to perform HTTP requests.
 
@@ -28,13 +28,13 @@ Relies on `isomorphic-fetch` to perform HTTP requests.
 
     ```js
     import {combineReducers} from 'redux';
-    import {reducers as userReducers} from 'containers/Users/store';
+    import {reducers as usersReducers} from 'containers/Users/store';
     export default combineReducers({
-      users: userReducers
+      users: usersReducers
     });
     ```
 
-3. Enjoy actions inside connected components!
+3. Use provided actions inside connected components
 
     ```js
     import {actions as userActions} from 'containers/Users/store';
@@ -74,7 +74,7 @@ Relies on `isomorphic-fetch` to perform HTTP requests.
 types = {
   "CREATE_USER": "@@resource/USER/CREATE",
   "FETCH_USERS": "@@resource/USER/FETCH",
-  "GET_USER": "@@resource/USER/GET",
+  "GET_USER":    "@@resource/USER/GET",
   "UPDATE_USER": "@@resource/USER/UPDATE",
   "DELETE_USER": "@@resource/USER/DELETE"
 }
@@ -115,8 +115,7 @@ import {defaultActions} from 'redux-rest-resource/lib/defaults';
 
 defaultActions = {
   "create": {
-    "method": "post",
-    "alias": "save"
+    "method": "post"
   },
   "fetch": {
     "method": "get",
@@ -137,7 +136,7 @@ defaultActions = {
 
 ### Advanced Usage
 
-- You can easily combine multiple resources:
+- You can easily combine multiple resources (ie. for handling children stores):
 
 ```js
 import {createResource, mergeReducers} from 'redux-rest-resource';
