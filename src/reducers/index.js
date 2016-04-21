@@ -2,12 +2,16 @@
 // http://facebook.github.io/react/docs/update.html
 
 const initialState = {
-  isFetching: false,
-  didInvalidate: true,
-  lastUpdated: 0,
+  // FETCH props
   items: [],
+  isFetching: false,
+  lastUpdated: 0,
+  didInvalidate: true,
+  // GET props
   item: null,
-  isFetchingItem: false
+  isFetchingItem: false,
+  lastUpdatedItem: 0,
+  didInvalidateItem: true
 };
 
 import {getNamespace} from './../types';
@@ -70,18 +74,20 @@ const createReducers = ({name}) => (state = {...initialState, name}, action) => 
       switch (action.status) {
         case 'pending':
           return {...state,
-            isFetchingItem: true
+            isFetchingItem: true,
+            didInvalidateItem: false
           };
         case 'resolved':
           return {...state,
             isFetchingItem: false,
-            item: action.body
-            // items: action.items,
-            // lastUpdated: action.receivedAt
+            didInvalidateItem: false,
+            item: action.body,
+            lastUpdatedItem: action.receivedAt
           };
         case 'rejected':
           return {...state,
-            isFetchingItem: false
+            isFetchingItem: false,
+            didInvalidateItem: false
           };
         default:
           return state;

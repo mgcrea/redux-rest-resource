@@ -82,11 +82,11 @@ describe('createReducers', () => {
     const body = [{id: 1, firstName: 'Olivier'}];
     const receivedAt = Date.now();
     expect(reducers(pendingState, {type, status, body, receivedAt}))
-      .toEqual({...initialState, didInvalidate: false, items: body, lastUpdated: receivedAt});
+      .toEqual({...pendingState, isFetching: false, items: body, lastUpdated: receivedAt});
 
     status = 'rejected';
     expect(reducers(pendingState, {type, status, err: {}, receivedAt}))
-      .toEqual({...initialState, didInvalidate: false});
+      .toEqual({...pendingState, isFetching: false});
   });
   it('should handle GET action', () => {
     const actionKey = 'get';
@@ -98,17 +98,17 @@ describe('createReducers', () => {
     status = 'pending';
     const pendingState = reducers(undefined, {type, status, context});
     expect(pendingState)
-      .toEqual({...initialState, isFetchingItem: true});
+      .toEqual({...initialState, isFetchingItem: true, didInvalidateItem: false});
 
     status = 'resolved';
     const body = [{id: 1, firstName: 'Olivier'}];
     const receivedAt = Date.now();
     expect(reducers(pendingState, {type, status, context, body, receivedAt}))
-      .toEqual({...initialState, isFetchingItem: false, item: body});
+      .toEqual({...pendingState, isFetchingItem: false, item: body, lastUpdatedItem: receivedAt});
 
     status = 'rejected';
     expect(reducers(pendingState, {type, status, context, err: {}, receivedAt}))
-      .toEqual({...initialState, isFetchingItem: false});
+      .toEqual({...pendingState, isFetchingItem: false});
   });
   it('should handle UPDATE action', () => {
     const actionKey = 'update';

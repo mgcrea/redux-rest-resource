@@ -94,6 +94,24 @@ Object.keys(actions) = [
 ]
 ```
 
+#### Store layout
+
+```js
+import {initialState} from 'redux-rest-resource/lib/reducers';
+
+initialState = {
+  // FETCH props
+  items: [],
+  isFetching: false,
+  lastUpdated: 0,
+  didInvalidate: true,
+  // GET props
+  item: null,
+  isFetchingItem: false,
+  lastUpdatedItem: 0,
+  didInvalidateItem: true
+};
+```
 
 ### Options
 
