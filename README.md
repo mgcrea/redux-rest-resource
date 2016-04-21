@@ -163,7 +163,8 @@ export {types, actions, reducers};
 ### Roadmap
 
 - Freeze API after beta feedback
-- Maybe support different naming strategies
+- Maybe support different naming strategies (types and actions)
+- Allow store layout customization (reducers)
 - Support optimistic updates
 
 ### Available scripts
