@@ -18,7 +18,7 @@ Redux REST resource generates types, actions and reducers for you to easily inte
     import {createResource} from 'redux-rest-resource';
 
     const hostUrl = 'https://api.mlab.com:443/api/1/databases/sandbox/collections';
-    const apiKey = 'yvDjirE9MCIi800xMxi9EKETm8e9FUBR';
+    const apiKey = 'xvDjirE9MCIi800xMxi4EKeTm8e9FUBR';
 
     export const {types, actions, reducers} = createResource({
       name: 'user',
@@ -152,7 +152,7 @@ initialState = {
 | transformResponse | Function/Array | Transform returned response (optional) |
 
 ```js
-import {defaultActions} from 'redux-rest-resource/lib/defaults';
+import {defaultActions} from 'redux-rest-resource';
 
 defaultActions = {
   "create": {
@@ -173,7 +173,7 @@ defaultActions = {
   }
 }
 
-import {defaultHeaders} from 'redux-rest-resource/lib/defaults';
+import {defaultHeaders} from 'redux-rest-resource';
 
 defaultHeaders = {
   "Accept": "application/json",
@@ -191,7 +191,7 @@ defaultHeaders = {
 import {createResource} from 'redux-rest-resource';
 
 const hostUrl = 'https://api.mlab.com:443/api/1/databases/sandbox/collections';
-const jwt = 'yvDjirE9MCIi800xMxi9EKETm8e9FUBR';
+const jwt = 'xvDjirE9MCIi800xMxi4EKeTm8e9FUBR';
 
 export const {types, actions, reducers} = createResource({
   name: 'user',
@@ -204,6 +204,14 @@ export const {types, actions, reducers} = createResource({
     }
   }
 });
+```
+
+- Or globally for all actions
+
+```js
+import {defaultHeaders} from 'redux-rest-resource';
+const jwt = 'xvDjirE9MCIi800xMxi4EKeTm8e9FUBR';
+Object.assign(defaultHeaders, {Authorization: `Bearer ${jwt}`});
 ```
 
 - You can combine multiple resources (ie. for handling children stores):

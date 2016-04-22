@@ -6,10 +6,9 @@ import thunk from 'redux-thunk';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-import {createResource} from '../../src';
+import {createResource, defaultActions, defaultHeaders} from '../../src';
 import {getActionType} from '../../src/types';
 import {createActions, getActionName} from '../../src/actions';
-import {defaultActions, defaultHeaders} from '../../src/defaults';
 import {values} from 'lodash';
 try { require('debug-utils'); } catch (err) {}; // eslint-disable-line
 
@@ -188,7 +187,8 @@ describe('actionOptions', () => {
       .catch(done);
   });
   it('should handle `headers` option', (done) => {
-    const resource = createResource({name, url, actions: {...defaultActions, fetch: {headers: {'X-Custom-Header': 'foobar'}}}});
+    Object.assign(defaultHeaders, {'X-Custom-Default-Header': 'foobar'});
+    const resource = createResource({name, url, actions: {...defaultActions, fetch: {headers: {'X-Custom-Header': 'barbaz'}}}});
     const actionFuncs = resource.actions;
     const actionKey = 'fetch';
     const action = getActionName({name, actionKey, actionOpts: {isArray: true}});
@@ -197,7 +197,8 @@ describe('actionOptions', () => {
     const body = [{id: 1, firstName: 'Olivier'}];
     nock(host, {
       reqheaders: {...defaultHeaders, ...{
-        'X-Custom-Header': 'foobar'
+        'X-Custom-Default-Header': 'foobar',
+        'X-Custom-Header': 'barbaz'
       }}
     }).get('/users')
       .reply(200, body);
