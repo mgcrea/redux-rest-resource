@@ -28,11 +28,11 @@ const initialState = {
   lastUpdatedItem: 0,
   didInvalidateItem: true,
   // CREATE props
-  isCreating: true,
+  isCreating: false,
   // UPDATE props
-  isUpdating: true,
+  isUpdating: false,
   // DELETE props
-  isDeleting: true
+  isDeleting: false
 };
 
 export {
