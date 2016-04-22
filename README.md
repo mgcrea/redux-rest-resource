@@ -78,7 +78,7 @@ Redux REST resource generates types, actions and reducers for you to easily inte
 #### Exported types
 
 ```js
-types = {
+types == {
   "CREATE_USER": "@@resource/USER/CREATE",
   "FETCH_USERS": "@@resource/USER/FETCH",
   "GET_USER":    "@@resource/USER/GET",
@@ -90,7 +90,7 @@ types = {
 #### Exported action creators
 
 ```js
-Object.keys(actions) = [
+Object.keys(actions) == [
   "createUser",
   "fetchUsers",
   "getUser",
@@ -119,7 +119,7 @@ Every REST action creator will dispatch two actions, based on the Promise state:
 ```js
 import {initialState} from 'redux-rest-resource/lib/reducers';
 
-initialState = {
+initialState == {
   // FETCH props
   items: [],
   isFetching: false,
@@ -154,7 +154,7 @@ initialState = {
 ```js
 import {defaultActions} from 'redux-rest-resource';
 
-defaultActions = {
+defaultActions == {
   "create": {
     "method": "post"
   },
@@ -175,7 +175,7 @@ defaultActions = {
 
 import {defaultHeaders} from 'redux-rest-resource';
 
-defaultHeaders = {
+defaultHeaders == {
   "Accept": "application/json",
   "Content-Type": "application/json"
 }
