@@ -10,8 +10,8 @@ const getNamespace = ({name}) =>
 
 const getActionKey = ({name, pluralName, actionKey, actionOpts = {}}) => {
   // `${actionKey.toUpperCase()}`;
-  const _pluralName = pluralName || `${name}s`;
-  return `${actionKey.toUpperCase()}_${upperSnakeCase(actionOpts.isArray ? _pluralName : name)}`;
+  const actualPluralName = pluralName || `${name}s`;
+  return `${actionKey.toUpperCase()}_${upperSnakeCase(actionOpts.isArray ? actualPluralName : name)}`;
 };
 
 const getActionType = ({name, actionKey}) =>

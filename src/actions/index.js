@@ -12,8 +12,8 @@ const ucfirst = (str) =>
   str.charAt(0).toUpperCase() + str.substr(1);
 
 const getActionName = ({name, pluralName, actionKey, actionOpts = {}}) => {
-  const _pluralName = pluralName || `${name}s`;
-  return `${actionKey}${ucfirst(actionOpts.isArray ? _pluralName : name)}`;
+  const actualPluralName = pluralName || `${name}s`;
+  return `${actionKey}${ucfirst(actionOpts.isArray ? actualPluralName : name)}`;
 };
 
 const buildFetchOpts = ({context, actionOpts}) => {
