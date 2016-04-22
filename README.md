@@ -147,6 +147,7 @@ initialState = {
 | **Option** | **Type** | **Description** |
 |------------|----------|-----------------|
 | method | String | Method used by fetch (required) |
+| headers | Object | Custom request headers (optional) |
 | isArray | Boolean | Whether we should expect an returned Array (optional) |
 | transformResponse | Function/Array | Transform returned response (optional) |
 
@@ -171,12 +172,41 @@ defaultActions = {
     "method": "delete"
   }
 }
+
+import {defaultHeaders} from 'redux-rest-resource/lib/defaults';
+
+defaultHeaders = {
+  "Accept": "application/json",
+  "Content-Type": "application/json"
+}
+
 ```
 
 
 ### Advanced Usage
 
-- You can easily combine multiple resources (ie. for handling children stores):
+- You can add/override headers for a single action
+
+```js
+import {createResource} from 'redux-rest-resource';
+
+const hostUrl = 'https://api.mlab.com:443/api/1/databases/sandbox/collections';
+const jwt = 'yvDjirE9MCIi800xMxi9EKETm8e9FUBR';
+
+export const {types, actions, reducers} = createResource({
+  name: 'user',
+  url: `${hostUrl}/users/:id?apiKey=${apiKey}`,
+  headers: {
+    fetch: {
+      headers: {
+        Authorization: `Bearer ${jwt}`
+      }
+    }
+  }
+});
+```
+
+- You can combine multiple resources (ie. for handling children stores):
 
 ```js
 import {createResource, mergeReducers} from 'redux-rest-resource';

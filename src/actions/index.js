@@ -23,6 +23,9 @@ const buildFetchOpts = ({context, actionOpts}) => {
   if (actionOpts.method) {
     opts.method = actionOpts.method;
   }
+  if (actionOpts.headers) {
+    opts.headers = {...opts.headers, ...actionOpts.headers};
+  }
   const hasBody = /^(POST|PUT|PATCH)$/i.test(opts.method);
   if (context && hasBody) {
     opts.body = JSON.stringify(context);

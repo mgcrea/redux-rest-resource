@@ -1,7 +1,6 @@
 
 // https://github.com/angular/angular.js/blob/master/src/ngResource/resource.js
 // var User = $resource('/user/:userId', {userId:'@id'});
-// const d = ::console.info;
 
 import {defaultActions} from './defaults';
 import {createActions} from './actions';

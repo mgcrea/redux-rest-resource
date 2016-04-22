@@ -6,9 +6,10 @@ import thunk from 'redux-thunk';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
+import {createResource} from '../../src';
 import {getActionType} from '../../src/types';
 import {createActions, getActionName} from '../../src/actions';
-import {defaultActions} from '../../src/defaults';
+import {defaultActions, defaultHeaders} from '../../src/defaults';
 import {values} from 'lodash';
 try { require('debug-utils'); } catch (err) {}; // eslint-disable-line
 
@@ -36,7 +37,7 @@ describe('createActions', () => {
   });
 });
 
-describe('createActions', () => {
+describe('defaultActions', () => {
   afterEach(() => {
     nock.cleanAll();
   });
@@ -141,6 +142,64 @@ describe('createActions', () => {
     const body = {ok: true};
     nock(host)
       .delete(`/users/${context.id}`)
+      .reply(200, body);
+    const store = mockStore({users: {}});
+    const expectedActions = [
+      {status: 'pending', type, context},
+      {status: 'resolved', type, context, body, receivedAt: null}
+    ];
+    store.dispatch(actionFuncs[action](context))
+      .then(() => {
+        const actions = store.getActions();
+        actions[1].receivedAt = null;
+        expect(actions).toEqual(expectedActions);
+      })
+      .then(done)
+      .catch(done);
+  });
+});
+
+describe('actionOptions', () => {
+  afterEach(() => {
+    nock.cleanAll();
+  });
+  it('should handle `method` option', (done) => {
+    const resource = createResource({name, url, actions: {...defaultActions, fetch: {method: 'PATCH'}}});
+    const actionFuncs = resource.actions;
+    const actionKey = 'fetch';
+    const action = getActionName({name, actionKey, actionOpts: {isArray: true}});
+    const type = getActionType({name, actionKey});
+    const context = {};
+    const body = [{id: 1, firstName: 'Olivier'}];
+    nock(host).patch('/users')
+      .reply(200, body);
+    const store = mockStore({users: {}});
+    const expectedActions = [
+      {status: 'pending', type, context},
+      {status: 'resolved', type, context, body, receivedAt: null}
+    ];
+    store.dispatch(actionFuncs[action](context))
+      .then(() => {
+        const actions = store.getActions();
+        actions[1].receivedAt = null;
+        expect(actions).toEqual(expectedActions);
+      })
+      .then(done)
+      .catch(done);
+  });
+  it('should handle `headers` option', (done) => {
+    const resource = createResource({name, url, actions: {...defaultActions, fetch: {headers: {'X-Custom-Header': 'foobar'}}}});
+    const actionFuncs = resource.actions;
+    const actionKey = 'fetch';
+    const action = getActionName({name, actionKey, actionOpts: {isArray: true}});
+    const type = getActionType({name, actionKey});
+    const context = {};
+    const body = [{id: 1, firstName: 'Olivier'}];
+    nock(host, {
+      reqheaders: {...defaultHeaders, ...{
+        'X-Custom-Header': 'foobar'
+      }}
+    }).get('/users')
       .reply(200, body);
     const store = mockStore({users: {}});
     const expectedActions = [
