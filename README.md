@@ -117,7 +117,7 @@ Every REST action creator will dispatch two actions, based on the Promise state:
 #### Exported store state from reducer
 
 ```js
-import {initialState} from 'redux-rest-resource/lib/reducers';
+import {initialState} from 'redux-rest-resource';
 
 initialState == {
   // FETCH props
@@ -129,7 +129,13 @@ initialState == {
   item: null,
   isFetchingItem: false,
   lastUpdatedItem: 0,
-  didInvalidateItem: true
+  didInvalidateItem: true,
+  // CREATE props
+  isCreating: true,
+  // UPDATE props
+  isUpdating: true,
+  // DELETE props
+  isDeleting: true
 };
 ```
 

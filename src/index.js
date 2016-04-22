@@ -7,7 +7,7 @@ import {createActions} from './actions';
 import {createReducers} from './reducers';
 import {createTypes} from './types';
 
-export {defaultActions, defaultHeaders} from './defaults';
+export * from './defaults';
 export {reduceReducers, combineReducers, mergeReducers} from './reducers/helpers';
 
 const mergeObjects = (object, ...sources) => {

@@ -1,19 +1,7 @@
 
 // http://facebook.github.io/react/docs/update.html
 
-const initialState = {
-  // FETCH props
-  items: [],
-  isFetching: false,
-  lastUpdated: 0,
-  didInvalidate: true,
-  // GET props
-  item: null,
-  isFetchingItem: false,
-  lastUpdatedItem: 0,
-  didInvalidateItem: true
-};
-
+import {initialState} from './../defaults';
 import {getNamespace} from './../types';
 
 const createReducers = ({name}) => (state = {...initialState, name}, action) => {
