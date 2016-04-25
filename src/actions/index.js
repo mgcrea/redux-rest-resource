@@ -33,12 +33,13 @@ const buildFetchOpts = ({context, actionOpts}) => {
   return opts;
 };
 
-const createActions = ({name, pluralName, url, actions = {}}) => { // eslint-disable-line arrow-body-style
-  const urlParams = parseUrlParams(url);
-  return Object.keys(actions).reduce((actionFuncs, actionKey) => {
+const createActions = ({name, pluralName, url: defaultUrl, actions = {}}) => (
+  Object.keys(actions).reduce((actionFuncs, actionKey) => {
     const action = actions[actionKey];
     const actionOpts = actions[actionKey];
     const type = getActionType({name, action, actionKey});
+    const url = action.url || defaultUrl;
+    const urlParams = parseUrlParams(url);
     // Compute actual function name
     const actionName = getActionName({name, pluralName, actionKey, actionOpts});
     // Actual action function
@@ -54,7 +55,7 @@ const createActions = ({name, pluralName, url, actions = {}}) => { // eslint-dis
         .catch(err => dispatch({type, status: 'rejected', context, err, receivedAt: Date.now()}));
     };
     return {...actionFuncs, [actionName]: actionFunc};
-  }, {});
-};
+  }, {})
+);
 
 export {getActionName, createActions};
