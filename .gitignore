@@ -1,6 +1,7 @@
 *.log
 .DS_Store
 node_modules/
+_book/
 coverage/
 .nyc_output/
 .tmp/
