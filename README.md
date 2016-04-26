@@ -72,6 +72,72 @@ Redux REST resource generates types, actions and reducers for you to easily inte
     )(UserList);
     ```
 
+### Examples
+
+#### Exported types
+
+```js
+types == {
+  "CREATE_USER": "@@resource/USER/CREATE",
+  "FETCH_USERS": "@@resource/USER/FETCH",
+  "GET_USER":    "@@resource/USER/GET",
+  "UPDATE_USER": "@@resource/USER/UPDATE",
+  "DELETE_USER": "@@resource/USER/DELETE"
+}
+```
+
+#### Exported action creators
+
+```js
+Object.keys(actions) == [
+  "createUser",
+  "fetchUsers",
+  "getUser",
+  "updateUser",
+  "deleteUser"
+]
+```
+
+#### Dispatched actions
+
+Every REST action creator will dispatch two actions, based on the Promise state:
+
+```js
+// first
+{type: '@@resource/USER/FETCH', status: 'pending', context}
+// then
+{type: '@@resource/USER/FETCH', status: 'resolved', context, body, receivedAt}
+// or (catch)
+{type: '@@resource/USER/FETCH', status: 'rejected', context, err, receivedAt}
+```
+
+> You can find more information in [src/actions](src/actions/index.js)
+
+#### Exported store state from reducer
+
+```js
+import {initialState} from 'redux-rest-resource';
+
+initialState == {
+  // FETCH props
+  items: [],
+  isFetching: false,
+  lastUpdated: 0,
+  didInvalidate: true,
+  // GET props
+  item: null,
+  isFetchingItem: false,
+  lastUpdatedItem: 0,
+  didInvalidateItem: true,
+  // CREATE props
+  isCreating: false,
+  // UPDATE props
+  isUpdating: false,
+  // DELETE props
+  isDeleting: false
+};
+```
+
 ### Options
 
 | **Option** | **Type** | **Description** |
@@ -119,6 +185,60 @@ defaultHeaders == {
   "Content-Type": "application/json"
 }
 
+```
+
+
+### Advanced Usage
+
+- You can add/override headers for a single action
+
+```js
+import {createResource} from 'redux-rest-resource';
+
+const hostUrl = 'https://api.mlab.com:443/api/1/databases/sandbox/collections';
+const jwt = 'xvDjirE9MCIi800xMxi4EKeTm8e9FUBR';
+
+export const {types, actions, reducers} = createResource({
+  name: 'user',
+  url: `${hostUrl}/users/:id?apiKey=${apiKey}`,
+  headers: {
+    fetch: {
+      headers: {
+        Authorization: `Bearer ${jwt}`
+      }
+    }
+  }
+});
+```
+
+- Or globally for all actions
+
+```js
+import {defaultHeaders} from 'redux-rest-resource';
+const jwt = 'xvDjirE9MCIi800xMxi4EKeTm8e9FUBR';
+Object.assign(defaultHeaders, {Authorization: `Bearer ${jwt}`});
+```
+
+- You can combine multiple resources (ie. for handling children stores):
+
+```js
+import {createResource, mergeReducers} from 'redux-rest-resource';
+
+const hostUrl = 'http://localhost:3000';
+const libraryResource = createResource({
+  name: 'library',
+  pluralName: 'libraries',
+  url: `${hostUrl}/libraries/:id`
+});
+const libraryAssetResource = createResource({
+  name: 'libraryAsset',
+  url: `${hostUrl}/libraries/:libraryId/assets/:id`
+});
+
+const types = {...libraryResource.types, ...libraryAssetResource.types};
+const actions = {...libraryResource.actions, ...libraryAssetResource.actions};
+const reducers = mergeReducers(libraryResource.reducers, {assets: libraryAssetResource.reducers});
+export {types, actions, reducers};
 ```
 
 ### Roadmap
