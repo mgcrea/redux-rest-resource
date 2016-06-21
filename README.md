@@ -161,20 +161,20 @@ import {defaultActions} from 'redux-rest-resource';
 
 defaultActions == {
   "create": {
-    "method": "post"
+    "method": "POST"
   },
   "fetch": {
-    "method": "get",
+    "method": "GET",
     "isArray": true
   },
   "get": {
-    "method": "get"
+    "method": "GET"
   },
   "update": {
-    "method": "patch"
+    "method": "PATCH"
   },
   "delete": {
-    "method": "delete"
+    "method": "DELETE"
   }
 }
 
