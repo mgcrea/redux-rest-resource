@@ -87,6 +87,32 @@ describe('defaultActions', () => {
       .then(done)
       .catch(done);
   });
+  it('.fetch() with errors', (done) => {
+    const actionKey = 'fetch';
+    const action = getActionName({name, actionKey, actionOpts: {isArray: true}});
+    const type = getActionType({name, actionKey});
+    const context = {};
+    const err = {code: undefined, errno: undefined, message: 'request to http://localhost:3000/users failed, reason: something awful happened', name: 'FetchError', type: 'system'};
+    nock(host)
+      .get('/users')
+      .replyWithError('something awful happened');
+    const store = mockStore({users: {}});
+    const expectedActions = [
+      {status: 'pending', type, context},
+      {status: 'rejected', type, context, err, receivedAt: null}
+    ];
+    store.dispatch(actionFuncs[action](context))
+      .then(() => {
+        const actions = store.getActions();
+        actions[1].receivedAt = null;
+        expect(actions[1].err.name).toEqual(expectedActions[1].err.name);
+        expect(actions[1].err.message).toEqual(expectedActions[1].err.message);
+        actions[1].err = expectedActions[1].err;
+        expect(actions).toEqual(expectedActions);
+      })
+      .then(done)
+      .catch(done);
+  });
   it('.get()', (done) => {
     const actionKey = 'get';
     const action = getActionName({name, actionKey});
