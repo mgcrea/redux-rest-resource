@@ -13,7 +13,7 @@ const defaultHeaders = {
 };
 
 const defaultTransformResponsePipeline = [
-  res => res.json()
+  res => res.json().then((body) => ({body, code: res.status}))
 ];
 
 const initialState = {

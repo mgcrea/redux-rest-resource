@@ -33,6 +33,9 @@ const buildFetchOpts = ({context, actionOpts}) => {
   return opts;
 };
 
+
+const isSuccess = status => status >= 200 && status < 300;
+
 const createActions = ({name, pluralName, url: defaultUrl, actions = {}}) => (
   Object.keys(actions).reduce((actionFuncs, actionKey) => {
     const action = actions[actionKey];
@@ -49,9 +52,11 @@ const createActions = ({name, pluralName, url: defaultUrl, actions = {}}) => (
       const fetchUrl = buildFetchUrl({url, urlParams, context});
       const fetchOptions = buildFetchOpts({context, actionOpts});
       // d(`${name}Actions.${actionName}()`, fetchUrl, fetchOptions);
+      let statusCode;
       return fetch(fetchUrl, fetchOptions)
+        .then(res => { statusCode = res.status; return res; })
         .then(applyTransformPipeline(buildTransformPipeline(defaultTransformResponsePipeline, actionOpts.transformResponse)))
-        .then(body => dispatch({type, status: 'resolved', context, body, receivedAt: Date.now()}))
+        .then(payload => dispatch({type, status: isSuccess(statusCode) ? 'resolved' : 'rejected', context, receivedAt: Date.now(), ...payload}))
         .catch(err => dispatch({type, status: 'rejected', context, err, receivedAt: Date.now()}));
     };
     return {...actionFuncs, [actionName]: actionFunc};

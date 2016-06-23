@@ -47,13 +47,14 @@ describe('defaultActions', () => {
     const type = getActionType({name, actionKey});
     const context = {firstName: 'Olivier'};
     const body = {ok: true};
+    const code = 200;
     nock(host)
       .post('/users', context)
-      .reply(200, body);
+      .reply(code, body);
     const store = mockStore({users: {}});
     const expectedActions = [
       {status: 'pending', type, context},
-      {status: 'resolved', type, context, body, receivedAt: null}
+      {status: 'resolved', type, context, body, code, receivedAt: null}
     ];
     store.dispatch(actionFuncs[action](context))
       .then(() => {
@@ -70,13 +71,14 @@ describe('defaultActions', () => {
     const type = getActionType({name, actionKey});
     const context = {};
     const body = [{id: 1, firstName: 'Olivier'}];
+    const code = 200;
     nock(host)
       .get('/users')
-      .reply(200, body);
+      .reply(code, body);
     const store = mockStore({users: {}});
     const expectedActions = [
       {status: 'pending', type, context},
-      {status: 'resolved', type, context, body, receivedAt: null}
+      {status: 'resolved', type, context, body, code, receivedAt: null}
     ];
     store.dispatch(actionFuncs[action](context))
       .then(() => {
@@ -87,7 +89,7 @@ describe('defaultActions', () => {
       .then(done)
       .catch(done);
   });
-  it('.fetch() with errors', (done) => {
+  it('.fetch() with request errors', (done) => {
     const actionKey = 'fetch';
     const action = getActionName({name, actionKey, actionOpts: {isArray: true}});
     const type = getActionType({name, actionKey});
@@ -113,19 +115,44 @@ describe('defaultActions', () => {
       .then(done)
       .catch(done);
   });
+  it('.fetch() with response errors', (done) => {
+    const actionKey = 'fetch';
+    const action = getActionName({name, actionKey, actionOpts: {isArray: true}});
+    const type = getActionType({name, actionKey});
+    const context = {};
+    const body = {err: 'something awful happened'};
+    const code = 400;
+    nock(host)
+      .get('/users')
+      .reply(code, body);
+    const store = mockStore({users: {}});
+    const expectedActions = [
+      {status: 'pending', type, context},
+      {status: 'rejected', type, context, body, code, receivedAt: null}
+    ];
+    store.dispatch(actionFuncs[action](context))
+      .then(() => {
+        const actions = store.getActions();
+        actions[1].receivedAt = null;
+        expect(actions).toEqual(expectedActions);
+      })
+      .then(done)
+      .catch(done);
+  });
   it('.get()', (done) => {
     const actionKey = 'get';
     const action = getActionName({name, actionKey});
     const type = getActionType({name, actionKey});
     const context = {id: 1};
     const body = {id: 1, firstName: 'Olivier'};
+    const code = 200;
     nock(host)
       .get(`/users/${context.id}`)
-      .reply(200, body);
+      .reply(code, body);
     const store = mockStore({users: {}});
     const expectedActions = [
       {status: 'pending', type, context},
-      {status: 'resolved', type, context, body, receivedAt: null}
+      {status: 'resolved', type, context, body, code, receivedAt: null}
     ];
     store.dispatch(actionFuncs[action](context))
       .then(() => {
@@ -142,13 +169,14 @@ describe('defaultActions', () => {
     const type = getActionType({name, actionKey});
     const context = {id: 1, firstName: 'Olivier'};
     const body = {ok: true};
+    const code = 200;
     nock(host)
       .patch(`/users/${context.id}`, context)
-      .reply(200, body);
+      .reply(code, body);
     const store = mockStore({users: {}});
     const expectedActions = [
       {status: 'pending', type, context},
-      {status: 'resolved', type, context, body, receivedAt: null}
+      {status: 'resolved', type, context, body, code, receivedAt: null}
     ];
     store.dispatch(actionFuncs[action](context))
       .then(() => {
@@ -165,13 +193,14 @@ describe('defaultActions', () => {
     const type = getActionType({name, actionKey});
     const context = {id: 1};
     const body = {ok: true};
+    const code = 200;
     nock(host)
       .delete(`/users/${context.id}`)
-      .reply(200, body);
+      .reply(code, body);
     const store = mockStore({users: {}});
     const expectedActions = [
       {status: 'pending', type, context},
-      {status: 'resolved', type, context, body, receivedAt: null}
+      {status: 'resolved', type, context, body, code, receivedAt: null}
     ];
     store.dispatch(actionFuncs[action](context))
       .then(() => {
@@ -196,12 +225,13 @@ describe('actionOptions', () => {
     const type = getActionType({name, actionKey});
     const context = {};
     const body = [{id: 1, firstName: 'Olivier'}];
+    const code = 200;
     nock(host).patch('/users')
-      .reply(200, body);
+      .reply(code, body);
     const store = mockStore({users: {}});
     const expectedActions = [
       {status: 'pending', type, context},
-      {status: 'resolved', type, context, body, receivedAt: null}
+      {status: 'resolved', type, context, body, code, receivedAt: null}
     ];
     store.dispatch(actionFuncs[action](context))
       .then(() => {
@@ -221,17 +251,18 @@ describe('actionOptions', () => {
     const type = getActionType({name, actionKey});
     const context = {};
     const body = [{id: 1, firstName: 'Olivier'}];
+    const code = 200;
     nock(host, {
       reqheaders: {...defaultHeaders, ...{
         'X-Custom-Default-Header': 'foobar',
         'X-Custom-Header': 'barbaz'
       }}
     }).get('/users')
-      .reply(200, body);
+      .reply(code, body);
     const store = mockStore({users: {}});
     const expectedActions = [
       {status: 'pending', type, context},
-      {status: 'resolved', type, context, body, receivedAt: null}
+      {status: 'resolved', type, context, body, code, receivedAt: null}
     ];
     store.dispatch(actionFuncs[action](context))
       .then(() => {
