@@ -1,7 +1,8 @@
 import expect from 'expect';
+import {values} from 'lodash';
 import {createTypes, getActionKey, getActionType} from '../../src/types';
 import {defaultActions} from '../../src/defaults';
-import {values} from 'lodash';
+
 try { require('debug-utils'); } catch (err) {}; // eslint-disable-line
 
 describe('createTypes', () => {

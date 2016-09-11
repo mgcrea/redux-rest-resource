@@ -2,9 +2,10 @@
   "extends": "airbnb",
   "parser": "babel-eslint",
   "rules": {
-    "react/prefer-stateless-function": 0,
-    "object-curly-spacing": [2, "never"],
     "comma-dangle": [2, "never"],
-    "max-len": 0
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": true, "optionalDependencies": true, "peerDependencies": false}],
+    "import/no-unresolved": 0,
+    "max-len": 0,
+    "object-curly-spacing": [2, "never"]
   }
 }

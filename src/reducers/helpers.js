@@ -19,7 +19,7 @@ const combineReducers = (...reducers) =>
     );
 
 const mergeReducers = (baseReducer, ...reducers) => {
-  const combinedReducers = combineReducers.apply(null, reducers);
+  const combinedReducers = combineReducers(...reducers);
   return (state, action) =>
     combinedReducers(baseReducer(state, action), action);
 };

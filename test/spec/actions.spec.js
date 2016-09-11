@@ -1,15 +1,17 @@
+import {values} from 'lodash';
+import configureMockStore from 'redux-mock-store';
 import expect from 'expect';
 import nock from 'nock';
-
-import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares);
 
 import {createResource, defaultActions, defaultHeaders} from '../../src';
 import {getActionType} from '../../src/types';
 import {createActions, getActionName} from '../../src/actions';
-import {values} from 'lodash';
+
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
+
+
 try { require('debug-utils'); } catch (err) {}; // eslint-disable-line
 
 // Configuration
@@ -253,10 +255,10 @@ describe('actionOptions', () => {
     const body = [{id: 1, firstName: 'Olivier'}];
     const code = 200;
     nock(host, {
-      reqheaders: {...defaultHeaders, ...{
+      reqheaders: {...defaultHeaders,
         'X-Custom-Default-Header': 'foobar',
         'X-Custom-Header': 'barbaz'
-      }}
+      }
     }).get('/users')
       .reply(code, body);
     const store = mockStore({users: {}});

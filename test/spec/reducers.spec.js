@@ -22,8 +22,8 @@ describe('createReducers', () => {
   it('should return the initial state', () => {
     const types = createTypes({name, actions: defaultActions});
     const reducers = createReducers({name, types});
-    expect(reducers(undefined, {})).
-      toEqual(initialState);
+    expect(reducers(undefined, {}))
+      .toEqual(initialState);
   });
 });
 

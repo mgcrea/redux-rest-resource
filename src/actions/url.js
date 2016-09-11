@@ -11,12 +11,12 @@ const isObject = object => typeof object === 'object';
  * have to be encoded per http://tools.ietf.org/html/rfc3986
  */
 const encodeUriQuery = (val, pctEncodeSpaces) =>
-  encodeURIComponent(val).
-    replace(/%40/gi, '@').
-    replace(/%3A/gi, ':').
-    replace(/%24/g, '$').
-    replace(/%2C/gi, ',').
-    replace(/%20/g, (pctEncodeSpaces ? '%20' : '+'));
+  encodeURIComponent(val)
+    .replace(/%40/gi, '@')
+    .replace(/%3A/gi, ':')
+    .replace(/%24/g, '$')
+    .replace(/%2C/gi, ',')
+    .replace(/%20/g, (pctEncodeSpaces ? '%20' : '+'));
 
 /**
  * We need our custom method because encodeURIComponent is too aggressive and doesn't follow
@@ -24,10 +24,10 @@ const encodeUriQuery = (val, pctEncodeSpaces) =>
  * (pchar) allowed in path segments
  */
 const encodeUriSegment = val =>
-  encodeUriQuery(val, true).
-    replace(/%26/gi, '&').
-    replace(/%3D/gi, '=').
-    replace(/%2B/gi, '+');
+  encodeUriQuery(val, true)
+    .replace(/%26/gi, '&')
+    .replace(/%3D/gi, '=')
+    .replace(/%2B/gi, '+');
 
 const parseUrlParams = url =>
   url.split(/\W/).reduce((urlParams, param) => {
