@@ -1,5 +1,5 @@
 
-const upperSnakeCase = (string) =>
+const upperSnakeCase = string =>
   String(string.split('').reduce((soFar, letter, index) => {
     const charCode = letter.charCodeAt(0);
     return soFar + (index && charCode < 97 ? `_${letter}` : letter).toUpperCase();

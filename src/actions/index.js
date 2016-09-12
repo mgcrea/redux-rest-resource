@@ -8,7 +8,7 @@ import {parseUrlParams, buildFetchUrl} from './url';
 import {defaultHeaders, defaultTransformResponsePipeline} from './../defaults';
 // const d = ::console.info;
 
-const ucfirst = (str) =>
+const ucfirst = str =>
   str.charAt(0).toUpperCase() + str.substr(1);
 
 const getActionName = ({name, pluralName, actionKey, actionOpts = {}}) => {
@@ -49,7 +49,7 @@ const createActions = ({name, pluralName, url: defaultUrl, actions = {}, credent
     // Compute actual function name
     const actionName = getActionName({name, pluralName, actionKey, actionOpts});
     // Actual action function
-    const actionFunc = context => dispatch => {
+    const actionFunc = context => (dispatch) => {
       // First dispatch a pending action
       dispatch({type, status: 'pending', context});
       const fetchUrl = buildFetchUrl({url, urlParams, context});
@@ -57,7 +57,7 @@ const createActions = ({name, pluralName, url: defaultUrl, actions = {}, credent
       // d(`${name}Actions.${actionName}()`, fetchUrl, fetchOptions);
       let statusCode;
       return fetch(fetchUrl, fetchOptions)
-        .then(res => { statusCode = res.status; return res; })
+        .then((res) => { statusCode = res.status; return res; })
         .then(applyTransformPipeline(buildTransformPipeline(defaultTransformResponsePipeline, actionOpts.transformResponse)))
         .then(payload => dispatch({type, status: isSuccess(statusCode) ? 'resolved' : 'rejected', context, receivedAt: Date.now(), ...payload}))
         .catch(err => dispatch({type, status: 'rejected', context, err, receivedAt: Date.now()}));
