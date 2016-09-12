@@ -46,7 +46,7 @@ const replaceUrlParamFromUrl = (url, urlParam, replace = '') =>
 
 const buildFetchUrl = ({url, urlParams, context, stripTrailingSlashes = true}) => {
   let protocolAndDomain;
-  let builtUrl = url.replace(PROTOCOL_AND_DOMAIN_REGEX, match => {
+  let builtUrl = url.replace(PROTOCOL_AND_DOMAIN_REGEX, (match) => {
     protocolAndDomain = match;
     return '';
   });
