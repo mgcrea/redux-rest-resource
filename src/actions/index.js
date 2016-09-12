@@ -26,6 +26,9 @@ const buildFetchOpts = ({context, actionOpts}) => {
   if (actionOpts.headers) {
     opts.headers = {...opts.headers, ...actionOpts.headers};
   }
+  if (actionOpts.credentials) {
+    opts.credentials = actionOpts.credentials;
+  }
   const hasBody = /^(POST|PUT|PATCH)$/i.test(opts.method);
   if (context && hasBody) {
     opts.body = JSON.stringify(context);
@@ -36,10 +39,10 @@ const buildFetchOpts = ({context, actionOpts}) => {
 
 const isSuccess = status => status >= 200 && status < 300;
 
-const createActions = ({name, pluralName, url: defaultUrl, actions = {}}) => (
+const createActions = ({name, pluralName, url: defaultUrl, actions = {}, credentials}) => (
   Object.keys(actions).reduce((actionFuncs, actionKey) => {
     const action = actions[actionKey];
-    const actionOpts = actions[actionKey];
+    const actionOpts = {...actions[actionKey], credentials};
     const type = getActionType({name, action, actionKey});
     const url = action.url || defaultUrl;
     const urlParams = parseUrlParams(url);
