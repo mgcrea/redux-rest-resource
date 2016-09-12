@@ -245,8 +245,8 @@ describe('actionOptions', () => {
       .catch(done);
   });
   it('should handle `headers` option', (done) => {
-    Object.assign(defaultHeaders, {'X-Custom-Default-Header': 'foobar'});
     const resource = createResource({name, url, actions: {...defaultActions, fetch: {headers: {'X-Custom-Header': 'barbaz'}}}});
+    Object.assign(defaultHeaders, {'X-Custom-Default-Header': 'foobar'});
     const actionFuncs = resource.actions;
     const actionKey = 'fetch';
     const action = getActionName({name, actionKey, actionOpts: {isArray: true}});
