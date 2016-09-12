@@ -146,6 +146,7 @@ initialState == {
 | url | String | Actual url of the resource (required) |
 | pluralName | String | Plural name of the resource (optional) |
 | actions | Object | Action extra options, merged with defaults (optional) |
+| credentials | String | Credentials option according to Fetch polyfill doc for sending cookies (optional) |
 
 #### Default actions options
 
