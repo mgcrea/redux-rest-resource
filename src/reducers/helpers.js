@@ -6,17 +6,18 @@ const reduceReducers = (...reducers) =>
     );
 
 const combineReducers = (...reducers) =>
-  (state = {}, action) =>
+  (state = {}, action) => (
     reducers.reduce(
       (stateSoFar, reducerMap) =>
-        Object.keys(reducerMap).reduce((_, key) => {
+        Object.keys(reducerMap).reduce((innerStateSoFar, key) => {
           const reducer = reducerMap[key];
           const previousStateForKey = stateSoFar[key];
           const nextStateForKey = reducer(previousStateForKey, action);
-          return {...stateSoFar, [key]: nextStateForKey};
+          return {...innerStateSoFar, [key]: nextStateForKey};
         }, stateSoFar),
       state
-    );
+    )
+  );
 
 const mergeReducers = (baseReducer, ...reducers) => {
   const combinedReducers = combineReducers(...reducers);

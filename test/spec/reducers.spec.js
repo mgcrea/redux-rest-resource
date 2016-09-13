@@ -1,4 +1,5 @@
 import expect from 'expect';
+import {combineReducers} from '../../src';
 import {createTypes, getActionKey} from '../../src/types';
 import {createReducers, initialState} from '../../src/reducers';
 import {defaultActions} from '../../src/defaults';
@@ -144,5 +145,26 @@ describe('createReducers', () => {
     status = 'rejected';
     expect(reducers(pendingState, {type, status, context, err: {}, receivedAt}))
       .toEqual({...customInitialState, isDeleting: false});
+  });
+});
+
+describe('combineReducers', () => {
+  it('should properly combine two reducer functions as a single object', () => {
+    const fooTypes = createTypes({name: 'foo', actions: defaultActions});
+    const fooReducers = createReducers({name: 'foo', fooTypes});
+    const barTypes = createTypes({name: 'bar', actions: defaultActions});
+    const barReducers = createReducers({name: 'bar', barTypes});
+    const combinedReducers = combineReducers({foo: fooReducers, bar: barReducers});
+    expect(combinedReducers).toBeA('function');
+    expect(combinedReducers({}, {type: 'foo'})).toIncludeKeys(['foo', 'bar']);
+  });
+  it('should properly combine two reducer functions as two objects', () => {
+    const fooTypes = createTypes({name: 'foo', actions: defaultActions});
+    const fooReducers = createReducers({name: 'foo', fooTypes});
+    const barTypes = createTypes({name: 'bar', actions: defaultActions});
+    const barReducers = createReducers({name: 'bar', barTypes});
+    const combinedReducers = combineReducers({foo: fooReducers}, {bar: barReducers});
+    expect(combinedReducers).toBeA('function');
+    expect(combinedReducers({}, {type: 'foo'})).toIncludeKeys(['foo', 'bar']);
   });
 });
