@@ -89,7 +89,8 @@ const createReducers = ({name}) => (state = {...initialState, name}, action) => 
           });
         case 'resolved': {
           // Assign returned object
-          const index = state.items.findIndex(el => el.id === action.context.id);
+          const id = action.context.id || action.context;
+          const index = state.items.findIndex(el => el.id === id);
           const updatedItem = {...state.items.splice(index, 1)[0], ...action.context};
           return {...state,
             isUpdating: false,
@@ -111,9 +112,10 @@ const createReducers = ({name}) => (state = {...initialState, name}, action) => 
             isDeleting: true
           };
         case 'resolved':
+          const id = action.context.id || action.context;
           return {...state,
             isDeleting: false,
-            items: [...state.items.filter(el => el.id !== action.context.id)]
+            items: [...state.items.filter(el => el.id !== id)]
           };
         case 'rejected':
           return {...state,
