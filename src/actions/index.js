@@ -48,7 +48,7 @@ const createActions = ({name, pluralName, url: defaultUrl, actions = {}, credent
     // Compute actual function name
     const actionName = getActionName({name, pluralName, actionKey, actionOpts});
     // Actual action function
-    const actionFunc = (context, contextOpts) => (dispatch) => {
+    const actionFunc = (context, contextOpts = {}) => (dispatch) => {
       // First dispatch a pending action
       dispatch({type, status: 'pending', context});
       const fetchUrl = buildFetchUrl({url, urlParams, context, contextOpts});
