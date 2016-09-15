@@ -111,7 +111,7 @@ const createReducers = ({name}) => (state = {...initialState, name}, action) => 
           return {...state,
             isDeleting: true
           };
-        case 'resolved':
+        case 'resolved': // eslint-disable-line
           const id = action.context.id || action.context;
           return {...state,
             isDeleting: false,
