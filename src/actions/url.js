@@ -44,7 +44,15 @@ const replaceUrlParamFromUrl = (url, urlParam, replace = '') =>
     (replace || tail.charAt(0) === '/' ? leadingSlashes : '') + replace + tail
   );
 
-const buildFetchUrl = ({url, urlParams, context, stripTrailingSlashes = true}) => {
+const replaceQueryStringParamFromUrl = (url, key, value) => {
+  const re = new RegExp(`([?&])${key}=.*?(&|$)`, 'i');
+  const sep = url.indexOf('?') !== -1 ? '&' : '?';
+  return url.match(re)
+    ? url.replace(re, `$1${key}=${value}$2`)
+    : `${url}${sep}${key}=${value}`;
+};
+
+const buildFetchUrl = ({url, urlParams, context, contextOpts = {query: []}, stripTrailingSlashes = true}) => {
   let protocolAndDomain;
   let builtUrl = url.replace(PROTOCOL_AND_DOMAIN_REGEX, (match) => {
     protocolAndDomain = match;
@@ -65,7 +73,11 @@ const buildFetchUrl = ({url, urlParams, context, stripTrailingSlashes = true}) =
   if (stripTrailingSlashes) {
     builtUrl = builtUrl.replace(/\/+$/, '') || '/';
   }
-
+  // Append any querystring options
+  builtUrl = Object.keys(contextOpts.query || []).reduce((wipUrl, queryParam) => {
+    const queryParamValue = contextOpts.query[queryParam];
+    return replaceQueryStringParamFromUrl(wipUrl, queryParam, queryParamValue);
+  }, builtUrl);
   return protocolAndDomain + builtUrl;
 };
 

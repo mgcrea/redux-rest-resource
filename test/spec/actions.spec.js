@@ -91,6 +91,32 @@ describe('defaultActions', () => {
       .then(done)
       .catch(done);
   });
+  it('.fetch() with query params', (done) => {
+    const actionKey = 'fetch';
+    const action = getActionName({name, actionKey, actionOpts: {isArray: true}});
+    const type = getActionType({name, actionKey});
+    const context = {};
+    const query = {foo: 'bar'};
+    const body = [{id: 1, firstName: 'Olivier'}];
+    const code = 200;
+    nock(host)
+      .get('/users')
+      .query(query)
+      .reply(code, body);
+    const store = mockStore({users: {}});
+    const expectedActions = [
+      {status: 'pending', type, context},
+      {status: 'resolved', type, context, body, code, receivedAt: null}
+    ];
+    store.dispatch(actionFuncs[action](context, {query}))
+      .then(() => {
+        const actions = store.getActions();
+        actions[1].receivedAt = null;
+        expect(actions).toEqual(expectedActions);
+      })
+      .then(done)
+      .catch(done);
+  });
   it('.fetch() with request errors', (done) => {
     const actionKey = 'fetch';
     const action = getActionName({name, actionKey, actionOpts: {isArray: true}});

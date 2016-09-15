@@ -36,7 +36,6 @@ const buildFetchOpts = ({context, actionOpts}) => {
   return opts;
 };
 
-
 const isSuccess = status => status >= 200 && status < 300;
 
 const createActions = ({name, pluralName, url: defaultUrl, actions = {}, credentials}) => (
@@ -49,11 +48,11 @@ const createActions = ({name, pluralName, url: defaultUrl, actions = {}, credent
     // Compute actual function name
     const actionName = getActionName({name, pluralName, actionKey, actionOpts});
     // Actual action function
-    const actionFunc = context => (dispatch) => {
+    const actionFunc = (context, contextOpts) => (dispatch) => {
       // First dispatch a pending action
       dispatch({type, status: 'pending', context});
-      const fetchUrl = buildFetchUrl({url, urlParams, context});
-      const fetchOptions = buildFetchOpts({context, actionOpts});
+      const fetchUrl = buildFetchUrl({url, urlParams, context, contextOpts});
+      const fetchOptions = buildFetchOpts({context, contextOpts, actionOpts});
       // d(`${name}Actions.${actionName}()`, fetchUrl, fetchOptions);
       let statusCode;
       return fetch(fetchUrl, fetchOptions)
