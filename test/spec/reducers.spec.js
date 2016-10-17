@@ -121,6 +121,32 @@ describe('createReducers', () => {
     expect(reducers(pendingState, {type, status, context, err: {}, receivedAt}))
       .toEqual({...customInitialState, isUpdating: false});
   });
+  it('should handle UPDATE with option `assignResponse`', () => {
+    const actionKey = 'update';
+    const actionOpts = {...defaultActions[actionKey], assignResponse: true};
+    const customReducers = createReducers({name, actions: actionOpts, types});
+    const type = types[getActionKey({name, actionKey, actionOpts})];
+    const initialItems = [{id: 1, firstName: 'Olivier', lastName: 'Louvignes'}];
+    const customInitialState = {...initialState, items: initialItems};
+    const context = {id: 1, firstName: 'Olivia'};
+    let status;
+
+    status = 'pending';
+    const pendingState = customReducers(customInitialState, {type, status, context, options: actionOpts});
+    expect(pendingState)
+      .toEqual({...customInitialState, isUpdating: true});
+
+    status = 'resolved';
+    const body = {id: 1, firstName: 'Olivia2'};
+    const receivedAt = Date.now();
+    const expectedItems = [{id: 1, firstName: 'Olivia2', lastName: 'Louvignes'}];
+    expect(customReducers(pendingState, {type, status, context, options: actionOpts, body, receivedAt}))
+      .toEqual({...customInitialState, isUpdating: false, items: expectedItems});
+
+    status = 'rejected';
+    expect(customReducers(pendingState, {type, status, context, options: actionOpts, err: {}, receivedAt}))
+      .toEqual({...customInitialState, isUpdating: false});
+  });
   it('should handle DELETE action', () => {
     const actionKey = 'delete';
     const actionOpts = defaultActions[actionKey];

@@ -88,10 +88,12 @@ const createReducers = ({name}) => (state = {...initialState, name}, action) => 
             isUpdating: true
           });
         case 'resolved': {
-          // Assign returned object
+          // Assign context or returned object
           const id = action.context.id || action.context;
           const index = state.items.findIndex(el => el.id === id);
-          const updatedItem = {...state.items.splice(index, 1)[0], ...action.context};
+          const actionOpts = action.options || {};
+          const update = actionOpts.assignResponse ? action.body : action.context;
+          const updatedItem = {...state.items.splice(index, 1)[0], ...update};
           return {...state,
             isUpdating: false,
             items: [...state.items, updatedItem]

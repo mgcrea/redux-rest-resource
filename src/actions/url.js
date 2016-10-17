@@ -40,7 +40,7 @@ const parseUrlParams = url =>
   }, {});
 
 const replaceUrlParamFromUrl = (url, urlParam, replace = '') =>
-  url.replace(new RegExp(`(\/?):${urlParam}(\\W|$)`, 'g'), (match, leadingSlashes, tail) =>
+  url.replace(new RegExp(`(/?):${urlParam}(\\W|$)`, 'g'), (match, leadingSlashes, tail) =>
     (replace || tail.charAt(0) === '/' ? leadingSlashes : '') + replace + tail
   );
 
