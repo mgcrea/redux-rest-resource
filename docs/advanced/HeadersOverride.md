@@ -11,7 +11,7 @@ const jwt = 'xvDjirE9MCIi800xMxi4EKeTm8e9FUBR';
 export const {types, actions, reducers} = createResource({
   name: 'user',
   url: `${hostUrl}/users/:id?apiKey=${apiKey}`,
-  headers: {
+  actions: {
     fetch: {
       headers: {
         Authorization: `Bearer ${jwt}`
