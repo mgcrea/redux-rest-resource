@@ -50,13 +50,14 @@ describe('defaultActions', () => {
     const context = {firstName: 'Olivier'};
     const body = {ok: true};
     const code = 200;
+    const options = {};
     nock(host)
       .post('/users', context)
       .reply(code, body);
     const store = mockStore({users: {}});
     const expectedActions = [
       {status: 'pending', type, context},
-      {status: 'resolved', type, context, body, code, receivedAt: null}
+      {status: 'resolved', type, context, options, body, code, receivedAt: null}
     ];
     store.dispatch(actionFuncs[action](context))
       .then(() => {
@@ -74,13 +75,14 @@ describe('defaultActions', () => {
     const context = {};
     const body = [{id: 1, firstName: 'Olivier'}];
     const code = 200;
+    const options = {};
     nock(host)
       .get('/users')
       .reply(code, body);
     const store = mockStore({users: {}});
     const expectedActions = [
       {status: 'pending', type, context},
-      {status: 'resolved', type, context, body, code, receivedAt: null}
+      {status: 'resolved', type, context, options, body, code, receivedAt: null}
     ];
     store.dispatch(actionFuncs[action](context))
       .then(() => {
@@ -99,6 +101,7 @@ describe('defaultActions', () => {
     const query = {foo: 'bar'};
     const body = [{id: 1, firstName: 'Olivier'}];
     const code = 200;
+    const options = {};
     nock(host)
       .get('/users')
       .query(query)
@@ -106,7 +109,7 @@ describe('defaultActions', () => {
     const store = mockStore({users: {}});
     const expectedActions = [
       {status: 'pending', type, context},
-      {status: 'resolved', type, context, body, code, receivedAt: null}
+      {status: 'resolved', type, context, options, body, code, receivedAt: null}
     ];
     store.dispatch(actionFuncs[action](context, {query}))
       .then(() => {
@@ -122,6 +125,7 @@ describe('defaultActions', () => {
     const action = getActionName({name, actionKey, actionOpts: {isArray: true}});
     const type = getActionType({name, actionKey});
     const context = {};
+    const options = {};
     const err = {code: undefined, errno: undefined, message: 'request to http://localhost:3000/users failed, reason: something awful happened', name: 'FetchError', type: 'system'};
     nock(host)
       .get('/users')
@@ -129,7 +133,7 @@ describe('defaultActions', () => {
     const store = mockStore({users: {}});
     const expectedActions = [
       {status: 'pending', type, context},
-      {status: 'rejected', type, context, err, receivedAt: null}
+      {status: 'rejected', type, context, options, err, receivedAt: null}
     ];
     store.dispatch(actionFuncs[action](context))
       .then(() => {
@@ -150,13 +154,14 @@ describe('defaultActions', () => {
     const context = {};
     const body = {err: 'something awful happened'};
     const code = 400;
+    const options = {};
     nock(host)
       .get('/users')
       .reply(code, body);
     const store = mockStore({users: {}});
     const expectedActions = [
       {status: 'pending', type, context},
-      {status: 'rejected', type, context, body, code, receivedAt: null}
+      {status: 'rejected', type, context, options, body, code, receivedAt: null}
     ];
     store.dispatch(actionFuncs[action](context))
       .then(() => {
@@ -174,13 +179,14 @@ describe('defaultActions', () => {
     const context = {id: 1};
     const body = {id: 1, firstName: 'Olivier'};
     const code = 200;
+    const options = {};
     nock(host)
       .get(`/users/${context.id}`)
       .reply(code, body);
     const store = mockStore({users: {}});
     const expectedActions = [
       {status: 'pending', type, context},
-      {status: 'resolved', type, context, body, code, receivedAt: null}
+      {status: 'resolved', type, context, options, body, code, receivedAt: null}
     ];
     store.dispatch(actionFuncs[action](context))
       .then(() => {
@@ -198,13 +204,14 @@ describe('defaultActions', () => {
     const context = {id: 1, firstName: 'Olivier'};
     const body = {ok: true};
     const code = 200;
+    const options = {};
     nock(host)
       .patch(`/users/${context.id}`, context)
       .reply(code, body);
     const store = mockStore({users: {}});
     const expectedActions = [
       {status: 'pending', type, context},
-      {status: 'resolved', type, context, body, code, receivedAt: null}
+      {status: 'resolved', type, context, options, body, code, receivedAt: null}
     ];
     store.dispatch(actionFuncs[action](context))
       .then(() => {
@@ -222,13 +229,14 @@ describe('defaultActions', () => {
     const context = {id: 1};
     const body = {ok: true};
     const code = 200;
+    const options = {};
     nock(host)
       .delete(`/users/${context.id}`)
       .reply(code, body);
     const store = mockStore({users: {}});
     const expectedActions = [
       {status: 'pending', type, context},
-      {status: 'resolved', type, context, body, code, receivedAt: null}
+      {status: 'resolved', type, context, options, body, code, receivedAt: null}
     ];
     store.dispatch(actionFuncs[action](context))
       .then(() => {
@@ -254,12 +262,13 @@ describe('actionOptions', () => {
     const context = {};
     const body = [{id: 1, firstName: 'Olivier'}];
     const code = 200;
+    const options = {};
     nock(host).patch('/users')
       .reply(code, body);
     const store = mockStore({users: {}});
     const expectedActions = [
       {status: 'pending', type, context},
-      {status: 'resolved', type, context, body, code, receivedAt: null}
+      {status: 'resolved', type, context, options, body, code, receivedAt: null}
     ];
     store.dispatch(actionFuncs[action](context))
       .then(() => {
@@ -280,6 +289,7 @@ describe('actionOptions', () => {
     const context = {};
     const body = [{id: 1, firstName: 'Olivier'}];
     const code = 200;
+    const options = {};
     nock(host, {
       reqheaders: {...defaultHeaders,
         'X-Custom-Default-Header': 'foobar',
@@ -290,7 +300,7 @@ describe('actionOptions', () => {
     const store = mockStore({users: {}});
     const expectedActions = [
       {status: 'pending', type, context},
-      {status: 'resolved', type, context, body, code, receivedAt: null}
+      {status: 'resolved', type, context, options, body, code, receivedAt: null}
     ];
     store.dispatch(actionFuncs[action](context))
       .then(() => {
