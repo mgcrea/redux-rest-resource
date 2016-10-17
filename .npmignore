@@ -1,4 +1,5 @@
 *.log
+yarn.lock
 .DS_Store
 node_modules/
 coverage/
