@@ -8,9 +8,12 @@ import {parseUrlParams, buildFetchUrl} from './url';
 import {defaultHeaders, defaultTransformResponsePipeline} from './../defaults';
 // const d = ::console.info;
 
+const includes = (array, key) =>
+  array.indexOf(key) !== -1;
+
 const pick = (obj, ...keys) =>
   keys.reduce((soFar, key) => {
-    if (keys.includes(key) && obj[key]) {
+    if (includes(keys, key) && obj[key]) {
       soFar[key] = obj[key]; // eslint-disable-line no-param-reassign
     }
     return soFar;
