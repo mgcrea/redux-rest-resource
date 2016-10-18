@@ -1,6 +1,6 @@
 # Headers Override
 
-- You can add/override headers for a single action
+You can add/override headers for a single action
 
 ```js
 import {createResource} from 'redux-rest-resource';
@@ -21,7 +21,7 @@ export const {types, actions, reducers} = createResource({
 });
 ```
 
-- Or globally for all actions
+Or globally for all actions
 
 ```js
 import {defaultHeaders} from 'redux-rest-resource';

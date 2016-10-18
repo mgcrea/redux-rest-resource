@@ -10,6 +10,7 @@
   * [Reducers](/docs/basics/Reducers.md)
 * [Advanced](/docs/advanced/README.md)
   * [Headers Override](/docs/advanced/HeadersOverride.md)
+  * [Assign Update Response](/docs/advanced/AssignUpdateResponse.md)
   * [Resource Combination](/docs/advanced/ResourceCombination.md)
 * [API Reference](/docs/api/README.md)
   * [createResource](/docs/api/createStore.md)
