@@ -1,4 +1,4 @@
-# Headers Override
+# Assign Update Response
 
 By default, the response of the update action (`PATCH` request) will be ignored.
 
