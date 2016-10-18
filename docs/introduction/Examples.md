@@ -1,6 +1,7 @@
 # Examples
 
-1. Export created types, actions and reducers (eg. in `containers/Users/store/index.js`)
+
+1. First, create your resource and export created types, actions and reducers (eg. in `containers/Users/store/index.js`)
 
     ```js
     import {createResource} from 'redux-rest-resource';
@@ -52,7 +53,7 @@
 
     export default connect(
       // mapStateToProps
-      state => ({users: state.users}),
+      state => ({users: state.users.items}),
       // mapDispatchToProps
       dispatch => ({
         actions: bindActionCreators({...userActions}, dispatch)
