@@ -68,7 +68,7 @@ npm i redux-rest-resource --save
 
     export default connect(
       // mapStateToProps
-      state => ({users: state.users}),
+      state => ({users: state.users.items}),
       // mapDispatchToProps
       dispatch => ({
         actions: bindActionCreators({...userActions}, dispatch)
