@@ -71,7 +71,10 @@ const createActions = ({name, pluralName, url: defaultUrl, actions = {}, credent
         .then((res) => { statusCode = res.status; return res; })
         .then(applyTransformPipeline(buildTransformPipeline(defaultTransformResponsePipeline, actionOpts.transformResponse)))
         .then(payload => dispatch({type, status: isSuccess(statusCode) ? 'resolved' : 'rejected', context, options: reducerOpts, receivedAt: Date.now(), ...payload}))
-        .catch(err => dispatch({type, status: 'rejected', context, options: reducerOpts, err, receivedAt: Date.now()}));
+        .catch((err) => {
+          dispatch({type, status: 'rejected', context, options: reducerOpts, err, receivedAt: Date.now()});
+          throw err;
+        });
     };
     return {...actionFuncs, [actionName]: actionFunc};
   }, {})

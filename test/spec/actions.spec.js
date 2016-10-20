@@ -136,16 +136,16 @@ describe('defaultActions', () => {
       {status: 'rejected', type, context, options, err, receivedAt: null}
     ];
     store.dispatch(actionFuncs[action](context))
-      .then(() => {
+      .then(done)
+      .catch(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
         expect(actions[1].err.name).toEqual(expectedActions[1].err.name);
         expect(actions[1].err.message).toEqual(expectedActions[1].err.message);
         actions[1].err = expectedActions[1].err;
         expect(actions).toEqual(expectedActions);
-      })
-      .then(done)
-      .catch(done);
+        done();
+      });
   });
   it('.fetch() with response errors', (done) => {
     const actionKey = 'fetch';
