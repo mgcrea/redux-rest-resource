@@ -2,7 +2,11 @@
 
 [![npm version](https://img.shields.io/npm/v/redux-rest-resource.svg)](https://github.com/mgcrea/redux-rest-resource/releases) [![license](https://img.shields.io/github/license/mgcrea/redux-rest-resource.svg?style=flat)](https://tldrlegal.com/license/mit-license) [![build status](http://img.shields.io/travis/mgcrea/redux-rest-resource/master.svg?style=flat)](http://travis-ci.org/mgcrea/redux-rest-resource) [![dependencies status](https://img.shields.io/david/mgcrea/redux-rest-resource.svg?style=flat)](https://david-dm.org/mgcrea/redux-rest-resource) [![devDependencies status](https://img.shields.io/david/dev/mgcrea/redux-rest-resource.svg?style=flat)](https://david-dm.org/mgcrea/redux-rest-resource#info=devDependencies) [![coverage status](http://img.shields.io/codeclimate/coverage/github/mgcrea/redux-rest-resource.svg?style=flat)](https://codeclimate.com/github/mgcrea/redux-rest-resource) [![climate status](https://img.shields.io/codeclimate/github/mgcrea/redux-rest-resource.svg?style=flat)](https://codeclimate.com/github/mgcrea/redux-rest-resource)
 
+Dead simple and ready-to-use store module for handling HTTP REST resources.
+
 Generates types, actions and reducers for you to easily interact with any REST API.
+
+Saves you from writing a lot of boilerplate code and ensures that your code stays [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself).
 
 - Relies on [isomorphic-fetch](https://github.com/matthew-andrews/isomorphic-fetch) to perform HTTP requests.
 
