@@ -16,28 +16,36 @@ const defaultTransformResponsePipeline = [
   res => res.json().then(body => ({body, code: res.status}))
 ];
 
-const initialState = {
-  // FETCH props
-  items: [],
-  isFetching: false,
-  lastUpdated: 0,
-  didInvalidate: true,
-  // GET props
-  item: null,
-  isFetchingItem: false,
-  lastUpdatedItem: 0,
-  didInvalidateItem: true,
-  // CREATE props
-  isCreating: false,
-  // UPDATE props
-  isUpdating: false,
-  // DELETE props
-  isDeleting: false
+const defaultState = {
+  create: {
+    isCreating: false
+  },
+  fetch: {
+    items: [],
+    isFetching: false,
+    lastUpdated: 0,
+    didInvalidate: true
+  },
+  get: {
+    item: null,
+    isFetchingItem: false,
+    lastUpdatedItem: 0,
+    didInvalidateItem: true
+  },
+  update: {
+    isUpdating: false
+  },
+  delete: {
+    isDeleting: false
+  }
 };
+
+const initialState = Object.keys(defaultState).reduce((soFar, key) => ({...soFar, ...defaultState[key]}), {});
 
 export {
   defaultActions,
   defaultHeaders,
   defaultTransformResponsePipeline,
+  defaultState,
   initialState
 };
