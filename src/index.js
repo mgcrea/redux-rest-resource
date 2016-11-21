@@ -20,8 +20,11 @@ const mergeObjects = (object, ...sources) => {
   }, object);
 };
 
-export function createResource({name, url, actions = {}, ...args}) {
-  const actionsOpts = mergeObjects({}, defaultActions, actions);
+export function createResource({name, url, actions = {}, pick = [], ...args}) {
+  let actionsOpts = mergeObjects({}, defaultActions, actions);
+  if (pick.length) {
+    actionsOpts = pick.reduce((soFar, key) => ({...soFar, [key]: actionsOpts[key]}), {});
+  }
   return {
     actions: createActions({name, url, actions: actionsOpts, ...args}),
     reducers: createReducers({name, ...args}),
