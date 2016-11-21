@@ -22,7 +22,17 @@ describe('createResource', () => {
   it('should properly merge action opts', () => {
     const {types, actions, reducers} = createResource({name, url, actions: {get: {foo: 'bar'}, charge: {method: 'post'}}});
     expect(types).toBeA('object');
+    expect(Object.keys(types).length).toEqual(6);
     expect(actions).toBeA('object');
+    expect(Object.keys(actions).length).toEqual(6);
+    expect(reducers).toBeA('function');
+  });
+  it('should properly pick action opts', () => {
+    const {types, actions, reducers} = createResource({name, url, pick: ['fetch']});
+    expect(types).toBeA('object');
+    expect(Object.keys(types).length).toEqual(1);
+    expect(actions).toBeA('object');
+    expect(Object.keys(actions).length).toEqual(1);
     expect(reducers).toBeA('function');
   });
 });
