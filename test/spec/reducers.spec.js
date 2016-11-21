@@ -1,8 +1,8 @@
 import expect from 'expect';
 import {combineReducers} from '../../src';
 import {createTypes, getActionKey} from '../../src/types';
-import {createReducers, initialState} from '../../src/reducers';
-import {defaultActions} from '../../src/defaults';
+import {createReducers} from '../../src/reducers';
+import {defaultActions, initialState} from '../../src/defaults';
 
 // Configuration
 const name = 'user';
