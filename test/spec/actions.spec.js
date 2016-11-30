@@ -85,10 +85,11 @@ describe('defaultActions', () => {
       {status: 'resolved', type, context, options, body, code, receivedAt: null}
     ];
     store.dispatch(actionFuncs[action](context))
-      .then(() => {
+      .then((res) => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
         expect(actions).toEqual(expectedActions);
+        expect(res.body).toEqual(actions[1].body);
       })
       .then(done)
       .catch(done);
@@ -147,12 +148,38 @@ describe('defaultActions', () => {
         done();
       });
   });
-  it('.fetch() with response errors', (done) => {
+  it('.fetch() with JSON response errors', (done) => {
     const actionKey = 'fetch';
     const action = getActionName({name, actionKey, actionOpts: {isArray: true}});
     const type = getActionType({name, actionKey});
     const context = {};
     const body = {err: 'something awful happened'};
+    const code = 400;
+    const options = {};
+    nock(host)
+      .get('/users')
+      .reply(code, body);
+    const store = mockStore({users: {}});
+    const expectedActions = [
+      {status: 'pending', type, context},
+      {status: 'rejected', type, context, options, body, code, receivedAt: null}
+    ];
+    store.dispatch(actionFuncs[action](context))
+      .catch((err) => {
+        const actions = store.getActions();
+        actions[1].receivedAt = null;
+        expect(err.statusCode).toEqual(code);
+        expect(actions).toEqual(expectedActions);
+      })
+      .then(done)
+      .catch(done);
+  });
+  it('.fetch() with HTML response errors', (done) => {
+    const actionKey = 'fetch';
+    const action = getActionName({name, actionKey, actionOpts: {isArray: true}});
+    const type = getActionType({name, actionKey});
+    const context = {};
+    const body = '<html><body><h1>something awful happened</h1></body></html>';
     const code = 400;
     const options = {};
     nock(host)
