@@ -1,6 +1,6 @@
 // https://github.com/angular/angular.js/blob/master/src/ngResource/resource.js#L473
 
-const PROTOCOL_AND_DOMAIN_REGEX = /^https?:\/\/[^\/]*/;
+const PROTOCOL_AND_DOMAIN_REGEX = /^https?:\/\/[^/]*/;
 const NUMBER_REGEX = /^\\d+$/;
 // const isString = string => typeof string === 'string';
 const isObject = object => typeof object === 'object';
