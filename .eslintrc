@@ -4,7 +4,7 @@
   "rules": {
     "comma-dangle": [2, "never"],
     "import/no-extraneous-dependencies": ["error", {"devDependencies": true, "optionalDependencies": true, "peerDependencies": false}],
-    "import/no-unresolved": 0,
+    "import/no-unresolved": ["off", {}],
     "max-len": 0,
     "object-curly-spacing": [2, "never"]
   }
