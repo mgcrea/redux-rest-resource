@@ -9,10 +9,18 @@ import {defaultHeaders, defaultTransformResponsePipeline} from './../defaults';
 // const d = ::console.info;
 
 class HttpError extends Error {
-  constructor(statusCode = 500, body = '') {
-    super('HttpError');
-    Error.captureStackTrace(this, new.target);
+  constructor(statusCode = 500, {body, message = 'HttpError'}) {
+    super(message);
+    this.name = this.constructor.name;
+    this.message = message;
+    if (typeof Error.captureStackTrace === 'function') {
+      Error.captureStackTrace(this, this.constructor);
+    } else {
+      this.stack = (new Error(message)).stack;
+    }
+    // Http
     this.statusCode = statusCode;
+    this.status = statusCode;
     this.body = body;
   }
 }
@@ -78,16 +86,16 @@ const createActions = ({name, pluralName, url: defaultUrl, actions = {}, credent
       return fetch(fetchUrl, fetchOptions)
         .then((res) => {
           if (!isSuccess(res.status)) {
-            return res.json().then((body) => {
-              throw new HttpError(res.status, body);
+            const contentType = res.headers.get('Content-Type');
+            const isJson = contentType === 'application/json';
+            return res[isJson ? 'json' : 'text']().then((body) => {
+              throw new HttpError(res.status, {body});
             });
           }
           return res;
         })
         .then(applyTransformPipeline(buildTransformPipeline(defaultTransformResponsePipeline, actionOpts.transformResponse)))
-        .then((payload) => {
-          dispatch({type, status: 'resolved', context, options: reducerOpts, receivedAt: Date.now(), ...payload});
-        })
+        .then(payload => dispatch({type, status: 'resolved', context, options: reducerOpts, receivedAt: Date.now(), ...payload}))
         .catch((err) => {
           // Catch HttpErrors
           if (err.statusCode) {
