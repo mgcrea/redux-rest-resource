@@ -8,6 +8,15 @@ import {parseUrlParams, buildFetchUrl} from './url';
 import {defaultHeaders, defaultTransformResponsePipeline} from './../defaults';
 // const d = ::console.info;
 
+class HttpError extends Error {
+  constructor(statusCode = 500, body = '') {
+    super('HttpError');
+    Error.captureStackTrace(this, new.target);
+    this.statusCode = statusCode;
+    this.body = body;
+  }
+}
+
 const includes = (array, key) =>
   array.indexOf(key) !== -1;
 
@@ -66,13 +75,27 @@ const createActions = ({name, pluralName, url: defaultUrl, actions = {}, credent
       const fetchUrl = buildFetchUrl({url, urlParams, context, contextOpts});
       const fetchOptions = buildFetchOpts({context, contextOpts, actionOpts});
       // d(`${name}Actions.${actionName}()`, fetchUrl, fetchOptions);
-      let statusCode;
       return fetch(fetchUrl, fetchOptions)
-        .then((res) => { statusCode = res.status; return res; })
+        .then((res) => {
+          if (!isSuccess(res.status)) {
+            return res.json().then((body) => {
+              throw new HttpError(res.status, body);
+            });
+          }
+          return res;
+        })
         .then(applyTransformPipeline(buildTransformPipeline(defaultTransformResponsePipeline, actionOpts.transformResponse)))
-        .then(payload => dispatch({type, status: isSuccess(statusCode) ? 'resolved' : 'rejected', context, options: reducerOpts, receivedAt: Date.now(), ...payload}))
+        .then((payload) => {
+          dispatch({type, status: 'resolved', context, options: reducerOpts, receivedAt: Date.now(), ...payload});
+        })
         .catch((err) => {
-          dispatch({type, status: 'rejected', context, options: reducerOpts, err, receivedAt: Date.now()});
+          // Catch HttpErrors
+          if (err.statusCode) {
+            dispatch({type, status: 'rejected', code: err.statusCode, body: err.body, context, options: reducerOpts, receivedAt: Date.now()});
+          // Catch regular Errors
+          } else {
+            dispatch({type, status: 'rejected', context, options: reducerOpts, err, receivedAt: Date.now()});
+          }
           throw err;
         });
     };

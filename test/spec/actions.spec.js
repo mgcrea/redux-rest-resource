@@ -164,9 +164,10 @@ describe('defaultActions', () => {
       {status: 'rejected', type, context, options, body, code, receivedAt: null}
     ];
     store.dispatch(actionFuncs[action](context))
-      .then(() => {
+      .catch((err) => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
+        expect(err.statusCode).toEqual(code);
         expect(actions).toEqual(expectedActions);
       })
       .then(done)
