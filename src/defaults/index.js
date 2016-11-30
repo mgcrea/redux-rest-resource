@@ -1,4 +1,5 @@
 
+
 const defaultActions = {
   create: {method: 'POST', alias: 'save'},
   fetch: {method: 'GET', isArray: true},
@@ -42,7 +43,12 @@ const defaultState = {
 
 const initialState = Object.keys(defaultState).reduce((soFar, key) => ({...soFar, ...defaultState[key]}), {});
 
+const defaultGlobals = {
+  Promise
+};
+
 export {
+  defaultGlobals,
   defaultActions,
   defaultHeaders,
   defaultTransformResponsePipeline,

@@ -5,7 +5,7 @@ import {getActionType} from './../types';
 import {applyTransformPipeline, buildTransformPipeline} from './transform';
 import {parseUrlParams, buildFetchUrl} from './url';
 
-import {defaultHeaders, defaultTransformResponsePipeline} from './../defaults';
+import {defaultGlobals, defaultHeaders, defaultTransformResponsePipeline} from './../defaults';
 // const d = ::console.info;
 
 class HttpError extends Error {
@@ -83,7 +83,7 @@ const createActions = ({name, pluralName, url: defaultUrl, actions = {}, credent
       const fetchUrl = buildFetchUrl({url, urlParams, context, contextOpts});
       const fetchOptions = buildFetchOpts({context, contextOpts, actionOpts});
       // d(`${name}Actions.${actionName}()`, fetchUrl, fetchOptions);
-      return fetch(fetchUrl, fetchOptions)
+      return defaultGlobals.Promise.resolve(fetch(fetchUrl, fetchOptions))
         .then((res) => {
           if (!isSuccess(res.status)) {
             const contentType = res.headers.get('Content-Type');
