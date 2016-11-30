@@ -12,6 +12,7 @@
   * [Headers Override](/docs/advanced/HeadersOverride.md)
   * [Assign Update Response](/docs/advanced/AssignUpdateResponse.md)
   * [Resource Combination](/docs/advanced/ResourceCombination.md)
+  * [Custom Promise](/docs/advanced/CustomPromise.md)
 * [API Reference](/docs/api/README.md)
   * [createResource](/docs/api/createStore.md)
   * [mergeReducers](/docs/api/mergeReducers.md)
