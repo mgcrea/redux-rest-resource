@@ -12,7 +12,7 @@
     "test": "npm run test:spec && npm run lint",
     "test:spec": "mocha",
     "test:watch": "npm run test:spec -- --watch",
-    "test:coverage": "nyc --reporter=lcov npm test:spec -- --reporter dot && nyc report",
+    "test:coverage": "nyc --reporter=lcov npm run test:spec -- --reporter dot && nyc report",
     "lint": "eslint src/ test/",
     "compile": "rimraf lib/*; babel src/ -d lib/ -s",
     "compile:watch": "npm run compile -- -w",
