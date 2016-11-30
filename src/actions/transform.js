@@ -1,3 +1,4 @@
+import {defaultGlobals} from './../defaults';
 
 const buildTransformPipeline = (initial, transform) => {
   let transformResponsePipeline;
@@ -11,7 +12,7 @@ const buildTransformPipeline = (initial, transform) => {
   return transformResponsePipeline;
 };
 const applyTransformPipeline = (pipeline) => {  // eslint-disable-line arrow-body-style
-  return initial => pipeline.reduce((soFar, fn) => soFar.then(fn), Promise.resolve(initial));
+  return initial => pipeline.reduce((soFar, fn) => soFar.then(fn), defaultGlobals.Promise.resolve(initial));
 };
 
 export {
