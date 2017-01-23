@@ -89,10 +89,11 @@ const reducers = {
         const index = state.items.findIndex(el => el.id === id);
         const actionOpts = action.options || {};
         const update = actionOpts.assignResponse ? action.body : action.context;
-        const updatedItem = {...state.items.splice(index, 1)[0], ...update};
+        const updatedListItem = {...state.items.splice(index, 1)[0], ...update};
         return {...state,
           isUpdating: false,
-          items: [...state.items, updatedItem]
+          items: [...state.items, updatedListItem],
+          item: state.item && state.item.id === id ? {...state.item, ...update} : state.item
         };
       }
       case 'rejected':

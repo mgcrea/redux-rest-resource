@@ -101,7 +101,7 @@ describe('createReducers', () => {
     const actionOpts = defaultActions[actionKey];
     const type = types[getActionKey({name, actionKey, actionOpts})];
     const initialItems = [{id: 1, firstName: 'Olivier', lastName: 'Louvignes'}];
-    const customInitialState = {...initialState, items: initialItems};
+    const customInitialState = {...initialState, items: initialItems, item: initialItems[0]};
     const context = {id: 1, firstName: 'Olivia'};
     let status;
 
@@ -114,8 +114,9 @@ describe('createReducers', () => {
     const body = {ok: true};
     const receivedAt = Date.now();
     const expectedItems = [{id: 1, firstName: 'Olivia', lastName: 'Louvignes'}];
+    const expectedItem = expectedItems[0];
     expect(reducers(pendingState, {type, status, context, body, receivedAt}))
-      .toEqual({...customInitialState, isUpdating: false, items: expectedItems});
+      .toEqual({...customInitialState, isUpdating: false, items: expectedItems, item: expectedItem});
 
     status = 'rejected';
     expect(reducers(pendingState, {type, status, context, err: {}, receivedAt}))
