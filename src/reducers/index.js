@@ -86,14 +86,19 @@ const reducers = {
       case 'resolved': {
         // Assign context or returned object
         const id = action.context.id || action.context;
-        const index = state.items.findIndex(el => el.id === id);
         const actionOpts = action.options || {};
         const update = actionOpts.assignResponse ? action.body : action.context;
-        const updatedListItem = {...state.items.splice(index, 1)[0], ...update};
+        const listItemIndex = state.items.findIndex(el => el.id === id);
+        const updatedItems = listItemIndex !== -1
+          ? [{...state.items.splice(listItemIndex, 1)[0], ...update}, ...state.items]
+          : state.items;
+        const updatedItem = state.item && state.item.id === id
+          ? {...state.item, ...update}
+          : state.item;
         return {...state,
           isUpdating: false,
-          items: [...state.items, updatedListItem],
-          item: state.item && state.item.id === id ? {...state.item, ...update} : state.item
+          items: updatedItems,
+          item: updatedItem
         };
       }
       case 'rejected':
