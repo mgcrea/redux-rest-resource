@@ -9,6 +9,7 @@ import {createTypes} from './types';
 
 export * from './defaults';
 export {reduceReducers, combineReducers, mergeReducers} from './reducers/helpers';
+export {fetch} from './helpers/fetch';
 
 const mergeObjects = (object, ...sources) => {
   const concat = Array.prototype.concat;

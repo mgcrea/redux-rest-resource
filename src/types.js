@@ -1,9 +1,4 @@
-
-const upperSnakeCase = string =>
-  String(string.split('').reduce((soFar, letter, index) => {
-    const charCode = letter.charCodeAt(0);
-    return soFar + (index && charCode < 97 ? `_${letter}` : letter).toUpperCase();
-  }, ''));
+import {upperSnakeCase} from './helpers/util';
 
 const getNamespace = ({name}) =>
   `@@resource/${upperSnakeCase(name)}`;
