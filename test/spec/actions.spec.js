@@ -104,8 +104,7 @@ describe('defaultActions', () => {
     const code = 200;
     const options = {};
     nock(host)
-      .get('/users')
-      .query(query)
+      .get('/users?foo=bar')
       .reply(code, body);
     const store = mockStore({users: {}});
     const expectedActions = [

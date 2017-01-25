@@ -3,14 +3,13 @@
 const PROTOCOL_AND_DOMAIN_REGEX = /^https?:\/\/[^/]*/;
 const NUMBER_REGEX = /^\\d+$/;
 // const isString = string => typeof string === 'string';
-const isObject = object => typeof object === 'object';
 
 /**
  * This method is intended for encoding *key* or *value* parts of query component. We need a
  * custom method because encodeURIComponent is too aggressive and encodes stuff that doesn't
  * have to be encoded per http://tools.ietf.org/html/rfc3986
  */
-const encodeUriQuery = (val, pctEncodeSpaces) =>
+export const encodeUriQuery = (val, pctEncodeSpaces) =>
   encodeURIComponent(val)
     .replace(/%40/gi, '@')
     .replace(/%3A/gi, ':')
@@ -23,13 +22,13 @@ const encodeUriQuery = (val, pctEncodeSpaces) =>
  * http://www.ietf.org/rfc/rfc3986.txt with regards to the character set
  * (pchar) allowed in path segments
  */
-const encodeUriSegment = val =>
+export const encodeUriSegment = val =>
   encodeUriQuery(val, true)
     .replace(/%26/gi, '&')
     .replace(/%3D/gi, '=')
     .replace(/%2B/gi, '+');
 
-const parseUrlParams = url =>
+export const parseUrlParams = url =>
   url.split(/\W/).reduce((urlParams, param) => {
     if (!NUMBER_REGEX.test(param) && param && (new RegExp(`(^|[^\\\\]):${param}(\\W|$)`).test(url))) {
       urlParams[param] = { // eslint-disable-line no-param-reassign
@@ -39,12 +38,12 @@ const parseUrlParams = url =>
     return urlParams;
   }, {});
 
-const replaceUrlParamFromUrl = (url, urlParam, replace = '') =>
+export const replaceUrlParamFromUrl = (url, urlParam, replace = '') =>
   url.replace(new RegExp(`(/?):${urlParam}(\\W|$)`, 'g'), (match, leadingSlashes, tail) =>
     (replace || tail.charAt(0) === '/' ? leadingSlashes : '') + replace + tail
   );
 
-const replaceQueryStringParamFromUrl = (url, key, value) => {
+export const replaceQueryStringParamFromUrl = (url, key, value) => {
   const re = new RegExp(`([?&])${key}=.*?(&|$)`, 'i');
   const sep = url.indexOf('?') !== -1 ? '&' : '?';
   return url.match(re)
@@ -52,33 +51,11 @@ const replaceQueryStringParamFromUrl = (url, key, value) => {
     : `${url}${sep}${key}=${value}`;
 };
 
-const buildFetchUrl = ({url, urlParams, context, contextOpts = {query: []}, stripTrailingSlashes = true}) => {
+export const splitUrlByProtocolAndDomain = (url) => {
   let protocolAndDomain;
-  let builtUrl = url.replace(PROTOCOL_AND_DOMAIN_REGEX, (match) => {
+  const remainderUrl = url.replace(PROTOCOL_AND_DOMAIN_REGEX, (match) => {
     protocolAndDomain = match;
     return '';
   });
-  // Replace urlParams with values from context
-  builtUrl = Object.keys(urlParams).reduce((wipUrl, urlParam) => {
-    const urlParamInfo = urlParams[urlParam];
-    const contextAsObject = !isObject(context) ? {id: context} : context;
-    const value = contextAsObject[urlParam] || ''; // self.defaults[urlParam];
-    if (value) {
-      const encodedValue = urlParamInfo.isQueryParamValue ? encodeUriQuery(value, true) : encodeUriSegment(value);
-      return replaceUrlParamFromUrl(wipUrl, urlParam, encodedValue);
-    }
-    return replaceUrlParamFromUrl(wipUrl, urlParam);
-  }, builtUrl);
-  // Strip trailing slashes and set the url (unless this behavior is specifically disabled)
-  if (stripTrailingSlashes) {
-    builtUrl = builtUrl.replace(/\/+$/, '') || '/';
-  }
-  // Append any querystring options
-  builtUrl = Object.keys(contextOpts.query || []).reduce((wipUrl, queryParam) => {
-    const queryParamValue = contextOpts.query[queryParam];
-    return replaceQueryStringParamFromUrl(wipUrl, queryParam, queryParamValue);
-  }, builtUrl);
-  return protocolAndDomain + builtUrl;
+  return [protocolAndDomain, remainderUrl];
 };
-
-export {parseUrlParams, buildFetchUrl};

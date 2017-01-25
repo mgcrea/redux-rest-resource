@@ -1,70 +1,18 @@
 // @inspiration https://github.com/angular/angular.js/blob/master/src/ngResource/resource.js
 
-import fetch from 'isomorphic-fetch';
 import {getActionType} from './../types';
 import {applyTransformPipeline, buildTransformPipeline} from './transform';
-import {parseUrlParams, buildFetchUrl} from './url';
+import {parseUrlParams} from './../helpers/url';
+import {buildFetchUrl, buildFetchOpts, fetch} from './../helpers/fetch';
+import {pick, ucfirst} from './../helpers/util';
 
-import {defaultGlobals, defaultHeaders, defaultTransformResponsePipeline} from './../defaults';
+import {defaultTransformResponsePipeline} from './../defaults';
 // const d = ::console.info;
-
-class HttpError extends Error {
-  constructor(statusCode = 500, {body, message = 'HttpError'}) {
-    super(message);
-    this.name = this.constructor.name;
-    this.message = message;
-    if (typeof Error.captureStackTrace === 'function') {
-      Error.captureStackTrace(this, this.constructor);
-    } else {
-      this.stack = (new Error(message)).stack;
-    }
-    // Http
-    this.statusCode = statusCode;
-    this.status = statusCode;
-    this.body = body;
-  }
-}
-
-const includes = (array, key) =>
-  array.indexOf(key) !== -1;
-
-const pick = (obj, ...keys) =>
-  keys.reduce((soFar, key) => {
-    if (includes(keys, key) && obj[key]) {
-      soFar[key] = obj[key]; // eslint-disable-line no-param-reassign
-    }
-    return soFar;
-  }, {});
-
-const ucfirst = str =>
-  str.charAt(0).toUpperCase() + str.substr(1);
 
 const getActionName = ({name, pluralName, actionKey, actionOpts = {}}) => {
   const actualPluralName = pluralName || `${name}s`;
   return `${actionKey}${ucfirst(actionOpts.isArray ? actualPluralName : name)}`;
 };
-
-const buildFetchOpts = ({context, actionOpts}) => {
-  const opts = {
-    headers: defaultHeaders
-  };
-  if (actionOpts.method) {
-    opts.method = actionOpts.method;
-  }
-  if (actionOpts.headers) {
-    opts.headers = {...opts.headers, ...actionOpts.headers};
-  }
-  if (actionOpts.credentials) {
-    opts.credentials = actionOpts.credentials;
-  }
-  const hasBody = /^(POST|PUT|PATCH)$/i.test(opts.method);
-  if (context && hasBody) {
-    opts.body = JSON.stringify(context);
-  }
-  return opts;
-};
-
-const isSuccess = status => status >= 200 && status < 300;
 
 const createActions = ({name, pluralName, url: defaultUrl, actions = {}, credentials}) => (
   Object.keys(actions).reduce((actionFuncs, actionKey) => {
@@ -83,17 +31,7 @@ const createActions = ({name, pluralName, url: defaultUrl, actions = {}, credent
       const fetchUrl = buildFetchUrl({url, urlParams, context, contextOpts});
       const fetchOptions = buildFetchOpts({context, contextOpts, actionOpts});
       // d(`${name}Actions.${actionName}()`, fetchUrl, fetchOptions);
-      return defaultGlobals.Promise.resolve(fetch(fetchUrl, fetchOptions))
-        .then((res) => {
-          if (!isSuccess(res.status)) {
-            const contentType = res.headers.get('Content-Type');
-            const isJson = contentType === 'application/json';
-            return res[isJson ? 'json' : 'text']().then((body) => {
-              throw new HttpError(res.status, {body});
-            });
-          }
-          return res;
-        })
+      return fetch(fetchUrl, fetchOptions)
         .then(applyTransformPipeline(buildTransformPipeline(defaultTransformResponsePipeline, actionOpts.transformResponse)))
         .then(payload => dispatch({type, status: 'resolved', context, options: reducerOpts, receivedAt: Date.now(), ...payload}))
         .catch((err) => {
