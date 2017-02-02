@@ -1,5 +1,5 @@
 import baseFetch from 'isomorphic-fetch';
-import {isObject} from './util';
+import {isObject, startsWith} from './util';
 import {encodeUriQuery, encodeUriSegment, replaceUrlParamFromUrl, replaceQueryStringParamFromUrl, splitUrlByProtocolAndDomain} from './url';
 import {defaultGlobals, defaultHeaders} from './../defaults';
 
@@ -75,7 +75,7 @@ export const fetch = (url, options = {}) => {
     .then((res) => {
       if (!isSuccess(res.status)) {
         const contentType = res.headers.get('Content-Type');
-        const isJson = contentType === 'application/json';
+        const isJson = startsWith(contentType, 'application/json');
         return res[isJson ? 'json' : 'text']().then((body) => {
           throw new HttpError(res.status, {body});
         });
