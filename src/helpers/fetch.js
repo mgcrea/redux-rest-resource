@@ -71,7 +71,7 @@ export const fetch = (url, options = {}) => {
     const queryParamValue = options.query[queryParam];
     return replaceQueryStringParamFromUrl(wipUrl, queryParam, queryParamValue);
   }, url);
-  return defaultGlobals.Promise.resolve(baseFetch(builtUrl, options))
+  return (options.Promise || defaultGlobals.Promise).resolve(baseFetch(builtUrl, options))
     .then((res) => {
       if (!isSuccess(res.status)) {
         const contentType = res.headers.get('Content-Type');
