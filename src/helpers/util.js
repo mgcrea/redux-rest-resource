@@ -13,6 +13,9 @@ export const pick = (obj, ...keys) =>
     return soFar;
   }, {});
 
+export const startsWith = (string, target) =>
+  String(string).slice(0, target.length) === target;
+
 export const ucfirst = str =>
   str.charAt(0).toUpperCase() + str.substr(1);
 
