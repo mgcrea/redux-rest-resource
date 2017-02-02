@@ -3,8 +3,6 @@ import {isObject, startsWith} from './util';
 import {encodeUriQuery, encodeUriSegment, replaceUrlParamFromUrl, replaceQueryStringParamFromUrl, splitUrlByProtocolAndDomain} from './url';
 import {defaultGlobals, defaultHeaders} from './../defaults';
 
-const isSuccess = status => status >= 200 && status < 300;
-
 export class HttpError extends Error {
   constructor(statusCode = 500, {body, message = 'HttpError'}) {
     super(message);
@@ -73,7 +71,7 @@ export const fetch = (url, options = {}) => {
   }, url);
   return (options.Promise || defaultGlobals.Promise).resolve(baseFetch(builtUrl, options))
     .then((res) => {
-      if (!isSuccess(res.status)) {
+      if (!res.ok) {
         const contentType = res.headers.get('Content-Type');
         const isJson = startsWith(contentType, 'application/json');
         return res[isJson ? 'json' : 'text']().then((body) => {
