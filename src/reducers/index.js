@@ -89,15 +89,17 @@ const reducers = {
         const actionOpts = action.options || {};
         const update = actionOpts.assignResponse ? action.body : action.context;
         const listItemIndex = state.items.findIndex(el => el.id === id);
-        const updatedItems = listItemIndex !== -1
-          ? [{...state.items.splice(listItemIndex, 1)[0], ...update}, ...state.items]
-          : state.items;
+        const updatedItems = state.items;
+        if (listItemIndex !== -1) {
+          const updatedItem = {...state.items.splice(listItemIndex, 1)[0], ...update};
+          updatedItems.splice(listItemIndex, 0, updatedItem);
+        }
         const updatedItem = state.item && state.item.id === id
           ? {...state.item, ...update}
           : state.item;
         return {...state,
           isUpdating: false,
-          items: updatedItems,
+          items: listItemIndex !== -1 ? updatedItems.slice() : updatedItems,
           item: updatedItem
         };
       }
