@@ -91,9 +91,11 @@ const createReducers = ({name}) => (state = {...initialState, name}, action) => 
           // Assign returned object
           const index = state.items.findIndex(el => el.id === action.context.id);
           const updatedItem = {...state.items.splice(index, 1)[0], ...action.context};
+          // Put back the item at the right index
+          state.items.splice(index, 0, updatedItem);
           return {...state,
             isUpdating: false,
-            items: [...state.items, updatedItem]
+            items: [...state.items]
           };
         }
         case 'rejected':
