@@ -96,6 +96,32 @@ describe('createReducers', () => {
     expect(reducers(pendingState, {type, status, context, err: {}, receivedAt}))
       .toEqual({...pendingState, isFetchingItem: false});
   });
+  it('should handle GET with option `assignResponse`', () => {
+    const actionKey = 'get';
+    const actionOpts = {...defaultActions[actionKey], assignResponse: true};
+    const customReducers = createReducers({name, actions: actionOpts, types});
+    const type = types[getActionKey({name, actionKey, actionOpts})];
+    const initialItems = [{id: 1, firstName: 'Olivier', lastName: 'Louvignes'}];
+    const customInitialState = {...initialState, items: initialItems};
+    const context = {id: 1};
+    let status;
+
+    status = 'pending';
+    const pendingState = customReducers(customInitialState, {type, status, context});
+    expect(pendingState)
+      .toEqual({...customInitialState, isFetchingItem: true, didInvalidateItem: false});
+
+    status = 'resolved';
+    const body = {id: 1, firstName: 'Olivia', lastName: 'Louvignes'};
+    const receivedAt = Date.now();
+    const expectedItems = [body];
+    expect(customReducers(pendingState, {type, status, context, options: actionOpts, body, receivedAt}))
+      .toEqual({...pendingState, isFetchingItem: false, items: expectedItems, item: body, lastUpdatedItem: receivedAt});
+
+    status = 'rejected';
+    expect(customReducers(pendingState, {type, status, context, options: actionOpts, err: {}, receivedAt}))
+      .toEqual({...pendingState, isFetchingItem: false});
+  });
   it('should handle UPDATE action', () => {
     const actionKey = 'update';
     const actionOpts = defaultActions[actionKey];
