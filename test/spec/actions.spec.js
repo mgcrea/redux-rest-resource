@@ -306,6 +306,35 @@ describe('actionOptions', () => {
       .then(done)
       .catch(done);
   });
+  it('should allow `url` to be a function', (done) => {
+    const urlDependingOnState = getState => `${host}/community/${getState().users.community}/users/:id`;
+    const resource = createResource({name, url: urlDependingOnState});
+    const actionFuncs = resource.actions;
+    const actionKey = 'fetch';
+    const action = getActionName({name, actionKey, actionOpts: {isArray: true}});
+    const type = getActionType({name, actionKey});
+    const context = {};
+    const body = [{id: 1, firstName: 'Olivier'}];
+    const code = 200;
+    const options = {};
+    nock(host).get('/community/teammystic/users')
+      .reply(code, body);
+    const store = mockStore({users: {
+      community: 'teammystic'
+    }});
+    const expectedActions = [
+      {status: 'pending', type, context},
+      {status: 'resolved', type, context, options, body, code, receivedAt: null}
+    ];
+    store.dispatch(actionFuncs[action](context))
+      .then(() => {
+        const actions = store.getActions();
+        actions[1].receivedAt = null;
+        expect(actions).toEqual(expectedActions);
+      })
+      .then(done)
+      .catch(done);
+  });
   it('should handle `headers` option', (done) => {
     const resource = createResource({name, url, actions: {...defaultActions, fetch: {headers: {'X-Custom-Header': 'barbaz'}}}});
     Object.assign(defaultHeaders, {'X-Custom-Default-Header': 'foobar'});
@@ -325,6 +354,51 @@ describe('actionOptions', () => {
     }).get('/users')
       .reply(code, body);
     const store = mockStore({users: {}});
+    const expectedActions = [
+      {status: 'pending', type, context},
+      {status: 'resolved', type, context, options, body, code, receivedAt: null}
+    ];
+    store.dispatch(actionFuncs[action](context))
+      .then(() => {
+        const actions = store.getActions();
+        actions[1].receivedAt = null;
+        expect(actions).toEqual(expectedActions);
+      })
+      .then(done)
+      .catch(done);
+  });
+  it('should handle actionOpts being functions', (done) => {
+    const methodFunction = () => 'HEAD';
+    const headersDependingOnState = getState => ({
+      Authorization: `Bearer ${getState().authToken.items[0].token}`
+    });
+    const resource = createResource({
+      name,
+      url,
+      actions: {
+        ...defaultActions,
+        fetch: {
+          headers: headersDependingOnState,
+          method: methodFunction
+        }
+      }
+    });
+    Object.assign(defaultHeaders, {'X-Custom-Default-Header': 'foobar'});
+    const actionFuncs = resource.actions;
+    const actionKey = 'fetch';
+    const action = getActionName({name, actionKey, actionOpts: {isArray: true}});
+    const type = getActionType({name, actionKey});
+    const context = {};
+    const body = [{id: 1, firstName: 'Olivier'}];
+    const code = 200;
+    const options = {};
+    nock(host, {
+      reqheaders: {...defaultHeaders,
+        Authorization: 'Bearer c0defefe'
+      }
+    }).head('/users')
+      .reply(code, body);
+    const store = mockStore({users: {}, authToken: {items: [{token: 'c0defefe'}]}});
     const expectedActions = [
       {status: 'pending', type, context},
       {status: 'resolved', type, context, options, body, code, receivedAt: null}
