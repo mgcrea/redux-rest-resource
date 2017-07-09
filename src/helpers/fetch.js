@@ -1,4 +1,5 @@
-import baseFetch from 'isomorphic-fetch';
+/* global fetch */
+
 import {isObject, startsWith} from './util';
 import {encodeUriQuery, encodeUriSegment, replaceUrlParamFromUrl, replaceQueryStringParamFromUrl, splitUrlByProtocolAndDomain} from './url';
 import {defaultGlobals, defaultHeaders} from './../defaults';
@@ -63,13 +64,13 @@ export const buildFetchOpts = ({context, contextOpts, actionOpts}) => {
   return opts;
 };
 
-export const fetch = (url, options = {}) => {
+export default (url, options = {}) => {
   // Support options.query
   const builtUrl = Object.keys(options.query || []).reduce((wipUrl, queryParam) => {
     const queryParamValue = options.query[queryParam];
     return replaceQueryStringParamFromUrl(wipUrl, queryParam, queryParamValue);
   }, url);
-  return (options.Promise || defaultGlobals.Promise).resolve(baseFetch(builtUrl, options))
+  return (options.Promise || defaultGlobals.Promise).resolve((defaultGlobals.fetch || fetch)(builtUrl, options))
     .then((res) => {
       if (!res.ok) {
         const contentType = res.headers.get('Content-Type');
@@ -81,5 +82,3 @@ export const fetch = (url, options = {}) => {
       return res;
     });
 };
-
-export default fetch;
