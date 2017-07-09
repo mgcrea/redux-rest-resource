@@ -3,14 +3,16 @@ import configureMockStore from 'redux-mock-store';
 import expect from 'expect';
 import nock from 'nock';
 import thunk from 'redux-thunk';
+import fetch from 'isomorphic-fetch';
 
-import {createResource, defaultActions, defaultHeaders} from '../../src';
+import {createResource, defaultActions, defaultHeaders, defaultGlobals} from '../../src';
 import {getActionType} from '../../src/types';
 import {createActions, getActionName} from '../../src/actions';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
+before(() => { Object.assign(defaultGlobals, {fetch}); });
 
 try { require('debug-utils'); } catch (err) {}; // eslint-disable-line
 

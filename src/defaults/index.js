@@ -1,4 +1,4 @@
-
+/* global fetch */
 
 const defaultActions = {
   create: {method: 'POST', alias: 'save'},
@@ -44,7 +44,8 @@ const defaultState = {
 const initialState = Object.keys(defaultState).reduce((soFar, key) => ({...soFar, ...defaultState[key]}), {});
 
 const defaultGlobals = {
-  Promise
+  Promise,
+  fetch
 };
 
 export {
