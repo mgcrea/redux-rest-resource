@@ -8,9 +8,9 @@ Generates types, actions and reducers for you to easily interact with any REST A
 
 Saves you from writing a lot of boilerplate code and ensures that your code stays [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself).
 
-- Relies on [isomorphic-fetch](https://github.com/matthew-andrews/isomorphic-fetch) to perform HTTP requests.
-
 - Requires [redux-thunk](https://github.com/gaearon/redux-thunk) to handle async actions.
+
+- Relies on [fetch](https://fetch.spec.whatwg.org/) to perform HTTP requests. If you want to use this in environments without a builtin `fetch` implementation, you need to [bring your own custom fetch polyfill](advanced/CustomFetch).
 
 ## Usage
 

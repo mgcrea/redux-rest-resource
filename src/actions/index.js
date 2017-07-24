@@ -3,7 +3,7 @@
 import {getActionType} from './../types';
 import {applyTransformPipeline, buildTransformPipeline} from './transform';
 import {parseUrlParams} from './../helpers/url';
-import {buildFetchUrl, buildFetchOpts, fetch} from './../helpers/fetch';
+import fetch, {buildFetchUrl, buildFetchOpts} from './../helpers/fetch';
 import {pick, ucfirst} from './../helpers/util';
 
 import {defaultTransformResponsePipeline} from './../defaults';
