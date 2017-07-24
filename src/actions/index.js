@@ -20,15 +20,22 @@ const createActions = ({name, pluralName, url: defaultUrl, actions = {}, credent
     const actionOpts = {...actions[actionKey], credentials};
     const reducerOpts = pick(actionOpts, 'assignResponse');
     const type = getActionType({name, action, actionKey});
-    const url = action.url || defaultUrl;
-    const urlParams = parseUrlParams(url);
+    const actionUrl = action.url || defaultUrl;
     // Compute actual function name
     const actionName = getActionName({name, pluralName, actionKey, actionOpts});
     // Actual action function
-    const actionFunc = (context, contextOpts = {}) => (dispatch) => {
+    const actionFunc = (context, contextOpts = {}) => (dispatch, getState) => {
       // First dispatch a pending action
       dispatch({type, status: 'pending', context});
+      let url = actionUrl;
+      if (typeof actionUrl === 'function') { url = actionUrl(getState); }
+      const urlParams = parseUrlParams(url);
       const fetchUrl = buildFetchUrl({url, urlParams, context, contextOpts});
+      Object.keys(actionOpts).forEach((key) => {
+        if (typeof actionOpts[key] === 'function') {
+          actionOpts[key] = actionOpts[key](getState);
+        }
+      });
       const fetchOptions = buildFetchOpts({context, contextOpts, actionOpts});
       // d(`${name}Actions.${actionName}()`, fetchUrl, fetchOptions);
       return fetch(fetchUrl, fetchOptions)

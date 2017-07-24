@@ -151,7 +151,7 @@ initialState == {
 | **Option** | **Type** | **Description** |
 |------------|----------|-----------------|
 | name | String | Actual name of the resource (required) |
-| url | String | Actual url of the resource (required) |
+| url | Function/String | Actual url of the resource (required) |
 | pluralName | String | Plural name of the resource (optional) |
 | actions | Object | Action extra options, merged with defaults (optional) |
 | credentials | String | Credentials option according to Fetch polyfill doc for sending cookies (optional) |
@@ -160,9 +160,9 @@ initialState == {
 
 | **Option** | **Type** | **Description** |
 |------------|----------|-----------------|
-| method | String | Method used by fetch (required) |
-| headers | Object | Custom request headers (optional) |
-| isArray | Boolean | Whether we should expect an returned Array (optional) |
+| method | Function/String | Method used by fetch (required) |
+| headers | Function/Object | Custom request headers (optional) |
+| isArray | Function/Boolean | Whether we should expect an returned Array (optional) |
 | transformResponse | Function/Array | Transform returned response (optional) |
 
 ```js
