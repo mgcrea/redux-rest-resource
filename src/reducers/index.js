@@ -60,13 +60,26 @@ const reducers = {
           isFetchingItem: true,
           didInvalidateItem: false
         };
-      case 'resolved':
+      case 'resolved': {
+        const actionOpts = action.options || {};
+        const item = action.body;
+        const update = {};
+        if (actionOpts.assignResponse) {
+          const updatedItems = state.items;
+          const listItemIndex = updatedItems.findIndex(el => el.id === item.id);
+          if (listItemIndex !== -1) {
+            updatedItems.splice(listItemIndex, 1, item);
+            update.items = updatedItems.slice();
+          }
+        }
         return {...state,
           isFetchingItem: false,
           didInvalidateItem: false,
-          item: action.body,
-          lastUpdatedItem: action.receivedAt
+          lastUpdatedItem: action.receivedAt,
+          item,
+          ...update
         };
+      }
       case 'rejected':
         return {...state,
           isFetchingItem: false,
