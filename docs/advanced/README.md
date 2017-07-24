@@ -6,3 +6,4 @@ Some more advanced examples
 * [Assign Update Response](AssignUpdateResponse.md)
 * [Resource Combination](ResourceCombination.md)
 * [Custom Promise](CustomPromise.md)
+* [Custom fetch](CustomFetch.md)
