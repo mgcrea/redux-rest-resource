@@ -64,7 +64,7 @@ export const buildFetchOpts = ({context, contextOpts, actionOpts}) => {
   return opts;
 };
 
-export default (url, options = {}) => {
+export const fetch = (url, options = {}) => {
   // Support options.query
   const builtUrl = Object.keys(options.query || []).reduce((wipUrl, queryParam) => {
     const queryParamValue = options.query[queryParam];
@@ -82,3 +82,5 @@ export default (url, options = {}) => {
       return res;
     });
 };
+
+export default fetch;
