@@ -1,5 +1,11 @@
 import {isObject, startsWith} from './util';
-import {encodeUriQuery, encodeUriSegment, replaceUrlParamFromUrl, replaceQueryStringParamFromUrl, splitUrlByProtocolAndDomain} from './url';
+import {
+  encodeUriQuery,
+  encodeUriSegment,
+  replaceUrlParamFromUrl,
+  replaceQueryStringParamFromUrl,
+  splitUrlByProtocolAndDomain
+} from './url';
 import {defaultGlobals, defaultHeaders} from './../defaults';
 
 export class HttpError extends Error {

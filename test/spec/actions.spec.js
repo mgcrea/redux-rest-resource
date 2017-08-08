@@ -25,7 +25,8 @@ describe('createActions', () => {
   });
   it('should return an object with properly named keys', () => {
     const actionFuncs = createActions({name, url, actions: defaultActions});
-    const expectedKeys = Object.keys(defaultActions).map(actionKey => getActionName({name, actionKey, actionOpts: defaultActions[actionKey]}));
+    const expectedKeys = Object.keys(defaultActions).map(actionKey =>
+      getActionName({name, actionKey, actionOpts: defaultActions[actionKey]}));
     expect(Object.keys(actionFuncs)).toEqual(expectedKeys);
   });
   it('should return an object with properly typed values', () => {
@@ -123,7 +124,13 @@ describe('defaultActions', () => {
     const type = getActionType({name, actionKey});
     const context = {};
     const options = {};
-    const err = {code: undefined, errno: undefined, message: 'request to http://localhost:3000/users failed, reason: something awful happened', name: 'FetchError', type: 'system'};
+    const err = {
+      code: undefined,
+      errno: undefined,
+      message: 'request to http://localhost:3000/users failed, reason: something awful happened',
+      name: 'FetchError',
+      type: 'system'
+    };
     nock(host)
       .get('/users')
       .replyWithError('something awful happened');

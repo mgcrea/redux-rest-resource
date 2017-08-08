@@ -15,7 +15,8 @@ describe('createTypes', () => {
   it('should properly return an object with properly named keys', () => {
     const name = 'user';
     const types = createTypes({name, actions: defaultActions});
-    const expectedKeys = Object.keys(defaultActions).map(actionKey => getActionKey({name, actionKey, actionOpts: defaultActions[actionKey]}));
+    const expectedKeys = Object.keys(defaultActions).map(actionKey =>
+      getActionKey({name, actionKey, actionOpts: defaultActions[actionKey]}));
     expect(Object.keys(types)).toEqual(expectedKeys);
     const expectedValuesFn = action => expect(action).toBeA('string');
     values(types).forEach(expectedValuesFn);
