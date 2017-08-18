@@ -31,12 +31,13 @@ const createActions = ({name, pluralName, url: defaultUrl, actions = {}, credent
       if (typeof actionUrl === 'function') { url = actionUrl(getState); }
       const urlParams = parseUrlParams(url);
       const fetchUrl = buildFetchUrl({url, urlParams, context, contextOpts});
+      const dynamicOpts = {};
       Object.keys(actionOpts).forEach((key) => {
         if (typeof actionOpts[key] === 'function') {
-          actionOpts[key] = actionOpts[key](getState);
+          dynamicOpts[key] = actionOpts[key](getState);
         }
       });
-      const fetchOptions = buildFetchOpts({context, contextOpts, actionOpts});
+      const fetchOptions = buildFetchOpts({context, contextOpts, actionOpts: Object.assign({}, actionOpts, dynamicOpts)});
       // d(`${name}Actions.${actionName}()`, fetchUrl, fetchOptions);
       return fetch(fetchUrl, fetchOptions)
         .then(applyTransformPipeline(buildTransformPipeline(defaultTransformResponsePipeline, actionOpts.transformResponse)))

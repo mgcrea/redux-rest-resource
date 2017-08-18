@@ -364,7 +364,7 @@ describe('actionOptions', () => {
       .then(done)
       .catch(done);
   });
-  it('should handle actionOpts being functions', (done) => {
+  it('should handle actionOpts being functions', () => {
     const methodFunction = () => 'HEAD';
     const headersDependingOnState = getState => ({
       Authorization: `Bearer ${getState().authToken.items[0].token}`
@@ -386,7 +386,8 @@ describe('actionOptions', () => {
     const action = getActionName({name, actionKey, actionOpts: {isArray: true}});
     const type = getActionType({name, actionKey});
     const context = {};
-    const body = [{id: 1, firstName: 'Olivier'}];
+    const body1 = [{id: 1, firstName: 'Olivier'}];
+    const body2 = [{error: 'forbidden'}];
     const code = 200;
     const options = {};
     nock(host, {
@@ -394,19 +395,32 @@ describe('actionOptions', () => {
         Authorization: 'Bearer c0defefe'
       }
     }).head('/users')
-      .reply(code, body);
-    const store = mockStore({users: {}, authToken: {items: [{token: 'c0defefe'}]}});
+      .reply(code, body1);
+    nock(host, {
+      reqheaders: {...defaultHeaders,
+        Authorization: 'Bearer invalid'
+      }
+    }).head('/users')
+      .reply(code, body2);
+    let token = 'c0defefe';
+    const store = mockStore(() => ({users: {}, authToken: {items: [{token}]}}));
     const expectedActions = [
       {status: 'pending', type, context},
-      {status: 'resolved', type, context, options, body, code, receivedAt: null}
+      {status: 'resolved', type, context, options, body: body1, code, receivedAt: null},
+      {status: 'pending', type, context},
+      {status: 'resolved', type, context, options, body: body2, code, receivedAt: null}
     ];
-    store.dispatch(actionFuncs[action](context))
+    return Promise.resolve()
+      .then(() => store.dispatch(actionFuncs[action](context)))
+      .then(() => {
+        token = 'invalid';
+      })
+      .then(() => store.dispatch(actionFuncs[action](context)))
       .then(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
+        actions[3].receivedAt = null;
         expect(actions).toEqual(expectedActions);
-      })
-      .then(done)
-      .catch(done);
+      });
   });
 });
