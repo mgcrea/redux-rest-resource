@@ -303,7 +303,7 @@ describe('actionOptions', () => {
       .then(done)
       .catch(done);
   });
-  it('should allow `url` to be a function', (done) => {
+  it('should allow `url` to be a function', () => {
     const urlDependingOnState = getState => `${host}/community/${getState().users.community}/users/:id`;
     const resource = createResource({name, url: urlDependingOnState});
     const actionFuncs = resource.actions;
@@ -311,26 +311,38 @@ describe('actionOptions', () => {
     const action = getActionName({name, actionKey, actionOpts: {isArray: true}});
     const type = getActionType({name, actionKey});
     const context = {};
-    const body = [{id: 1, firstName: 'Olivier'}];
+    const body1 = [{id: 1, firstName: 'Olivier'}];
+    const body2 = [{id: 2, firstName: 'Olivier 2'}];
     const code = 200;
     const options = {};
+
     nock(host).get('/community/teammystic/users')
-      .reply(code, body);
-    const store = mockStore({users: {
-      community: 'teammystic'
-    }});
+      .reply(code, body1);
+
+    nock(host).get('/community/teamblue/users')
+      .reply(code, body2);
+
+    let community = 'teammystic';
+
+    const store = mockStore(() => ({users: {community}}));
     const expectedActions = [
       {status: 'pending', type, context},
-      {status: 'resolved', type, context, options, body, code, receivedAt: null}
+      {status: 'resolved', type, context, options, body: body1, code, receivedAt: null},
+      {status: 'pending', type, context},
+      {status: 'resolved', type, context, options, body: body2, code, receivedAt: null}
     ];
-    store.dispatch(actionFuncs[action](context))
+    return Promise.resolve()
+      .then(() => store.dispatch(actionFuncs[action](context)))
+      .then(() => {
+        community = 'teamblue';
+      })
+      .then(() => store.dispatch(actionFuncs[action](context)))
       .then(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
+        actions[3].receivedAt = null;
         expect(actions).toEqual(expectedActions);
-      })
-      .then(done)
-      .catch(done);
+      });
   });
   it('should handle `headers` option', (done) => {
     const resource = createResource({name, url, actions: {...defaultActions, fetch: {headers: {'X-Custom-Header': 'barbaz'}}}});
