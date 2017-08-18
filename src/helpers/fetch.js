@@ -1,7 +1,11 @@
-/* global fetch */
-
 import {isObject, startsWith} from './util';
-import {encodeUriQuery, encodeUriSegment, replaceUrlParamFromUrl, replaceQueryStringParamFromUrl, splitUrlByProtocolAndDomain} from './url';
+import {
+  encodeUriQuery,
+  encodeUriSegment,
+  replaceUrlParamFromUrl,
+  replaceQueryStringParamFromUrl,
+  splitUrlByProtocolAndDomain
+} from './url';
 import {defaultGlobals, defaultHeaders} from './../defaults';
 
 export class HttpError extends Error {
@@ -64,7 +68,7 @@ export const buildFetchOpts = ({context, contextOpts, actionOpts}) => {
   return opts;
 };
 
-export const fetch = (url, options = {}) => {
+const fetch = (url, options = {}) => {
   // Support options.query
   const builtUrl = Object.keys(options.query || []).reduce((wipUrl, queryParam) => {
     const queryParamValue = options.query[queryParam];
