@@ -68,7 +68,7 @@ export const buildFetchOpts = ({context, contextOpts, actionOpts}) => {
   return opts;
 };
 
-export const fetch = (url, options = {}) => {
+const fetch = (url, options = {}) => {
   // Support options.query
   const builtUrl = Object.keys(options.query || []).reduce((wipUrl, queryParam) => {
     const queryParamValue = options.query[queryParam];

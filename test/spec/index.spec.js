@@ -1,10 +1,16 @@
 import expect from 'expect';
-import {createResource} from '../../src';
+import {createResource, fetch} from '../../src';
 
 // Configuration
 const name = 'user';
 const host = 'http://localhost:3000';
 const url = `${host}/users/:id`;
+
+describe('lib', () => {
+  it('should properly export fetch', () => {
+    expect(fetch).toBeA('function');
+  });
+});
 
 describe('createResource', () => {
   it('should throw if name is undefined', () => {
