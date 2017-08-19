@@ -6,10 +6,11 @@ import {defaultActions} from './defaults';
 import {createActions} from './actions';
 import {createReducers} from './reducers';
 import {createTypes} from './types';
+import fetch, {HttpError} from './helpers/fetch';
 
 export * from './defaults';
 export {reduceReducers, combineReducers, mergeReducers} from './reducers/helpers';
-export {HttpError, fetch} from './helpers/fetch';
+export {fetch, HttpError};
 
 const mergeObjects = (object, ...sources) => {
   const concat = Array.prototype.concat;
