@@ -38,11 +38,12 @@ const createActions = ({name, pluralName, url: defaultUrl, actions = {}, credent
         }
       });
       const fetchOptions = buildFetchOpts({context, contextOpts, actionOpts: Object.assign({}, actionOpts, dynamicOpts)});
+      const options = {...reducerOpts, ...pick(contextOpts, 'assignResponse')};
       // d(`${name}Actions.${actionName}()`, fetchUrl, fetchOptions);
       return fetch(fetchUrl, fetchOptions)
         .then(applyTransformPipeline(buildTransformPipeline(defaultTransformResponsePipeline, actionOpts.transformResponse)))
         .then(payload =>
-          dispatch({type, status: 'resolved', context, options: reducerOpts, receivedAt: Date.now(), ...payload}))
+          dispatch({type, status: 'resolved', context, options, receivedAt: Date.now(), ...payload}))
         .catch((err) => {
           // Catch HttpErrors
           if (err.statusCode) {
@@ -52,7 +53,7 @@ const createActions = ({name, pluralName, url: defaultUrl, actions = {}, credent
               code: err.statusCode,
               body: err.body,
               context,
-              options: reducerOpts,
+              options,
               receivedAt: Date.now()
             });
           // Catch regular Errors

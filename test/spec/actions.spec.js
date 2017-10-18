@@ -310,6 +310,31 @@ describe('actionOptions', () => {
       .then(done)
       .catch(done);
   });
+  it('should handle `assignResponse` option', () => {
+    // @TODO test default option
+    const resource = createResource({name, url, actions: {...defaultActions}});
+    const actionFuncs = resource.actions;
+    const actionKey = 'get';
+    const action = getActionName({name, actionKey, actionOpts: {isArray: false}});
+    const type = getActionType({name, actionKey});
+    const context = {id: 1};
+    const body = {id: 1, firstName: 'Olivier'};
+    const code = 200;
+    const options = {assignResponse: true};
+    nock(host, {}).get('/users/1')
+      .reply(code, body);
+    const store = mockStore({users: {}});
+    const expectedActions = [
+      {status: 'pending', type, context},
+      {status: 'resolved', type, context, options, body, code, receivedAt: null}
+    ];
+    return store.dispatch(actionFuncs[action](context, {assignResponse: true}))
+      .then(() => {
+        const actions = store.getActions();
+        actions[1].receivedAt = null;
+        expect(actions).toEqual(expectedActions);
+      });
+  });
   it('should allow `url` to be a function', () => {
     const urlDependingOnState = getState => `${host}/community/${getState().users.community}/users/:id`;
     const resource = createResource({name, url: urlDependingOnState});
