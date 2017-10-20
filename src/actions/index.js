@@ -39,7 +39,6 @@ const createActions = ({name, pluralName, url: defaultUrl, actions = {}, credent
       });
       const fetchOptions = buildFetchOpts({context, contextOpts, actionOpts: Object.assign({}, actionOpts, dynamicOpts)});
       const options = {...reducerOpts, ...pick(contextOpts, 'assignResponse')};
-      // d(`${name}Actions.${actionName}()`, fetchUrl, fetchOptions);
       return fetch(fetchUrl, fetchOptions)
         .then(applyTransformPipeline(buildTransformPipeline(defaultTransformResponsePipeline, actionOpts.transformResponse)))
         .then(payload =>
