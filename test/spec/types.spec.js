@@ -12,7 +12,15 @@ describe('createTypes', () => {
       expect(typeof types).toBe('object');
     }).toThrow();
   });
-  it('should properly return an object with properly named keys', () => {
+  it('should properly return an object with properly named keys and values', () => {
+    const name = 'user';
+    const types = createTypes({name, actions: defaultActions});
+    const expectedKeys = ['CREATE_USER', 'FETCH_USERS', 'GET_USER', 'UPDATE_USER', 'DELETE_USER'];
+    expect(Object.keys(types)).toEqual(expectedKeys);
+    const expectedValues = ['@@resource/USER/CREATE', '@@resource/USER/FETCH', '@@resource/USER/GET', '@@resource/USER/UPDATE', '@@resource/USER/DELETE'];
+    expect(values(types)).toEqual(expectedValues);
+  });
+  it('should properly use internal API', () => {
     const name = 'user';
     const types = createTypes({name, actions: defaultActions});
     const expectedKeys = Object.keys(defaultActions).map(actionKey =>
