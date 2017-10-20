@@ -11,6 +11,7 @@
     "no-underscore-dangle": [2, {"allow": ["_id"]}],
     "no-unused-vars": [2, {"args": "none"}],
     "no-use-before-define": [2, {"functions": false}],
-    "object-curly-spacing": [2, "never"]
+    "object-curly-spacing": [2, "never"],
+    "object-curly-newline": 0
   }
 }
