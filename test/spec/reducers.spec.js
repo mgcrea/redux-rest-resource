@@ -12,13 +12,13 @@ describe('createReducers', () => {
   it('should throw if name is undefined', () => {
     expect(() => {
       const reducers = createReducers();
-      expect(reducers).toBeA('function');
+      expect(typeof reducers).toBe('function');
     }).toThrow();
   });
   it('should return a reduce function', () => {
     const types = createTypes({name, actions: defaultActions});
     const reducers = createReducers({name, types});
-    expect(reducers).toBeA('function');
+    expect(typeof reducers).toBe('function');
   });
   it('should return the initial state', () => {
     const types = createTypes({name, actions: defaultActions});
@@ -208,8 +208,8 @@ describe('combineReducers', () => {
     const barTypes = createTypes({name: 'bar', actions: defaultActions});
     const barReducers = createReducers({name: 'bar', barTypes});
     const combinedReducers = combineReducers({foo: fooReducers, bar: barReducers});
-    expect(combinedReducers).toBeA('function');
-    expect(combinedReducers({}, {type: 'foo'})).toIncludeKeys(['foo', 'bar']);
+    expect(typeof combinedReducers).toBe('function');
+    expect(Object.keys(combinedReducers({}, {type: 'foo'}))).toEqual(['foo', 'bar']);
   });
   it('should properly combine two reducer functions as two objects', () => {
     const fooTypes = createTypes({name: 'foo', actions: defaultActions});
@@ -217,7 +217,7 @@ describe('combineReducers', () => {
     const barTypes = createTypes({name: 'bar', actions: defaultActions});
     const barReducers = createReducers({name: 'bar', barTypes});
     const combinedReducers = combineReducers({foo: fooReducers}, {bar: barReducers});
-    expect(combinedReducers).toBeA('function');
-    expect(combinedReducers({}, {type: 'foo'})).toIncludeKeys(['foo', 'bar']);
+    expect(typeof combinedReducers).toBe('function');
+    expect(Object.keys(combinedReducers({}, {type: 'foo'}))).toEqual(['foo', 'bar']);
   });
 });

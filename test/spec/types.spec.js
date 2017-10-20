@@ -9,7 +9,7 @@ describe('createTypes', () => {
   it('should throw if name is undefined', () => {
     expect(() => {
       const types = createTypes();
-      expect(types).toBeA('object');
+      expect(typeof types).toBe('object');
     }).toThrow();
   });
   it('should properly return an object with properly named keys', () => {
@@ -18,7 +18,7 @@ describe('createTypes', () => {
     const expectedKeys = Object.keys(defaultActions).map(actionKey =>
       getActionKey({name, actionKey, actionOpts: defaultActions[actionKey]}));
     expect(Object.keys(types)).toEqual(expectedKeys);
-    const expectedValuesFn = action => expect(action).toBeA('string');
+    const expectedValuesFn = action => expect(typeof action).toBe('string');
     values(types).forEach(expectedValuesFn);
     const expectedValues = Object.keys(defaultActions).map(actionKey => getActionType({name, actionKey}));
     expect(values(types)).toEqual(expectedValues);

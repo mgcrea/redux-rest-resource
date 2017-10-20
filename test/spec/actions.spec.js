@@ -20,7 +20,7 @@ describe('createActions', () => {
   it('should throw if name is undefined', () => {
     expect(() => {
       const actionFuncs = createActions();
-      expect(actionFuncs).toBeA('object');
+      expect(typeof actionFuncs).toBe('object');
     }).toThrow();
   });
   it('should return an object with properly named keys', () => {
@@ -31,7 +31,7 @@ describe('createActions', () => {
   });
   it('should return an object with properly typed values', () => {
     const actionFuncs = createActions({name, url, actions: defaultActions});
-    const expectedValuesFn = action => expect(action).toBeA('function');
+    const expectedValuesFn = action => expect(typeof action).toBe('function');
     values(actionFuncs).forEach(expectedValuesFn);
   });
 });
@@ -41,7 +41,7 @@ describe('defaultActions', () => {
     nock.cleanAll();
   });
   const actionFuncs = createActions({name, url, actions: defaultActions});
-  it('.create()', (done) => {
+  it('.create()', () => {
     const actionKey = 'create';
     const action = getActionName({name, actionKey});
     const type = getActionType({name, actionKey});
@@ -57,16 +57,14 @@ describe('defaultActions', () => {
       {status: 'pending', type, context},
       {status: 'resolved', type, context, options, body, code, receivedAt: null}
     ];
-    store.dispatch(actionFuncs[action](context))
+    return store.dispatch(actionFuncs[action](context))
       .then(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
         expect(actions).toEqual(expectedActions);
-      })
-      .then(done)
-      .catch(done);
+      });
   });
-  it('.fetch()', (done) => {
+  it('.fetch()', () => {
     const actionKey = 'fetch';
     const action = getActionName({name, actionKey, actionOpts: {isArray: true}});
     const type = getActionType({name, actionKey});
@@ -82,17 +80,15 @@ describe('defaultActions', () => {
       {status: 'pending', type, context},
       {status: 'resolved', type, context, options, body, code, receivedAt: null}
     ];
-    store.dispatch(actionFuncs[action](context))
+    return store.dispatch(actionFuncs[action](context))
       .then((res) => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
         expect(actions).toEqual(expectedActions);
         expect(res.body).toEqual(actions[1].body);
-      })
-      .then(done)
-      .catch(done);
+      });
   });
-  it('.fetch() with query params', (done) => {
+  it('.fetch() with query params', () => {
     const actionKey = 'fetch';
     const action = getActionName({name, actionKey, actionOpts: {isArray: true}});
     const type = getActionType({name, actionKey});
@@ -109,16 +105,14 @@ describe('defaultActions', () => {
       {status: 'pending', type, context},
       {status: 'resolved', type, context, options, body, code, receivedAt: null}
     ];
-    store.dispatch(actionFuncs[action](context, {query}))
+    return store.dispatch(actionFuncs[action](context, {query}))
       .then(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
         expect(actions).toEqual(expectedActions);
-      })
-      .then(done)
-      .catch(done);
+      });
   });
-  it('.fetch() with request errors', (done) => {
+  it('.fetch() with request errors', () => {
     const actionKey = 'fetch';
     const action = getActionName({name, actionKey, actionOpts: {isArray: true}});
     const type = getActionType({name, actionKey});
@@ -139,8 +133,8 @@ describe('defaultActions', () => {
       {status: 'pending', type, context},
       {status: 'rejected', type, context, options, err, receivedAt: null}
     ];
-    store.dispatch(actionFuncs[action](context))
-      .then(done)
+    return expect(store.dispatch(actionFuncs[action](context)))
+      .rejects.toBeDefined()
       .catch(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
@@ -148,10 +142,9 @@ describe('defaultActions', () => {
         expect(actions[1].err.message).toEqual(expectedActions[1].err.message);
         actions[1].err = expectedActions[1].err;
         expect(actions).toEqual(expectedActions);
-        done();
       });
   });
-  it('.fetch() with JSON response errors', (done) => {
+  it('.fetch() with JSON response errors', () => {
     const actionKey = 'fetch';
     const action = getActionName({name, actionKey, actionOpts: {isArray: true}});
     const type = getActionType({name, actionKey});
@@ -167,17 +160,16 @@ describe('defaultActions', () => {
       {status: 'pending', type, context},
       {status: 'rejected', type, context, options, body, code, receivedAt: null}
     ];
-    store.dispatch(actionFuncs[action](context))
+    return expect(store.dispatch(actionFuncs[action](context)))
+      .rejects.toBeDefined()
       .catch((err) => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
         expect(err.statusCode).toEqual(code);
         expect(actions).toEqual(expectedActions);
-      })
-      .then(done)
-      .catch(done);
+      });
   });
-  it('.fetch() with HTML response errors', (done) => {
+  it('.fetch() with HTML response errors', () => {
     const actionKey = 'fetch';
     const action = getActionName({name, actionKey, actionOpts: {isArray: true}});
     const type = getActionType({name, actionKey});
@@ -193,17 +185,16 @@ describe('defaultActions', () => {
       {status: 'pending', type, context},
       {status: 'rejected', type, context, options, body, code, receivedAt: null}
     ];
-    store.dispatch(actionFuncs[action](context))
+    return expect(store.dispatch(actionFuncs[action](context)))
+      .rejects.toBeDefined()
       .catch((err) => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
         expect(err.statusCode).toEqual(code);
         expect(actions).toEqual(expectedActions);
-      })
-      .then(done)
-      .catch(done);
+      });
   });
-  it('.get()', (done) => {
+  it('.get()', () => {
     const actionKey = 'get';
     const action = getActionName({name, actionKey});
     const type = getActionType({name, actionKey});
@@ -219,16 +210,14 @@ describe('defaultActions', () => {
       {status: 'pending', type, context},
       {status: 'resolved', type, context, options, body, code, receivedAt: null}
     ];
-    store.dispatch(actionFuncs[action](context))
+    return store.dispatch(actionFuncs[action](context))
       .then(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
         expect(actions).toEqual(expectedActions);
-      })
-      .then(done)
-      .catch(done);
+      });
   });
-  it('.update()', (done) => {
+  it('.update()', () => {
     const actionKey = 'update';
     const action = getActionName({name, actionKey});
     const type = getActionType({name, actionKey});
@@ -244,16 +233,14 @@ describe('defaultActions', () => {
       {status: 'pending', type, context},
       {status: 'resolved', type, context, options, body, code, receivedAt: null}
     ];
-    store.dispatch(actionFuncs[action](context))
+    return store.dispatch(actionFuncs[action](context))
       .then(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
         expect(actions).toEqual(expectedActions);
-      })
-      .then(done)
-      .catch(done);
+      });
   });
-  it('.delete()', (done) => {
+  it('.delete()', () => {
     const actionKey = 'delete';
     const action = getActionName({name, actionKey});
     const type = getActionType({name, actionKey});
@@ -269,14 +256,12 @@ describe('defaultActions', () => {
       {status: 'pending', type, context},
       {status: 'resolved', type, context, options, body, code, receivedAt: null}
     ];
-    store.dispatch(actionFuncs[action](context))
+    return store.dispatch(actionFuncs[action](context))
       .then(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
         expect(actions).toEqual(expectedActions);
-      })
-      .then(done)
-      .catch(done);
+      });
   });
 });
 
@@ -284,7 +269,7 @@ describe('actionOptions', () => {
   afterEach(() => {
     nock.cleanAll();
   });
-  it('should handle `method` option', (done) => {
+  it('should handle `method` option', () => {
     const resource = createResource({name, url, actions: {...defaultActions, fetch: {method: 'PATCH'}}});
     const actionFuncs = resource.actions;
     const actionKey = 'fetch';
@@ -301,14 +286,12 @@ describe('actionOptions', () => {
       {status: 'pending', type, context},
       {status: 'resolved', type, context, options, body, code, receivedAt: null}
     ];
-    store.dispatch(actionFuncs[action](context))
+    return store.dispatch(actionFuncs[action](context))
       .then(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
         expect(actions).toEqual(expectedActions);
-      })
-      .then(done)
-      .catch(done);
+      });
   });
   it('should handle `assignResponse` option', () => {
     // @TODO test default option
@@ -376,7 +359,7 @@ describe('actionOptions', () => {
         expect(actions).toEqual(expectedActions);
       });
   });
-  it('should handle `headers` option', (done) => {
+  it('should handle `headers` option', () => {
     const resource = createResource({name, url, actions: {...defaultActions, fetch: {headers: {'X-Custom-Header': 'barbaz'}}}});
     Object.assign(defaultHeaders, {'X-Custom-Default-Header': 'foobar'});
     const actionFuncs = resource.actions;
@@ -399,14 +382,12 @@ describe('actionOptions', () => {
       {status: 'pending', type, context},
       {status: 'resolved', type, context, options, body, code, receivedAt: null}
     ];
-    store.dispatch(actionFuncs[action](context))
+    return store.dispatch(actionFuncs[action](context))
       .then(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
         expect(actions).toEqual(expectedActions);
-      })
-      .then(done)
-      .catch(done);
+      });
   });
   it('should handle actionOpts being functions', () => {
     const methodFunction = () => 'HEAD';
