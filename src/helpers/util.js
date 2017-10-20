@@ -7,7 +7,7 @@ export const isObject = maybeObject =>
 
 export const pick = (obj, ...keys) =>
   keys.reduce((soFar, key) => {
-    if (includes(keys, key) && obj[key]) {
+    if (includes(keys, key) && obj[key] !== undefined) {
       soFar[key] = obj[key]; // eslint-disable-line no-param-reassign
     }
     return soFar;
