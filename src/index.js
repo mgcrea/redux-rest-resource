@@ -13,7 +13,7 @@ export {reduceReducers, combineReducers, mergeReducers} from './reducers/helpers
 export {fetch, HttpError};
 
 const mergeObjects = (object, ...sources) => {
-  const concat = Array.prototype.concat;
+  const {concat} = Array.prototype;
   const uniqueKeys = concat.apply(Object.keys(object), sources.map(Object.keys))
     .filter((value, index, self) => self.indexOf(value) === index);
   return uniqueKeys.reduce((soFar, key) => {

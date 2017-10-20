@@ -40,8 +40,7 @@ export const parseUrlParams = url =>
 
 export const replaceUrlParamFromUrl = (url, urlParam, replace = '') =>
   url.replace(new RegExp(`(/?):${urlParam}(\\W|$)`, 'g'), (match, leadingSlashes, tail) =>
-    (replace || tail.charAt(0) === '/' ? leadingSlashes : '') + replace + tail
-  );
+    (replace || tail.charAt(0) === '/' ? leadingSlashes : '') + replace + tail);
 
 export const replaceQueryStringParamFromUrl = (url, key, value) => {
   const re = new RegExp(`([?&])${key}=.*?(&|$)`, 'i');
