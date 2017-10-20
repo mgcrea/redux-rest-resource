@@ -25,14 +25,19 @@ describe('createActions', () => {
   });
   it('should return an object with properly named keys', () => {
     const actionFuncs = createActions({name, url, actions: defaultActions});
-    const expectedKeys = Object.keys(defaultActions).map(actionKey =>
-      getActionName({name, actionKey, actionOpts: defaultActions[actionKey]}));
+    const expectedKeys = ['createUser', 'fetchUsers', 'getUser', 'updateUser', 'deleteUser'];
     expect(Object.keys(actionFuncs)).toEqual(expectedKeys);
   });
   it('should return an object with properly typed values', () => {
     const actionFuncs = createActions({name, url, actions: defaultActions});
     const expectedValuesFn = action => expect(typeof action).toBe('function');
     values(actionFuncs).forEach(expectedValuesFn);
+  });
+  it('should properly reflect internal API', () => {
+    const actionFuncs = createActions({name, url, actions: defaultActions});
+    const expectedKeys = Object.keys(defaultActions).map(actionKey =>
+      getActionName({name, actionKey, actionOpts: defaultActions[actionKey]}));
+    expect(Object.keys(actionFuncs)).toEqual(expectedKeys);
   });
 });
 
