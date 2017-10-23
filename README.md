@@ -1,6 +1,12 @@
 # [Redux Rest Resource](http://mgcrea.github.io/redux-rest-resource)
 
-[![npm version](https://img.shields.io/npm/v/redux-rest-resource.svg)](https://github.com/mgcrea/redux-rest-resource/releases) [![license](https://img.shields.io/github/license/mgcrea/redux-rest-resource.svg?style=flat)](https://tldrlegal.com/license/mit-license) [![build status](http://img.shields.io/travis/mgcrea/redux-rest-resource/master.svg?style=flat)](http://travis-ci.org/mgcrea/redux-rest-resource) [![dependencies status](https://img.shields.io/david/mgcrea/redux-rest-resource.svg?style=flat)](https://david-dm.org/mgcrea/redux-rest-resource) [![devDependencies status](https://img.shields.io/david/dev/mgcrea/redux-rest-resource.svg?style=flat)](https://david-dm.org/mgcrea/redux-rest-resource#info=devDependencies) [![coverage status](http://img.shields.io/codeclimate/coverage/github/mgcrea/redux-rest-resource.svg?style=flat)](https://codeclimate.com/github/mgcrea/redux-rest-resource) [![climate status](https://img.shields.io/codeclimate/github/mgcrea/redux-rest-resource.svg?style=flat)](https://codeclimate.com/github/mgcrea/redux-rest-resource)
+[![npm version](https://img.shields.io/npm/v/redux-rest-resource.svg)](https://github.com/mgcrea/redux-rest-resource/releases)
+[![license](https://img.shields.io/github/license/mgcrea/redux-rest-resource.svg?style=flat)](https://tldrlegal.com/license/mit-license)
+[![build status](http://img.shields.io/travis/mgcrea/redux-rest-resource/master.svg?style=flat)](http://travis-ci.org/mgcrea/redux-rest-resource)
+[![dependencies status](https://img.shields.io/david/mgcrea/redux-rest-resource.svg?style=flat)](https://david-dm.org/mgcrea/redux-rest-resource)
+[![devDependencies status](https://img.shields.io/david/dev/mgcrea/redux-rest-resource.svg?style=flat)](https://david-dm.org/mgcrea/redux-rest-resource#info=devDependencies)
+[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/fdbf36d00e5d49c4879b91920e3e9b08)](https://www.codacy.com/app/mgcrea/redux-rest-resource?utm_source=github.com&utm_medium=referral&utm_content=mgcrea/redux-rest-resource&utm_campaign=Badge_Coverage)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/fdbf36d00e5d49c4879b91920e3e9b08)](https://www.codacy.com/app/mgcrea/redux-rest-resource?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mgcrea/redux-rest-resource&amp;utm_campaign=Badge_Grade)
 
 Dead simple and ready-to-use store module for handling HTTP REST resources.
 
