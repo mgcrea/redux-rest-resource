@@ -4,32 +4,30 @@
 
 import {defaultActions} from './defaults';
 import {createActions} from './actions';
-import {createReducers} from './reducers';
+import {createReducers, createRootReducer} from './reducers';
 import {createTypes} from './types';
 import fetch, {HttpError} from './helpers/fetch';
+import {pick, mergeObjects} from './helpers/util';
 
 export * from './defaults';
 export {reduceReducers, combineReducers, mergeReducers} from './reducers/helpers';
 export {fetch, HttpError};
 
-const mergeObjects = (object, ...sources) => {
-  const {concat} = Array.prototype;
-  const uniqueKeys = concat.apply(Object.keys(object), sources.map(Object.keys))
-    .filter((value, index, self) => self.indexOf(value) === index);
-  return uniqueKeys.reduce((soFar, key) => {
-    soFar[key] = Object.assign(soFar[key] || {}, ...sources.map(source => source[key] || {})); // eslint-disable-line no-param-reassign
-    return soFar;
-  }, object);
-};
-
-export function createResource({name, url, actions = {}, pick = [], ...args}) {
-  let actionsOpts = mergeObjects({}, defaultActions, actions);
-  if (pick.length) {
-    actionsOpts = pick.reduce((soFar, key) => ({...soFar, [key]: actionsOpts[key]}), {});
+export function createResource({name: resourceName, pluralName: resourcePluralName, actions: givenActions = {}, pick: pickedActions = [], ...args}) {
+  // Merge passed actions with common defaults
+  let resolvedActions = mergeObjects({}, defaultActions, givenActions);
+  // Eventually pick selected actions
+  if (pickedActions.length) {
+    resolvedActions = pick(resolvedActions, ...pickedActions);
   }
+  const types = createTypes(resolvedActions, {resourceName, resourcePluralName, ...args});
+  const actions = createActions(resolvedActions, {resourceName, resourcePluralName, ...args});
+  const reducers = createReducers(resolvedActions, {resourceName, resourcePluralName, ...args});
+  const rootReducer = createRootReducer(resolvedActions, {resourceName, resourcePluralName, reducers, ...args});
   return {
-    actions: createActions({name, url, actions: actionsOpts, ...args}),
-    reducers: createReducers({name, ...args}),
-    types: createTypes({name, actions: actionsOpts, ...args})
+    actions,
+    reducers: rootReducer, // breaking change
+    rootReducer,
+    types
   };
 }

@@ -13,12 +13,6 @@ describe('lib', () => {
 });
 
 describe('createResource', () => {
-  it('should throw if name is undefined', () => {
-    expect(() => {
-      const resource = createResource();
-      expect(typeof resource).toBe('object');
-    }).toThrow();
-  });
   it('should properly return an object with properly named keys', () => {
     const {types, actions, reducers} = createResource({name, url});
     expect(typeof types).toBe('object');
