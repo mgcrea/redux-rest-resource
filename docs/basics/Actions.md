@@ -4,7 +4,7 @@
 
 **Action creators** are functions that create actions. It's easy to conflate the terms “action” and “action creator,” so do your best to use the proper term.
 
-#### Defaults actions options
+#### Defaults action configuration
 
 Out of the box, you have the following actions configured:
 
@@ -18,7 +18,47 @@ const defaultActions = {
 };
 ```
 
+#### Available options
+
 You can configure/override actions actions when using `createResource`:
+
+Every configuration can be specified at either a global level:
+
+```
+createResource({
+  name: 'user',
+  url: `foo.com/users/:id`,
+  headers: {Authorization: 'Bearer foobar'}
+});
+```
+
+Or at the action level:
+
+```
+createResource({
+  name: 'user',
+  url: `foo.com/users/:id`,
+  actions: {
+    update: {
+      method: 'POST'
+    }
+  }
+});
+```
+
+##### Fetch related options
+
+| Option name  | Type                | Default    | Description              | Example                         |
+|--------------|---------------------|------------|--------------------------|---------------------------------|
+| `url`        | *String / Function* | *Required* | Base URL to fetch        | `"https://foo.com/users/:id"`   |
+| `method`     | *String / Function* | `"GET"`    | HTTP method              | `"PATCH"`                       |
+| `headers`    | *Object / Function* | {}         | Headers to be sent along | `{Authorization: 'Bearer foo'}` |
+| `query`      | *Object / Function* | {}         | Query params             | `{from: 10, until: 20}`         |
+| `credential` | *String / Function* | undefined  | Credentials              | `"include"`                     |
+
+Every option also accept a function that will receive the `getState` helper, to act against the current state.
+
+- Example:
 
 ```js
 export const {types, actions, reducers} = createResource({
@@ -26,13 +66,11 @@ export const {types, actions, reducers} = createResource({
   url: `foo.com/users/:id`,
   actions: {
     update: {
-      assignResponse: true
+      method: (getState, {actionId}) => 'POST'
     }
   }
 });
 ```
-
-Possible overrides includes the `assignResponse` boolean, `headers` object.
 
 #### Provided action creators
 
@@ -51,7 +89,9 @@ Object.keys(actions) == [
 
 #### Dispatched actions
 
-Every REST action creator will dispatch two actions, based on the Promise state:
+We're using a dedicated `status` field in our actions to reflect the Promise state.
+
+Every REST action creator will dispatch at most two actions:
 
 ```js
 // Dispatched actions by the `fetchUsers` action creator
