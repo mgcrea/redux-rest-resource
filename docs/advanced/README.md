@@ -2,6 +2,7 @@
 
 Some more advanced examples
 
+* [Custom Actions](CustomActions.md)
 * [Headers Override](HeadersOverride.md)
 * [Assign Update Response](AssignUpdateResponse.md)
 * [Resource Combination](ResourceCombination.md)
