@@ -25,7 +25,7 @@ export class HttpError extends Error {
   }
 }
 
-export const buildFetchUrl = ({url, urlParams, context, stripTrailingSlashes = true}) => {
+export const buildFetchUrl = (context, {url, urlParams, stripTrailingSlashes = true}) => {
   const [protocolAndDomain, remainderUrl] = splitUrlByProtocolAndDomain(url);
   // Replace urlParams with values from context
   let builtUrl = Object.keys(urlParams).reduce((wipUrl, urlParam) => {
@@ -45,25 +45,29 @@ export const buildFetchUrl = ({url, urlParams, context, stripTrailingSlashes = t
   return protocolAndDomain + builtUrl;
 };
 
-export const buildFetchOpts = ({context, contextOpts, actionOpts}) => {
+export const buildFetchOpts = (context, {method, headers, credentials, query, body}) => {
   const opts = {
     headers: defaultHeaders
   };
-  if (actionOpts.method) {
-    opts.method = actionOpts.method;
+  if (method) {
+    opts.method = method;
   }
-  if (actionOpts.headers) {
-    opts.headers = {...opts.headers, ...actionOpts.headers};
+  if (headers) {
+    opts.headers = {...opts.headers, ...headers};
   }
-  if (actionOpts.credentials) {
-    opts.credentials = actionOpts.credentials;
+  if (credentials) {
+    opts.credentials = credentials;
   }
-  if (contextOpts.query) {
-    opts.query = contextOpts.query;
+  if (query) {
+    opts.query = query;
   }
   const hasBody = /^(POST|PUT|PATCH)$/i.test(opts.method);
-  if (context && hasBody) {
-    opts.body = JSON.stringify(context);
+  if (hasBody) {
+    if (body) {
+      opts.body = body;
+    } else if (context) {
+      opts.body = JSON.stringify(context);
+    }
   }
   return opts;
 };

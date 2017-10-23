@@ -1,8 +1,7 @@
 // https://github.com/angular/angular.js/blob/master/src/ngResource/resource.js#L473
 
 const PROTOCOL_AND_DOMAIN_REGEX = /^https?:\/\/[^/]*/;
-const NUMBER_REGEX = /^\\d+$/;
-// const isString = string => typeof string === 'string';
+const NUMBER_REGEX = /^[0-9]+$/;
 
 /**
  * This method is intended for encoding *key* or *value* parts of query component. We need a
