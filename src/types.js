@@ -1,23 +1,36 @@
-import {upperSnakeCase} from './helpers/util';
+import {mapObject, getPluralName, upperSnakeCase} from './helpers/util';
 
-const getNamespace = ({name}) =>
-  `@@resource/${upperSnakeCase(name)}`;
+const scopeType = (scope, type) => (scope ? `${scope}/${type}` : type);
 
-const getActionKey = ({name, pluralName, actionKey, actionOpts = {}}) => {
-  // `${actionKey.toUpperCase()}`;
-  const actualPluralName = pluralName || `${name}s`;
-  return `${actionKey.toUpperCase()}_${upperSnakeCase(actionOpts.isArray ? actualPluralName : name)}`;
+const scopeTypes = (scope, types = {}) => mapObject(types, scopeType.bind(null, scope));
+
+const getTypesScope = resourceName => (
+  resourceName
+    ? `@@resource/${upperSnakeCase(resourceName)}`
+    : ''
+);
+
+const getActionTypeKey = (actionId, {resourceName, resourcePluralName = getPluralName(resourceName), isArray = false} = {}) => (
+  resourceName
+    ? `${actionId.toUpperCase()}_${upperSnakeCase(isArray ? resourcePluralName : resourceName)}`
+    : upperSnakeCase(actionId)
+);
+
+const getActionType = actionId => (
+  upperSnakeCase(actionId)
+);
+
+const createType = (actionId, {resourceName, resourcePluralName, isArray = false}) => {
+  const typeKey = getActionTypeKey(actionId, {resourceName, resourcePluralName, isArray});
+  return {[typeKey]: getActionType(actionId)};
 };
 
-const getActionType = ({name, actionKey}) =>
-  // `${actionKey.toUpperCase()}_${name.toUpperCase()}${action.isArray ? 'S' : ''}`;
-  `${getNamespace({name})}/${actionKey.toUpperCase()}`;
-
-const createTypes = ({name, actions}) =>
-  Object.keys(actions).reduce((types, actionKey) => {
-    const actionOpts = actions[actionKey];
-    const type = getActionType({name, actionOpts, actionKey});
-    return Object.assign(types, {[getActionKey({name, actionOpts, actionKey})]: type});
+const createTypes = (actions = {}, {resourceName, resourcePluralName, scope = getTypesScope(resourceName)} = {}) => {
+  const rawTypes = Object.keys(actions).reduce((types, actionId) => {
+    const actionOpts = actions[actionId];
+    return Object.assign(types, createType(actionId, {resourceName, resourcePluralName, isArray: actionOpts.isArray}));
   }, {});
+  return scopeTypes(scope, rawTypes);
+};
 
-export {createTypes, getNamespace, getActionKey, getActionType};
+export {getTypesScope, createType, createTypes, getActionType, getActionTypeKey};

@@ -1,10 +1,8 @@
+import {initialState} from './../defaults';
+import {getTypesScope} from './../types';
+import {getGerundName, ucfirst} from './../helpers/util';
 
-// http://facebook.github.io/react/docs/update.html
-
-import {/* defaultState, */initialState} from './../defaults';
-import {getNamespace} from './../types';
-
-const reducers = {
+const defaultReducers = {
   create: (state, action) => {
     switch (action.status) {
       case 'pending':
@@ -20,7 +18,7 @@ const reducers = {
         // Assign returned object
         return {...state,
           isCreating: false,
-          items: [...state.items, action.body]
+          items: [...(state.items || []), action.body]
         };
       case 'rejected':
         return {...state,
@@ -146,24 +144,71 @@ const reducers = {
   }
 };
 
-const createReducers = ({name}) => {
-  const namespace = `${getNamespace({name})}/`;
-  // const localInitialState = {
-  //   ...Object.keys(defaultState).reduce((soFar, key) => ({...soFar, ...defaultState[key]}), {}),
-  //   ...initialState
-  // };
-  return (state = {...initialState, name}, action) => {
+
+const createReducer = (actionId, {resourceName, resourcePluralName = `${resourceName}s`, ...actionOpts}) => {
+  // Default reducers
+  if (defaultReducers[actionId]) {
+    return defaultReducers[actionId];
+  }
+  // Custom reducers
+  const gerundName = actionOpts.gerundName || getGerundName(actionId);
+  const gerundStateKey = `is${ucfirst(gerundName)}`;
+  return (state, action) => {
+    switch (action.status) {
+      case 'pending':
+        // Update object in store as soon as possible?
+        return {...state,
+          [gerundStateKey]: true
+        };
+      case 'resolved': // eslint-disable-line
+        return {...state,
+          [gerundStateKey]: false
+        };
+      case 'rejected':
+        return {...state,
+          [gerundStateKey]: false
+        };
+      default:
+        return state;
+    }
+  };
+};
+
+const createReducers = (actions = {}, {resourceName, resourcePluralName, ...globalOpts} = {}) => {
+  const actionKeys = Object.keys(actions);
+  return actionKeys.reduce((actionReducers, actionId) => {
+    const actionOpts = {...globalOpts, ...actions[actionId]};
+    actionReducers[actionId] = createReducer(actionId, {resourceName, resourcePluralName, ...actionOpts});
+    return actionReducers;
+  }, {});
+};
+
+const createRootReducer = (
+  actions = {},
+  {
+    resourceName,
+    resourcePluralName,
+    scope = getTypesScope(resourceName),
+    reducers: givenReducers,
+    ...globalOpts
+  } = {}
+) => {
+  const scopeNamespace = `${scope}/`;
+  const reducers = givenReducers || createReducers(actions, {resourceName, resourcePluralName, ...globalOpts});
+  const rootReducer = (state = {...initialState}, action) => {
     // Only process relevant namespace
-    if (!String(action.type).startsWith(namespace)) {
+    if (!String(action.type).startsWith(scopeNamespace)) {
       return state;
     }
     // Only process relevant action type
-    const type = action.type.substr(namespace.length).toLowerCase();
+    const type = action.type.substr(scopeNamespace.length).toLowerCase();
+    // Check for a matching reducer
     if (reducers[type]) {
       return reducers[type](state, action);
     }
     return state;
   };
+  return rootReducer;
 };
 
-export {initialState, reducers, createReducers};
+export {initialState, defaultReducers, createReducers, createRootReducer};
