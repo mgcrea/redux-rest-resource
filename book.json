@@ -1,9 +1,7 @@
 {
-  "gitbook": "2.x.x",
-  "structure": {
-    "summary": "docs/README.md"
-  },
-  "plugins": ["edit-link", "prism", "-highlight", "github", "anker-enable"],
+  "gitbook": "3.2.2",
+  "title": "Redux",
+  "plugins": ["edit-link", "prism", "-highlight", "github", "anchorjs"],
   "pluginsConfig": {
     "edit-link": {
       "base": "https://github.com/mgcrea/redux-rest-resource/tree/master",
@@ -11,6 +9,11 @@
     },
     "github": {
       "url": "https://github.com/mgcrea/redux-rest-resource/"
+    },
+    "theme-default": {
+      "styles": {
+        "website": "build/gitbook.css"
+      }
     }
   }
 }

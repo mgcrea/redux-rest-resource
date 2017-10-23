@@ -15,9 +15,9 @@
     "lint": "NODE_ENV=test eslint src/ test/",
     "compile": "rimraf lib/*; NODE_ENV=production babel src/ -d lib/ -s",
     "compile:watch": "npm run compile -- -w",
+    "docs": "gitbook serve",
     "docs:prepare": "gitbook install",
     "docs:build": "gitbook build -g mgcrea/${npm_package_name}",
-    "docs:watch": "gitbook serve",
     "docs:publish": "rimraf _book; npm run docs:build && gh-pages -d _book",
     "prepublish": "npm run compile"
   },
