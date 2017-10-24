@@ -1,6 +1,6 @@
 // @inspiration https://github.com/angular/angular.js/blob/master/src/ngResource/resource.js
 
-import {getActionType} from './../types';
+import {getActionType, getTypesScope, scopeType} from './../types';
 import {applyTransformPipeline, buildTransformPipeline} from './transform';
 import {parseUrlParams} from './../helpers/url';
 import fetch, {buildFetchUrl, buildFetchOpts} from './../helpers/fetch';
@@ -16,8 +16,8 @@ const getActionName = (actionId, {resourceName, resourcePluralName = getPluralNa
     : `${actionId}${ucfirst(isArray ? resourcePluralName : resourceName)}`
 );
 
-const createAction = (actionId, {resourceName, resourcePluralName = getPluralName(resourceName), ...actionOpts}) => {
-  const type = getActionType(actionId);
+const createAction = (actionId, {resourceName, resourcePluralName = getPluralName(resourceName), scope, ...actionOpts}) => {
+  const type = scopeType(getActionType(actionId), scope);
   // Actual action function with two args
   // Context usage changes with resolved method:
   // - GET/DELETE will be used to resolve query params (eg. /users/:id)
@@ -76,12 +76,20 @@ const createAction = (actionId, {resourceName, resourcePluralName = getPluralNam
   };
 };
 
-const createActions = (actions = {}, {resourceName, resourcePluralName, ...globalOpts} = {}) => {
+const createActions = (
+  actions = {},
+  {
+    resourceName,
+    resourcePluralName = getPluralName(resourceName),
+    scope = getTypesScope(resourceName),
+    ...globalOpts
+  } = {}
+) => {
   const actionKeys = Object.keys(actions);
   return actionKeys.reduce((actionFuncs, actionId) => {
     const actionOpts = {...globalOpts, ...actions[actionId]};
     const actionName = getActionName(actionId, {resourceName, resourcePluralName, isArray: actionOpts.isArray});
-    actionFuncs[actionName] = createAction(actionId, {resourceName, resourcePluralName, ...actionOpts});
+    actionFuncs[actionName] = createAction(actionId, {resourceName, resourcePluralName, scope, ...actionOpts});
     return actionFuncs;
   }, {});
 };

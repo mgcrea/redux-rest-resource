@@ -1,8 +1,8 @@
 import {mapObject, getPluralName, upperSnakeCase} from './helpers/util';
 
-const scopeType = (scope, type) => (scope ? `${scope}/${type}` : type);
+const scopeType = (type, scope) => (scope ? `${scope}/${type}` : type);
 
-const scopeTypes = (scope, types = {}) => mapObject(types, scopeType.bind(null, scope));
+const scopeTypes = (types = {}, scope) => (scope ? mapObject(types, type => scopeType(type, scope)) : types);
 
 const getTypesScope = resourceName => (
   resourceName
@@ -30,7 +30,7 @@ const createTypes = (actions = {}, {resourceName, resourcePluralName, scope = ge
     const actionOpts = actions[actionId];
     return Object.assign(types, createType(actionId, {resourceName, resourcePluralName, isArray: actionOpts.isArray}));
   }, {});
-  return scopeTypes(scope, rawTypes);
+  return scopeTypes(rawTypes, scope);
 };
 
-export {getTypesScope, createType, createTypes, getActionType, getActionTypeKey};
+export {scopeType, getTypesScope, createType, createTypes, getActionType, getActionTypeKey};

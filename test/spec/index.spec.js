@@ -27,12 +27,17 @@ describe('createResource', () => {
     expect(Object.keys(actions).length).toEqual(6);
     expect(typeof reducers).toBe('function');
   });
-  it('should properly pick action opts', () => {
-    const {types, actions, reducers} = createResource({name, url, pick: ['fetch']});
-    expect(typeof types).toBe('object');
-    expect(Object.keys(types).length).toEqual(1);
-    expect(typeof actions).toBe('object');
-    expect(Object.keys(actions).length).toEqual(1);
-    expect(typeof reducers).toBe('function');
+});
+
+describe('resourceOptions', () => {
+  describe('`pick` option', () => {
+    it('should properly pick action', () => {
+      const {types, actions, reducers} = createResource({name, url, pick: ['fetch']});
+      expect(typeof types).toBe('object');
+      expect(Object.keys(types).length).toEqual(1);
+      expect(typeof actions).toBe('object');
+      expect(Object.keys(actions).length).toEqual(1);
+      expect(typeof reducers).toBe('function');
+    });
   });
 });
