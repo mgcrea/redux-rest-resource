@@ -193,11 +193,11 @@ const createRootReducer = (
     ...globalOpts
   } = {}
 ) => {
-  const scopeNamespace = `${scope}/`;
+  const scopeNamespace = scope ? `${scope}/` : '';
   const reducers = givenReducers || createReducers(actions, {resourceName, resourcePluralName, ...globalOpts});
   const rootReducer = (state = {...initialState}, action) => {
     // Only process relevant namespace
-    if (!String(action.type).startsWith(scopeNamespace)) {
+    if (scopeNamespace && !String(action.type).startsWith(scopeNamespace)) {
       return state;
     }
     // Only process relevant action type
