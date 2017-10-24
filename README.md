@@ -20,7 +20,7 @@ Saves you from writing a lot of boilerplate code and ensures that your code stay
 
 > NOTE: If you want to use this in environments without a builtin `fetch` implementation, you need to [bring your own custom fetch polyfill](advanced/CustomFetch).
 
-## [Documentation](http://mgcrea.github.io/redux-rest-resource)
+## [Quickstart](http://mgcrea.github.io/redux-rest-resource/docs/usage/Quickstart.html)
 
 ### Available scripts
 
