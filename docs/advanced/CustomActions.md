@@ -13,3 +13,22 @@ export const {types, actions, reducers} = createResource({
   }
 });
 ```
+
+- It will generate the following action creators:
+
+```js
+// Action creators available to interact with your REST resource
+Object.keys(actions) == [
+  "runUser",
+  "mergeUsers"
+]
+```
+
+- And have the following state by default:
+
+```js
+state == {
+  isRunning: false,
+  isMerging: false
+};
+```

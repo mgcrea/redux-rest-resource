@@ -17,8 +17,8 @@
     "compile:watch": "npm run compile -- -w",
     "docs": "gitbook serve",
     "docs:prepare": "gitbook install",
-    "docs:build": "gitbook build -g mgcrea/${npm_package_name}",
-    "docs:publish": "rimraf _book; npm run docs:build && gh-pages -d _book",
+    "docs:compile": "gitbook build -g mgcrea/${npm_package_name}",
+    "docs:publish": "rimraf _book; npm run docs:compile && gh-pages -d _book",
     "prepublish": "npm run compile"
   },
   "devDependencies": {
