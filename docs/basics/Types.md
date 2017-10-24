@@ -2,9 +2,11 @@
 
 **Action types** are strings that indicates the type of action being performed.
 
-#### Exported action types
+### Exported action types
 
 **Redux REST Resource** does expose action types that will be used in dispatched actions.
+
+We're using scoped `types` with a namespace to prevent conflicts when using multiple resources.
 
 ```js
 types == {
