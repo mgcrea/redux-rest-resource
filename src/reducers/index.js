@@ -150,13 +150,13 @@ const createReducer = (actionId, {resourceName, resourcePluralName = `${resource
   if (defaultReducers[actionId]) {
     return defaultReducers[actionId];
   }
-  // Custom pure reducers
-  if (actionOpts.isPure) {
-    // Do require a custom reduce function
-    if (!actionOpts.reduce || !isFunction(actionOpts.reduce)) {
-      throw new Error(`Missing \`reduce\` option for pure action \`${actionId}\``);
-    }
+  // Custom reducers
+  if (actionOpts.reduce && isFunction(actionOpts.reduce)) {
     return actionOpts.reduce;
+  }
+  // Do require a custom reduce function for pure actions
+  if (actionOpts.isPure) {
+    throw new Error(`Missing \`reduce\` option for pure action \`${actionId}\``);
   }
   // Custom reducers
   const gerundName = actionOpts.gerundName || getGerundName(actionId);
