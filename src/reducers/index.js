@@ -146,10 +146,6 @@ const defaultReducers = {
 
 
 const createReducer = (actionId, {resourceName, resourcePluralName = `${resourceName}s`, ...actionOpts}) => {
-  // Default reducers
-  if (defaultReducers[actionId]) {
-    return defaultReducers[actionId];
-  }
   // Custom reducers
   if (actionOpts.reduce && isFunction(actionOpts.reduce)) {
     return actionOpts.reduce;
@@ -158,7 +154,11 @@ const createReducer = (actionId, {resourceName, resourcePluralName = `${resource
   if (actionOpts.isPure) {
     throw new Error(`Missing \`reduce\` option for pure action \`${actionId}\``);
   }
-  // Custom reducers
+  // Default reducers
+  if (defaultReducers[actionId]) {
+    return defaultReducers[actionId];
+  }
+  // Custom actions
   const gerundName = actionOpts.gerundName || getGerundName(actionId);
   const gerundStateKey = `is${ucfirst(gerundName)}`;
   return (state, action) => {
