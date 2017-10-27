@@ -12,6 +12,7 @@
   * [Actions](/docs/examples/ActionsExamples.md)
 * [Advanced](/docs/advanced/README.md)
   * [Custom Actions](/docs/advanced/CustomActions.md)
+  * [Pure Actions](/docs/advanced/PureActions.md)
   * [Headers Override](/docs/advanced/HeadersOverride.md)
   * [Assign Update Response](/docs/advanced/AssignUpdateResponse.md)
   * [Resource Combination](/docs/advanced/ResourceCombination.md)
