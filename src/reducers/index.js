@@ -1,6 +1,6 @@
 import {initialState} from './../defaults';
 import {getTypesScope} from './../types';
-import {getGerundName, ucfirst} from './../helpers/util';
+import {getGerundName, isFunction, ucfirst} from './../helpers/util';
 
 const defaultReducers = {
   create: (state, action) => {
@@ -149,6 +149,14 @@ const createReducer = (actionId, {resourceName, resourcePluralName = `${resource
   // Default reducers
   if (defaultReducers[actionId]) {
     return defaultReducers[actionId];
+  }
+  // Custom pure reducers
+  if (actionOpts.isPure) {
+    // Do require a custom reduce function
+    if (!actionOpts.reduce || !isFunction(actionOpts.reduce)) {
+      throw new Error(`Missing \`reduce\` option for pure action \`${actionId}\``);
+    }
+    return actionOpts.reduce;
   }
   // Custom reducers
   const gerundName = actionOpts.gerundName || getGerundName(actionId);
