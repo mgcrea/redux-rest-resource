@@ -146,7 +146,7 @@ describe('defaultReducers', () => {
   });
 });
 
-describe('customReducers', () => {
+describe('custom reducers', () => {
   const customActions = {run: {method: 'POST', gerundName: 'running'}, merge: {method: 'POST', isArray: true}};
   const types = createTypes(customActions, {resourceName});
   const reducers = createReducers(customActions, {resourceName});
@@ -196,7 +196,31 @@ describe('customReducers', () => {
   });
 });
 
-describe('reducerOptions', () => {
+
+describe('custom pure reducers', () => {
+  const customActions = {
+    clear: {
+      isPure: true,
+      reduce: (state, action) => ({...state, item: null})
+    }
+  };
+  const types = createTypes(customActions, {resourceName});
+  const reducers = createReducers(customActions, {resourceName});
+  it('should handle CLEAR action', () => {
+    const actionId = 'clear';
+    const type = types[getActionTypeKey(actionId, {resourceName})];
+    const context = {firstName: 'Olivier'};
+    let status;
+
+    const body = {ok: 1};
+    const receivedAt = Date.now();
+    const resolvedAction = {type, status, context, body, receivedAt};
+    expect(reducers[actionId](undefined, resolvedAction))
+      .toEqual({item: null});
+  });
+});
+
+describe('reducer options', () => {
   const types = createTypes(defaultActions, {resourceName});
   describe('`assignResponse` option', () => {
     it('should handle GET action', () => {

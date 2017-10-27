@@ -253,7 +253,7 @@ describe('defaultActions', () => {
   });
 });
 
-describe('customActions', () => {
+describe('custom actions', () => {
   afterEach(() => {
     nock.cleanAll();
   });
@@ -308,7 +308,36 @@ describe('customActions', () => {
   });
 });
 
-describe('fetchOptions', () => {
+describe('custom pure actions', () => {
+  afterEach(() => {
+    nock.cleanAll();
+  });
+  const customActions = {
+    clear: {
+      isPure: true,
+      reduce: (state, action) => ({...state, item: null})
+    }
+  };
+  const actionFuncs = createActions(customActions, {resourceName, url});
+  it('.clear()', () => {
+    const actionId = 'clear';
+    const action = getActionName(actionId, {resourceName});
+    const type = '@@resource/USER/CLEAR';
+    const context = {id: 1, firstName: 'Olivier'};
+    const store = mockStore({users: {}});
+    const options = {isPure: true};
+    const expectedActions = [
+      {status: 'resolved', type, context, options}
+    ];
+    return store.dispatch(actionFuncs[action](context))
+      .then(() => {
+        const actions = store.getActions();
+        expect(actions).toEqual(expectedActions);
+      });
+  });
+});
+
+describe('fetch options', () => {
   afterEach(() => {
     nock.cleanAll();
   });
@@ -843,7 +872,7 @@ describe('fetchOptions', () => {
   });
 });
 
-describe('reduceOptions', () => {
+describe('reduce options', () => {
   afterEach(() => {
     nock.cleanAll();
   });
