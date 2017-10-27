@@ -19,7 +19,7 @@ describe('createActions', () => {
   describe('when using a resource', () => {
     it('should return an object with properly named keys', () => {
       const actionFuncs = createActions(defaultActions, {resourceName, url});
-      const expectedKeys = ['createUser', 'fetchUsers', 'getUser', 'updateUser', 'deleteUser'];
+      const expectedKeys = ['createUser', 'fetchUsers', 'getUser', 'updateUser', 'deleteUser', 'clearUser', 'clearAllUsers'];
       expect(Object.keys(actionFuncs)).toEqual(expectedKeys);
     });
     it('should return an object with properly typed values', () => {
@@ -31,7 +31,7 @@ describe('createActions', () => {
   describe('when not using a resource', () => {
     it('should return an object with properly named keys', () => {
       const actionFuncs = createActions(defaultActions, {url});
-      const expectedKeys = ['create', 'fetch', 'get', 'update', 'delete'];
+      const expectedKeys = ['create', 'fetch', 'get', 'update', 'delete', 'clear', 'clearAll'];
       expect(Object.keys(actionFuncs)).toEqual(expectedKeys);
     });
     it('should return an object with properly typed values', () => {
@@ -157,6 +157,40 @@ describe('defaultActions', () => {
       const expectedActions = [
         {status: 'pending', type, context},
         {status: 'resolved', type, context, options, body, code, receivedAt: null}
+      ];
+      return store.dispatch(actionFuncs[action](context))
+        .then(() => {
+          const actions = store.getActions();
+          actions[1].receivedAt = null;
+          expect(actions).toEqual(expectedActions);
+        });
+    });
+    it('.clear()', () => {
+      const actionId = 'clear';
+      const action = getActionName(actionId, {resourceName});
+      const type = '@@resource/USER/CLEAR';
+      const context = {};
+      const options = {};
+      const store = mockStore({users: {}});
+      const expectedActions = [
+        {status: 'resolved', type, context, options, item: null, receivedAt: null}
+      ];
+      return store.dispatch(actionFuncs[action](context))
+        .then(() => {
+          const actions = store.getActions();
+          actions[1].receivedAt = null;
+          expect(actions).toEqual(expectedActions);
+        });
+    });
+    it('.clearAll()', () => {
+      const actionId = 'clearAll';
+      const action = getActionName(actionId, {resourceName});
+      const type = '@@resource/USER/CLEARALL';
+      const context = {};
+      const options = {};
+      const store = mockStore({users: {}});
+      const expectedActions = [
+        {status: 'resolved', type, context, options, item: null, items: [], receivedAt: null}
       ];
       return store.dispatch(actionFuncs[action](context))
         .then(() => {
