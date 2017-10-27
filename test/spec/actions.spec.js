@@ -66,7 +66,9 @@ describe('defaultActions', () => {
         {status: 'resolved', type, context, options, body, code, receivedAt: null}
       ];
       return store.dispatch(actionFuncs[action](context))
-        .then(() => {
+        .then((res) => {
+          res.receivedAt = null;
+          expect(res).toEqual(expectedActions[1]);
           const actions = store.getActions();
           actions[1].receivedAt = null;
           expect(actions).toEqual(expectedActions);
@@ -90,10 +92,11 @@ describe('defaultActions', () => {
       ];
       return store.dispatch(actionFuncs[action](context))
         .then((res) => {
+          res.receivedAt = null;
+          expect(res).toEqual(expectedActions[1]);
           const actions = store.getActions();
           actions[1].receivedAt = null;
           expect(actions).toEqual(expectedActions);
-          expect(res.body).toEqual(actions[1].body);
         });
     });
     it('.get()', () => {
@@ -113,7 +116,9 @@ describe('defaultActions', () => {
         {status: 'resolved', type, context, options, body, code, receivedAt: null}
       ];
       return store.dispatch(actionFuncs[action](context))
-        .then(() => {
+        .then((res) => {
+          res.receivedAt = null;
+          expect(res).toEqual(expectedActions[1]);
           const actions = store.getActions();
           actions[1].receivedAt = null;
           expect(actions).toEqual(expectedActions);
@@ -136,7 +141,9 @@ describe('defaultActions', () => {
         {status: 'resolved', type, context, options, body, code, receivedAt: null}
       ];
       return store.dispatch(actionFuncs[action](context))
-        .then(() => {
+        .then((res) => {
+          res.receivedAt = null;
+          expect(res).toEqual(expectedActions[1]);
           const actions = store.getActions();
           actions[1].receivedAt = null;
           expect(actions).toEqual(expectedActions);
@@ -159,7 +166,9 @@ describe('defaultActions', () => {
         {status: 'resolved', type, context, options, body, code, receivedAt: null}
       ];
       return store.dispatch(actionFuncs[action](context))
-        .then(() => {
+        .then((res) => {
+          res.receivedAt = null;
+          expect(res).toEqual(expectedActions[1]);
           const actions = store.getActions();
           actions[1].receivedAt = null;
           expect(actions).toEqual(expectedActions);
