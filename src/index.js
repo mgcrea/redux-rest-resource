@@ -13,9 +13,16 @@ export * from './defaults';
 export {reduceReducers, combineReducers, mergeReducers} from './reducers/helpers';
 export {fetch, HttpError};
 
-export function createResource({name: resourceName, pluralName: resourcePluralName, actions: givenActions = {}, pick: pickedActions = [], ...args}) {
+export function createResource({
+  name: resourceName,
+  pluralName: resourcePluralName,
+  actions: givenActions = {},
+  mergeDefaultActions = true,
+  pick: pickedActions = [],
+  ...args
+}) {
   // Merge passed actions with common defaults
-  let resolvedActions = mergeObjects({}, defaultActions, givenActions);
+  let resolvedActions = mergeDefaultActions ? mergeObjects({}, defaultActions, givenActions) : givenActions;
   // Eventually pick selected actions
   if (pickedActions.length) {
     resolvedActions = pick(resolvedActions, ...pickedActions);
