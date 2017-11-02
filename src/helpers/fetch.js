@@ -1,4 +1,4 @@
-import {isObject, startsWith} from './util';
+import {isObject, isString, startsWith} from './util';
 import {
   encodeUriQuery,
   encodeUriSegment,
@@ -75,7 +75,7 @@ export const buildFetchOpts = (context, {method, headers, credentials, query, bo
 const fetch = (url, options = {}) => {
   // Support options.query
   const builtUrl = Object.keys(options.query || []).reduce((wipUrl, queryParam) => {
-    const queryParamValue = options.query[queryParam];
+    const queryParamValue = isString(options.query[queryParam]) ? options.query[queryParam] : JSON.stringify(options.query[queryParam]);
     return replaceQueryStringParamFromUrl(wipUrl, queryParam, queryParamValue);
   }, url);
   return (options.Promise || defaultGlobals.Promise).resolve((defaultGlobals.fetch || fetch)(builtUrl, options))

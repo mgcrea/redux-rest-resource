@@ -2,6 +2,9 @@
 export const includes = (array, key) =>
   array.indexOf(key) !== -1;
 
+export const isString = maybeString =>
+  typeof maybeString === 'string';
+
 export const isObject = maybeObject =>
   typeof maybeObject === 'object';
 
