@@ -40,4 +40,14 @@ describe('resourceOptions', () => {
       expect(typeof reducers).toBe('function');
     });
   });
+  describe('`mergeDefaultActions` option', () => {
+    it('should properly not merge defaultActions', () => {
+      const {types, actions, reducers} = createResource({name, url, actions: {charge: {method: 'post'}}, mergeDefaultActions: false});
+      expect(typeof types).toBe('object');
+      expect(Object.keys(types).length).toEqual(1);
+      expect(typeof actions).toBe('object');
+      expect(Object.keys(actions).length).toEqual(1);
+      expect(typeof reducers).toBe('function');
+    });
+  });
 });
