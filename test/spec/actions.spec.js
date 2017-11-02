@@ -585,6 +585,30 @@ describe('fetch options', () => {
           expect(actions).toEqual(expectedActions);
         });
     });
+    it('should support non-string query params', () => {
+      const query = {select: ['firstName', 'lastName'], populate: [{path: 'team', model: 'Team', select: ['id', 'name']}]};
+      const actionFuncs = createActions(defaultActions, {resourceName, url});
+      const actionId = 'fetch';
+      const action = getActionName(actionId, {resourceName, isArray: true});
+      const type = '@@resource/USER/FETCH';
+      const context = {};
+      const body = [{id: 1, firstName: 'Olivier'}];
+      const code = 200;
+      const options = {isArray: true};
+      nock(host).get('/users?select=[%22firstName%22,%22lastName%22]&populate=[%7B%22path%22:%22team%22,%22model%22:%22Team%22,%22select%22:[%22id%22,%22name%22]%7D]')
+        .reply(code, body);
+      const store = mockStore({users: {}});
+      const expectedActions = [
+        {status: 'pending', type, context},
+        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+      ];
+      return store.dispatch(actionFuncs[action](context, {query}))
+        .then(() => {
+          const actions = store.getActions();
+          actions[1].receivedAt = null;
+          expect(actions).toEqual(expectedActions);
+        });
+    });
   });
   describe('`headers` option', () => {
     Object.assign(defaultHeaders, {'X-Custom-Default-Header': 'foobar'});
