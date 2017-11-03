@@ -357,8 +357,8 @@ describe('fetch options', () => {
   };
   describe('`url` option', () => {
     it('should support action override', () => {
-      const url = `${host}/teams/:id`; // eslint-disable-line no-shadow
-      const actionFuncs = createActions({...defaultActions, fetch: {...defaultActions.fetch, url}}, {resourceName, url});
+      const overridenUrl = `${host}/teams/:id`;
+      const actionFuncs = createActions({...defaultActions, fetch: {...defaultActions.fetch, url: overridenUrl}}, {resourceName, url});
       const actionId = 'fetch';
       const action = getActionName(actionId, {resourceName, isArray: true});
       const type = '@@resource/USER/FETCH';
@@ -381,11 +381,11 @@ describe('fetch options', () => {
         });
     });
     it('should support action override via function', () => {
-      const url = (...args) => { // eslint-disable-line no-shadow
+      const overridenUrl = (...args) => {
         checkActionMethodSignature(...args);
         return `${host}/teams/:id`;
       };
-      const actionFuncs = createActions({...defaultActions, fetch: {...defaultActions.fetch, url}}, {resourceName, url});
+      const actionFuncs = createActions({...defaultActions, fetch: {...defaultActions.fetch, url: overridenUrl}}, {resourceName, url});
       const actionId = 'fetch';
       const action = getActionName(actionId, {resourceName, isArray: true});
       const type = '@@resource/USER/FETCH';
@@ -408,7 +408,7 @@ describe('fetch options', () => {
         });
     });
     it('should support context override', () => {
-      const url = `${host}/teams/:id`; // eslint-disable-line no-shadow
+      const overridenUrl = `${host}/teams/:id`;
       const actionFuncs = createActions(defaultActions, {resourceName, url});
       const actionId = 'fetch';
       const action = getActionName(actionId, {resourceName, isArray: true});
@@ -424,7 +424,32 @@ describe('fetch options', () => {
         {status: 'pending', type, context},
         {status: 'resolved', type, context, options, body, code, receivedAt: null}
       ];
-      return store.dispatch(actionFuncs[action](context, {url}))
+      return store.dispatch(actionFuncs[action](context, {url: overridenUrl}))
+        .then(() => {
+          const actions = store.getActions();
+          actions[1].receivedAt = null;
+          expect(actions).toEqual(expectedActions);
+        });
+    });
+    it('should support relative urls', () => {
+      const overridenUrl = './merge';
+      const actionFuncs = createActions({...defaultActions, update: {...defaultActions.update, url: overridenUrl}}, {resourceName, url});
+      const actionId = 'update';
+      const action = getActionName(actionId, {resourceName});
+      const type = '@@resource/USER/UPDATE';
+      const context = {id: 1, firstName: 'Olivier'};
+      const body = {ok: 1};
+      const code = 200;
+      const options = {};
+      nock(host)
+        .patch(`/users/${context.id}/merge`, context)
+        .reply(code, body);
+      const store = mockStore({users: {}});
+      const expectedActions = [
+        {status: 'pending', type, context},
+        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+      ];
+      return store.dispatch(actionFuncs[action](context))
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
@@ -791,6 +816,33 @@ describe('fetch options', () => {
         {status: 'resolved', type, context, options, body, code, receivedAt: null}
       ];
       return store.dispatch(actionFuncs[action](context, {credentials}))
+        .then(() => {
+          const actions = store.getActions();
+          actions[1].receivedAt = null;
+          expect(actions).toEqual(expectedActions);
+        });
+    });
+  });
+  describe('`body` option', () => {
+    it('should support context override', () => {
+      const contextBody = {firstName: 'Olivier'};
+      const actionFuncs = createActions(defaultActions, {resourceName, url});
+      const actionId = 'update';
+      const action = getActionName(actionId, {resourceName});
+      const type = '@@resource/USER/UPDATE';
+      const context = {id: 1};
+      const body = {ok: true};
+      const code = 200;
+      const options = {};
+      nock(host)
+        .patch(`/users/${context.id}`, contextBody)
+        .reply(code, body);
+      const store = mockStore({users: {}});
+      const expectedActions = [
+        {status: 'pending', type, context},
+        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+      ];
+      return store.dispatch(actionFuncs[action](context, {body: contextBody}))
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
