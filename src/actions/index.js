@@ -4,7 +4,7 @@ import {getActionType, getTypesScope, scopeType} from './../types';
 import {applyTransformPipeline, buildTransformPipeline} from './transform';
 import {parseUrlParams} from './../helpers/url';
 import fetch, {buildFetchUrl, buildFetchOpts} from './../helpers/fetch';
-import {isFunction, pick, ucfirst, getPluralName} from './../helpers/util';
+import {isFunction, isString, pick, ucfirst, getPluralName} from './../helpers/util';
 import {defaultTransformResponsePipeline} from './../defaults';
 
 const SUPPORTED_FETCH_OPTS = ['url', 'method', 'headers', 'credentials', 'query', 'body'];
@@ -92,6 +92,11 @@ const createActions = (
 ) => {
   const actionKeys = Object.keys(actions);
   return actionKeys.reduce((actionFuncs, actionId) => {
+    // Add support for relative url override
+    const {url} = actions[actionId];
+    if (globalOpts.url && url && isString(url) && url.substr(0, 1) === '.') {
+      actions[actionId] = {...actions[actionId], url: `${globalOpts.url}${url.substr(1)}`};
+    }
     const actionOpts = {...globalOpts, ...actions[actionId]};
     const actionName = getActionName(actionId, {resourceName, resourcePluralName, isArray: actionOpts.isArray});
     actionFuncs[actionName] = createAction(actionId, {resourceName, resourcePluralName, scope, ...actionOpts});
