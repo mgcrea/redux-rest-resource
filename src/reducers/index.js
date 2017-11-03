@@ -1,5 +1,5 @@
 import {initialState} from './../defaults';
-import {getTypesScope} from './../types';
+import {getTypesScope, getActionType} from './../types';
 import {getGerundName, isFunction, ucfirst} from './../helpers/util';
 
 const defaultReducers = {
@@ -186,7 +186,8 @@ const createReducers = (actions = {}, {resourceName, resourcePluralName, ...glob
   const actionKeys = Object.keys(actions);
   return actionKeys.reduce((actionReducers, actionId) => {
     const actionOpts = {...globalOpts, ...actions[actionId]};
-    actionReducers[actionId] = createReducer(actionId, {resourceName, resourcePluralName, ...actionOpts});
+    const reducerKey = getActionType(actionId).toLowerCase();
+    actionReducers[reducerKey] = createReducer(actionId, {resourceName, resourcePluralName, ...actionOpts});
     return actionReducers;
   }, {});
 };

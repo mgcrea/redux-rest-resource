@@ -196,7 +196,6 @@ describe('custom reducers', () => {
   });
 });
 
-
 describe('custom pure reducers', () => {
   const customActions = {
     clear: {
@@ -335,6 +334,26 @@ describe('rootReducer', () => {
     const rejectedAction = {type, status, context, err: {}, receivedAt};
     expect(rootReducer(pendingState, rejectedAction))
       .toEqual({...initialState, isRunning: false});
+  });
+  describe('should handle a pure action', () => {
+    const customActions = {
+      mockAll: {
+        isPure: true,
+        isArray: true,
+        reduce: (state, action) => ({...state, items: [{foo: 'bar'}]})
+      }
+    };
+    const types = createTypes(customActions, {resourceName});
+    const rootReducer = createRootReducer(customActions, {resourceName});
+    const actionId = 'mockAll';
+    const type = types[getActionTypeKey(actionId, {resourceName, isArray: true})];
+    const context = {firstName: 'Olivier'};
+
+    const status = 'resolved';
+    const receivedAt = Date.now();
+    const resolvedAction = {type, status, context, receivedAt};
+    expect(rootReducer(initialState, resolvedAction))
+      .toEqual({...initialState, items: [{foo: 'bar'}]});
   });
 });
 
