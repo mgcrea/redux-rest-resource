@@ -64,9 +64,9 @@ export const buildFetchOpts = (context, {method, headers, credentials, query, bo
   const hasBody = /^(POST|PUT|PATCH)$/i.test(opts.method);
   if (hasBody) {
     if (body) {
-      opts.body = body;
+      opts.body = isString(body) ? body : JSON.stringify(body);
     } else if (context) {
-      opts.body = JSON.stringify(context);
+      opts.body = isString(context) ? context : JSON.stringify(context);
     }
   }
   return opts;
