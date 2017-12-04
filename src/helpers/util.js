@@ -38,6 +38,9 @@ export const mergeObjects = (object, ...sources) => {
 export const startsWith = (string, target) =>
   String(string).slice(0, target.length) === target;
 
+export const endsWith = (string, target) =>
+  String(string).slice(string.length - target.length) === target;
+
 export const ucfirst = str =>
   str.charAt(0).toUpperCase() + str.substr(1);
 
