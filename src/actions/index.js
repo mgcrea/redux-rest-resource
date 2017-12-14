@@ -104,4 +104,4 @@ const createActions = (
   }, {});
 };
 
-export {getActionName, createActions};
+export {getActionName, createAction, createActions};

@@ -3,9 +3,9 @@
 // var User = $resource('/user/:userId', {userId:'@id'});
 
 import {defaultActions} from './defaults';
-import {createActions} from './actions';
-import {createReducers, createRootReducer} from './reducers';
-import {createTypes} from './types';
+import {getActionName, createAction, createActions} from './actions';
+import {createReducer, createReducers, createRootReducer} from './reducers';
+import {createType, createTypes, getTypesScope, scopeTypes} from './types';
 import fetch, {HttpError} from './helpers/fetch';
 import {pick, mergeObjects} from './helpers/util';
 
@@ -30,10 +30,31 @@ export function createResource({
   const types = createTypes(resolvedActions, {resourceName, resourcePluralName, ...args});
   const actions = createActions(resolvedActions, {resourceName, resourcePluralName, ...args});
   const reducers = createReducers(resolvedActions, {resourceName, resourcePluralName, ...args});
-  const rootReducer = createRootReducer(resolvedActions, {resourceName, resourcePluralName, reducers, ...args});
+  const rootReducer = createRootReducer(reducers, {resourceName, resourcePluralName, ...args});
   return {
     actions,
     reducers: rootReducer, // breaking change
+    rootReducer,
+    types
+  };
+}
+
+export function createResourceAction({
+  name: resourceName,
+  pluralName: resourcePluralName,
+  method = 'GET',
+  ...args
+}) {
+  const actionId = method.toLowerCase();
+  const scope = getTypesScope(resourceName);
+  const types = scopeTypes(createType(actionId, {resourceName, resourcePluralName}), scope);
+  const actionName = getActionName(actionId, {resourceName, resourcePluralName});
+  const actions = {[actionName]: createAction(actionId, {resourceName, resourcePluralName, scope, ...args})};
+  const reducers = {[actionId]: createReducer(actionId, {resourceName, resourcePluralName, scope, ...args})};
+  const rootReducer = createRootReducer(reducers, {resourceName, resourcePluralName, ...args});
+  return {
+    actions,
+    reducers, // new API
     rootReducer,
     types
   };
