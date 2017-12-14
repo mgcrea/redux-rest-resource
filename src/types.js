@@ -33,4 +33,4 @@ const createTypes = (actions = {}, {resourceName, resourcePluralName, scope = ge
   return scopeTypes(rawTypes, scope);
 };
 
-export {scopeType, getTypesScope, createType, createTypes, getActionType, getActionTypeKey};
+export {scopeType, scopeTypes, getTypesScope, createType, createTypes, getActionType, getActionTypeKey};

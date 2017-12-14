@@ -193,17 +193,15 @@ const createReducers = (actions = {}, {resourceName, resourcePluralName, ...glob
 };
 
 const createRootReducer = (
-  actions = {},
+  reducers = {},
   {
     resourceName,
     resourcePluralName,
     scope = getTypesScope(resourceName),
-    reducers: givenReducers,
     ...globalOpts
   } = {}
 ) => {
   const scopeNamespace = scope ? `${scope}/` : '';
-  const reducers = givenReducers || createReducers(actions, {resourceName, resourcePluralName, ...globalOpts});
   const rootReducer = (state = {...initialState}, action) => {
     // Only process relevant namespace
     if (scopeNamespace && !String(action.type).startsWith(scopeNamespace)) {
@@ -220,4 +218,4 @@ const createRootReducer = (
   return rootReducer;
 };
 
-export {initialState, defaultReducers, createReducers, createRootReducer};
+export {initialState, defaultReducers, createReducer, createReducers, createRootReducer};

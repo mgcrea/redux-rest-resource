@@ -17,11 +17,13 @@ describe('createReducers', () => {
     values(reducers).forEach(expectedValuesFn);
   });
   it('should return a reduce function', () => {
-    const rootReducer = createRootReducer(defaultActions, {resourceName});
+    const reducers = createReducers(defaultActions, {resourceName});
+    const rootReducer = createRootReducer(reducers, {resourceName});
     expect(typeof rootReducer).toBe('function');
   });
   it('should return the initial state', () => {
-    const rootReducer = createRootReducer(defaultActions, {resourceName});
+    const reducers = createReducers(defaultActions, {resourceName});
+    const rootReducer = createRootReducer(reducers, {resourceName});
     expect(rootReducer(undefined, {}))
       .toEqual(initialState);
   });
@@ -284,7 +286,8 @@ describe('reducer options', () => {
 describe('rootReducer', () => {
   it('should handle a default action', () => {
     const types = createTypes(defaultActions, {resourceName});
-    const rootReducer = createRootReducer(defaultActions, {resourceName});
+    const reducers = createReducers(defaultActions, {resourceName});
+    const rootReducer = createRootReducer(reducers, {resourceName});
     const actionId = 'create';
     const type = types[getActionTypeKey(actionId, {resourceName})];
     const context = {firstName: 'Olivier'};
@@ -311,7 +314,8 @@ describe('rootReducer', () => {
   it('should handle a custom action', () => {
     const customActions = {run: {method: 'POST', gerundName: 'running'}, merge: {method: 'POST', isArray: true}};
     const types = createTypes(customActions, {resourceName});
-    const rootReducer = createRootReducer(customActions, {resourceName});
+    const reducers = createReducers(customActions, {resourceName});
+    const rootReducer = createRootReducer(reducers, {resourceName});
     const actionId = 'run';
     const type = types[getActionTypeKey(actionId, {resourceName})];
     const context = {firstName: 'Olivier'};
@@ -344,7 +348,8 @@ describe('rootReducer', () => {
       }
     };
     const types = createTypes(customActions, {resourceName});
-    const rootReducer = createRootReducer(customActions, {resourceName});
+    const reducers = createReducers(customActions, {resourceName});
+    const rootReducer = createRootReducer(reducers, {resourceName});
     const actionId = 'mockAll';
     const type = types[getActionTypeKey(actionId, {resourceName, isArray: true})];
     const context = {firstName: 'Olivier'};
@@ -360,15 +365,15 @@ describe('rootReducer', () => {
 describe('helpers', () => {
   describe('combineReducers', () => {
     it('should properly combine two reducer functions as a single object', () => {
-      const fooReducers = createRootReducer(defaultActions, {resourceName: 'foo'});
-      const barReducers = createRootReducer(defaultActions, {resourceName: 'bar'});
+      const fooReducers = createRootReducer(createReducers(defaultActions, {resourceName: 'foo'}), {resourceName: 'foo'});
+      const barReducers = createRootReducer(createReducers(defaultActions, {resourceName: 'bar'}), {resourceName: 'bar'});
       const combinedReducers = combineReducers({foo: fooReducers, bar: barReducers});
       expect(typeof combinedReducers).toBe('function');
       expect(Object.keys(combinedReducers({}, {type: 'foo'}))).toEqual(['foo', 'bar']);
     });
     it('should properly combine two reducer functions as two objects', () => {
-      const fooReducers = createRootReducer({resourceName: 'foo'});
-      const barReducers = createRootReducer({resourceName: 'bar'});
+      const fooReducers = createRootReducer(createReducers(defaultActions, {resourceName: 'foo'}), {resourceName: 'foo'});
+      const barReducers = createRootReducer(createReducers(defaultActions, {resourceName: 'bar'}), {resourceName: 'bar'});
       const combinedReducers = combineReducers({foo: fooReducers}, {bar: barReducers});
       expect(typeof combinedReducers).toBe('function');
       expect(Object.keys(combinedReducers({}, {type: 'foo'}))).toEqual(['foo', 'bar']);
