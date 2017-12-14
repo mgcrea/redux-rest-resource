@@ -13,6 +13,7 @@
 * [Advanced](/docs/advanced/README.md)
   * [Custom Actions](/docs/advanced/CustomActions.md)
   * [Pure Actions](/docs/advanced/PureActions.md)
+  * [Single Action Helper](SingleActionHelper.md)
   * [Headers Override](/docs/advanced/HeadersOverride.md)
   * [Assign Update Response](/docs/advanced/AssignUpdateResponse.md)
   * [Resource Combination](/docs/advanced/ResourceCombination.md)

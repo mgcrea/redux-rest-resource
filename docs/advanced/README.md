@@ -4,6 +4,7 @@ Some more advanced examples
 
 * [Custom Actions](CustomActions.md)
 * [Pure Actions](PureActions.md)
+* [Single Action Helper](SingleActionHelper.md)
 * [Headers Override](HeadersOverride.md)
 * [Assign Update Response](AssignUpdateResponse.md)
 * [Resource Combination](ResourceCombination.md)
