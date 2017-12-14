@@ -78,7 +78,7 @@ export const parseResponse = (res) => {
   // see https://tools.ietf.org/html/rfc6839
   const isJson = contentType && (startsWith(contentType, 'application/json') || endsWith(contentType.split(';')[0], '+json'));
   return res[isJson ? 'json' : 'text']();
-}
+};
 
 const fetch = (url, options = {}) => {
   // Support options.query
