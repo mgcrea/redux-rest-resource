@@ -1,4 +1,4 @@
-import {isObject, isString, startsWith} from './util';
+import {isObject, isString, startsWith, endsWith} from './util';
 import {
   encodeUriQuery,
   encodeUriSegment,
@@ -82,7 +82,14 @@ const fetch = (url, options = {}) => {
     .then((res) => {
       if (!res.ok) {
         const contentType = res.headers.get('Content-Type');
-        const isJson = startsWith(contentType, 'application/json');
+
+        const isApplicationJson = startsWith(contentType, 'application/json');
+
+        // https://tools.ietf.org/html/rfc6839
+        // parses 'application/problem+json; charset=utf-8' for example
+        const isJsonSubtypeBySuffix = endsWith(contentType.split(';')[0], '+json');
+
+        const isJson = isApplicationJson || isJsonSubtypeBySuffix;
         return res[isJson ? 'json' : 'text']().then((body) => {
           throw new HttpError(res.status, {body});
         });
