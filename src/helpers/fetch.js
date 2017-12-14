@@ -72,6 +72,14 @@ export const buildFetchOpts = (context, {method, headers, credentials, query, bo
   return opts;
 };
 
+export const parseResponse = (res) => {
+  const contentType = res.headers.get('Content-Type');
+  // @NOTE parses 'application/problem+json; charset=utf-8' for example
+  // see https://tools.ietf.org/html/rfc6839
+  const isJson = contentType && (startsWith(contentType, 'application/json') || endsWith(contentType.split(';')[0], '+json'));
+  return res[isJson ? 'json' : 'text']();
+}
+
 const fetch = (url, options = {}) => {
   // Support options.query
   const builtUrl = Object.keys(options.query || []).reduce((wipUrl, queryParam) => {
@@ -81,18 +89,10 @@ const fetch = (url, options = {}) => {
   return (options.Promise || defaultGlobals.Promise).resolve((defaultGlobals.fetch || fetch)(builtUrl, options))
     .then((res) => {
       if (!res.ok) {
-        const contentType = res.headers.get('Content-Type');
-
-        const isApplicationJson = startsWith(contentType, 'application/json');
-
-        // https://tools.ietf.org/html/rfc6839
-        // parses 'application/problem+json; charset=utf-8' for example
-        const isJsonSubtypeBySuffix = endsWith(contentType.split(';')[0], '+json');
-
-        const isJson = isApplicationJson || isJsonSubtypeBySuffix;
-        return res[isJson ? 'json' : 'text']().then((body) => {
-          throw new HttpError(res.status, {body});
-        });
+        return parseResponse(res)
+          .then((body) => {
+            throw new HttpError(res.status, {body});
+          });
       }
       return res;
     });

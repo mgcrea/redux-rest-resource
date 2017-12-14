@@ -176,6 +176,84 @@ describe('defaultActions', () => {
     });
   });
 
+  describe.only('exoticResponses', () => {
+    it('.fetch() with an exotic json Content-Type', () => {
+      const actionId = 'get';
+      const action = getActionName(actionId, {resourceName});
+      const type = '@@resource/USER/GET';
+      const context = {id: 1};
+      const body = {id: 1, firstName: 'Olivier'};
+      const code = 200;
+      const options = {};
+      nock(host)
+        .get(`/users/${context.id}`)
+        .reply(code, body, {'Content-Type': 'application/problem+json; charset=utf-8'});
+      const store = mockStore({users: {}});
+      const expectedActions = [
+        {status: 'pending', type, context},
+        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+      ];
+      return store.dispatch(actionFuncs[action](context))
+        .then((res) => {
+          res.receivedAt = null;
+          expect(res).toEqual(expectedActions[1]);
+          const actions = store.getActions();
+          actions[1].receivedAt = null;
+          expect(actions).toEqual(expectedActions);
+        });
+    });
+    it('.fetch() with an empty body', () => {
+      const actionId = 'delete';
+      const action = getActionName(actionId, {resourceName});
+      const type = '@@resource/USER/DELETE';
+      const context = {id: 1};
+      const body = '';
+      const code = 200;
+      const options = {};
+      nock(host)
+        .delete(`/users/${context.id}`)
+        .reply(code);
+      const store = mockStore({users: {}});
+      const expectedActions = [
+        {status: 'pending', type, context},
+        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+      ];
+      return store.dispatch(actionFuncs[action](context))
+        .then((res) => {
+          res.receivedAt = null;
+          expect(res).toEqual(expectedActions[1]);
+          const actions = store.getActions();
+          actions[1].receivedAt = null;
+          expect(actions).toEqual(expectedActions);
+        });
+    });
+    it('.fetch() with an non-json body', () => {
+      const actionId = 'delete';
+      const action = getActionName(actionId, {resourceName});
+      const type = '@@resource/USER/DELETE';
+      const context = {id: 1};
+      const body = 'foobar';
+      const code = 200;
+      const options = {};
+      nock(host)
+        .delete(`/users/${context.id}`)
+        .reply(code, body);
+      const store = mockStore({users: {}});
+      const expectedActions = [
+        {status: 'pending', type, context},
+        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+      ];
+      return store.dispatch(actionFuncs[action](context))
+        .then((res) => {
+          res.receivedAt = null;
+          expect(res).toEqual(expectedActions[1]);
+          const actions = store.getActions();
+          actions[1].receivedAt = null;
+          expect(actions).toEqual(expectedActions);
+        });
+    });
+  });
+
   describe('errorHandling', () => {
     it('.fetch() with request errors', () => {
       const actionId = 'fetch';

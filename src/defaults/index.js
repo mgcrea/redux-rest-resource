@@ -1,5 +1,7 @@
 /* global fetch */
 
+import {parseResponse} from './../helpers/fetch';
+
 const defaultActions = {
   create: {method: 'POST', alias: 'save'},
   fetch: {method: 'GET', isArray: true},
@@ -14,7 +16,7 @@ const defaultHeaders = {
 };
 
 const defaultTransformResponsePipeline = [
-  res => res.json().then(body => ({body, code: res.status}))
+  res => parseResponse(res).then(body => ({body, code: res.status}))
 ];
 
 const defaultState = {
