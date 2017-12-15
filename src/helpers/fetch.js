@@ -83,7 +83,9 @@ export const parseResponse = (res) => {
 const fetch = (url, options = {}) => {
   // Support options.query
   const builtUrl = Object.keys(options.query || []).reduce((wipUrl, queryParam) => {
-    const queryParamValue = isString(options.query[queryParam]) ? options.query[queryParam] : JSON.stringify(options.query[queryParam]);
+    const queryParamValue = isString(options.query[queryParam])
+      ? options.query[queryParam]
+      : JSON.stringify(options.query[queryParam]);
     return replaceQueryStringParamFromUrl(wipUrl, queryParam, queryParamValue);
   }, url);
   return (options.Promise || defaultGlobals.Promise).resolve((defaultGlobals.fetch || fetch)(builtUrl, options))
