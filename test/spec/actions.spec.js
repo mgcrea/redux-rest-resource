@@ -176,7 +176,7 @@ describe('defaultActions', () => {
     });
   });
 
-  describe.only('exoticResponses', () => {
+  describe('exoticResponses', () => {
     it('.fetch() with an exotic json Content-Type', () => {
       const actionId = 'get';
       const action = getActionName(actionId, {resourceName});
@@ -433,6 +433,32 @@ describe('fetch options', () => {
     expect(typeof actionId).toBe('string');
     expect(typeof getState()).toBe('object');
   };
+  describe('`transformResponse` option', () => {
+    it('should support action options', () => {
+      const transformResponse = res => ({...res, body: res.body.map(item => ({...item, foo: 'bar'}))});
+      const actionFuncs = createActions({...defaultActions, fetch: {...defaultActions.fetch, transformResponse}}, {resourceName, url});
+      const actionId = 'fetch';
+      const action = getActionName(actionId, {resourceName, isArray: true});
+      const type = '@@resource/USER/FETCH';
+      const context = {};
+      const body = [{id: 1, firstName: 'Olivier'}];
+      const code = 200;
+      const options = {isArray: true};
+      nock(host).get('/users')
+        .reply(code, body);
+      const store = mockStore({users: {}});
+      const expectedActions = [
+        {status: 'pending', type, context},
+        {status: 'resolved', type, context, options, body: body.map(item => ({...item, foo: 'bar'})), code, receivedAt: null}
+      ];
+      return store.dispatch(actionFuncs[action](context))
+        .then(() => {
+          const actions = store.getActions();
+          actions[1].receivedAt = null;
+          expect(actions).toEqual(expectedActions);
+        });
+    });
+  });
   describe('`url` option', () => {
     it('should support action override', () => {
       const overridenUrl = `${host}/teams/:id`;
@@ -921,111 +947,6 @@ describe('fetch options', () => {
         {status: 'resolved', type, context, options, body, code, receivedAt: null}
       ];
       return store.dispatch(actionFuncs[action](context, {body: contextBody}))
-        .then(() => {
-          const actions = store.getActions();
-          actions[1].receivedAt = null;
-          expect(actions).toEqual(expectedActions);
-        });
-    });
-  });
-  describe('`headers` option', () => {
-    Object.assign(defaultHeaders, {'X-Custom-Default-Header': 'foobar'});
-    it('should support defaults override', () => {
-      const actionFuncs = createActions(defaultActions, {resourceName, url});
-      const actionId = 'fetch';
-      const action = getActionName(actionId, {resourceName, isArray: true});
-      const type = '@@resource/USER/FETCH';
-      const context = {};
-      const body = [{id: 1, firstName: 'Olivier'}];
-      const code = 200;
-      const options = {isArray: true};
-      nock(host).get('/users')
-        .matchHeader('X-Custom-Default-Header', 'foobar')
-        .reply(code, body);
-      const store = mockStore({users: {}});
-      const expectedActions = [
-        {status: 'pending', type, context},
-        {status: 'resolved', type, context, options, body, code, receivedAt: null}
-      ];
-      return store.dispatch(actionFuncs[action](context))
-        .then(() => {
-          const actions = store.getActions();
-          actions[1].receivedAt = null;
-          expect(actions).toEqual(expectedActions);
-        });
-    });
-    it('should support action override', () => {
-      const headers = {'X-Custom-Header': 'foobar'};
-      const actionFuncs = createActions({...defaultActions, fetch: {...defaultActions.fetch, headers}}, {resourceName, url});
-      const actionId = 'fetch';
-      const action = getActionName(actionId, {resourceName, isArray: true});
-      const type = '@@resource/USER/FETCH';
-      const context = {};
-      const body = [{id: 1, firstName: 'Olivier'}];
-      const code = 200;
-      const options = {isArray: true};
-      nock(host).get('/users')
-        .matchHeader('X-Custom-Header', 'foobar')
-        .reply(code, body);
-      const store = mockStore({users: {}});
-      const expectedActions = [
-        {status: 'pending', type, context},
-        {status: 'resolved', type, context, options, body, code, receivedAt: null}
-      ];
-      return store.dispatch(actionFuncs[action](context))
-        .then(() => {
-          const actions = store.getActions();
-          actions[1].receivedAt = null;
-          expect(actions).toEqual(expectedActions);
-        });
-    });
-    it('should support action override via function', () => {
-      const headers = (...args) => {
-        checkActionMethodSignature(...args);
-        return {'X-Custom-Header': 'foobar'};
-      };
-      const actionFuncs = createActions({...defaultActions, fetch: {...defaultActions.fetch, headers}}, {resourceName, url});
-      const actionId = 'fetch';
-      const action = getActionName(actionId, {resourceName, isArray: true});
-      const type = '@@resource/USER/FETCH';
-      const context = {};
-      const body = [{id: 1, firstName: 'Olivier'}];
-      const code = 200;
-      const options = {isArray: true};
-      nock(host).get('/users')
-        .matchHeader('X-Custom-Header', 'foobar')
-        .reply(code, body);
-      const store = mockStore({users: {}});
-      const expectedActions = [
-        {status: 'pending', type, context},
-        {status: 'resolved', type, context, options, body, code, receivedAt: null}
-      ];
-      return store.dispatch(actionFuncs[action](context))
-        .then(() => {
-          const actions = store.getActions();
-          actions[1].receivedAt = null;
-          expect(actions).toEqual(expectedActions);
-        });
-    });
-    it('should support context override', () => {
-      const headers = {'X-Custom-Header': 'foobar'};
-      const actionFuncs = createActions(defaultActions, {resourceName, url});
-      const actionId = 'fetch';
-      const action = getActionName(actionId, {resourceName, isArray: true});
-      const type = '@@resource/USER/FETCH';
-      const context = {};
-      const body = [{id: 1, firstName: 'Olivier'}];
-      const code = 200;
-      const options = {isArray: true};
-      nock(host).get('/users')
-        .matchHeader('X-Custom-Header', 'foobar')
-        .reply(code, body);
-      const store = mockStore({users: {}});
-      const expectedActions = [
-        {status: 'pending', type, context},
-        {status: 'resolved', type, context, options, body, code, receivedAt: null}
-      ];
-      return store.dispatch(actionFuncs[action](context, {headers}))
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
