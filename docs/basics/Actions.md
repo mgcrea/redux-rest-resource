@@ -69,7 +69,7 @@ export const {types, actions, reducers} = createResource({
   url: `foo.com/users/:id`,
   actions: {
     update: {
-      method: (getState, {actionId}) => 'POST'
+      method: (getState, {actionId, context, contextOpts}) => 'POST'
     }
   }
 });
