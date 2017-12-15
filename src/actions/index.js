@@ -42,7 +42,7 @@ const createAction = (actionId, {resourceName, resourcePluralName = getPluralNam
     };
     // Support dynamic fetch options
     const resolvedfetchOpts = Object.keys(fetchOpts).reduce((soFar, key) => {
-      soFar[key] = isFunction(fetchOpts[key]) ? fetchOpts[key](getState, {actionId}) : fetchOpts[key];
+      soFar[key] = isFunction(fetchOpts[key]) ? fetchOpts[key](getState, {context, contextOpts, actionId}) : fetchOpts[key];
       return soFar;
     }, {});
     const {url, ...eligibleFetchOptions} = resolvedfetchOpts;
