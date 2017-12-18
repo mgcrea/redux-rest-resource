@@ -26,7 +26,7 @@ export class HttpError extends Error {
 }
 
 export const buildFetchUrl = (context, {url, urlParams, stripTrailingSlashes = true}) => {
-  const [protocolAndDomain, remainderUrl] = splitUrlByProtocolAndDomain(url);
+  const [protocolAndDomain = '', remainderUrl] = splitUrlByProtocolAndDomain(url);
   // Replace urlParams with values from context
   let builtUrl = Object.keys(urlParams).reduce((wipUrl, urlParam) => {
     const urlParamInfo = urlParams[urlParam];
