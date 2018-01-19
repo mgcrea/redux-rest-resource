@@ -8,7 +8,7 @@ import {isFunction, isString, pick, ucfirst, getPluralName} from './../helpers/u
 import {defaultTransformResponsePipeline} from './../defaults';
 
 const SUPPORTED_FETCH_OPTS = ['url', 'method', 'headers', 'credentials', 'query', 'body'];
-const SUPPORTED_REDUCE_OPTS = ['assignResponse', 'isArray', 'isPure'];
+const SUPPORTED_REDUCE_OPTS = ['assignResponse', 'isArray', 'isPure', 'mergeArray'];
 
 const getActionName = (actionId, {resourceName, resourcePluralName = getPluralName(resourceName), isArray = false} = {}) => (
   !resourceName

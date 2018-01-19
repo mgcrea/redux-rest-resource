@@ -36,10 +36,12 @@ const defaultReducers = {
           didInvalidate: false
         };
       case 'resolved':
+        const actionOpts = action.options || {};
+        const items = action.body;
         return {...state,
           isFetching: false,
           didInvalidate: false,
-          items: action.body,
+          items: actionOpts.mergeArray ? {...state.items, ...items} : items,
           lastUpdated: action.receivedAt
         };
       case 'rejected':

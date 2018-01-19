@@ -95,11 +95,11 @@ actions.updateUser({
 
 #### Reduce related options
 
-| Option name      | Type                | Default    | Description                               |
-|------------------|---------------------|------------|-------------------------------------------|
-| `isArray`        | *Boolean*           | false      | Whether the expected response is an Array |
-| `assignResponse` | *Boolean*           | false      | Whether to assign the response            |
-
+| Option name      | Type                | Default    | Description                                         |
+|------------------|---------------------|------------|-----------------------------------------------------|
+| `isArray`        | *Boolean*           | false      | Whether the expected response is an Array           |
+| `assignResponse` | *Boolean*           | false      | Whether to assign the response                      |
+| `mergeArray`     | *Boolean*           | false      | Whether to merge the response with items FETCH prop |
 
 ### Dispatched actions
 
