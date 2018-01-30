@@ -1,4 +1,4 @@
-import {unionBy} from 'lodash';
+import {unionBy, sortBy} from 'lodash';
 import {initialState} from './../defaults';
 import {getTypesScope, getActionType} from './../types';
 import {getGerundName, isFunction, ucfirst} from './../helpers/util';
@@ -42,7 +42,7 @@ const defaultReducers = {
         return {...state,
           isFetching: false,
           didInvalidate: false,
-          items: actionOpts.mergeArray ? unionBy(items, state.items, 'id') : items,
+          items: actionOpts.mergeArray ? sortBy(unionBy(items, state.items, 'id'), 'id') : items,
           lastUpdated: action.receivedAt
         };
       }
