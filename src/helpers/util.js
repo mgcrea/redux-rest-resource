@@ -53,5 +53,5 @@ export const upperSnakeCase = string =>
 export const getGerundName = name =>
   `${name.replace(/e$/, '')}ing`;
 
-export const getPluralName = name =>
-  `${name}s`;
+export const getPluralName = (name = '') =>
+  (name.endsWith('s') ? name : `${name}s`);
