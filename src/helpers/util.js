@@ -55,3 +55,21 @@ export const getGerundName = name =>
 
 export const getPluralName = name =>
   `${name}s`;
+
+export const parseContentRangeHeader = (string) => {
+  if (typeof string === 'string') {
+    const matches = string.match(/^(\w+) (\d+)-(\d+)\/(\d+|\*)/);
+
+    if (matches) {
+      return {
+        unit: matches[1],
+        first: +matches[2],
+        last: +matches[3],
+        length: matches[4] === '*' ? null : +matches[4]
+      };
+    }
+  }
+
+  return null;
+};
+

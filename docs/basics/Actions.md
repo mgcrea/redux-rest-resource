@@ -112,7 +112,7 @@ For instance, `fetchUsers()` will dispatch the following actions:
 // First a `pending` action is dispatched
 {type: '@@resource/USER/FETCH', status: 'pending', context}
 // then either a `resolved` action on success
-{type: '@@resource/USER/FETCH', status: 'resolved', context, options, body, receivedAt}
+{type: '@@resource/USER/FETCH', status: 'resolved', context, options, body, receivedAt, headers}
 // or a `rejected` action if an error is caught
 {type: '@@resource/USER/FETCH', status: 'rejected', context, options, err, receivedAt}
 ```
