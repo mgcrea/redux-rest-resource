@@ -1,3 +1,4 @@
+import {unionBy, sortBy} from 'lodash';
 import {initialState} from './../defaults';
 import {getTypesScope, getActionType} from './../types';
 import {getGerundName, isFunction, ucfirst} from './../helpers/util';
@@ -35,13 +36,16 @@ const defaultReducers = {
           isFetching: true,
           didInvalidate: false
         };
-      case 'resolved':
+      case 'resolved': {
+        const actionOpts = action.options || {};
+        const items = action.body;
         return {...state,
           isFetching: false,
           didInvalidate: false,
-          items: action.body,
+          items: actionOpts.mergeArray ? sortBy(unionBy(items, state.items, 'id'), 'id') : items,
           lastUpdated: action.receivedAt
         };
+      }
       case 'rejected':
         return {...state,
           isFetching: false,
