@@ -63,14 +63,16 @@ describe('defaultActions', () => {
       const store = mockStore({users: {}});
       const expectedActions = [
         {status: 'pending', type, context},
-        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+        {status: 'resolved', type, context, options, body, code, receivedAt: null, headers: null}
       ];
       return store.dispatch(actionFuncs[action](context))
         .then((res) => {
           res.receivedAt = null;
+          res.headers = null;
           expect(res).toEqual(expectedActions[1]);
           const actions = store.getActions();
           actions[1].receivedAt = null;
+          actions[1].headers = null;
           expect(actions).toEqual(expectedActions);
         });
     });
@@ -88,14 +90,16 @@ describe('defaultActions', () => {
       const store = mockStore({users: {}});
       const expectedActions = [
         {status: 'pending', type, context},
-        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+        {status: 'resolved', type, context, options, body, code, receivedAt: null, headers: null}
       ];
       return store.dispatch(actionFuncs[action](context))
         .then((res) => {
           res.receivedAt = null;
+          res.headers = null;
           expect(res).toEqual(expectedActions[1]);
           const actions = store.getActions();
           actions[1].receivedAt = null;
+          actions[1].headers = null;
           expect(actions).toEqual(expectedActions);
         });
     });
@@ -113,14 +117,16 @@ describe('defaultActions', () => {
       const store = mockStore({users: {}});
       const expectedActions = [
         {status: 'pending', type, context},
-        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+        {status: 'resolved', type, context, options, body, code, receivedAt: null, headers: null}
       ];
       return store.dispatch(actionFuncs[action](context))
         .then((res) => {
           res.receivedAt = null;
+          res.headers = null;
           expect(res).toEqual(expectedActions[1]);
           const actions = store.getActions();
           actions[1].receivedAt = null;
+          actions[1].headers = null;
           expect(actions).toEqual(expectedActions);
         });
     });
@@ -138,14 +144,16 @@ describe('defaultActions', () => {
       const store = mockStore({users: {}});
       const expectedActions = [
         {status: 'pending', type, context},
-        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+        {status: 'resolved', type, context, options, body, code, receivedAt: null, headers: null}
       ];
       return store.dispatch(actionFuncs[action](context))
         .then((res) => {
           res.receivedAt = null;
+          res.headers = null;
           expect(res).toEqual(expectedActions[1]);
           const actions = store.getActions();
           actions[1].receivedAt = null;
+          actions[1].headers = null;
           expect(actions).toEqual(expectedActions);
         });
     });
@@ -163,14 +171,16 @@ describe('defaultActions', () => {
       const store = mockStore({users: {}});
       const expectedActions = [
         {status: 'pending', type, context},
-        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+        {status: 'resolved', type, context, options, body, code, receivedAt: null, headers: null}
       ];
       return store.dispatch(actionFuncs[action](context))
         .then((res) => {
           res.receivedAt = null;
+          res.headers = null;
           expect(res).toEqual(expectedActions[1]);
           const actions = store.getActions();
           actions[1].receivedAt = null;
+          actions[1].headers = null;
           expect(actions).toEqual(expectedActions);
         });
     });
@@ -191,14 +201,16 @@ describe('defaultActions', () => {
       const store = mockStore({users: {}});
       const expectedActions = [
         {status: 'pending', type, context},
-        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+        {status: 'resolved', type, context, options, body, code, receivedAt: null, headers: null}
       ];
       return store.dispatch(actionFuncs[action](context))
         .then((res) => {
           res.receivedAt = null;
+          res.headers = null;
           expect(res).toEqual(expectedActions[1]);
           const actions = store.getActions();
           actions[1].receivedAt = null;
+          actions[1].headers = null;
           expect(actions).toEqual(expectedActions);
         });
     });
@@ -216,14 +228,16 @@ describe('defaultActions', () => {
       const store = mockStore({users: {}});
       const expectedActions = [
         {status: 'pending', type, context},
-        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+        {status: 'resolved', type, context, options, body, code, receivedAt: null, headers: null}
       ];
       return store.dispatch(actionFuncs[action](context))
         .then((res) => {
           res.receivedAt = null;
+          res.headers = null;
           expect(res).toEqual(expectedActions[1]);
           const actions = store.getActions();
           actions[1].receivedAt = null;
+          actions[1].headers = null;
           expect(actions).toEqual(expectedActions);
         });
     });
@@ -241,14 +255,16 @@ describe('defaultActions', () => {
       const store = mockStore({users: {}});
       const expectedActions = [
         {status: 'pending', type, context},
-        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+        {status: 'resolved', type, context, options, body, code, receivedAt: null, headers: null}
       ];
       return store.dispatch(actionFuncs[action](context))
         .then((res) => {
           res.receivedAt = null;
+          res.headers = null;
           expect(res).toEqual(expectedActions[1]);
           const actions = store.getActions();
           actions[1].receivedAt = null;
+          actions[1].headers = null;
           expect(actions).toEqual(expectedActions);
         });
     });
@@ -274,13 +290,14 @@ describe('defaultActions', () => {
       const store = mockStore({users: {}});
       const expectedActions = [
         {status: 'pending', type, context},
-        {status: 'rejected', type, context, options, err, receivedAt: null}
+        {status: 'rejected', type, context, options, err, receivedAt: null, headers: null}
       ];
       return expect(store.dispatch(actionFuncs[action](context)))
         .rejects.toBeDefined()
         .catch(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
+          actions[1].headers = null;
           expect(actions[1].err.name).toEqual(expectedActions[1].err.name);
           expect(actions[1].err.message).toEqual(expectedActions[1].err.message);
           actions[1].err = expectedActions[1].err;
@@ -301,13 +318,14 @@ describe('defaultActions', () => {
       const store = mockStore({users: {}});
       const expectedActions = [
         {status: 'pending', type, context},
-        {status: 'rejected', type, context, options, body, code, receivedAt: null}
+        {status: 'rejected', type, context, options, body, code, receivedAt: null, headers: null}
       ];
       return expect(store.dispatch(actionFuncs[action](context)))
         .rejects.toBeDefined()
         .catch((err) => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
+          actions[1].headers = null;
           expect(err.statusCode).toEqual(code);
           expect(actions).toEqual(expectedActions);
         });
@@ -326,13 +344,14 @@ describe('defaultActions', () => {
       const store = mockStore({users: {}});
       const expectedActions = [
         {status: 'pending', type, context},
-        {status: 'rejected', type, context, options, body, code, receivedAt: null}
+        {status: 'rejected', type, context, options, body, code, receivedAt: null, headers: null}
       ];
       return expect(store.dispatch(actionFuncs[action](context)))
         .rejects.toBeDefined()
         .catch((err) => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
+          actions[1].headers = null;
           expect(err.statusCode).toEqual(code);
           expect(actions).toEqual(expectedActions);
         });
@@ -360,12 +379,13 @@ describe('custom actions', () => {
     const store = mockStore({users: {}});
     const expectedActions = [
       {status: 'pending', type, context},
-      {status: 'resolved', type, context, options, body, code, receivedAt: null}
+      {status: 'resolved', type, context, options, body, code, receivedAt: null, headers: null}
     ];
     return store.dispatch(actionFuncs[action](context))
       .then(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
+        actions[1].headers = null;
         expect(actions).toEqual(expectedActions);
       });
   });
@@ -383,12 +403,13 @@ describe('custom actions', () => {
     const store = mockStore({users: {}});
     const expectedActions = [
       {status: 'pending', type, context},
-      {status: 'resolved', type, context, options, body, code, receivedAt: null}
+      {status: 'resolved', type, context, options, body, code, receivedAt: null, headers: null}
     ];
     return store.dispatch(actionFuncs[action](context))
       .then((res) => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
+        actions[1].headers = null;
         expect(actions).toEqual(expectedActions);
         expect(res.body).toEqual(actions[1].body);
       });
@@ -449,12 +470,13 @@ describe('fetch options', () => {
       const store = mockStore({users: {}});
       const expectedActions = [
         {status: 'pending', type, context},
-        {status: 'resolved', type, context, options, body: body.map(item => ({...item, foo: 'bar'})), code, receivedAt: null}
+        {status: 'resolved', type, context, options, body: body.map(item => ({...item, foo: 'bar'})), code, receivedAt: null, headers: null}
       ];
       return store.dispatch(actionFuncs[action](context))
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
+          actions[1].headers = null;
           expect(actions).toEqual(expectedActions);
         });
     });
@@ -475,12 +497,13 @@ describe('fetch options', () => {
       const store = mockStore({users: {}});
       const expectedActions = [
         {status: 'pending', type, context},
-        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+        {status: 'resolved', type, context, options, body, code, receivedAt: null, headers: null}
       ];
       return store.dispatch(actionFuncs[action](context))
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
+          actions[1].headers = null;
           expect(actions).toEqual(expectedActions);
         });
     });
@@ -502,12 +525,13 @@ describe('fetch options', () => {
       const store = mockStore({users: {}});
       const expectedActions = [
         {status: 'pending', type, context},
-        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+        {status: 'resolved', type, context, options, body, code, receivedAt: null, headers: null}
       ];
       return store.dispatch(actionFuncs[action](context))
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
+          actions[1].headers = null;
           expect(actions).toEqual(expectedActions);
         });
     });
@@ -526,12 +550,13 @@ describe('fetch options', () => {
       const store = mockStore({users: {}});
       const expectedActions = [
         {status: 'pending', type, context},
-        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+        {status: 'resolved', type, context, options, body, code, receivedAt: null, headers: null}
       ];
       return store.dispatch(actionFuncs[action](context, {url: overridenUrl}))
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
+          actions[1].headers = null;
           expect(actions).toEqual(expectedActions);
         });
     });
@@ -551,12 +576,13 @@ describe('fetch options', () => {
       const store = mockStore({users: {}});
       const expectedActions = [
         {status: 'pending', type, context},
-        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+        {status: 'resolved', type, context, options, body, code, receivedAt: null, headers: null}
       ];
       return store.dispatch(actionFuncs[action](context))
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
+          actions[1].headers = null;
           expect(actions).toEqual(expectedActions);
         });
     });
@@ -577,12 +603,13 @@ describe('fetch options', () => {
       const store = mockStore({users: {}});
       const expectedActions = [
         {status: 'pending', type, context},
-        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+        {status: 'resolved', type, context, options, body, code, receivedAt: null, headers: null}
       ];
       return store.dispatch(actionFuncs[action](context))
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
+          actions[1].headers = null;
           expect(actions).toEqual(expectedActions);
         });
     });
@@ -604,12 +631,13 @@ describe('fetch options', () => {
       const store = mockStore({users: {}});
       const expectedActions = [
         {status: 'pending', type, context},
-        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+        {status: 'resolved', type, context, options, body, code, receivedAt: null, headers: null}
       ];
       return store.dispatch(actionFuncs[action](context))
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
+          actions[1].headers = null;
           expect(actions).toEqual(expectedActions);
         });
     });
@@ -628,12 +656,13 @@ describe('fetch options', () => {
       const store = mockStore({users: {}});
       const expectedActions = [
         {status: 'pending', type, context},
-        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+        {status: 'resolved', type, context, options, body, code, receivedAt: null, headers: null}
       ];
       return store.dispatch(actionFuncs[action](context, {method}))
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
+          actions[1].headers = null;
           expect(actions).toEqual(expectedActions);
         });
     });
@@ -654,12 +683,13 @@ describe('fetch options', () => {
       const store = mockStore({users: {}});
       const expectedActions = [
         {status: 'pending', type, context},
-        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+        {status: 'resolved', type, context, options, body, code, receivedAt: null, headers: null}
       ];
       return store.dispatch(actionFuncs[action](context))
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
+          actions[1].headers = null;
           expect(actions).toEqual(expectedActions);
         });
     });
@@ -681,12 +711,13 @@ describe('fetch options', () => {
       const store = mockStore({users: {}});
       const expectedActions = [
         {status: 'pending', type, context},
-        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+        {status: 'resolved', type, context, options, body, code, receivedAt: null, headers: null}
       ];
       return store.dispatch(actionFuncs[action](context))
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
+          actions[1].headers = null;
           expect(actions).toEqual(expectedActions);
         });
     });
@@ -705,12 +736,13 @@ describe('fetch options', () => {
       const store = mockStore({users: {}});
       const expectedActions = [
         {status: 'pending', type, context},
-        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+        {status: 'resolved', type, context, options, body, code, receivedAt: null, headers: null}
       ];
       return store.dispatch(actionFuncs[action](context, {query}))
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
+          actions[1].headers = null;
           expect(actions).toEqual(expectedActions);
         });
     });
@@ -729,12 +761,13 @@ describe('fetch options', () => {
       const store = mockStore({users: {}});
       const expectedActions = [
         {status: 'pending', type, context},
-        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+        {status: 'resolved', type, context, options, body, code, receivedAt: null, headers: null}
       ];
       return store.dispatch(actionFuncs[action](context, {query}))
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
+          actions[1].headers = null;
           expect(actions).toEqual(expectedActions);
         });
     });
@@ -756,12 +789,13 @@ describe('fetch options', () => {
       const store = mockStore({users: {}});
       const expectedActions = [
         {status: 'pending', type, context},
-        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+        {status: 'resolved', type, context, options, body, code, receivedAt: null, headers: null}
       ];
       return store.dispatch(actionFuncs[action](context))
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
+          actions[1].headers = null;
           expect(actions).toEqual(expectedActions);
         });
     });
@@ -781,12 +815,13 @@ describe('fetch options', () => {
       const store = mockStore({users: {}});
       const expectedActions = [
         {status: 'pending', type, context},
-        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+        {status: 'resolved', type, context, options, body, code, receivedAt: null, headers: null}
       ];
       return store.dispatch(actionFuncs[action](context))
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
+          actions[1].headers = null;
           expect(actions).toEqual(expectedActions);
         });
     });
@@ -809,12 +844,13 @@ describe('fetch options', () => {
       const store = mockStore({users: {}});
       const expectedActions = [
         {status: 'pending', type, context},
-        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+        {status: 'resolved', type, context, options, body, code, receivedAt: null, headers: null}
       ];
       return store.dispatch(actionFuncs[action](context))
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
+          actions[1].headers = null;
           expect(actions).toEqual(expectedActions);
         });
     });
@@ -834,12 +870,13 @@ describe('fetch options', () => {
       const store = mockStore({users: {}});
       const expectedActions = [
         {status: 'pending', type, context},
-        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+        {status: 'resolved', type, context, options, body, code, receivedAt: null, headers: null}
       ];
       return store.dispatch(actionFuncs[action](context, {headers}))
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
+          actions[1].headers = null;
           expect(actions).toEqual(expectedActions);
         });
     });
@@ -862,12 +899,13 @@ describe('fetch options', () => {
       const store = mockStore({users: {}});
       const expectedActions = [
         {status: 'pending', type, context},
-        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+        {status: 'resolved', type, context, options, body, code, receivedAt: null, headers: null}
       ];
       return store.dispatch(actionFuncs[action](context))
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
+          actions[1].headers = null;
           expect(actions).toEqual(expectedActions);
         });
     });
@@ -891,12 +929,13 @@ describe('fetch options', () => {
       const store = mockStore({users: {}});
       const expectedActions = [
         {status: 'pending', type, context},
-        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+        {status: 'resolved', type, context, options, body, code, receivedAt: null, headers: null}
       ];
       return store.dispatch(actionFuncs[action](context))
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
+          actions[1].headers = null;
           expect(actions).toEqual(expectedActions);
         });
     });
@@ -917,12 +956,13 @@ describe('fetch options', () => {
       const store = mockStore({users: {}});
       const expectedActions = [
         {status: 'pending', type, context},
-        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+        {status: 'resolved', type, context, options, body, code, receivedAt: null, headers: null}
       ];
       return store.dispatch(actionFuncs[action](context, {credentials}))
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
+          actions[1].headers = null;
           expect(actions).toEqual(expectedActions);
         });
     });
@@ -944,12 +984,13 @@ describe('fetch options', () => {
       const store = mockStore({users: {}});
       const expectedActions = [
         {status: 'pending', type, context},
-        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+        {status: 'resolved', type, context, options, body, code, receivedAt: null, headers: null}
       ];
       return store.dispatch(actionFuncs[action](context, {body: contextBody}))
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
+          actions[1].headers = null;
           expect(actions).toEqual(expectedActions);
         });
     });
@@ -976,12 +1017,13 @@ describe('reduce options', () => {
       const store = mockStore({users: {}});
       const expectedActions = [
         {status: 'pending', type, context},
-        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+        {status: 'resolved', type, context, options, body, code, receivedAt: null, headers: null}
       ];
       return store.dispatch(actionFuncs[action](context))
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
+          actions[1].headers = null;
           expect(actions).toEqual(expectedActions);
         });
     });
@@ -1000,12 +1042,13 @@ describe('reduce options', () => {
       const store = mockStore({users: {}});
       const expectedActions = [
         {status: 'pending', type, context},
-        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+        {status: 'resolved', type, context, options, body, code, receivedAt: null, headers: null}
       ];
       return store.dispatch(actionFuncs[action](context, {isArray}))
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
+          actions[1].headers = null;
           expect(actions).toEqual(expectedActions);
         });
     });
@@ -1026,12 +1069,13 @@ describe('reduce options', () => {
       const store = mockStore({users: {}});
       const expectedActions = [
         {status: 'pending', type, context},
-        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+        {status: 'resolved', type, context, options, body, code, receivedAt: null, headers: null}
       ];
       return store.dispatch(actionFuncs[action](context))
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
+          actions[1].headers = null;
           expect(actions).toEqual(expectedActions);
         });
     });
@@ -1050,12 +1094,13 @@ describe('reduce options', () => {
       const store = mockStore({users: {}});
       const expectedActions = [
         {status: 'pending', type, context},
-        {status: 'resolved', type, context, options, body, code, receivedAt: null}
+        {status: 'resolved', type, context, options, body, code, receivedAt: null, headers: null}
       ];
       return store.dispatch(actionFuncs[action](context, {assignResponse}))
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
+          actions[1].headers = null;
           expect(actions).toEqual(expectedActions);
         });
     });
