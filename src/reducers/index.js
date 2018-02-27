@@ -1,6 +1,6 @@
 import {initialState} from './../defaults';
 import {getTypesScope, getActionType} from './../types';
-import {getGerundName, isFunction, ucfirst} from './../helpers/util';
+import {getGerundName, isFunction, ucfirst, parseContentRangeHeader} from './../helpers/util';
 
 const defaultReducers = {
   create: (state, action) => {
@@ -35,13 +35,37 @@ const defaultReducers = {
           isFetching: true,
           didInvalidate: false
         };
-      case 'resolved':
+      case 'resolved': {
+        const isPartialContent = action.code === 206;
+        let items = [];
+
+        if (isPartialContent) {
+          const cr = parseContentRangeHeader(action.headers.get('Content-Range'));
+
+          if (cr) {
+            if (cr.first > 0) {
+              items = items.concat(state.items.slice(0, cr.last));
+            }
+
+            for (let i = cr.first; i <= cr.last; i += 1) {
+              const newItem = action.body[i - cr.first];
+
+              if (newItem != null) {
+                items.push(newItem);
+              }
+            }
+          }
+        } else {
+          items = items.concat(action.body);
+        }
+
         return {...state,
           isFetching: false,
           didInvalidate: false,
-          items: action.body,
+          items,
           lastUpdated: action.receivedAt
         };
+      }
       case 'rejected':
         return {...state,
           isFetching: false,

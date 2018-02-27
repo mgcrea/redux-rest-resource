@@ -16,7 +16,7 @@ const defaultHeaders = {
 };
 
 const defaultTransformResponsePipeline = [
-  res => parseResponse(res).then(body => ({body, code: res.status}))
+  res => parseResponse(res).then(body => ({body, code: res.status, headers: res.headers}))
 ];
 
 const defaultState = {
