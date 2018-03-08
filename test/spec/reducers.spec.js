@@ -5,6 +5,7 @@ import {defaultActions, initialState} from '../../src/defaults';
 import {createTypes, getActionTypeKey} from '../../src/types';
 import {createRootReducer, createReducers} from '../../src/reducers';
 import {combineReducers} from '../../src/reducers/helpers';
+import {parseContentRangeHeader} from '../../src/helpers/util';
 
 // Configuration
 const resourceName = 'user';
@@ -77,73 +78,75 @@ describe('defaultReducers', () => {
     expect(reducers[actionId](pendingState, {type, status, err: {}, receivedAt}))
       .toEqual({didInvalidate: false, isFetching: false});
   });
-  it('should handle FETCH action (partial-content fetch => first range [0 to 2])', () => {
-    const actionId = 'fetch';
-    const type = types[getActionTypeKey(actionId, {resourceName})];
-    let status;
+  describe('should handle FETCH action with Content-Range header', () => {
+    it('partial-content fetch => first range [0 to 2]', () => {
+      const actionId = 'fetch';
+      const type = types[getActionTypeKey(actionId, {resourceName})];
+      let status;
 
-    status = 'pending';
-    const pendingState = reducers[actionId](undefined, {type, status});
-    expect(pendingState)
-      .toEqual({isFetching: true, didInvalidate: false});
+      status = 'pending';
+      const pendingState = reducers[actionId](undefined, {type, status});
+      expect(pendingState)
+        .toEqual({isFetching: true, didInvalidate: false});
 
-    status = 'resolved';
-    const code = 206;
-    const headers = new Headers({'Content-Range': 'users 0-2/3'}); // eslint-disable-line
-    const body = [{id: 1, firstName: 'Olivier'}, {id: 2, firstName: 'Romain'}, {id: 3, firstName: 'someone'}];
-    const receivedAt = Date.now();
-    expect(reducers[actionId](pendingState, {type, status, body, receivedAt, code, headers}))
-      .toEqual({isFetching: false, didInvalidate: false, items: body, lastUpdated: receivedAt});
+      status = 'resolved';
+      const code = 206;
+      const contentRange = parseContentRangeHeader('users 0-2/3');
+      const body = [{id: 1, firstName: 'Olivier'}, {id: 2, firstName: 'Romain'}, {id: 3, firstName: 'someone'}];
+      const receivedAt = Date.now();
+      expect(reducers[actionId](pendingState, {type, status, body, receivedAt, code, contentRange}))
+        .toEqual({isFetching: false, didInvalidate: false, items: body, lastUpdated: receivedAt});
 
-    status = 'rejected';
-    expect(reducers[actionId](pendingState, {type, status, err: {}, receivedAt}))
-      .toEqual({didInvalidate: false, isFetching: false});
-  });
-  it('should handle FETCH action (partial-content fetch => first range [0 to 2] with 3 old items)', () => {
-    const actionId = 'fetch';
-    const type = types[getActionTypeKey(actionId, {resourceName})];
-    const oldItems = [{id: 1, firstName: 'Olivier'}, {id: 2, firstName: 'Romain'}, {id: 3, firstName: 'someone'}];
-    let status;
+      status = 'rejected';
+      expect(reducers[actionId](pendingState, {type, status, err: {}, receivedAt}))
+        .toEqual({didInvalidate: false, isFetching: false});
+    });
+    it('partial-content fetch => first range [0 to 2] with 3 old items', () => {
+      const actionId = 'fetch';
+      const type = types[getActionTypeKey(actionId, {resourceName})];
+      const oldItems = [{id: 1, firstName: 'Olivier'}, {id: 2, firstName: 'Romain'}, {id: 3, firstName: 'someone'}];
+      let status;
 
-    status = 'pending';
-    const pendingState = reducers[actionId]({items: oldItems}, {type, status});
-    expect(pendingState)
-      .toEqual({isFetching: true, didInvalidate: false, items: oldItems});
+      status = 'pending';
+      const pendingState = reducers[actionId]({items: oldItems}, {type, status});
+      expect(pendingState)
+        .toEqual({isFetching: true, didInvalidate: false, items: oldItems});
 
-    status = 'resolved';
-    const code = 206;
-    const headers = new Headers({'Content-Range': 'users 0-2/3'}); // eslint-disable-line
-    const body = [{id: 11, firstName: 'Olivier'}, {id: 12, firstName: 'Romain'}, {id: 13, firstName: 'someone'}];
-    const receivedAt = Date.now();
-    expect(reducers[actionId](pendingState, {type, status, body, receivedAt, code, headers}))
-      .toEqual({isFetching: false, didInvalidate: false, items: body, lastUpdated: receivedAt});
+      status = 'resolved';
+      const code = 206;
+      const contentRange = parseContentRangeHeader('users 0-2/3');
+      const body = [{id: 11, firstName: 'Olivier'}, {id: 12, firstName: 'Romain'}, {id: 13, firstName: 'someone'}];
+      const receivedAt = Date.now();
+      expect(reducers[actionId](pendingState, {type, status, body, receivedAt, code, contentRange}))
+        .toEqual({isFetching: false, didInvalidate: false, items: body, lastUpdated: receivedAt});
 
-    status = 'rejected';
-    expect(reducers[actionId](pendingState, {type, status, err: {}, receivedAt}))
-      .toEqual({didInvalidate: false, isFetching: false, items: oldItems});
-  });
-  it('should handle FETCH action (partial-content fetch => next range [3 to 4] with 3 old items)', () => {
-    const actionId = 'fetch';
-    const type = types[getActionTypeKey(actionId, {resourceName})];
-    const oldItems = [{id: 1, firstName: 'Olivier'}, {id: 2, firstName: 'Romain'}, {id: 3, firstName: 'someone'}];
-    let status;
+      status = 'rejected';
+      expect(reducers[actionId](pendingState, {type, status, err: {}, receivedAt}))
+        .toEqual({didInvalidate: false, isFetching: false, items: oldItems});
+    });
+    it('partial-content fetch => next range [3 to 4] with 3 old items', () => {
+      const actionId = 'fetch';
+      const type = types[getActionTypeKey(actionId, {resourceName})];
+      const oldItems = [{id: 1, firstName: 'Olivier'}, {id: 2, firstName: 'Romain'}, {id: 3, firstName: 'someone'}];
+      let status;
 
-    status = 'pending';
-    const pendingState = reducers[actionId]({items: oldItems}, {type, status});
-    expect(pendingState)
-      .toEqual({isFetching: true, didInvalidate: false, items: oldItems});
+      status = 'pending';
+      const pendingState = reducers[actionId]({items: oldItems}, {type, status});
+      expect(pendingState)
+        .toEqual({isFetching: true, didInvalidate: false, items: oldItems});
 
-    status = 'resolved';
-    const code = 206;
-    const headers = new Headers({'Content-Range': 'users 3-4/2'}); // eslint-disable-line
-    const body = [{id: 4, firstName: 'somebody'}, {id: 5, firstName: 'someone else'}];
-    const receivedAt = Date.now();
-    expect(reducers[actionId](pendingState, {type, status, body, receivedAt, code, headers}))
-      .toEqual({isFetching: false, didInvalidate: false, items: oldItems.concat(body), lastUpdated: receivedAt});
+      status = 'resolved';
+      const code = 206;
+      const contentRange = parseContentRangeHeader('users 3-4/2');
+      const body = [{id: 4, firstName: 'somebody'}, {id: 5, firstName: 'someone else'}];
+      const receivedAt = Date.now();
+      expect(reducers[actionId](pendingState, {type, status, body, receivedAt, code, contentRange}))
+        .toEqual({isFetching: false, didInvalidate: false, items: oldItems.concat(body), lastUpdated: receivedAt});
 
-    status = 'rejected';
-    expect(reducers[actionId](pendingState, {type, status, err: {}, receivedAt}))
-      .toEqual({didInvalidate: false, isFetching: false, items: oldItems});
+      status = 'rejected';
+      expect(reducers[actionId](pendingState, {type, status, err: {}, receivedAt}))
+        .toEqual({didInvalidate: false, isFetching: false, items: oldItems});
+    });
   });
   it('should handle GET action', () => {
     const actionId = 'get';
