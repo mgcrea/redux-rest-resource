@@ -1,6 +1,6 @@
 import {initialState} from './../defaults';
 import {getTypesScope, getActionType} from './../types';
-import {getGerundName, isFunction, ucfirst, parseContentRangeHeader} from './../helpers/util';
+import {getGerundName, isFunction, ucfirst} from './../helpers/util';
 
 const defaultReducers = {
   create: (state, action) => {
