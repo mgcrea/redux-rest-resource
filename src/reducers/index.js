@@ -38,21 +38,15 @@ const defaultReducers = {
       case 'resolved': {
         const isPartialContent = action.code === 206;
         let items = [];
-
-        if (isPartialContent) {
-          const cr = parseContentRangeHeader(action.headers.get('Content-Range'));
-
-          if (cr) {
-            if (cr.first > 0) {
-              items = items.concat(state.items.slice(0, cr.last));
-            }
-
-            for (let i = cr.first; i <= cr.last; i += 1) {
-              const newItem = action.body[i - cr.first];
-
-              if (newItem != null) {
-                items.push(newItem);
-              }
+        if (isPartialContent && action.contentRange) {
+          const {contentRange} = action;
+          if (contentRange.first > 0) {
+            items = items.concat(state.items.slice(0, contentRange.last));
+          }
+          for (let i = contentRange.first; i <= contentRange.last; i += 1) {
+            const newItem = action.body[i - contentRange.first];
+            if (newItem != null) {
+              items.push(newItem);
             }
           }
         } else {
