@@ -1,4 +1,4 @@
-## Table of Contents
+# Table of Contents
 
 * [Read Me](../README.md)
 * [Usage](usage/README.md)
