@@ -7,7 +7,8 @@ const defaultReducers = {
     switch (action.status) {
       case 'pending':
         // Add object to store as soon as possible?
-        return {...state,
+        return {
+          ...state,
           isCreating: true
           // items: [{
           //   id: state.items.reduce((maxId, obj) => Math.max(obj.id, maxId), -1) + 1,
@@ -16,12 +17,14 @@ const defaultReducers = {
         };
       case 'resolved':
         // Assign returned object
-        return {...state,
+        return {
+          ...state,
           isCreating: false,
           items: [...(state.items || []), action.body]
         };
       case 'rejected':
-        return {...state,
+        return {
+          ...state,
           isCreating: false
         };
       default:
@@ -31,7 +34,8 @@ const defaultReducers = {
   fetch: (state, action) => {
     switch (action.status) {
       case 'pending':
-        return {...state,
+        return {
+          ...state,
           isFetching: true,
           didInvalidate: false
         };
@@ -53,7 +57,8 @@ const defaultReducers = {
           items = items.concat(action.body);
         }
 
-        return {...state,
+        return {
+          ...state,
           isFetching: false,
           didInvalidate: false,
           items,
@@ -61,7 +66,8 @@ const defaultReducers = {
         };
       }
       case 'rejected':
-        return {...state,
+        return {
+          ...state,
           isFetching: false,
           didInvalidate: false
         };
@@ -72,7 +78,8 @@ const defaultReducers = {
   get: (state, action) => {
     switch (action.status) {
       case 'pending':
-        return {...state,
+        return {
+          ...state,
           isFetchingItem: true,
           didInvalidateItem: false
         };
@@ -88,7 +95,8 @@ const defaultReducers = {
             update.items = updatedItems.slice();
           }
         }
-        return {...state,
+        return {
+          ...state,
           isFetchingItem: false,
           didInvalidateItem: false,
           lastUpdatedItem: action.receivedAt,
@@ -97,7 +105,8 @@ const defaultReducers = {
         };
       }
       case 'rejected':
-        return {...state,
+        return {
+          ...state,
           isFetchingItem: false,
           didInvalidateItem: false
         };
@@ -109,7 +118,8 @@ const defaultReducers = {
     switch (action.status) {
       case 'pending':
         // Update object in store as soon as possible?
-        return {...state,
+        return {
+          ...state,
           isUpdating: true
         };
       case 'resolved': {
@@ -122,17 +132,17 @@ const defaultReducers = {
         if (listItemIndex !== -1) {
           updatedItems[listItemIndex] = {...updatedItems[listItemIndex], ...update};
         }
-        const updatedItem = state.item && state.item.id === id
-          ? {...state.item, ...update}
-          : state.item;
-        return {...state,
+        const updatedItem = state.item && state.item.id === id ? {...state.item, ...update} : state.item;
+        return {
+          ...state,
           isUpdating: false,
           items: updatedItems,
           item: updatedItem
         };
       }
       case 'rejected':
-        return {...state,
+        return {
+          ...state,
           isUpdating: false
         };
       default:
@@ -143,17 +153,20 @@ const defaultReducers = {
     switch (action.status) {
       case 'pending':
         // Update object in store as soon as possible?
-        return {...state,
+        return {
+          ...state,
           isDeleting: true
         };
       case 'resolved': // eslint-disable-line
         const id = action.context.id || action.context;
-        return {...state,
+        return {
+          ...state,
           isDeleting: false,
           items: [...state.items.filter(el => el.id !== id)]
         };
       case 'rejected':
-        return {...state,
+        return {
+          ...state,
           isDeleting: false
         };
       default:
@@ -161,7 +174,6 @@ const defaultReducers = {
     }
   }
 };
-
 
 const createReducer = (actionId, {resourceName, resourcePluralName = `${resourceName}s`, ...actionOpts}) => {
   // Custom reducers
@@ -183,15 +195,18 @@ const createReducer = (actionId, {resourceName, resourcePluralName = `${resource
     switch (action.status) {
       case 'pending':
         // Update object in store as soon as possible?
-        return {...state,
+        return {
+          ...state,
           [gerundStateKey]: true
         };
       case 'resolved': // eslint-disable-line
-        return {...state,
+        return {
+          ...state,
           [gerundStateKey]: false
         };
       case 'rejected':
-        return {...state,
+        return {
+          ...state,
           [gerundStateKey]: false
         };
       default:
@@ -212,12 +227,7 @@ const createReducers = (actions = {}, {resourceName, resourcePluralName, ...glob
 
 const createRootReducer = (
   reducers = {},
-  {
-    resourceName,
-    resourcePluralName,
-    scope = getTypesScope(resourceName),
-    ...globalOpts
-  } = {}
+  {resourceName, resourcePluralName, scope = getTypesScope(resourceName), ...globalOpts} = {}
 ) => {
   const scopeNamespace = scope ? `${scope}/` : '';
   const rootReducer = (state = {...initialState}, action) => {

@@ -10,7 +10,13 @@ describe('createTypes', () => {
       const types = createTypes(defaultActions, {resourceName});
       const expectedKeys = ['CREATE_USER', 'FETCH_USERS', 'GET_USER', 'UPDATE_USER', 'DELETE_USER'];
       expect(Object.keys(types)).toEqual(expectedKeys);
-      const expectedValues = ['@@resource/USER/CREATE', '@@resource/USER/FETCH', '@@resource/USER/GET', '@@resource/USER/UPDATE', '@@resource/USER/DELETE'];
+      const expectedValues = [
+        '@@resource/USER/CREATE',
+        '@@resource/USER/FETCH',
+        '@@resource/USER/GET',
+        '@@resource/USER/UPDATE',
+        '@@resource/USER/DELETE'
+      ];
       expect(values(types)).toEqual(expectedValues);
     });
   });
@@ -37,7 +43,13 @@ describe('createTypes', () => {
       const types = createTypes(defaultActions, {scope: '@@custom/TEAM'});
       const expectedKeys = ['CREATE', 'FETCH', 'GET', 'UPDATE', 'DELETE'];
       expect(Object.keys(types)).toEqual(expectedKeys);
-      const expectedValues = ['@@custom/TEAM/CREATE', '@@custom/TEAM/FETCH', '@@custom/TEAM/GET', '@@custom/TEAM/UPDATE', '@@custom/TEAM/DELETE'];
+      const expectedValues = [
+        '@@custom/TEAM/CREATE',
+        '@@custom/TEAM/FETCH',
+        '@@custom/TEAM/GET',
+        '@@custom/TEAM/UPDATE',
+        '@@custom/TEAM/DELETE'
+      ];
       expect(values(types)).toEqual(expectedValues);
     });
   });

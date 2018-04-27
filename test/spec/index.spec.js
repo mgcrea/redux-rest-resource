@@ -21,7 +21,11 @@ describe('createResource', () => {
     expect(typeof rootReducer).toBe('function');
   });
   it('should properly merge action opts', () => {
-    const {types, actions, reducers, rootReducer} = createResource({name, url, actions: {get: {foo: 'bar'}, charge: {method: 'post'}}});
+    const {types, actions, reducers, rootReducer} = createResource({
+      name,
+      url,
+      actions: {get: {foo: 'bar'}, charge: {method: 'post'}}
+    });
     expect(typeof types).toBe('object');
     expect(Object.keys(types).length).toEqual(6);
     expect(typeof actions).toBe('object');
@@ -58,7 +62,12 @@ describe('resourceOptions', () => {
   });
   describe('`mergeDefaultActions` option', () => {
     it('should properly not merge defaultActions', () => {
-      const {types, actions, reducers, rootReducer} = createResource({name, url, actions: {charge: {method: 'post'}}, mergeDefaultActions: false});
+      const {types, actions, reducers, rootReducer} = createResource({
+        name,
+        url,
+        actions: {charge: {method: 'post'}},
+        mergeDefaultActions: false
+      });
       expect(typeof types).toBe('object');
       expect(Object.keys(types).length).toEqual(1);
       expect(typeof actions).toBe('object');

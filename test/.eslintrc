@@ -8,6 +8,7 @@
   "rules": {
     "func-names": "off",
     "no-underscore-dangle": "off",
-    "import/no-extraneous-dependencies": "off"
+    "import/no-extraneous-dependencies": "off",
+    "max-len": ["warn", {"code": 120, "ignoreComments": true}]
   }
 }

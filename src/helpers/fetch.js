@@ -16,7 +16,7 @@ export class HttpError extends Error {
     if (typeof Error.captureStackTrace === 'function') {
       Error.captureStackTrace(this, this.constructor);
     } else {
-      this.stack = (new Error(message)).stack;
+      this.stack = new Error(message).stack;
     }
     // Http
     this.statusCode = statusCode;
@@ -72,11 +72,12 @@ export const buildFetchOpts = (context, {method, headers, credentials, query, bo
   return opts;
 };
 
-export const parseResponse = (res) => {
+export const parseResponse = res => {
   const contentType = res.headers.get('Content-Type');
   // @NOTE parses 'application/problem+json; charset=utf-8' for example
   // see https://tools.ietf.org/html/rfc6839
-  const isJson = contentType && (startsWith(contentType, 'application/json') || endsWith(contentType.split(';')[0], '+json'));
+  const isJson =
+    contentType && (startsWith(contentType, 'application/json') || endsWith(contentType.split(';')[0], '+json'));
   return res[isJson ? 'json' : 'text']();
 };
 
@@ -88,13 +89,13 @@ const fetch = (url, options = {}) => {
       : JSON.stringify(options.query[queryParam]);
     return replaceQueryStringParamFromUrl(wipUrl, queryParam, queryParamValue);
   }, url);
-  return (options.Promise || defaultGlobals.Promise).resolve((defaultGlobals.fetch || fetch)(builtUrl, options))
-    .then((res) => {
+  return (options.Promise || defaultGlobals.Promise)
+    .resolve((defaultGlobals.fetch || fetch)(builtUrl, options))
+    .then(res => {
       if (!res.ok) {
-        return parseResponse(res)
-          .then((body) => {
-            throw new HttpError(res.status, {body});
-          });
+        return parseResponse(res).then(body => {
+          throw new HttpError(res.status, {body});
+        });
       }
       return res;
     });
