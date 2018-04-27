@@ -10,13 +10,15 @@ import {defaultTransformResponsePipeline} from './../defaults';
 const SUPPORTED_FETCH_OPTS = ['url', 'method', 'headers', 'credentials', 'query', 'body'];
 const SUPPORTED_REDUCE_OPTS = ['assignResponse', 'isArray', 'isPure'];
 
-const getActionName = (actionId, {resourceName, resourcePluralName = getPluralName(resourceName), isArray = false} = {}) => (
-  !resourceName
-    ? actionId
-    : `${actionId}${ucfirst(isArray ? resourcePluralName : resourceName)}`
-);
+const getActionName = (
+  actionId,
+  {resourceName, resourcePluralName = getPluralName(resourceName), isArray = false} = {}
+) => (!resourceName ? actionId : `${actionId}${ucfirst(isArray ? resourcePluralName : resourceName)}`);
 
-const createAction = (actionId, {resourceName, resourcePluralName = getPluralName(resourceName), scope, ...actionOpts}) => {
+const createAction = (
+  actionId,
+  {resourceName, resourcePluralName = getPluralName(resourceName), scope, ...actionOpts}
+) => {
   const type = scopeType(getActionType(actionId), scope);
   // Actual action function with two args
   // Context usage changes with resolved method:
@@ -42,7 +44,9 @@ const createAction = (actionId, {resourceName, resourcePluralName = getPluralNam
     };
     // Support dynamic fetch options
     const resolvedfetchOpts = Object.keys(fetchOpts).reduce((soFar, key) => {
-      soFar[key] = isFunction(fetchOpts[key]) ? fetchOpts[key](getState, {context, contextOpts, actionId}) : fetchOpts[key];
+      soFar[key] = isFunction(fetchOpts[key])
+        ? fetchOpts[key](getState, {context, contextOpts, actionId})
+        : fetchOpts[key];
       return soFar;
     }, {});
     const {url, ...eligibleFetchOptions} = resolvedfetchOpts;
@@ -51,9 +55,13 @@ const createAction = (actionId, {resourceName, resourcePluralName = getPluralNam
     const finalFetchUrl = buildFetchUrl(context, {url, urlParams});
     const finalFetchOpts = buildFetchOpts(context, eligibleFetchOptions);
     return fetch(finalFetchUrl, finalFetchOpts)
-      .then(applyTransformPipeline(buildTransformPipeline(defaultTransformResponsePipeline, actionOpts.transformResponse)))
-      .then(payload => dispatch({type, status: 'resolved', context, options: reduceOpts, receivedAt: Date.now(), ...payload}))
-      .catch((err) => {
+      .then(
+        applyTransformPipeline(buildTransformPipeline(defaultTransformResponsePipeline, actionOpts.transformResponse))
+      )
+      .then(payload =>
+        dispatch({type, status: 'resolved', context, options: reduceOpts, receivedAt: Date.now(), ...payload})
+      ) // eslint-disable-line
+      .catch(err => {
         // Catch HttpErrors
         if (err.statusCode) {
           dispatch({
@@ -65,7 +73,7 @@ const createAction = (actionId, {resourceName, resourcePluralName = getPluralNam
             options: reduceOpts,
             receivedAt: Date.now()
           });
-        // Catch regular Errors
+          // Catch regular Errors
         } else {
           dispatch({
             type,

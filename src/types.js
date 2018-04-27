@@ -4,21 +4,17 @@ const scopeType = (type, scope) => (scope ? `${scope}/${type}` : type);
 
 const scopeTypes = (types = {}, scope) => (scope ? mapObject(types, type => scopeType(type, scope)) : types);
 
-const getTypesScope = resourceName => (
-  resourceName
-    ? `@@resource/${upperSnakeCase(resourceName)}`
-    : ''
-);
+const getTypesScope = resourceName => (resourceName ? `@@resource/${upperSnakeCase(resourceName)}` : '');
 
-const getActionTypeKey = (actionId, {resourceName, resourcePluralName = getPluralName(resourceName), isArray = false} = {}) => (
+const getActionTypeKey = (
+  actionId,
+  {resourceName, resourcePluralName = getPluralName(resourceName), isArray = false} = {}
+) =>
   resourceName
     ? `${actionId.toUpperCase()}_${upperSnakeCase(isArray ? resourcePluralName : resourceName)}`
-    : upperSnakeCase(actionId)
-);
+    : upperSnakeCase(actionId);
 
-const getActionType = actionId => (
-  upperSnakeCase(actionId)
-);
+const getActionType = actionId => upperSnakeCase(actionId);
 
 const createType = (actionId, {resourceName, resourcePluralName, isArray = false}) => {
   const typeKey = getActionTypeKey(actionId, {resourceName, resourcePluralName, isArray});

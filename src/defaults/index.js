@@ -17,15 +17,16 @@ const defaultHeaders = {
 };
 
 const defaultTransformResponsePipeline = [
-  res => parseResponse(res).then((body) => {
-    const transformedResponse = {body, code: res.status};
-    // Add support for Content-Range parsing when a partial http code is used
-    const isPartialContent = res.status === 206;
-    if (isPartialContent) {
-      transformedResponse.contentRange = parseContentRangeHeader(res.headers.get('Content-Range'));
-    }
-    return transformedResponse;
-  })
+  res =>
+    parseResponse(res).then(body => {
+      const transformedResponse = {body, code: res.status};
+      // Add support for Content-Range parsing when a partial http code is used
+      const isPartialContent = res.status === 206;
+      if (isPartialContent) {
+        transformedResponse.contentRange = parseContentRangeHeader(res.headers.get('Content-Range'));
+      }
+      return transformedResponse;
+    })
 ];
 
 const defaultState = {
@@ -59,11 +60,4 @@ const defaultGlobals = {
   fetch
 };
 
-export {
-  defaultGlobals,
-  defaultActions,
-  defaultHeaders,
-  defaultTransformResponsePipeline,
-  defaultState,
-  initialState
-};
+export {defaultGlobals, defaultActions, defaultHeaders, defaultTransformResponsePipeline, defaultState, initialState};

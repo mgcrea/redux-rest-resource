@@ -1,4 +1,3 @@
-
 // https://github.com/angular/angular.js/blob/master/src/ngResource/resource.js
 // var User = $resource('/user/:userId', {userId:'@id'});
 
@@ -39,12 +38,7 @@ export function createResource({
   };
 }
 
-export function createResourceAction({
-  name: resourceName,
-  pluralName: resourcePluralName,
-  method = 'GET',
-  ...args
-}) {
+export function createResourceAction({name: resourceName, pluralName: resourcePluralName, method = 'GET', ...args}) {
   const actionId = method.toLowerCase();
   const scope = getTypesScope(resourceName);
   const types = scopeTypes(createType(actionId, {resourceName, resourcePluralName}), scope);
