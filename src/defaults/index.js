@@ -9,7 +9,8 @@ const defaultActions = {
   get: {method: 'GET'},
   update: {method: 'PATCH'},
   updateArray: {method: 'PATCH', isArray: true, alias: 'update'},
-  delete: {method: 'DELETE'}
+  delete: {method: 'DELETE'},
+  deleteArray: {method: 'DELETE', isArray: true, alias: 'delete'}
 };
 
 const defaultHeaders = {

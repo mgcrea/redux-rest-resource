@@ -864,6 +864,153 @@ describe('defaultReducers', () => {
       isDeleting: false
     });
   });
+  it('should handle DELETE_ARRAY action with ids in query object', () => {
+    const actionId = snakeCase('deleteArray');
+    const type =
+      types[
+        getActionTypeKey(actionId, {
+          resourceName
+        })
+      ];
+    const initialItems = [
+      {
+        id: 1,
+        firstName: 'Olivier',
+        lastName: 'Louvignes'
+      },
+      {
+        id: 2,
+        firstName: 'Nathan',
+        lastName: 'Ducrey'
+      }
+    ];
+    const customInitialState = {
+      items: initialItems,
+      item: initialItems[0]
+    };
+    const context = {};
+    let status;
+
+    status = 'pending';
+    const pendingState = reducers[actionId](customInitialState, {
+      type,
+      status,
+      context,
+      query: {ids: [1, 2]}
+    });
+    expect(pendingState).toEqual({
+      ...customInitialState,
+      isArrayDeleting: true
+    });
+
+    status = 'resolved';
+    const body = {
+      ok: true
+    };
+    const receivedAt = Date.now();
+    const expectedItems = [];
+    const expectedItem = null;
+    expect(
+      reducers[actionId](pendingState, {
+        type,
+        status,
+        context,
+        body,
+        receivedAt
+      })
+    ).toEqual({
+      isArrayDeleting: false,
+      items: expectedItems,
+      item: expectedItem
+    });
+
+    status = 'rejected';
+    expect(
+      reducers[actionId](pendingState, {
+        type,
+        status,
+        context,
+        err: {},
+        receivedAt
+      })
+    ).toEqual({
+      ...customInitialState,
+      isArrayDeleting: false
+    });
+  });
+  it('should handle DELETE_ARRAY action with ids in context object', () => {
+    const actionId = snakeCase('deleteArray');
+    const type =
+      types[
+        getActionTypeKey(actionId, {
+          resourceName
+        })
+      ];
+    const initialItems = [
+      {
+        id: 1,
+        firstName: 'Olivier',
+        lastName: 'Louvignes'
+      },
+      {
+        id: 2,
+        firstName: 'Nathan',
+        lastName: 'Ducrey'
+      }
+    ];
+    const customInitialState = {
+      items: initialItems,
+      item: initialItems[0]
+    };
+    const context = {ids: [1, 2]};
+    let status;
+
+    status = 'pending';
+    const pendingState = reducers[actionId](customInitialState, {
+      type,
+      status,
+      context
+    });
+    expect(pendingState).toEqual({
+      ...customInitialState,
+      isArrayDeleting: true
+    });
+
+    status = 'resolved';
+    const body = {
+      ok: true
+    };
+    const receivedAt = Date.now();
+    const expectedItems = [];
+    const expectedItem = null;
+    expect(
+      reducers[actionId](pendingState, {
+        type,
+        status,
+        context,
+        body,
+        receivedAt
+      })
+    ).toEqual({
+      isArrayDeleting: false,
+      items: expectedItems,
+      item: expectedItem
+    });
+
+    status = 'rejected';
+    expect(
+      reducers[actionId](pendingState, {
+        type,
+        status,
+        context,
+        err: {},
+        receivedAt
+      })
+    ).toEqual({
+      ...customInitialState,
+      isArrayDeleting: false
+    });
+  });
 });
 
 describe('custom reducers', () => {

@@ -251,6 +251,43 @@ const defaultReducers = {
       default:
         return state;
     }
+  },
+  deleteArray: (state, action) => {
+    switch (action.status) {
+      case 'pending':
+        // Update object in store as soon as possible?
+        return {
+          ...state,
+          isArrayDeleting: true
+        };
+      case 'resolved': // eslint-disable-line
+        const actionOpts = action.options || {};
+        const idKey = getIdKey(action, {multi: false});
+        const idKeyMulti = getIdKey(action, {multi: true});
+        const {[idKeyMulti]: ids} = actionOpts.query || action.context;
+
+        if (!ids) {
+          return {
+            ...state,
+            isArrayDeleting: false,
+            items: [],
+            item: null
+          };
+        }
+        return {
+          ...state,
+          isArrayDeleting: false,
+          items: [...state.items.filter(el => !ids.includes(el[idKey]))],
+          item: ids.includes(state.item[idKey]) ? null : state.item
+        };
+      case 'rejected':
+        return {
+          ...state,
+          isArrayDeleting: false
+        };
+      default:
+        return state;
+    }
   }
 };
 

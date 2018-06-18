@@ -1,19 +1,11 @@
-import {
-  values
-} from 'lodash';
+import {values} from 'lodash';
 import configureMockStore from 'redux-mock-store';
 import expect from 'expect';
 import nock from 'nock';
 import thunk from 'redux-thunk';
 
-import {
-  defaultActions,
-  defaultHeaders
-} from '../../src';
-import {
-  createActions,
-  getActionName
-} from '../../src/actions';
+import {defaultActions, defaultHeaders} from '../../src';
+import {createActions, getActionName} from '../../src/actions';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -30,7 +22,15 @@ describe('createActions', () => {
         resourceName,
         url
       });
-      const expectedKeys = ['createUser', 'fetchUsers', 'getUser', 'updateUser', 'updateUsers', 'deleteUser'];
+      const expectedKeys = [
+        'createUser',
+        'fetchUsers',
+        'getUser',
+        'updateUser',
+        'updateUsers',
+        'deleteUser',
+        'deleteUsers'
+      ];
       expect(Object.keys(actionFuncs)).toEqual(expectedKeys);
     });
     it('should return an object with properly typed values', () => {
@@ -47,7 +47,7 @@ describe('createActions', () => {
       const actionFuncs = createActions(defaultActions, {
         url
       });
-      const expectedKeys = ['create', 'fetch', 'get', 'update', 'updateArray', 'delete'];
+      const expectedKeys = ['create', 'fetch', 'get', 'update', 'updateArray', 'delete', 'deleteArray'];
       expect(Object.keys(actionFuncs)).toEqual(expectedKeys);
     });
     it('should return an object with properly typed values', () => {
@@ -91,7 +91,8 @@ describe('defaultActions', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [{
+      const expectedActions = [
+        {
           status: 'pending',
           type,
           context
@@ -122,10 +123,12 @@ describe('defaultActions', () => {
       });
       const type = '@@resource/USER/FETCH';
       const context = {};
-      const body = [{
-        id: 1,
-        firstName: 'Olivier'
-      }];
+      const body = [
+        {
+          id: 1,
+          firstName: 'Olivier'
+        }
+      ];
       const code = 200;
       const options = {
         isArray: true
@@ -136,7 +139,8 @@ describe('defaultActions', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [{
+      const expectedActions = [
+        {
           status: 'pending',
           type,
           context
@@ -180,7 +184,8 @@ describe('defaultActions', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [{
+      const expectedActions = [
+        {
           status: 'pending',
           type,
           context
@@ -224,7 +229,8 @@ describe('defaultActions', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [{
+      const expectedActions = [
+        {
           status: 'pending',
           type,
           context
@@ -267,7 +273,8 @@ describe('defaultActions', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [{
+      const expectedActions = [
+        {
           status: 'pending',
           type,
           context
@@ -316,7 +323,8 @@ describe('defaultActions', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [{
+      const expectedActions = [
+        {
           status: 'pending',
           type,
           context
@@ -357,7 +365,8 @@ describe('defaultActions', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [{
+      const expectedActions = [
+        {
           status: 'pending',
           type,
           context
@@ -398,7 +407,8 @@ describe('defaultActions', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [{
+      const expectedActions = [
+        {
           status: 'pending',
           type,
           context
@@ -448,7 +458,8 @@ describe('defaultActions', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [{
+      const expectedActions = [
+        {
           status: 'pending',
           type,
           context
@@ -492,7 +503,8 @@ describe('defaultActions', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [{
+      const expectedActions = [
+        {
           status: 'pending',
           type,
           context
@@ -533,7 +545,8 @@ describe('defaultActions', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [{
+      const expectedActions = [
+        {
           status: 'pending',
           type,
           context
@@ -599,7 +612,8 @@ describe('custom actions', () => {
     const store = mockStore({
       users: {}
     });
-    const expectedActions = [{
+    const expectedActions = [
+      {
         status: 'pending',
         type,
         context
@@ -628,10 +642,12 @@ describe('custom actions', () => {
     });
     const type = '@@resource/USER/MERGE';
     const context = {};
-    const body = [{
-      id: 1,
-      firstName: 'Olivier'
-    }];
+    const body = [
+      {
+        id: 1,
+        firstName: 'Olivier'
+      }
+    ];
     const code = 200;
     const options = {
       isArray: true
@@ -642,7 +658,8 @@ describe('custom actions', () => {
     const store = mockStore({
       users: {}
     });
-    const expectedActions = [{
+    const expectedActions = [
+      {
         status: 'pending',
         type,
         context
@@ -673,7 +690,8 @@ describe('custom pure actions', () => {
   const customActions = {
     clear: {
       isPure: true,
-      reduce: (state, action) => ({ ...state,
+      reduce: (state, action) => ({
+        ...state,
         item: null
       })
     }
@@ -698,12 +716,14 @@ describe('custom pure actions', () => {
     const options = {
       isPure: true
     };
-    const expectedActions = [{
-      status: 'resolved',
-      type,
-      context,
-      options
-    }];
+    const expectedActions = [
+      {
+        status: 'resolved',
+        type,
+        context,
+        options
+      }
+    ];
     return store.dispatch(actionFuncs[action](context)).then(() => {
       const actions = store.getActions();
       expect(actions).toEqual(expectedActions);
@@ -715,28 +735,33 @@ describe('fetch options', () => {
   afterEach(() => {
     nock.cleanAll();
   });
-  const checkActionMethodSignature = (getState, {
-    actionId
-  } = {}) => {
+  const checkActionMethodSignature = (getState, {actionId} = {}) => {
     expect(typeof getState).toBe('function');
     expect(typeof actionId).toBe('string');
     expect(typeof getState()).toBe('object');
   };
   describe('`transformResponse` option', () => {
     it('should support action options', () => {
-      const transformResponse = res => ({ ...res,
-        body: res.body.map(item => ({ ...item,
+      const transformResponse = res => ({
+        ...res,
+        body: res.body.map(item => ({
+          ...item,
           foo: 'bar'
         }))
       });
-      const actionFuncs = createActions({ ...defaultActions,
-        fetch: { ...defaultActions.fetch,
-          transformResponse
+      const actionFuncs = createActions(
+        {
+          ...defaultActions,
+          fetch: {
+            ...defaultActions.fetch,
+            transformResponse
+          }
+        },
+        {
+          resourceName,
+          url
         }
-      }, {
-        resourceName,
-        url
-      });
+      );
       const actionId = 'fetch';
       const action = getActionName(actionId, {
         resourceName,
@@ -744,10 +769,12 @@ describe('fetch options', () => {
       });
       const type = '@@resource/USER/FETCH';
       const context = {};
-      const body = [{
-        id: 1,
-        firstName: 'Olivier'
-      }];
+      const body = [
+        {
+          id: 1,
+          firstName: 'Olivier'
+        }
+      ];
       const code = 200;
       const options = {
         isArray: true
@@ -758,7 +785,8 @@ describe('fetch options', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [{
+      const expectedActions = [
+        {
           status: 'pending',
           type,
           context
@@ -768,7 +796,8 @@ describe('fetch options', () => {
           type,
           context,
           options,
-          body: body.map(item => ({ ...item,
+          body: body.map(item => ({
+            ...item,
             foo: 'bar'
           })),
           code,
@@ -785,14 +814,19 @@ describe('fetch options', () => {
   describe('`url` option', () => {
     it('should support action override', () => {
       const overridenUrl = `${host}/teams/:id`;
-      const actionFuncs = createActions({ ...defaultActions,
-        fetch: { ...defaultActions.fetch,
-          url: overridenUrl
+      const actionFuncs = createActions(
+        {
+          ...defaultActions,
+          fetch: {
+            ...defaultActions.fetch,
+            url: overridenUrl
+          }
+        },
+        {
+          resourceName,
+          url
         }
-      }, {
-        resourceName,
-        url
-      });
+      );
       const actionId = 'fetch';
       const action = getActionName(actionId, {
         resourceName,
@@ -800,10 +834,12 @@ describe('fetch options', () => {
       });
       const type = '@@resource/USER/FETCH';
       const context = {};
-      const body = [{
-        id: 1,
-        firstName: 'Olivier'
-      }];
+      const body = [
+        {
+          id: 1,
+          firstName: 'Olivier'
+        }
+      ];
       const code = 200;
       const options = {
         isArray: true
@@ -814,7 +850,8 @@ describe('fetch options', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [{
+      const expectedActions = [
+        {
           status: 'pending',
           type,
           context
@@ -840,14 +877,19 @@ describe('fetch options', () => {
         checkActionMethodSignature(...args);
         return `${host}/teams/:id`;
       };
-      const actionFuncs = createActions({ ...defaultActions,
-        fetch: { ...defaultActions.fetch,
-          url: overridenUrl
+      const actionFuncs = createActions(
+        {
+          ...defaultActions,
+          fetch: {
+            ...defaultActions.fetch,
+            url: overridenUrl
+          }
+        },
+        {
+          resourceName,
+          url
         }
-      }, {
-        resourceName,
-        url
-      });
+      );
       const actionId = 'fetch';
       const action = getActionName(actionId, {
         resourceName,
@@ -855,10 +897,12 @@ describe('fetch options', () => {
       });
       const type = '@@resource/USER/FETCH';
       const context = {};
-      const body = [{
-        id: 1,
-        firstName: 'Olivier'
-      }];
+      const body = [
+        {
+          id: 1,
+          firstName: 'Olivier'
+        }
+      ];
       const code = 200;
       const options = {
         isArray: true
@@ -869,7 +913,8 @@ describe('fetch options', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [{
+      const expectedActions = [
+        {
           status: 'pending',
           type,
           context
@@ -903,10 +948,12 @@ describe('fetch options', () => {
       });
       const type = '@@resource/USER/FETCH';
       const context = {};
-      const body = [{
-        id: 1,
-        firstName: 'Olivier'
-      }];
+      const body = [
+        {
+          id: 1,
+          firstName: 'Olivier'
+        }
+      ];
       const code = 200;
       const options = {
         isArray: true
@@ -917,7 +964,8 @@ describe('fetch options', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [{
+      const expectedActions = [
+        {
           status: 'pending',
           type,
           context
@@ -932,24 +980,33 @@ describe('fetch options', () => {
           receivedAt: null
         }
       ];
-      return store.dispatch(actionFuncs[action](context, {
-        url: overridenUrl
-      })).then(() => {
-        const actions = store.getActions();
-        actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
-      });
+      return store
+        .dispatch(
+          actionFuncs[action](context, {
+            url: overridenUrl
+          })
+        )
+        .then(() => {
+          const actions = store.getActions();
+          actions[1].receivedAt = null;
+          expect(actions).toEqual(expectedActions);
+        });
     });
     it('should support relative urls', () => {
       const overridenUrl = './merge';
-      const actionFuncs = createActions({ ...defaultActions,
-        update: { ...defaultActions.update,
-          url: overridenUrl
+      const actionFuncs = createActions(
+        {
+          ...defaultActions,
+          update: {
+            ...defaultActions.update,
+            url: overridenUrl
+          }
+        },
+        {
+          resourceName,
+          url
         }
-      }, {
-        resourceName,
-        url
-      });
+      );
       const actionId = 'update';
       const action = getActionName(actionId, {
         resourceName
@@ -970,7 +1027,8 @@ describe('fetch options', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [{
+      const expectedActions = [
+        {
           status: 'pending',
           type,
           context
@@ -995,14 +1053,19 @@ describe('fetch options', () => {
   describe('`method` option', () => {
     it('should support action override', () => {
       const method = 'PATCH';
-      const actionFuncs = createActions({ ...defaultActions,
-        fetch: { ...defaultActions.fetch,
-          method
+      const actionFuncs = createActions(
+        {
+          ...defaultActions,
+          fetch: {
+            ...defaultActions.fetch,
+            method
+          }
+        },
+        {
+          resourceName,
+          url
         }
-      }, {
-        resourceName,
-        url
-      });
+      );
       const actionId = 'fetch';
       const action = getActionName(actionId, {
         resourceName,
@@ -1010,10 +1073,12 @@ describe('fetch options', () => {
       });
       const type = '@@resource/USER/FETCH';
       const context = {};
-      const body = [{
-        id: 1,
-        firstName: 'Olivier'
-      }];
+      const body = [
+        {
+          id: 1,
+          firstName: 'Olivier'
+        }
+      ];
       const code = 200;
       const options = {
         isArray: true
@@ -1024,7 +1089,8 @@ describe('fetch options', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [{
+      const expectedActions = [
+        {
           status: 'pending',
           type,
           context
@@ -1050,14 +1116,19 @@ describe('fetch options', () => {
         checkActionMethodSignature(...args);
         return 'PATCH';
       };
-      const actionFuncs = createActions({ ...defaultActions,
-        fetch: { ...defaultActions.fetch,
-          method
+      const actionFuncs = createActions(
+        {
+          ...defaultActions,
+          fetch: {
+            ...defaultActions.fetch,
+            method
+          }
+        },
+        {
+          resourceName,
+          url
         }
-      }, {
-        resourceName,
-        url
-      });
+      );
       const actionId = 'fetch';
       const action = getActionName(actionId, {
         resourceName,
@@ -1065,10 +1136,12 @@ describe('fetch options', () => {
       });
       const type = '@@resource/USER/FETCH';
       const context = {};
-      const body = [{
-        id: 1,
-        firstName: 'Olivier'
-      }];
+      const body = [
+        {
+          id: 1,
+          firstName: 'Olivier'
+        }
+      ];
       const code = 200;
       const options = {
         isArray: true
@@ -1079,7 +1152,8 @@ describe('fetch options', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [{
+      const expectedActions = [
+        {
           status: 'pending',
           type,
           context
@@ -1113,10 +1187,12 @@ describe('fetch options', () => {
       });
       const type = '@@resource/USER/FETCH';
       const context = {};
-      const body = [{
-        id: 1,
-        firstName: 'Olivier'
-      }];
+      const body = [
+        {
+          id: 1,
+          firstName: 'Olivier'
+        }
+      ];
       const code = 200;
       const options = {
         isArray: true
@@ -1127,7 +1203,8 @@ describe('fetch options', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [{
+      const expectedActions = [
+        {
           status: 'pending',
           type,
           context
@@ -1142,13 +1219,17 @@ describe('fetch options', () => {
           receivedAt: null
         }
       ];
-      return store.dispatch(actionFuncs[action](context, {
-        method
-      })).then(() => {
-        const actions = store.getActions();
-        actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
-      });
+      return store
+        .dispatch(
+          actionFuncs[action](context, {
+            method
+          })
+        )
+        .then(() => {
+          const actions = store.getActions();
+          actions[1].receivedAt = null;
+          expect(actions).toEqual(expectedActions);
+        });
     });
   });
   describe('`query` option', () => {
@@ -1156,14 +1237,19 @@ describe('fetch options', () => {
       const query = {
         foo: 'bar'
       };
-      const actionFuncs = createActions({ ...defaultActions,
-        fetch: { ...defaultActions.fetch,
-          query
+      const actionFuncs = createActions(
+        {
+          ...defaultActions,
+          fetch: {
+            ...defaultActions.fetch,
+            query
+          }
+        },
+        {
+          resourceName,
+          url
         }
-      }, {
-        resourceName,
-        url
-      });
+      );
       const actionId = 'fetch';
       const action = getActionName(actionId, {
         resourceName,
@@ -1171,10 +1257,12 @@ describe('fetch options', () => {
       });
       const type = '@@resource/USER/FETCH';
       const context = {};
-      const body = [{
-        id: 1,
-        firstName: 'Olivier'
-      }];
+      const body = [
+        {
+          id: 1,
+          firstName: 'Olivier'
+        }
+      ];
       const code = 200;
       const options = {
         isArray: true
@@ -1185,7 +1273,8 @@ describe('fetch options', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [{
+      const expectedActions = [
+        {
           status: 'pending',
           type,
           context
@@ -1213,14 +1302,19 @@ describe('fetch options', () => {
           foo: 'bar'
         };
       };
-      const actionFuncs = createActions({ ...defaultActions,
-        fetch: { ...defaultActions.fetch,
-          query
+      const actionFuncs = createActions(
+        {
+          ...defaultActions,
+          fetch: {
+            ...defaultActions.fetch,
+            query
+          }
+        },
+        {
+          resourceName,
+          url
         }
-      }, {
-        resourceName,
-        url
-      });
+      );
       const actionId = 'fetch';
       const action = getActionName(actionId, {
         resourceName,
@@ -1228,10 +1322,12 @@ describe('fetch options', () => {
       });
       const type = '@@resource/USER/FETCH';
       const context = {};
-      const body = [{
-        id: 1,
-        firstName: 'Olivier'
-      }];
+      const body = [
+        {
+          id: 1,
+          firstName: 'Olivier'
+        }
+      ];
       const code = 200;
       const options = {
         isArray: true
@@ -1242,7 +1338,8 @@ describe('fetch options', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [{
+      const expectedActions = [
+        {
           status: 'pending',
           type,
           context
@@ -1278,10 +1375,12 @@ describe('fetch options', () => {
       });
       const type = '@@resource/USER/FETCH';
       const context = {};
-      const body = [{
-        id: 1,
-        firstName: 'Olivier'
-      }];
+      const body = [
+        {
+          id: 1,
+          firstName: 'Olivier'
+        }
+      ];
       const code = 200;
       const options = {
         isArray: true
@@ -1292,7 +1391,8 @@ describe('fetch options', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [{
+      const expectedActions = [
+        {
           status: 'pending',
           type,
           context
@@ -1307,22 +1407,28 @@ describe('fetch options', () => {
           receivedAt: null
         }
       ];
-      return store.dispatch(actionFuncs[action](context, {
-        query
-      })).then(() => {
-        const actions = store.getActions();
-        actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
-      });
+      return store
+        .dispatch(
+          actionFuncs[action](context, {
+            query
+          })
+        )
+        .then(() => {
+          const actions = store.getActions();
+          actions[1].receivedAt = null;
+          expect(actions).toEqual(expectedActions);
+        });
     });
     it('should support non-string query params', () => {
       const query = {
         select: ['firstName', 'lastName'],
-        populate: [{
-          path: 'team',
-          model: 'Team',
-          select: ['id', 'name']
-        }]
+        populate: [
+          {
+            path: 'team',
+            model: 'Team',
+            select: ['id', 'name']
+          }
+        ]
       };
       const actionFuncs = createActions(defaultActions, {
         resourceName,
@@ -1335,10 +1441,12 @@ describe('fetch options', () => {
       });
       const type = '@@resource/USER/FETCH';
       const context = {};
-      const body = [{
-        id: 1,
-        firstName: 'Olivier'
-      }];
+      const body = [
+        {
+          id: 1,
+          firstName: 'Olivier'
+        }
+      ];
       const code = 200;
       const options = {
         isArray: true
@@ -1351,7 +1459,8 @@ describe('fetch options', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [{
+      const expectedActions = [
+        {
           status: 'pending',
           type,
           context
@@ -1366,13 +1475,17 @@ describe('fetch options', () => {
           receivedAt: null
         }
       ];
-      return store.dispatch(actionFuncs[action](context, {
-        query
-      })).then(() => {
-        const actions = store.getActions();
-        actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
-      });
+      return store
+        .dispatch(
+          actionFuncs[action](context, {
+            query
+          })
+        )
+        .then(() => {
+          const actions = store.getActions();
+          actions[1].receivedAt = null;
+          expect(actions).toEqual(expectedActions);
+        });
     });
   });
   describe('`headers` option', () => {
@@ -1391,10 +1504,12 @@ describe('fetch options', () => {
       });
       const type = '@@resource/USER/FETCH';
       const context = {};
-      const body = [{
-        id: 1,
-        firstName: 'Olivier'
-      }];
+      const body = [
+        {
+          id: 1,
+          firstName: 'Olivier'
+        }
+      ];
       const code = 200;
       const options = {
         isArray: true
@@ -1406,7 +1521,8 @@ describe('fetch options', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [{
+      const expectedActions = [
+        {
           status: 'pending',
           type,
           context
@@ -1431,14 +1547,19 @@ describe('fetch options', () => {
       const headers = {
         'X-Custom-Header': 'foobar'
       };
-      const actionFuncs = createActions({ ...defaultActions,
-        fetch: { ...defaultActions.fetch,
-          headers
+      const actionFuncs = createActions(
+        {
+          ...defaultActions,
+          fetch: {
+            ...defaultActions.fetch,
+            headers
+          }
+        },
+        {
+          resourceName,
+          url
         }
-      }, {
-        resourceName,
-        url
-      });
+      );
       const actionId = 'fetch';
       const action = getActionName(actionId, {
         resourceName,
@@ -1446,10 +1567,12 @@ describe('fetch options', () => {
       });
       const type = '@@resource/USER/FETCH';
       const context = {};
-      const body = [{
-        id: 1,
-        firstName: 'Olivier'
-      }];
+      const body = [
+        {
+          id: 1,
+          firstName: 'Olivier'
+        }
+      ];
       const code = 200;
       const options = {
         isArray: true
@@ -1461,7 +1584,8 @@ describe('fetch options', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [{
+      const expectedActions = [
+        {
           status: 'pending',
           type,
           context
@@ -1489,14 +1613,19 @@ describe('fetch options', () => {
           'X-Custom-Header': 'foobar'
         };
       };
-      const actionFuncs = createActions({ ...defaultActions,
-        fetch: { ...defaultActions.fetch,
-          headers
+      const actionFuncs = createActions(
+        {
+          ...defaultActions,
+          fetch: {
+            ...defaultActions.fetch,
+            headers
+          }
+        },
+        {
+          resourceName,
+          url
         }
-      }, {
-        resourceName,
-        url
-      });
+      );
       const actionId = 'fetch';
       const action = getActionName(actionId, {
         resourceName,
@@ -1504,10 +1633,12 @@ describe('fetch options', () => {
       });
       const type = '@@resource/USER/FETCH';
       const context = {};
-      const body = [{
-        id: 1,
-        firstName: 'Olivier'
-      }];
+      const body = [
+        {
+          id: 1,
+          firstName: 'Olivier'
+        }
+      ];
       const code = 200;
       const options = {
         isArray: true
@@ -1519,7 +1650,8 @@ describe('fetch options', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [{
+      const expectedActions = [
+        {
           status: 'pending',
           type,
           context
@@ -1555,10 +1687,12 @@ describe('fetch options', () => {
       });
       const type = '@@resource/USER/FETCH';
       const context = {};
-      const body = [{
-        id: 1,
-        firstName: 'Olivier'
-      }];
+      const body = [
+        {
+          id: 1,
+          firstName: 'Olivier'
+        }
+      ];
       const code = 200;
       const options = {
         isArray: true
@@ -1570,7 +1704,8 @@ describe('fetch options', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [{
+      const expectedActions = [
+        {
           status: 'pending',
           type,
           context
@@ -1585,26 +1720,35 @@ describe('fetch options', () => {
           receivedAt: null
         }
       ];
-      return store.dispatch(actionFuncs[action](context, {
-        headers
-      })).then(() => {
-        const actions = store.getActions();
-        actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
-      });
+      return store
+        .dispatch(
+          actionFuncs[action](context, {
+            headers
+          })
+        )
+        .then(() => {
+          const actions = store.getActions();
+          actions[1].receivedAt = null;
+          expect(actions).toEqual(expectedActions);
+        });
     });
   });
   describe('`credentials` option', () => {
     it('should support action override', () => {
       const credentials = 'include';
-      const actionFuncs = createActions({ ...defaultActions,
-        fetch: { ...defaultActions.fetch,
-          credentials
+      const actionFuncs = createActions(
+        {
+          ...defaultActions,
+          fetch: {
+            ...defaultActions.fetch,
+            credentials
+          }
+        },
+        {
+          resourceName,
+          url
         }
-      }, {
-        resourceName,
-        url
-      });
+      );
       const actionId = 'fetch';
       const action = getActionName(actionId, {
         resourceName,
@@ -1612,10 +1756,12 @@ describe('fetch options', () => {
       });
       const type = '@@resource/USER/FETCH';
       const context = {};
-      const body = [{
-        id: 1,
-        firstName: 'Olivier'
-      }];
+      const body = [
+        {
+          id: 1,
+          firstName: 'Olivier'
+        }
+      ];
       const code = 200;
       const options = {
         isArray: true
@@ -1628,7 +1774,8 @@ describe('fetch options', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [{
+      const expectedActions = [
+        {
           status: 'pending',
           type,
           context
@@ -1654,14 +1801,19 @@ describe('fetch options', () => {
         checkActionMethodSignature(...args);
         return 'include';
       };
-      const actionFuncs = createActions({ ...defaultActions,
-        fetch: { ...defaultActions.fetch,
-          credentials
+      const actionFuncs = createActions(
+        {
+          ...defaultActions,
+          fetch: {
+            ...defaultActions.fetch,
+            credentials
+          }
+        },
+        {
+          resourceName,
+          url
         }
-      }, {
-        resourceName,
-        url
-      });
+      );
       const actionId = 'fetch';
       const action = getActionName(actionId, {
         resourceName,
@@ -1669,10 +1821,12 @@ describe('fetch options', () => {
       });
       const type = '@@resource/USER/FETCH';
       const context = {};
-      const body = [{
-        id: 1,
-        firstName: 'Olivier'
-      }];
+      const body = [
+        {
+          id: 1,
+          firstName: 'Olivier'
+        }
+      ];
       const code = 200;
       const options = {
         isArray: true
@@ -1685,7 +1839,8 @@ describe('fetch options', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [{
+      const expectedActions = [
+        {
           status: 'pending',
           type,
           context
@@ -1719,10 +1874,12 @@ describe('fetch options', () => {
       });
       const type = '@@resource/USER/FETCH';
       const context = {};
-      const body = [{
-        id: 1,
-        firstName: 'Olivier'
-      }];
+      const body = [
+        {
+          id: 1,
+          firstName: 'Olivier'
+        }
+      ];
       const code = 200;
       const options = {
         isArray: true
@@ -1735,7 +1892,8 @@ describe('fetch options', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [{
+      const expectedActions = [
+        {
           status: 'pending',
           type,
           context
@@ -1750,13 +1908,17 @@ describe('fetch options', () => {
           receivedAt: null
         }
       ];
-      return store.dispatch(actionFuncs[action](context, {
-        credentials
-      })).then(() => {
-        const actions = store.getActions();
-        actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
-      });
+      return store
+        .dispatch(
+          actionFuncs[action](context, {
+            credentials
+          })
+        )
+        .then(() => {
+          const actions = store.getActions();
+          actions[1].receivedAt = null;
+          expect(actions).toEqual(expectedActions);
+        });
     });
   });
   describe('`body` option', () => {
@@ -1787,7 +1949,8 @@ describe('fetch options', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [{
+      const expectedActions = [
+        {
           status: 'pending',
           type,
           context
@@ -1802,13 +1965,17 @@ describe('fetch options', () => {
           receivedAt: null
         }
       ];
-      return store.dispatch(actionFuncs[action](context, {
-        body: contextBody
-      })).then(() => {
-        const actions = store.getActions();
-        actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
-      });
+      return store
+        .dispatch(
+          actionFuncs[action](context, {
+            body: contextBody
+          })
+        )
+        .then(() => {
+          const actions = store.getActions();
+          actions[1].receivedAt = null;
+          expect(actions).toEqual(expectedActions);
+        });
     });
   });
 });
@@ -1820,14 +1987,19 @@ describe('reduce options', () => {
   describe('`isArray` option', () => {
     it('should support action override', () => {
       const isArray = true;
-      const actionFuncs = createActions({ ...defaultActions,
-        create: { ...defaultActions.create,
-          isArray
+      const actionFuncs = createActions(
+        {
+          ...defaultActions,
+          create: {
+            ...defaultActions.create,
+            isArray
+          }
+        },
+        {
+          resourceName,
+          url
         }
-      }, {
-        resourceName,
-        url
-      });
+      );
       const actionId = 'create';
       const action = getActionName(actionId, {
         resourceName,
@@ -1850,7 +2022,8 @@ describe('reduce options', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [{
+      const expectedActions = [
+        {
           status: 'pending',
           type,
           context
@@ -1899,7 +2072,8 @@ describe('reduce options', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [{
+      const expectedActions = [
+        {
           status: 'pending',
           type,
           context
@@ -1914,26 +2088,35 @@ describe('reduce options', () => {
           receivedAt: null
         }
       ];
-      return store.dispatch(actionFuncs[action](context, {
-        isArray
-      })).then(() => {
-        const actions = store.getActions();
-        actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
-      });
+      return store
+        .dispatch(
+          actionFuncs[action](context, {
+            isArray
+          })
+        )
+        .then(() => {
+          const actions = store.getActions();
+          actions[1].receivedAt = null;
+          expect(actions).toEqual(expectedActions);
+        });
     });
   });
   describe('`assignResponse` option', () => {
     it('should support action override', () => {
       const assignResponse = true;
-      const actionFuncs = createActions({ ...defaultActions,
-        update: { ...defaultActions.update,
-          assignResponse
+      const actionFuncs = createActions(
+        {
+          ...defaultActions,
+          update: {
+            ...defaultActions.update,
+            assignResponse
+          }
+        },
+        {
+          resourceName,
+          url
         }
-      }, {
-        resourceName,
-        url
-      });
+      );
       const actionId = 'update';
       const action = getActionName(actionId, {
         resourceName
@@ -1956,7 +2139,8 @@ describe('reduce options', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [{
+      const expectedActions = [
+        {
           status: 'pending',
           type,
           context
@@ -2005,7 +2189,8 @@ describe('reduce options', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [{
+      const expectedActions = [
+        {
           status: 'pending',
           type,
           context
@@ -2020,13 +2205,17 @@ describe('reduce options', () => {
           receivedAt: null
         }
       ];
-      return store.dispatch(actionFuncs[action](context, {
-        assignResponse
-      })).then(() => {
-        const actions = store.getActions();
-        actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
-      });
+      return store
+        .dispatch(
+          actionFuncs[action](context, {
+            assignResponse
+          })
+        )
+        .then(() => {
+          const actions = store.getActions();
+          actions[1].receivedAt = null;
+          expect(actions).toEqual(expectedActions);
+        });
     });
   });
 });
