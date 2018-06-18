@@ -1,12 +1,14 @@
 import {initialState} from './../defaults';
 import {getTypesScope, getActionType} from './../types';
-import {find, getGerundName, isFunction, ucfirst} from './../helpers/util';
+import {find, getGerundName, getIdKey, isFunction, isObject, ucfirst} from './../helpers/util';
 
 const getUpdateArrayData = (action, itemId) => {
   const actionOpts = action.options || {};
+  const idKey = getIdKey(action, {multi: false});
+
   return actionOpts.assignResponse
     ? find(action.body, {
-      id: itemId
+      [idKey]: itemId
     })
     : Object.keys(action.context).reduce((soFar, key) => {
       if (key !== 'ids') {
@@ -99,11 +101,12 @@ const defaultReducers = {
         };
       case 'resolved': {
         const actionOpts = action.options || {};
+        const idKey = getIdKey(action, {multi: false});
         const item = action.body;
         const update = {};
         if (actionOpts.assignResponse) {
           const updatedItems = state.items;
-          const listItemIndex = updatedItems.findIndex(el => el.id === item.id);
+          const listItemIndex = updatedItems.findIndex(el => el[idKey] === item[idKey]);
           if (listItemIndex !== -1) {
             updatedItems.splice(listItemIndex, 1, item);
             update.items = updatedItems.slice();
@@ -138,10 +141,11 @@ const defaultReducers = {
         };
       case 'resolved': {
         // Assign context or returned object
-        const id = action.context.id || action.context;
+        const idKey = getIdKey(action, {multi: false});
+        const id = isObject(action.context) ? action.context[idKey] : action.context;
         const actionOpts = action.options || {};
         const update = actionOpts.assignResponse ? action.body : action.context;
-        const listItemIndex = state.items.findIndex(el => el.id === id);
+        const listItemIndex = state.items.findIndex(el => el[idKey] === id);
         const updatedItems = state.items.slice();
         if (listItemIndex !== -1) {
           updatedItems[listItemIndex] = {
@@ -150,7 +154,7 @@ const defaultReducers = {
           };
         }
         const updatedItem =
-          state.item && state.item.id === id
+          state.item && state.item[idKey] === id
             ? {
               ...state.item,
               ...update
@@ -183,11 +187,13 @@ const defaultReducers = {
       case 'resolved': {
         // Assign context or returned object
         const actionOpts = action.options || {};
-        const {ids} = actionOpts.query || action.context;
+        const idKey = getIdKey(action, {multi: false});
+        const idKeyMulti = getIdKey(action, {multi: true});
+        const {[idKeyMulti]: ids} = actionOpts.query || action.context;
 
         const updatedItems = state.items.map(item => {
-          if (!ids || ids.includes(item.id)) {
-            const updatedItem = getUpdateArrayData(action, item.id);
+          if (!ids || ids.includes(item[idKey])) {
+            const updatedItem = getUpdateArrayData(action, item[idKey]);
             return updatedItem
               ? {
                 ...item,
@@ -199,10 +205,10 @@ const defaultReducers = {
         });
         // Also impact state.item? (@TODO opt-in/defautl?)
         const updatedItem =
-          state.item && (!ids || ids.includes(state.item.id))
+          state.item && (!ids || ids.includes(state.item[idKey]))
             ? {
               ...state.item,
-              ...getUpdateArrayData(action, state.item.id)
+              ...getUpdateArrayData(action, state.item[idKey])
             }
             : state.item;
         return {
@@ -230,11 +236,12 @@ const defaultReducers = {
           isDeleting: true
         };
       case 'resolved': // eslint-disable-line
-        const id = action.context.id || action.context;
+        const idKey = getIdKey(action, {multi: false});
+        const id = action.context[idKey] || action.context;
         return {
           ...state,
           isDeleting: false,
-          items: [...state.items.filter(el => el.id !== id)]
+          items: [...state.items.filter(el => el[idKey] !== id)]
         };
       case 'rejected':
         return {
