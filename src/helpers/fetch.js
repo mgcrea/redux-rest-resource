@@ -32,8 +32,8 @@ export const buildFetchUrl = (context, {url, urlParams, stripTrailingSlashes = t
     const urlParamInfo = urlParams[urlParam];
     const contextAsObject = !isObject(context)
       ? {
-        id: context
-      }
+          id: context
+        }
       : context;
     const value = contextAsObject[urlParam] || ''; // self.defaults[urlParam];
     if (value) {

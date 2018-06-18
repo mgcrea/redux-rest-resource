@@ -55,10 +55,10 @@ const createAction = (
     const resolvedfetchOpts = Object.keys(fetchOpts).reduce((soFar, key) => {
       soFar[key] = isFunction(fetchOpts[key])
         ? fetchOpts[key](getState, {
-          context,
-          contextOpts,
-          actionId
-        })
+            context,
+            contextOpts,
+            actionId
+          })
         : fetchOpts[key];
       return soFar;
     }, {});

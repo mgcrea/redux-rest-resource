@@ -8,14 +8,14 @@ const getUpdateArrayData = (action, itemId) => {
 
   return actionOpts.assignResponse
     ? find(action.body, {
-      [idKey]: itemId
-    })
+        [idKey]: itemId
+      })
     : Object.keys(action.context).reduce((soFar, key) => {
-      if (key !== 'ids') {
-        soFar[key] = action.context[key];
-      }
-      return soFar;
-    }, {});
+        if (key !== 'ids') {
+          soFar[key] = action.context[key];
+        }
+        return soFar;
+      }, {});
 };
 
 const defaultReducers = {
@@ -156,9 +156,9 @@ const defaultReducers = {
         const updatedItem =
           state.item && state.item[idKey] === id
             ? {
-              ...state.item,
-              ...update
-            }
+                ...state.item,
+                ...update
+              }
             : state.item;
         return {
           ...state,
@@ -196,9 +196,9 @@ const defaultReducers = {
             const updatedItem = getUpdateArrayData(action, item[idKey]);
             return updatedItem
               ? {
-                ...item,
-                ...updatedItem
-              }
+                  ...item,
+                  ...updatedItem
+                }
               : item;
           }
           return item;
@@ -207,9 +207,9 @@ const defaultReducers = {
         const updatedItem =
           state.item && (!ids || ids.includes(state.item[idKey]))
             ? {
-              ...state.item,
-              ...getUpdateArrayData(action, state.item[idKey])
-            }
+                ...state.item,
+                ...getUpdateArrayData(action, state.item[idKey])
+              }
             : state.item;
         return {
           ...state,

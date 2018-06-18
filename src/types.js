@@ -1,8 +1,4 @@
-import {
-  mapObject,
-  getPluralName,
-  upperSnakeCase
-} from './helpers/util';
+import {mapObject, getPluralName, upperSnakeCase} from './helpers/util';
 
 const scopeType = (type, scope) => (scope ? `${scope}/${type}` : type);
 
@@ -11,25 +7,17 @@ const scopeTypes = (types = {}, scope) => (scope ? mapObject(types, type => scop
 const getTypesScope = resourceName => (resourceName ? `@@resource/${upperSnakeCase(resourceName)}` : '');
 
 const getActionTypeKey = (
-  actionId, {
-    resourceName,
-    resourcePluralName = getPluralName(resourceName),
-    isArray = false
-  } = {}
+  actionId,
+  {resourceName, resourcePluralName = getPluralName(resourceName), isArray = false} = {}
 ) =>
-  resourceName ?
-    `${actionId.toUpperCase()}_${upperSnakeCase(isArray ? resourcePluralName : resourceName)}` :
-    upperSnakeCase(actionId);
+  resourceName
+    ? `${actionId.toUpperCase()}_${upperSnakeCase(isArray ? resourcePluralName : resourceName)}`
+    : upperSnakeCase(actionId);
 
 const getActionType = actionId => upperSnakeCase(actionId);
 
-const createType = (actionId, {
-  resourceName,
-  resourcePluralName,
-  isArray = false,
-  alias
-}) => {
-  const typeKey = getActionTypeKey(resourceName ? (alias || actionId) : actionId, {
+const createType = (actionId, {resourceName, resourcePluralName, isArray = false, alias}) => {
+  const typeKey = getActionTypeKey(resourceName ? alias || actionId : actionId, {
     resourceName,
     resourcePluralName,
     isArray
@@ -39,29 +27,20 @@ const createType = (actionId, {
   };
 };
 
-const createTypes = (actions = {}, {
-  resourceName,
-  resourcePluralName,
-  scope = getTypesScope(resourceName)
-} = {}) => {
+const createTypes = (actions = {}, {resourceName, resourcePluralName, scope = getTypesScope(resourceName)} = {}) => {
   const rawTypes = Object.keys(actions).reduce((types, actionId) => {
     const actionOpts = actions[actionId];
-    return Object.assign(types, createType(actionId, {
-      resourceName,
-      resourcePluralName,
-      isArray: actionOpts.isArray,
-      alias: actionOpts.alias
-    }));
+    return Object.assign(
+      types,
+      createType(actionId, {
+        resourceName,
+        resourcePluralName,
+        isArray: actionOpts.isArray,
+        alias: actionOpts.alias
+      })
+    );
   }, {});
   return scopeTypes(rawTypes, scope);
 };
 
-export {
-  scopeType,
-  scopeTypes,
-  getTypesScope,
-  createType,
-  createTypes,
-  getActionType,
-  getActionTypeKey
-};
+export {scopeType, scopeTypes, getTypesScope, createType, createTypes, getActionType, getActionTypeKey};

@@ -78,4 +78,4 @@ export const parseContentRangeHeader = string => {
   return null;
 };
 
-export const getIdKey = (action, {multi = false}) => multi ? 'ids' : 'id';
+export const getIdKey = (action, {multi = false}) => (multi ? 'ids' : 'id');
