@@ -18,11 +18,9 @@ Saves you from writing a lot of boilerplate code and ensures that your code stay
 
 - Relies on [fetch](https://fetch.spec.whatwg.org/) to perform HTTP requests.
 
-**Check the [full documentation](http://mgcrea.github.io/redux-rest-resource)**
-
 ## [Documentation](http://mgcrea.github.io/redux-rest-resource)
 
-The [documentation](http://mgcrea.github.io/redux-rest-resource) is built with [gitbook](https://github.com/GitbookIO/gitbook).
+**Check the [full documentation](http://mgcrea.github.io/redux-rest-resource)** (built with [gitbook](https://github.com/GitbookIO/gitbook)).
 
 - **http://mgcrea.github.io/redux-rest-resource**
 
