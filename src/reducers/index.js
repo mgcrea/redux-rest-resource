@@ -1,6 +1,20 @@
 import {initialState} from './../defaults';
 import {getTypesScope, getActionType} from './../types';
-import {getGerundName, isFunction, ucfirst} from './../helpers/util';
+import {find, getGerundName, isFunction, ucfirst} from './../helpers/util';
+
+const getUpdateArrayData = (action, itemId) => {
+  const actionOpts = action.options || {};
+  return actionOpts.assignResponse
+    ? find(action.body, {
+      id: itemId
+    })
+    : Object.keys(action.context).reduce((soFar, key) => {
+      if (key !== 'ids') {
+        soFar[key] = action.context[key];
+      }
+      return soFar;
+    }, {});
+};
 
 const defaultReducers = {
   create: (state, action) => {
@@ -130,9 +144,18 @@ const defaultReducers = {
         const listItemIndex = state.items.findIndex(el => el.id === id);
         const updatedItems = state.items.slice();
         if (listItemIndex !== -1) {
-          updatedItems[listItemIndex] = {...updatedItems[listItemIndex], ...update};
+          updatedItems[listItemIndex] = {
+            ...updatedItems[listItemIndex],
+            ...update
+          };
         }
-        const updatedItem = state.item && state.item.id === id ? {...state.item, ...update} : state.item;
+        const updatedItem =
+          state.item && state.item.id === id
+            ? {
+              ...state.item,
+              ...update
+            }
+            : state.item;
         return {
           ...state,
           isUpdating: false,
@@ -144,6 +167,55 @@ const defaultReducers = {
         return {
           ...state,
           isUpdating: false
+        };
+      default:
+        return state;
+    }
+  },
+  updateArray: (state, action) => {
+    switch (action.status) {
+      case 'pending':
+        // Update object in store as soon as possible?
+        return {
+          ...state,
+          isBatchUpdating: true
+        };
+      case 'resolved': {
+        // Assign context or returned object
+        const actionOpts = action.options || {};
+        const {ids} = actionOpts.query || action.context;
+
+        const updatedItems = state.items.map(item => {
+          if (!ids || ids.includes(item.id)) {
+            const updatedItem = getUpdateArrayData(action, item.id);
+            return updatedItem
+              ? {
+                ...item,
+                ...updatedItem
+              }
+              : item;
+          }
+          return item;
+        });
+        // Also impact state.item? (@TODO opt-in/defautl?)
+        const updatedItem =
+          state.item && (!ids || ids.includes(state.item.id))
+            ? {
+              ...state.item,
+              ...getUpdateArrayData(action, state.item.id)
+            }
+            : state.item;
+        return {
+          ...state,
+          isBatchUpdating: false,
+          items: updatedItems,
+          item: updatedItem
+        };
+      }
+      case 'rejected':
+        return {
+          ...state,
+          isBatchUpdating: false
         };
       default:
         return state;
@@ -218,9 +290,16 @@ const createReducer = (actionId, {resourceName, resourcePluralName = `${resource
 const createReducers = (actions = {}, {resourceName, resourcePluralName, ...globalOpts} = {}) => {
   const actionKeys = Object.keys(actions);
   return actionKeys.reduce((actionReducers, actionId) => {
-    const actionOpts = {...globalOpts, ...actions[actionId]};
+    const actionOpts = {
+      ...globalOpts,
+      ...actions[actionId]
+    };
     const reducerKey = getActionType(actionId).toLowerCase();
-    actionReducers[reducerKey] = createReducer(actionId, {resourceName, resourcePluralName, ...actionOpts});
+    actionReducers[reducerKey] = createReducer(actionId, {
+      resourceName,
+      resourcePluralName,
+      ...actionOpts
+    });
     return actionReducers;
   }, {});
 };
@@ -230,7 +309,12 @@ const createRootReducer = (
   {resourceName, resourcePluralName, scope = getTypesScope(resourceName), ...globalOpts} = {}
 ) => {
   const scopeNamespace = scope ? `${scope}/` : '';
-  const rootReducer = (state = {...initialState}, action) => {
+  const rootReducer = (
+    state = {
+      ...initialState
+    },
+    action
+  ) => {
     // Only process relevant namespace
     if (scopeNamespace && !String(action.type).startsWith(scopeNamespace)) {
       return state;
