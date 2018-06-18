@@ -47,7 +47,7 @@ describe('createActions', () => {
       const actionFuncs = createActions(defaultActions, {
         url
       });
-      const expectedKeys = ['create', 'fetch', 'get', 'update', 'updateArray', 'delete', 'deleteArray'];
+      const expectedKeys = ['create', 'fetch', 'get', 'update', 'updateMany', 'delete', 'deleteMany'];
       expect(Object.keys(actionFuncs)).toEqual(expectedKeys);
     });
     it('should return an object with properly typed values', () => {

@@ -176,13 +176,13 @@ const defaultReducers = {
         return state;
     }
   },
-  updateArray: (state, action) => {
+  updateMany: (state, action) => {
     switch (action.status) {
       case 'pending':
         // Update object in store as soon as possible?
         return {
           ...state,
-          isUpdatingArray: true
+          isUpdatingMany: true
         };
       case 'resolved': {
         // Assign context or returned object
@@ -213,7 +213,7 @@ const defaultReducers = {
             : state.item;
         return {
           ...state,
-          isUpdatingArray: false,
+          isUpdatingMany: false,
           items: updatedItems,
           item: updatedItem
         };
@@ -221,7 +221,7 @@ const defaultReducers = {
       case 'rejected':
         return {
           ...state,
-          isUpdatingArray: false
+          isUpdatingMany: false
         };
       default:
         return state;
@@ -252,13 +252,13 @@ const defaultReducers = {
         return state;
     }
   },
-  deleteArray: (state, action) => {
+  deleteMany: (state, action) => {
     switch (action.status) {
       case 'pending':
         // Update object in store as soon as possible?
         return {
           ...state,
-          isArrayDeleting: true
+          isDeletingMany: true
         };
       case 'resolved': // eslint-disable-line
         const actionOpts = action.options || {};
@@ -269,21 +269,21 @@ const defaultReducers = {
         if (!ids) {
           return {
             ...state,
-            isArrayDeleting: false,
+            isDeletingMany: false,
             items: [],
             item: null
           };
         }
         return {
           ...state,
-          isArrayDeleting: false,
+          isDeletingMany: false,
           items: [...state.items.filter(el => !ids.includes(el[idKey]))],
           item: ids.includes(state.item[idKey]) ? null : state.item
         };
       case 'rejected':
         return {
           ...state,
-          isArrayDeleting: false
+          isDeletingMany: false
         };
       default:
         return state;

@@ -537,8 +537,8 @@ describe('defaultReducers', () => {
     });
   });
 
-  it('should handle UPDATE_ARRAY action with ids in context object', () => {
-    const actionId = snakeCase('updateArray');
+  it('should handle UPDATE_MANY action with ids in context object', () => {
+    const actionId = snakeCase('updateMany');
     const type =
       types[
         getActionTypeKey(actionId, {
@@ -575,7 +575,7 @@ describe('defaultReducers', () => {
     });
     expect(pendingState).toEqual({
       ...customInitialState,
-      isUpdatingArray: true
+      isUpdatingMany: true
     });
 
     status = 'resolved';
@@ -605,7 +605,7 @@ describe('defaultReducers', () => {
         receivedAt
       })
     ).toEqual({
-      isUpdatingArray: false,
+      isUpdatingMany: false,
       items: expectedItems,
       item: expectedItem
     });
@@ -621,11 +621,11 @@ describe('defaultReducers', () => {
       })
     ).toEqual({
       ...customInitialState,
-      isUpdatingArray: false
+      isUpdatingMany: false
     });
   });
-  it('should handle UPDATE_ARRAY action with ids in query object', () => {
-    const actionId = snakeCase('updateArray');
+  it('should handle UPDATE_MANY action with ids in query object', () => {
+    const actionId = snakeCase('updateMany');
     const type =
       types[
         getActionTypeKey(actionId, {
@@ -661,7 +661,7 @@ describe('defaultReducers', () => {
     });
     expect(pendingState).toEqual({
       ...customInitialState,
-      isUpdatingArray: true
+      isUpdatingMany: true
     });
 
     status = 'resolved';
@@ -691,7 +691,7 @@ describe('defaultReducers', () => {
         receivedAt
       })
     ).toEqual({
-      isUpdatingArray: false,
+      isUpdatingMany: false,
       items: expectedItems,
       item: expectedItem
     });
@@ -708,11 +708,11 @@ describe('defaultReducers', () => {
       })
     ).toEqual({
       ...customInitialState,
-      isUpdatingArray: false
+      isUpdatingMany: false
     });
   });
-  it('should handle UPDATE_ARRAY action with assignResponse to true', () => {
-    const actionId = snakeCase('updateArray');
+  it('should handle UPDATE_MANY action with assignResponse to true', () => {
+    const actionId = snakeCase('updateMany');
     const type =
       types[
         getActionTypeKey(actionId, {
@@ -748,7 +748,7 @@ describe('defaultReducers', () => {
     });
     expect(pendingState).toEqual({
       ...customInitialState,
-      isUpdatingArray: true
+      isUpdatingMany: true
     });
 
     status = 'resolved';
@@ -778,7 +778,7 @@ describe('defaultReducers', () => {
         options: {assignResponse: true}
       })
     ).toEqual({
-      isUpdatingArray: false,
+      isUpdatingMany: false,
       items: expectedItems,
       item: expectedItem
     });
@@ -794,7 +794,7 @@ describe('defaultReducers', () => {
       })
     ).toEqual({
       ...customInitialState,
-      isUpdatingArray: false
+      isUpdatingMany: false
     });
   });
   it('should handle DELETE action', () => {
@@ -864,8 +864,8 @@ describe('defaultReducers', () => {
       isDeleting: false
     });
   });
-  it('should handle DELETE_ARRAY action with ids in query object', () => {
-    const actionId = snakeCase('deleteArray');
+  it('should handle DELETE_MANY action with ids in query object', () => {
+    const actionId = snakeCase('deleteMany');
     const type =
       types[
         getActionTypeKey(actionId, {
@@ -900,7 +900,7 @@ describe('defaultReducers', () => {
     });
     expect(pendingState).toEqual({
       ...customInitialState,
-      isArrayDeleting: true
+      isDeletingMany: true
     });
 
     status = 'resolved';
@@ -919,7 +919,7 @@ describe('defaultReducers', () => {
         receivedAt
       })
     ).toEqual({
-      isArrayDeleting: false,
+      isDeletingMany: false,
       items: expectedItems,
       item: expectedItem
     });
@@ -935,11 +935,11 @@ describe('defaultReducers', () => {
       })
     ).toEqual({
       ...customInitialState,
-      isArrayDeleting: false
+      isDeletingMany: false
     });
   });
-  it('should handle DELETE_ARRAY action with ids in context object', () => {
-    const actionId = snakeCase('deleteArray');
+  it('should handle DELETE_MANY action with ids in context object', () => {
+    const actionId = snakeCase('deleteMany');
     const type =
       types[
         getActionTypeKey(actionId, {
@@ -973,7 +973,7 @@ describe('defaultReducers', () => {
     });
     expect(pendingState).toEqual({
       ...customInitialState,
-      isArrayDeleting: true
+      isDeletingMany: true
     });
 
     status = 'resolved';
@@ -992,7 +992,7 @@ describe('defaultReducers', () => {
         receivedAt
       })
     ).toEqual({
-      isArrayDeleting: false,
+      isDeletingMany: false,
       items: expectedItems,
       item: expectedItem
     });
@@ -1008,7 +1008,7 @@ describe('defaultReducers', () => {
       })
     ).toEqual({
       ...customInitialState,
-      isArrayDeleting: false
+      isDeletingMany: false
     });
   });
 });

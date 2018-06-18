@@ -8,9 +8,9 @@ const defaultActions = {
   fetch: {method: 'GET', isArray: true},
   get: {method: 'GET'},
   update: {method: 'PATCH'},
-  updateArray: {method: 'PATCH', isArray: true, alias: 'update'},
+  updateMany: {method: 'PATCH', isArray: true, alias: 'update'},
   delete: {method: 'DELETE'},
-  deleteArray: {method: 'DELETE', isArray: true, alias: 'delete'}
+  deleteMany: {method: 'DELETE', isArray: true, alias: 'delete'}
 };
 
 const defaultHeaders = {
