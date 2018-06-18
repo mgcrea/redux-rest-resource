@@ -1,5 +1,6 @@
 *.log
 .DS_Store
+package-lock.json
 node_modules/
 _book/
 coverage/
