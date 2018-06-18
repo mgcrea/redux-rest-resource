@@ -4,7 +4,7 @@
 npm i redux-rest-resource --save
 ```
 
-1. Export created types, actions and reducers (eg. in `containers/Users/store/index.js`)
+1.  Export created types, actions and reducers (eg. in `containers/Users/store/index.js`)
 
 ```js
 import {createResource} from 'redux-rest-resource';
@@ -18,7 +18,7 @@ export const {types, actions, rootReducer} = createResource({
 });
 ```
 
-2. Import reducers in your store
+2.  Import reducers in your store
 
 ```js
 import {combineReducers} from 'redux';
@@ -28,7 +28,7 @@ export default combineReducers({
 });
 ```
 
-3. Use provided actions inside connected components
+3.  Use provided actions inside connected components
 
 ```js
 import {bindActionCreators} from 'redux';
@@ -37,7 +37,6 @@ import {actions as userActions} from 'containers/Users/store';
 import UserListItem from './UserListItem';
 
 class UserList extends Component {
-
   componentDidMount() {
     const {actions} = this.props;
     actions.fetchUsers();
@@ -45,13 +44,8 @@ class UserList extends Component {
 
   render() {
     const {actions, users} = this.props;
-    return (
-      <ul>
-        {users.map(user => <UserListItem key={user.id} user={user} {...actions} />)}
-      </ul>
-    );
+    return <ul>{users.map(user => <UserListItem key={user.id} user={user} {...actions} />)}</ul>;
   }
-
 }
 
 export default connect(
@@ -64,4 +58,4 @@ export default connect(
 )(UserList);
 ```
 
-> Next, You can check [usage examples](Examples.html)
+> Next, You can check [usage examples](../examples/README.md)

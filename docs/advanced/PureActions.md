@@ -19,15 +19,14 @@ export const {types, actions, reducers} = createResource({
 
 ```js
 // Action creators available to interact with your REST resource
-Object.keys(actions) == [
-  "clearUser"
-]
+Object.keys(actions) == ['clearUser'];
 ```
 
 - That will always run your custom reducer
 
 ```js
-state == {
-  item: null
-};
+state ==
+  {
+    item: null
+  };
 ```

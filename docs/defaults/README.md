@@ -1,5 +1,5 @@
 # Defaults
 
-* [Actions](DefaultActions.md)
-* [Headers](DefaultHeaders.md)
-* [State](DefaultState.md)
+- [Actions](DefaultActions.md)
+- [Headers](DefaultHeaders.md)
+- [State](DefaultState.md)

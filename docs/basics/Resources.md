@@ -4,10 +4,7 @@
 
 ```js
 {
-  types,
-  actions,
-  reducers,
-  rootReducer
+  types, actions, reducers, rootReducer;
 }
 ```
 
@@ -32,13 +29,13 @@ export const {types, actions, rootReducer} = createResource({
 ## Options
 
 | **Option name** | **Type**        | **Description**                                       |
-|-----------------|-----------------|-------------------------------------------------------|
+| --------------- | --------------- | ----------------------------------------------------- |
 | name            | String          | Actual name of the resource (required)                |
 | url             | Function/String | Actual url of the resource (required)                 |
 | pluralName      | String          | Plural name of the resource (optional)                |
 | actions         | Object          | Action extra options, merged with defaults (optional) |
 
-- You can also pass any [action related option](Actions.html#available-options) to set a global default.
+- You can also pass any [action related option](Actions.md#available-options) to set a global default.
 
 ```js
 export const {types, actions, rootReducer} = createResource({

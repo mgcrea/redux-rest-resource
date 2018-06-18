@@ -12,7 +12,7 @@ export const {types, actions, reducers} = createResource({
   url: 'https://foo.com/users/:id',
   actions: {
     fetch: {
-      transformResponse: (res) => ({res, body: sortBy(res.body, 'date')})
+      transformResponse: res => ({res, body: sortBy(res.body, 'date')})
     },
     update: {
       headers: {

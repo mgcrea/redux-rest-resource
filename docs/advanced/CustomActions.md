@@ -18,17 +18,15 @@ export const {types, actions, reducers} = createResource({
 
 ```js
 // Action creators available to interact with your REST resource
-Object.keys(actions) == [
-  "runUser",
-  "mergeUsers"
-]
+Object.keys(actions) == ['runUser', 'mergeUsers'];
 ```
 
 - And have the following state by default:
 
 ```js
-state == {
-  isRunning: false,
-  isMerging: false
-};
+state ==
+  {
+    isRunning: false,
+    isMerging: false
+  };
 ```

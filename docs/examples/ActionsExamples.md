@@ -48,4 +48,4 @@ actions.deleteUser(getContext, actionOpts);
 // Will DELETE localhost:9000/api/users/5925b7f7d9808600076ce557?foo=bar
 ```
 
-> For the list of [all available options](../basics/Actions.html#available-options)
+> List of [all available options](../basics/Actions.md#available-options)

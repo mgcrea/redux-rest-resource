@@ -15,7 +15,7 @@ Object.keys(actions) ==
   ['createUser', 'fetchUsers', 'getUser', 'updateUser', 'updateUsers', 'deleteUser', 'deleteUsers'];
 ```
 
-> You can check the [default actions configuration](../defaults/DefaultActions.html)
+> You can check the [default actions configuration](../defaults/DefaultActions.md)
 
 ## Available options
 

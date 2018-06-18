@@ -1,3 +1,3 @@
 # Usage
 
-* [Quickstart](Quickstart.md)
+- [Quickstart](Quickstart.md)
