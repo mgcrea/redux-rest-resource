@@ -18,7 +18,7 @@ export const find = (collection, query) => {
   const queryKeys = Object.keys(query);
   let foundItem;
   collection.some(item => {
-    const doesMatch = !queryKeys.some(key => item[key] !== queryKeys[key]);
+    const doesMatch = !queryKeys.some(key => item[key] !== query[key]);
     if (doesMatch) {
       foundItem = item;
     }

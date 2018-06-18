@@ -657,8 +657,7 @@ describe('defaultReducers', () => {
     const pendingState = reducers[actionId](customInitialState, {
       type,
       status,
-      context,
-      query: {ids: [1, 2]}
+      context
     });
     expect(pendingState).toEqual({
       ...customInitialState,
@@ -703,6 +702,7 @@ describe('defaultReducers', () => {
         type,
         status,
         context,
+        query: {ids: [1, 2]},
         err: {},
         receivedAt
       })
@@ -744,9 +744,7 @@ describe('defaultReducers', () => {
     const pendingState = reducers[actionId](customInitialState, {
       type,
       status,
-      context,
-      query: {ids: [1, 2]},
-      assignResponse: true
+      context
     });
     expect(pendingState).toEqual({
       ...customInitialState,
@@ -775,7 +773,9 @@ describe('defaultReducers', () => {
         status,
         context,
         body,
-        receivedAt
+        receivedAt,
+        query: {ids: [1, 2]},
+        options: {assignResponse: true}
       })
     ).toEqual({
       isUpdatingArray: false,
