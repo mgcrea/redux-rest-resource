@@ -1,17 +1,10 @@
 {
-  "extends": "airbnb",
+  "extends": ["airbnb", "prettier"],
   "parser": "babel-eslint",
   "rules": {
-    "arrow-parens": ["error", "as-needed"],
-    "comma-dangle": ["error", "never"],
-    "function-paren-newline": ["error", "consistent"],
-    "max-len": ["error", {"code": 120, "ignoreComments": true}],
-    "no-confusing-arrow": "off",
     "no-param-reassign": ["error", {"props": false}],
     "no-underscore-dangle": ["error", {"allow": ["_id"]}],
     "no-unused-vars": ["error", {"args": "none"}],
-    "no-use-before-define": ["error", {"functions": false}],
-    "object-curly-newline": ["error", {"ObjectExpression": {"consistent": true}}],
-    "object-curly-spacing": ["error", "never"]
+    "no-use-before-define": ["error", {"functions": false}]
   }
 }

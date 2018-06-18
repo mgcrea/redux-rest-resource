@@ -4,6 +4,6 @@ package-lock.json
 node_modules/
 _book/
 coverage/
-.nyc_output/
+.history/
 .tmp/
 lib/
