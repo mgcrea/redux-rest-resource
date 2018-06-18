@@ -182,7 +182,7 @@ const defaultReducers = {
         // Update object in store as soon as possible?
         return {
           ...state,
-          isBatchUpdating: true
+          isUpdatingArray: true
         };
       case 'resolved': {
         // Assign context or returned object
@@ -213,7 +213,7 @@ const defaultReducers = {
             : state.item;
         return {
           ...state,
-          isBatchUpdating: false,
+          isUpdatingArray: false,
           items: updatedItems,
           item: updatedItem
         };
@@ -221,7 +221,7 @@ const defaultReducers = {
       case 'rejected':
         return {
           ...state,
-          isBatchUpdating: false
+          isUpdatingArray: false
         };
       default:
         return state;

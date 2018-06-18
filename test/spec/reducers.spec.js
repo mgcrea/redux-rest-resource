@@ -575,7 +575,7 @@ describe('defaultReducers', () => {
     });
     expect(pendingState).toEqual({
       ...customInitialState,
-      isBatchUpdating: true
+      isUpdatingArray: true
     });
 
     status = 'resolved';
@@ -605,7 +605,7 @@ describe('defaultReducers', () => {
         receivedAt
       })
     ).toEqual({
-      isBatchUpdating: false,
+      isUpdatingArray: false,
       items: expectedItems,
       item: expectedItem
     });
@@ -621,7 +621,7 @@ describe('defaultReducers', () => {
       })
     ).toEqual({
       ...customInitialState,
-      isBatchUpdating: false
+      isUpdatingArray: false
     });
   });
   it('should handle UPDATE_ARRAY action with ids in query object', () => {
@@ -662,7 +662,7 @@ describe('defaultReducers', () => {
     });
     expect(pendingState).toEqual({
       ...customInitialState,
-      isBatchUpdating: true
+      isUpdatingArray: true
     });
 
     status = 'resolved';
@@ -692,7 +692,7 @@ describe('defaultReducers', () => {
         receivedAt
       })
     ).toEqual({
-      isBatchUpdating: false,
+      isUpdatingArray: false,
       items: expectedItems,
       item: expectedItem
     });
@@ -708,7 +708,7 @@ describe('defaultReducers', () => {
       })
     ).toEqual({
       ...customInitialState,
-      isBatchUpdating: false
+      isUpdatingArray: false
     });
   });
   it('should handle UPDATE_ARRAY action with assignResponse to true', () => {
@@ -750,7 +750,7 @@ describe('defaultReducers', () => {
     });
     expect(pendingState).toEqual({
       ...customInitialState,
-      isBatchUpdating: true
+      isUpdatingArray: true
     });
 
     status = 'resolved';
@@ -778,7 +778,7 @@ describe('defaultReducers', () => {
         receivedAt
       })
     ).toEqual({
-      isBatchUpdating: false,
+      isUpdatingArray: false,
       items: expectedItems,
       item: expectedItem
     });
@@ -794,7 +794,7 @@ describe('defaultReducers', () => {
       })
     ).toEqual({
       ...customInitialState,
-      isBatchUpdating: false
+      isUpdatingArray: false
     });
   });
   it('should handle DELETE action', () => {
