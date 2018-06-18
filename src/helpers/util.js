@@ -14,6 +14,19 @@ export const pick = (obj, ...keys) =>
     return soFar;
   }, {});
 
+export const find = (collection, query) => {
+  const queryKeys = Object.keys(query);
+  let foundItem;
+  collection.some(item => {
+    const doesMatch = !queryKeys.some(key => item[key] !== queryKeys[key]);
+    if (doesMatch) {
+      foundItem = item;
+    }
+    return doesMatch;
+  });
+  return foundItem;
+};
+
 export const mapObject = (object, func) =>
   Object.keys(object).reduce((soFar, key) => {
     soFar[key] = func(object[key]); // eslint-disable-line no-param-reassign
