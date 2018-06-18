@@ -4,11 +4,13 @@ import {parseResponse} from './../helpers/fetch';
 import {parseContentRangeHeader} from './../helpers/util';
 
 const defaultActions = {
-  create: {method: 'POST', alias: 'save'},
+  create: {method: 'POST'},
   fetch: {method: 'GET', isArray: true},
   get: {method: 'GET'},
   update: {method: 'PATCH'},
-  delete: {method: 'DELETE'}
+  updateArray: {method: 'PATCH', isArray: true, alias: 'update'},
+  delete: {method: 'DELETE'},
+  deleteArray: {method: 'DELETE', isArray: true, alias: 'delete'}
 };
 
 const defaultHeaders = {

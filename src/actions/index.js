@@ -12,8 +12,8 @@ const SUPPORTED_REDUCE_OPTS = ['assignResponse', 'isArray', 'isPure'];
 
 const getActionName = (
   actionId,
-  {resourceName, resourcePluralName = getPluralName(resourceName), isArray = false} = {}
-) => (!resourceName ? actionId : `${actionId}${ucfirst(isArray ? resourcePluralName : resourceName)}`);
+  {resourceName, resourcePluralName = getPluralName(resourceName), isArray = false, alias} = {}
+) => (!resourceName ? actionId : `${alias || actionId}${ucfirst(isArray ? resourcePluralName : resourceName)}`);
 
 const createAction = (
   actionId,
@@ -32,11 +32,20 @@ const createAction = (
     };
     // Support pure actions
     if (actionOpts.isPure) {
-      dispatch({type, status: 'resolved', options: reduceOpts, context});
+      dispatch({
+        type,
+        status: 'resolved',
+        options: reduceOpts,
+        context
+      });
       return Promise.resolve();
     }
     // First dispatch a pending action
-    dispatch({type, status: 'pending', context});
+    dispatch({
+      type,
+      status: 'pending',
+      context
+    });
     // Prepare fetch options
     const fetchOpts = {
       ...pick(actionOpts, ...SUPPORTED_FETCH_OPTS),
@@ -45,21 +54,36 @@ const createAction = (
     // Support dynamic fetch options
     const resolvedfetchOpts = Object.keys(fetchOpts).reduce((soFar, key) => {
       soFar[key] = isFunction(fetchOpts[key])
-        ? fetchOpts[key](getState, {context, contextOpts, actionId})
+        ? fetchOpts[key](getState, {
+            context,
+            contextOpts,
+            actionId
+          })
         : fetchOpts[key];
       return soFar;
     }, {});
     const {url, ...eligibleFetchOptions} = resolvedfetchOpts;
     // Build fetch url and options
     const urlParams = parseUrlParams(url);
-    const finalFetchUrl = buildFetchUrl(context, {url, urlParams});
+    const finalFetchUrl = buildFetchUrl(context, {
+      url,
+      urlParams,
+      isArray: reduceOpts.isArray
+    });
     const finalFetchOpts = buildFetchOpts(context, eligibleFetchOptions);
     return fetch(finalFetchUrl, finalFetchOpts)
       .then(
         applyTransformPipeline(buildTransformPipeline(defaultTransformResponsePipeline, actionOpts.transformResponse))
       )
       .then(payload =>
-        dispatch({type, status: 'resolved', context, options: reduceOpts, receivedAt: Date.now(), ...payload})
+        dispatch({
+          type,
+          status: 'resolved',
+          context,
+          options: reduceOpts,
+          receivedAt: Date.now(),
+          ...payload
+        })
       ) // eslint-disable-line
       .catch(err => {
         // Catch HttpErrors
@@ -102,12 +126,29 @@ const createActions = (
   return actionKeys.reduce((actionFuncs, actionId) => {
     // Add support for relative url override
     const {url} = actions[actionId];
+
     if (globalOpts.url && url && isString(url) && url.substr(0, 1) === '.') {
-      actions[actionId] = {...actions[actionId], url: `${globalOpts.url}${url.substr(1)}`};
+      actions[actionId] = {
+        ...actions[actionId],
+        url: `${globalOpts.url}${url.substr(1)}`
+      };
     }
-    const actionOpts = {...globalOpts, ...actions[actionId]};
-    const actionName = getActionName(actionId, {resourceName, resourcePluralName, isArray: actionOpts.isArray});
-    actionFuncs[actionName] = createAction(actionId, {resourceName, resourcePluralName, scope, ...actionOpts});
+    const actionOpts = {
+      ...globalOpts,
+      ...actions[actionId]
+    };
+    const actionName = getActionName(actionId, {
+      resourceName,
+      resourcePluralName,
+      isArray: actionOpts.isArray,
+      alias: actionOpts.alias
+    });
+    actionFuncs[actionName] = createAction(actionId, {
+      resourceName,
+      resourcePluralName,
+      scope,
+      ...actionOpts
+    });
     return actionFuncs;
   }, {});
 };

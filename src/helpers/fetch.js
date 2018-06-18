@@ -30,7 +30,11 @@ export const buildFetchUrl = (context, {url, urlParams, stripTrailingSlashes = t
   // Replace urlParams with values from context
   let builtUrl = Object.keys(urlParams).reduce((wipUrl, urlParam) => {
     const urlParamInfo = urlParams[urlParam];
-    const contextAsObject = !isObject(context) ? {id: context} : context;
+    const contextAsObject = !isObject(context)
+      ? {
+          id: context
+        }
+      : context;
     const value = contextAsObject[urlParam] || ''; // self.defaults[urlParam];
     if (value) {
       const encodedValue = urlParamInfo.isQueryParamValue ? encodeUriQuery(value, true) : encodeUriSegment(value);
@@ -53,7 +57,10 @@ export const buildFetchOpts = (context, {method, headers, credentials, query, bo
     opts.method = method;
   }
   if (headers) {
-    opts.headers = {...opts.headers, ...headers};
+    opts.headers = {
+      ...opts.headers,
+      ...headers
+    };
   }
   if (credentials) {
     opts.credentials = credentials;
@@ -94,7 +101,9 @@ const fetch = (url, options = {}) => {
     .then(res => {
       if (!res.ok) {
         return parseResponse(res).then(body => {
-          throw new HttpError(res.status, {body});
+          throw new HttpError(res.status, {
+            body
+          });
         });
       }
       return res;

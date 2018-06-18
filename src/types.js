@@ -16,15 +16,29 @@ const getActionTypeKey = (
 
 const getActionType = actionId => upperSnakeCase(actionId);
 
-const createType = (actionId, {resourceName, resourcePluralName, isArray = false}) => {
-  const typeKey = getActionTypeKey(actionId, {resourceName, resourcePluralName, isArray});
-  return {[typeKey]: getActionType(actionId)};
+const createType = (actionId, {resourceName, resourcePluralName, isArray = false, alias}) => {
+  const typeKey = getActionTypeKey(resourceName ? alias || actionId : actionId, {
+    resourceName,
+    resourcePluralName,
+    isArray
+  });
+  return {
+    [typeKey]: getActionType(actionId)
+  };
 };
 
 const createTypes = (actions = {}, {resourceName, resourcePluralName, scope = getTypesScope(resourceName)} = {}) => {
   const rawTypes = Object.keys(actions).reduce((types, actionId) => {
     const actionOpts = actions[actionId];
-    return Object.assign(types, createType(actionId, {resourceName, resourcePluralName, isArray: actionOpts.isArray}));
+    return Object.assign(
+      types,
+      createType(actionId, {
+        resourceName,
+        resourcePluralName,
+        isArray: actionOpts.isArray,
+        alias: actionOpts.alias
+      })
+    );
   }, {});
   return scopeTypes(rawTypes, scope);
 };

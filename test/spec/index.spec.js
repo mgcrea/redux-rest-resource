@@ -27,9 +27,9 @@ describe('createResource', () => {
       actions: {get: {foo: 'bar'}, charge: {method: 'post'}}
     });
     expect(typeof types).toBe('object');
-    expect(Object.keys(types).length).toEqual(6);
+    expect(Object.keys(types).length).toEqual(8);
     expect(typeof actions).toBe('object');
-    expect(Object.keys(actions).length).toEqual(6);
+    expect(Object.keys(actions).length).toEqual(8);
     expect(typeof reducers).toBe('function');
     expect(typeof rootReducer).toBe('function');
   });

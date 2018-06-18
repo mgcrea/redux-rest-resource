@@ -14,6 +14,19 @@ export const pick = (obj, ...keys) =>
     return soFar;
   }, {});
 
+export const find = (collection, query) => {
+  const queryKeys = Object.keys(query);
+  let foundItem;
+  collection.some(item => {
+    const doesMatch = !queryKeys.some(key => item[key] !== query[key]);
+    if (doesMatch) {
+      foundItem = item;
+    }
+    return doesMatch;
+  });
+  return foundItem;
+};
+
 export const mapObject = (object, func) =>
   Object.keys(object).reduce((soFar, key) => {
     soFar[key] = func(object[key]); // eslint-disable-line no-param-reassign
@@ -64,3 +77,5 @@ export const parseContentRangeHeader = string => {
   }
   return null;
 };
+
+export const getIdKey = (action, {multi = false}) => (multi ? 'ids' : 'id');
