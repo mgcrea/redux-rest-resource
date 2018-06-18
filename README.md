@@ -1,4 +1,4 @@
-# [Redux Rest Resource](http://mgcrea.github.io/redux-rest-resource)
+# [Redux Rest Resource](https://mgcrea.gitbook.io/redux-rest-resource/)
 
 [![npm version](https://img.shields.io/npm/v/redux-rest-resource.svg)](https://github.com/mgcrea/redux-rest-resource/releases)
 [![license](https://img.shields.io/github/license/mgcrea/redux-rest-resource.svg?style=flat)](https://tldrlegal.com/license/mit-license)
@@ -18,13 +18,13 @@ Saves you from writing a lot of boilerplate code and ensures that your code stay
 
 - Relies on [fetch](https://fetch.spec.whatwg.org/) to perform HTTP requests.
 
-## [Documentation](http://mgcrea.github.io/redux-rest-resource)
+## [Documentation](https://mgcrea.gitbook.io/redux-rest-resource/)
 
-**Check the [full documentation](http://mgcrea.github.io/redux-rest-resource)** (built with [gitbook](https://github.com/GitbookIO/gitbook)).
+**Check the [full documentation](https://mgcrea.gitbook.io/redux-rest-resource/)** (built with [gitbook](https://github.com/GitbookIO/gitbook)).
 
-- **http://mgcrea.github.io/redux-rest-resource**
+- **https://mgcrea.gitbook.io/redux-rest-resource/**
 
-## [Preview](http://mgcrea.github.io/redux-rest-resource/docs/usage/Quickstart.html)
+## [Preview](https://mgcrea.gitbook.io/redux-rest-resource//docs/usage/Quickstart.html)
 
 Basically using a REST endpoint with Redux can be done with only a few lines:
 
