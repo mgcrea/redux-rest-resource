@@ -24,7 +24,7 @@ Saves you from writing a lot of boilerplate code and ensures that your code stay
 
 - **http://mgcrea.github.io/redux-rest-resource**
 
-## [Quickstart](http://mgcrea.github.io/redux-rest-resource/docs/usage/Quickstart.html)
+## [Preview](http://mgcrea.github.io/redux-rest-resource/docs/usage/Quickstart.html)
 
 Basically using a REST endpoint with Redux can be done with only a few lines:
 
