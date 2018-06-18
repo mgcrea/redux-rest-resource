@@ -6,7 +6,7 @@
 [![dependencies status](https://img.shields.io/david/mgcrea/redux-rest-resource.svg?style=flat)](https://david-dm.org/mgcrea/redux-rest-resource)
 [![devDependencies status](https://img.shields.io/david/dev/mgcrea/redux-rest-resource.svg?style=flat)](https://david-dm.org/mgcrea/redux-rest-resource#info=devDependencies)
 [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/fdbf36d00e5d49c4879b91920e3e9b08)](https://www.codacy.com/app/mgcrea/redux-rest-resource?utm_source=github.com&utm_medium=referral&utm_content=mgcrea/redux-rest-resource&utm_campaign=Badge_Coverage)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/fdbf36d00e5d49c4879b91920e3e9b08)](https://www.codacy.com/app/mgcrea/redux-rest-resource?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mgcrea/redux-rest-resource&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/fdbf36d00e5d49c4879b91920e3e9b08)](https://www.codacy.com/app/mgcrea/redux-rest-resource?utm_source=github.com&utm_medium=referral&utm_content=mgcrea/redux-rest-resource&utm_campaign=Badge_Grade)
 
 Dead simple and ready-to-use store module for handling HTTP REST resources.
 
@@ -18,7 +18,13 @@ Saves you from writing a lot of boilerplate code and ensures that your code stay
 
 - Relies on [fetch](https://fetch.spec.whatwg.org/) to perform HTTP requests.
 
-> NOTE: If you want to use this in environments without a builtin `fetch` implementation, you need to [bring your own custom fetch polyfill](advanced/CustomFetch).
+**Check the [full documentation](http://mgcrea.github.io/redux-rest-resource)**
+
+## [Documentation](http://mgcrea.github.io/redux-rest-resource)
+
+The [documentation](http://mgcrea.github.io/redux-rest-resource) is built with [gitbook](https://github.com/GitbookIO/gitbook).
+
+- **http://mgcrea.github.io/redux-rest-resource**
 
 ## [Quickstart](http://mgcrea.github.io/redux-rest-resource/docs/usage/Quickstart.html)
 
@@ -36,12 +42,12 @@ export const {types, actions, rootReducer} = createResource({
 });
 ```
 
-*Check the [documentation](http://mgcrea.github.io/redux-rest-resource) for more*
+> NOTE: If you want to use this in environments without a builtin `fetch` implementation, you need to [bring your own custom fetch polyfill](advanced/CustomFetch).
 
 ### Available scripts
 
 | **Script**    | **Description**              |
-|---------------|------------------------------|
+| ------------- | ---------------------------- |
 | start         | alias to `test:watch`        |
 | test          | Run unit tests               |
 | test:watch    | Watch unit tests             |
@@ -56,8 +62,8 @@ export const {types, actions, rootReducer} = createResource({
 
 **Olivier Louvignes**
 
-+ http://olouv.com
-+ http://github.com/mgcrea
+- http://olouv.com
+- http://github.com/mgcrea
 
 Inspired by the [AngularJS resource](https://github.com/angular/angular.js/blob/master/src/ngResource/resource.js).
 

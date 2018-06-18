@@ -9,11 +9,14 @@
 We're using scoped `types` with a namespace to prevent conflicts when using multiple resources.
 
 ```js
-types == {
-  "CREATE_USER": "@@resource/USER/CREATE",
-  "FETCH_USERS": "@@resource/USER/FETCH",
-  "GET_USER":    "@@resource/USER/GET",
-  "UPDATE_USER": "@@resource/USER/UPDATE",
-  "DELETE_USER": "@@resource/USER/DELETE"
-}
+types ==
+  {
+    CREATE_USER: '@@resource/USER/CREATE',
+    FETCH_USERS: '@@resource/USER/FETCH',
+    GET_USER: '@@resource/USER/GET',
+    UPDATE_USER: '@@resource/USER/UPDATE',
+    UPDATE_USERS: '@@resource/USER/UPDATE_MANY',
+    DELETE_USER: '@@resource/USER/DELETE',
+    DELETE_USERS: '@@resource/USER/DELETE_MANY'
+  };
 ```
