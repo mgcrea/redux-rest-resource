@@ -6,7 +6,7 @@ import {
   replaceQueryStringParamFromUrl,
   splitUrlByProtocolAndDomain
 } from './url';
-import {defaultGlobals, defaultHeaders} from './../defaults';
+import {defaultGlobals, defaultHeaders} from '../defaults';
 
 export class HttpError extends Error {
   constructor(statusCode = 500, {body, message = 'HttpError'}) {

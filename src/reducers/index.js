@@ -1,6 +1,6 @@
-import {initialState} from './../defaults';
-import {getTypesScope, getActionType} from './../types';
-import {find, getGerundName, getIdKey, isFunction, isObject, ucfirst} from './../helpers/util';
+import {initialState} from '../defaults';
+import {getTypesScope, getActionType} from '../types';
+import {find, getGerundName, getIdKey, isFunction, isObject, ucfirst} from '../helpers/util';
 
 const getUpdateArrayData = (action, itemId) => {
   const actionOpts = action.options || {};
@@ -235,7 +235,7 @@ const defaultReducers = {
           ...state,
           isDeleting: true
         };
-      case 'resolved': // eslint-disable-line
+      case 'resolved': {
         const idKey = getIdKey(action, {multi: false});
         const id = action.context[idKey] || action.context;
         return {
@@ -243,6 +243,7 @@ const defaultReducers = {
           isDeleting: false,
           items: [...state.items.filter(el => el[idKey] !== id)]
         };
+      }
       case 'rejected':
         return {
           ...state,
@@ -260,7 +261,7 @@ const defaultReducers = {
           ...state,
           isDeletingMany: true
         };
-      case 'resolved': // eslint-disable-line
+      case 'resolved': {
         const actionOpts = action.options || {};
         const idKey = getIdKey(action, {multi: false});
         const idKeyMulti = getIdKey(action, {multi: true});
@@ -280,6 +281,7 @@ const defaultReducers = {
           items: [...state.items.filter(el => !ids.includes(el[idKey]))],
           item: ids.includes(state.item[idKey]) ? null : state.item
         };
+      }
       case 'rejected':
         return {
           ...state,

@@ -1,4 +1,4 @@
-import {defaultGlobals} from './../defaults';
+import {defaultGlobals} from "../defaults";
 
 const buildTransformPipeline = (initial, transform) => {
   let transformResponsePipeline;

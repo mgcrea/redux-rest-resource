@@ -1,11 +1,11 @@
 // @inspiration https://github.com/angular/angular.js/blob/master/src/ngResource/resource.js
 
-import {getActionType, getTypesScope, scopeType} from './../types';
+import {getActionType, getTypesScope, scopeType} from '../types';
 import {applyTransformPipeline, buildTransformPipeline} from './transform';
-import {parseUrlParams} from './../helpers/url';
-import fetch, {buildFetchUrl, buildFetchOpts} from './../helpers/fetch';
-import {isFunction, isString, pick, ucfirst, getPluralName} from './../helpers/util';
-import {defaultTransformResponsePipeline} from './../defaults';
+import {parseUrlParams} from '../helpers/url';
+import fetch, {buildFetchUrl, buildFetchOpts} from '../helpers/fetch';
+import {isFunction, isString, pick, ucfirst, getPluralName} from '../helpers/util';
+import {defaultTransformResponsePipeline} from '../defaults/pipeline';
 
 const SUPPORTED_FETCH_OPTS = ['url', 'method', 'headers', 'credentials', 'query', 'body'];
 const SUPPORTED_REDUCE_OPTS = ['assignResponse', 'isArray', 'isPure'];
