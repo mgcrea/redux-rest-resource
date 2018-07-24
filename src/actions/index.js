@@ -17,7 +17,7 @@ const getActionName = (
 
 const createAction = (
   actionId,
-  {resourceName, resourcePluralName = getPluralName(resourceName), scope, ...actionOpts}
+  {resourceName, resourcePluralName = getPluralName(resourceName), scope, stripTrailingSlashes = true, ...actionOpts}
 ) => {
   const type = scopeType(getActionType(actionId), scope);
   // Actual action function with two args
@@ -68,7 +68,8 @@ const createAction = (
     const finalFetchUrl = buildFetchUrl(context, {
       url,
       urlParams,
-      isArray: reduceOpts.isArray
+      isArray: reduceOpts.isArray,
+      stripTrailingSlashes
     });
     const finalFetchOpts = buildFetchOpts(context, eligibleFetchOptions);
     return fetch(finalFetchUrl, finalFetchOpts)
