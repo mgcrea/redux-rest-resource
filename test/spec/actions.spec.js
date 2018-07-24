@@ -445,13 +445,6 @@ describe('defaultActions', () => {
       const options = {
         isArray: true
       };
-      const err = {
-        code: undefined,
-        errno: undefined,
-        message: 'request to http://localhost:3000/users failed, reason: something awful happened',
-        name: 'FetchError',
-        type: 'system'
-      };
       nock(host)
         .get('/users')
         .replyWithError('something awful happened');
@@ -469,18 +462,16 @@ describe('defaultActions', () => {
           type,
           context,
           options,
-          err,
+          code: null,
+          body: 'request to http://localhost:3000/users failed, reason: something awful happened',
           receivedAt: null
         }
       ];
       return expect(store.dispatch(actionFuncs[action](context)))
         .rejects.toBeDefined()
-        .catch(() => {
+        .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
-          expect(actions[1].err.name).toEqual(expectedActions[1].err.name);
-          expect(actions[1].err.message).toEqual(expectedActions[1].err.message);
-          actions[1].err = expectedActions[1].err;
           expect(actions).toEqual(expectedActions);
         });
     });
@@ -496,7 +487,7 @@ describe('defaultActions', () => {
         err: 'something awful happened'
       };
       const code = 400;
-      const options = {};
+      const options = {isArray: true};
       nock(host)
         .get('/users')
         .reply(code, body);
@@ -519,12 +510,18 @@ describe('defaultActions', () => {
           receivedAt: null
         }
       ];
-      return expect(store.dispatch(actionFuncs[action](context)))
+      let thrownErr;
+      return expect(
+        store.dispatch(actionFuncs[action](context)).catch(err => {
+          thrownErr = err;
+          throw err;
+        })
+      )
         .rejects.toBeDefined()
-        .catch(err => {
+        .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
-          expect(err.statusCode).toEqual(code);
+          expect(thrownErr.status).toEqual(code);
           expect(actions).toEqual(expectedActions);
         });
     });
@@ -538,7 +535,7 @@ describe('defaultActions', () => {
       const context = {};
       const body = '<html><body><h1>something awful happened</h1></body></html>';
       const code = 400;
-      const options = {};
+      const options = {isArray: true};
       nock(host)
         .get('/users')
         .reply(code, body);
@@ -561,12 +558,18 @@ describe('defaultActions', () => {
           receivedAt: null
         }
       ];
-      return expect(store.dispatch(actionFuncs[action](context)))
+      let thrownErr;
+      return expect(
+        store.dispatch(actionFuncs[action](context)).catch(err => {
+          thrownErr = err;
+          throw err;
+        })
+      )
         .rejects.toBeDefined()
-        .catch(err => {
+        .then(err => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
-          expect(err.statusCode).toEqual(code);
+          expect(thrownErr.status).toEqual(code);
           expect(actions).toEqual(expectedActions);
         });
     });

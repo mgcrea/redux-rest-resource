@@ -92,7 +92,7 @@ const createAction = (
           dispatch({
             type,
             status: 'rejected',
-            code: err.statusCode,
+            code: err.status,
             body: err.body,
             context,
             options: reduceOpts,
@@ -103,7 +103,8 @@ const createAction = (
           dispatch({
             type,
             status: 'rejected',
-            err,
+            code: null,
+            body: err.message,
             context,
             options: reduceOpts,
             receivedAt: Date.now()
