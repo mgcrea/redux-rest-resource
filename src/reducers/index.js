@@ -279,7 +279,7 @@ const defaultReducers = {
           ...state,
           isDeletingMany: false,
           items: [...state.items.filter(el => !ids.includes(el[idKey]))],
-          item: ids.includes(state.item[idKey]) ? null : state.item
+          item: state.item && ids.includes(state.item[idKey]) ? null : state.item
         };
       }
       case 'rejected':
