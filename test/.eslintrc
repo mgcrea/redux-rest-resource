@@ -9,6 +9,7 @@
     "func-names": "off",
     "no-underscore-dangle": "off",
     "import/no-extraneous-dependencies": "off",
+    "react/destructuring-assignment": "off",
     "max-len": ["warn", {"code": 120, "ignoreComments": true}]
   }
 }
