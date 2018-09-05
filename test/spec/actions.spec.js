@@ -588,6 +588,10 @@ describe('custom actions', () => {
     merge: {
       method: 'POST',
       isArray: true
+    },
+    editFolder: {
+      method: 'PATCH',
+      url: `./folders/:folder`
     }
   };
   const actionFuncs = createActions(customActions, {
@@ -657,6 +661,52 @@ describe('custom actions', () => {
     };
     nock(host)
       .post('/users')
+      .reply(code, body);
+    const store = mockStore({
+      users: {}
+    });
+    const expectedActions = [
+      {
+        status: 'pending',
+        type,
+        context
+      },
+      {
+        status: 'resolved',
+        type,
+        context,
+        options,
+        body,
+        code,
+        receivedAt: null
+      }
+    ];
+    return store.dispatch(actionFuncs[action](context)).then(res => {
+      const actions = store.getActions();
+      actions[1].receivedAt = null;
+      expect(actions).toEqual(expectedActions);
+      expect(res.body).toEqual(actions[1].body);
+    });
+  });
+  it('.editFolder()', () => {
+    const actionId = 'editFolder';
+    const action = getActionName(actionId, {
+      resourceName
+    });
+    const type = '@@resource/USER/EDIT_FOLDER';
+    const context = {
+      id: 1,
+      folder: 2,
+      name: 'New Name'
+    };
+    const body = {
+      folder: 2,
+      name: 'New Name'
+    };
+    const code = 200;
+    const options = {};
+    nock(host)
+      .patch(`/users/${context.id}/folders/${context.folder}`, context)
       .reply(code, body);
     const store = mockStore({
       users: {}
