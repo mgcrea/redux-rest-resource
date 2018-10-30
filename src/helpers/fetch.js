@@ -6,7 +6,7 @@ import {
   replaceQueryStringParamFromUrl,
   splitUrlByProtocolAndDomain
 } from './url';
-import {defaultGlobals, defaultHeaders} from '../defaults';
+import {defaultGlobals, defaultHeaders, defaultIdKeys} from '../defaults';
 
 export class HttpError extends Error {
   constructor(statusCode = 500, {body, message = 'HttpError'}) {
@@ -32,7 +32,7 @@ export const buildFetchUrl = (context, {url, urlParams, stripTrailingSlashes = t
     const urlParamInfo = urlParams[urlParam];
     const contextAsObject = !isObject(context)
       ? {
-          id: context
+          [defaultIdKeys.singular]: context
         }
       : context;
     const value = contextAsObject[urlParam] || ''; // self.defaults[urlParam];
