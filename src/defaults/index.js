@@ -15,6 +15,11 @@ const defaultHeaders = {
   'Content-Type': 'application/json'
 };
 
+const defaultIdKeys = {
+  singular: 'id',
+  plural: 'ids'
+};
+
 const defaultState = {
   create: {
     isCreating: false
@@ -46,4 +51,4 @@ const defaultGlobals = {
   fetch
 };
 
-export {defaultGlobals, defaultActions, defaultHeaders, defaultState, initialState};
+export {defaultGlobals, defaultActions, defaultHeaders, defaultIdKeys, defaultState, initialState};
