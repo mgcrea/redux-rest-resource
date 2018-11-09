@@ -68,13 +68,16 @@ export const buildFetchOpts = (context, {method, headers, credentials, query, bo
   if (query) {
     opts.query = query;
   }
-  const hasBody = /^(POST|PUT|PATCH|DELETE)$/i.test(opts.method);
-  if (hasBody) {
-    if (body) {
-      opts.body = isString(body) ? body : JSON.stringify(body);
-    } else if (context) {
-      opts.body = isString(context) ? context : JSON.stringify(context);
-    }
+  const hasBody = /^(POST|PUT|PATCH)$/i.test(opts.method);
+  if (body) {
+    opts.body = isString(body) ? body : JSON.stringify(body);
+  } else if (hasBody && context) {
+    const contextAsObject = !isObject(context)
+      ? {
+          [defaultIdKeys.singular]: context
+        }
+      : context;
+    opts.body = JSON.stringify(contextAsObject);
   }
   return opts;
 };
