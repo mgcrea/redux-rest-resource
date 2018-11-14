@@ -19,7 +19,9 @@
     "compile:watch": "npm run compile -- -w",
     "prepublish": "npm run compile"
   },
-  "dependencies": {},
+  "dependencies": {
+    "object-to-formdata": "^1.5.2"
+  },
   "devDependencies": {
     "@babel/cli": "^7.1.5",
     "@babel/core": "^7.1.5",

@@ -1,3 +1,4 @@
+import objectToFormData from 'object-to-formdata';
 import {isObject, isString, startsWith, endsWith} from './util';
 import {
   encodeUriQuery,
@@ -6,7 +7,7 @@ import {
   replaceQueryStringParamFromUrl,
   splitUrlByProtocolAndDomain
 } from './url';
-import {defaultGlobals, defaultHeaders, defaultIdKeys} from '../defaults';
+import {defaultFetchOpts, defaultGlobals, defaultHeaders, defaultIdKeys} from '../defaults';
 
 export class HttpError extends Error {
   constructor(statusCode = 500, {body, message = 'HttpError'}) {
@@ -62,6 +63,9 @@ export const buildFetchOpts = (context, {method, headers, credentials, query, bo
       ...headers
     };
   }
+  if (defaultFetchOpts.useFormData) {
+      delete opts.headers['Content-Type']
+  }
   if (credentials) {
     opts.credentials = credentials;
   }
@@ -70,14 +74,14 @@ export const buildFetchOpts = (context, {method, headers, credentials, query, bo
   }
   const hasBody = /^(POST|PUT|PATCH)$/i.test(opts.method);
   if (body) {
-    opts.body = isString(body) ? body : JSON.stringify(body);
+    opts.body = isString(body) || defaultFetchOpts.useFormData ? body : defaultFetchOpts.useFormData ? objectToFormData(body) : JSON.stringify(body);
   } else if (hasBody && context) {
     const contextAsObject = !isObject(context)
       ? {
           [defaultIdKeys.singular]: context
         }
       : context;
-    opts.body = JSON.stringify(contextAsObject);
+    opts.body = defaultFetchOpts.useFormData ? objectToFormData(contextAsObject) : JSON.stringify(contextAsObject);
   }
   return opts;
 };
