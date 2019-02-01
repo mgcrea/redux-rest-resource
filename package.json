@@ -21,52 +21,42 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@babel/cli": "^7.1.5",
-    "@babel/core": "^7.1.5",
-    "@babel/plugin-proposal-class-properties": "^7.1.0",
-    "@babel/plugin-proposal-function-bind": "^7.0.0",
-    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
-    "@babel/plugin-transform-runtime": "^7.1.0",
-    "@babel/preset-env": "^7.1.5",
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.3.0",
+    "@babel/plugin-proposal-function-bind": "^7.2.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.3.1",
+    "@babel/plugin-transform-runtime": "^7.2.0",
+    "@babel/preset-env": "^7.3.1",
     "@babel/preset-react": "^7.0.0",
     "babel-eslint": "^10.0.1",
-    "babel-jest": "^23.6.0",
+    "babel-jest": "^24.0.0",
     "bluebird": "^3.5.3",
-    "codacy-coverage": "^3.2.0",
+    "codacy-coverage": "^3.4.0",
     "debug-utils": "^0.4.3",
-    "eslint": "^5.8.0",
+    "eslint": "^5.12.1",
     "eslint-config-airbnb": "^17.1.0",
-    "eslint-config-prettier": "^3.1.0",
-    "eslint-plugin-import": "^2.14.0",
+    "eslint-config-prettier": "^4.0.0",
+    "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-jsx-a11y": "^6",
-    "eslint-plugin-react": "^7.11.1",
-    "expect": "^23.6.0",
+    "eslint-plugin-react": "^7.12.4",
+    "expect": "^24.0.0",
     "gh-pages": "^2.0.1",
     "isomorphic-fetch": "^2.2.1",
-    "jest": "^23.6.0",
+    "jest": "^24.0.0",
     "lodash": "^4.17.11",
-    "nock": "^10.0.2",
-    "prettier": "^1.15.1",
+    "nock": "^10.0.6",
+    "prettier": "^1.16.3",
     "redux": "^4.0.1",
     "redux-mock-store": "^1.5.3",
     "redux-thunk": "^2.3.0",
-    "rimraf": "^2.6.2"
+    "rimraf": "^2.6.3"
   },
   "resolutions": {
     "babel-core": "7.0.0-bridge.0"
   },
   "peerDependencies": {
     "redux-thunk": "^2.3.0"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "setupFiles": [
-      "<rootDir>/test/setup/index.js"
-    ],
-    "modulePathIgnorePatterns": [
-      "<rootDir>/_book",
-      "<rootDir>/docs"
-    ]
   },
   "keywords": [
     "elm",
