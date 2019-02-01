@@ -7,7 +7,7 @@ import fetch, {buildFetchUrl, buildFetchOpts} from '../helpers/fetch';
 import {isFunction, isString, pick, ucfirst, getPluralName} from '../helpers/util';
 import {defaultTransformResponsePipeline} from '../defaults/pipeline';
 
-const SUPPORTED_FETCH_OPTS = ['url', 'method', 'headers', 'credentials', 'query', 'body'];
+const SUPPORTED_FETCH_OPTS = ['url', 'method', 'headers', 'credentials', 'query', 'body', 'signal'];
 const SUPPORTED_REDUCE_OPTS = ['assignResponse', 'isArray', 'isPure'];
 
 const getActionName = (

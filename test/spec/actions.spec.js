@@ -1974,6 +1974,73 @@ describe('fetch options', () => {
         });
     });
   });
+
+  describe.only('`signal` option', () => {
+    it('should support action override', () => {
+      const controller = new AbortController();
+      const signal = controller.signal;
+      const timeoutId = setTimeout(() => controller.abort(), 100);
+      const actionFuncs = createActions(
+        {
+          ...defaultActions,
+          fetch: {
+            ...defaultActions.fetch,
+            signal
+          }
+        },
+        {
+          resourceName,
+          url
+        }
+      );
+      const actionId = 'fetch';
+      const action = getActionName(actionId, {
+        resourceName,
+        isArray: true
+      });
+      const type = '@@resource/USER/FETCH';
+      const context = {};
+      const body = [
+        {
+          id: 1,
+          firstName: 'Olivier'
+        }
+      ];
+      const code = 200;
+      const options = {
+        isArray: true
+      };
+      nock(host)
+        .get('/users')
+        .socketDelay(2000)
+        .reply(code, body);
+      const store = mockStore({
+        users: {}
+      });
+      const expectedActions = [
+        {
+          status: 'pending',
+          type,
+          context
+        },
+        {
+          status: 'resolved',
+          type,
+          context,
+          options,
+          body,
+          code,
+          receivedAt: null
+        }
+      ];
+      return store.dispatch(actionFuncs[action](context)).then(() => {
+        const actions = store.getActions();
+        actions[1].receivedAt = null;
+        expect(actions).toEqual(expectedActions);
+      });
+    });
+  });
+
   describe('`body` option', () => {
     it('should support context override', () => {
       const contextBody = {

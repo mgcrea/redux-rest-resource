@@ -117,7 +117,7 @@ describe('defaultReducers', () => {
     });
     expect(pendingState).toEqual({
       isFetching: true,
-      didInvalidate: false
+      didInvalidate: true
     });
 
     status = 'resolved';
@@ -153,7 +153,7 @@ describe('defaultReducers', () => {
         receivedAt
       })
     ).toEqual({
-      didInvalidate: false,
+      didInvalidate: true,
       isFetching: false
     });
   });
@@ -175,7 +175,7 @@ describe('defaultReducers', () => {
       });
       expect(pendingState).toEqual({
         isFetching: true,
-        didInvalidate: false
+        didInvalidate: true
       });
 
       status = 'resolved';
@@ -221,7 +221,7 @@ describe('defaultReducers', () => {
           receivedAt
         })
       ).toEqual({
-        didInvalidate: false,
+        didInvalidate: true,
         isFetching: false
       });
     });
@@ -261,7 +261,7 @@ describe('defaultReducers', () => {
       );
       expect(pendingState).toEqual({
         isFetching: true,
-        didInvalidate: false,
+        didInvalidate: true,
         items: oldItems
       });
 
@@ -308,7 +308,7 @@ describe('defaultReducers', () => {
           receivedAt
         })
       ).toEqual({
-        didInvalidate: false,
+        didInvalidate: true,
         isFetching: false,
         items: oldItems
       });
@@ -349,7 +349,7 @@ describe('defaultReducers', () => {
       );
       expect(pendingState).toEqual({
         isFetching: true,
-        didInvalidate: false,
+        didInvalidate: true,
         items: oldItems
       });
 
@@ -392,7 +392,7 @@ describe('defaultReducers', () => {
           receivedAt
         })
       ).toEqual({
-        didInvalidate: false,
+        didInvalidate: true,
         isFetching: false,
         items: oldItems
       });
@@ -419,7 +419,8 @@ describe('defaultReducers', () => {
     });
     expect(pendingState).toEqual({
       isFetchingItem: true,
-      didInvalidateItem: false
+      didInvalidateItem: true,
+      item: null
     });
 
     status = 'resolved';
@@ -456,7 +457,8 @@ describe('defaultReducers', () => {
       })
     ).toEqual({
       isFetchingItem: false,
-      didInvalidateItem: false
+      didInvalidateItem: true,
+      item: null
     });
   });
   it('should handle UPDATE action', () => {
@@ -1234,7 +1236,8 @@ describe('reducer options', () => {
       expect(pendingState).toEqual({
         ...customInitialState,
         isFetchingItem: true,
-        didInvalidateItem: false
+        didInvalidateItem: true,
+        item: null
       });
 
       status = 'resolved';
@@ -1274,8 +1277,9 @@ describe('reducer options', () => {
         })
       ).toEqual({
         ...customInitialState,
-        didInvalidateItem: false,
-        isFetchingItem: false
+        didInvalidateItem: true,
+        isFetchingItem: false,
+        item: null
       });
     });
     it('should handle UPDATE action', () => {

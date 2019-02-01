@@ -53,7 +53,7 @@ const defaultReducers = {
         return {
           ...state,
           isFetching: true,
-          didInvalidate: false
+          didInvalidate: true
         };
       case 'resolved': {
         const isPartialContent = action.code === 206;
@@ -84,8 +84,7 @@ const defaultReducers = {
       case 'rejected':
         return {
           ...state,
-          isFetching: false,
-          didInvalidate: false
+          isFetching: false
         };
       default:
         return state;
@@ -96,8 +95,9 @@ const defaultReducers = {
       case 'pending':
         return {
           ...state,
+          item: null, // @NOTE alway reset the state first to prevent form-related race conditions
           isFetchingItem: true,
-          didInvalidateItem: false
+          didInvalidateItem: true
         };
       case 'resolved': {
         const actionOpts = action.options || {};
@@ -124,8 +124,7 @@ const defaultReducers = {
       case 'rejected':
         return {
           ...state,
-          isFetchingItem: false,
-          didInvalidateItem: false
+          isFetchingItem: false
         };
       default:
         return state;
