@@ -33,7 +33,7 @@
     "babel-jest": "^24.0.0",
     "bluebird": "^3.5.3",
     "codacy-coverage": "^3.4.0",
-    "debug-utils": "^0.4.3",
+    "debug-utils": "^0.5.2",
     "eslint": "^5.12.1",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-prettier": "^4.0.0",
