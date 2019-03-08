@@ -415,6 +415,7 @@ describe('defaultReducers', () => {
     const pendingState = reducers[actionId](undefined, {
       type,
       status,
+      options: defaultActions[actionId],
       context
     });
     expect(pendingState).toEqual({
@@ -1190,13 +1191,15 @@ describe('reducer options', () => {
     it('should handle GET action', () => {
       const actionId = 'get';
       const assignResponse = true;
+
+      const options = {
+        ...defaultActions[actionId],
+        assignResponse
+      };
       const reducers = createReducers(
         {
           ...defaultActions,
-          [actionId]: {
-            ...defaultActions[actionId],
-            assignResponse
-          }
+          [actionId]: options
         },
         {
           resourceName
@@ -1222,15 +1225,13 @@ describe('reducer options', () => {
       const context = {
         id: 1
       };
-      const options = {
-        assignResponse
-      };
       let status;
 
       status = 'pending';
       const pendingState = reducers[actionId](customInitialState, {
         type,
         status,
+        options,
         context
       });
       expect(pendingState).toEqual({
@@ -1377,6 +1378,111 @@ describe('reducer options', () => {
       ).toEqual({
         ...customInitialState,
         isUpdating: false
+      });
+    });
+  });
+  describe('`clearState` option', () => {
+    it('should handle FETCH action', () => {
+      const actionId = 'fetch';
+      const clearState = true;
+      const actionOptions = {
+        ...defaultActions[actionId],
+        clearState
+      };
+      const reducers = createReducers(
+        {
+          ...defaultActions,
+          [actionId]: actionOptions
+        },
+        {
+          resourceName
+        }
+      );
+      const type =
+        types[
+          getActionTypeKey(actionId, {
+            resourceName
+          })
+        ];
+
+      const initialItems = [
+        {
+          id: 1,
+          firstName: 'Olivier',
+          lastName: 'Louvignes'
+        }
+      ];
+      const customInitialState = {
+        items: initialItems,
+        item: initialItems[0]
+      };
+      const context = {
+        id: 1
+      };
+
+      const status = 'pending';
+      const pendingState = reducers[actionId](customInitialState, {
+        type,
+        status,
+        context,
+        options: actionOptions
+      });
+      expect(pendingState).toEqual({
+        ...customInitialState,
+        isFetching: true,
+        didInvalidate: true,
+        items: []
+      });
+    });
+    it('should handle GET action', () => {
+      const actionId = 'get';
+      const clearState = false;
+      const actionOptions = {
+        ...defaultActions[actionId],
+        clearState
+      };
+      const reducers = createReducers(
+        {
+          ...defaultActions,
+          [actionId]: actionOptions
+        },
+        {
+          resourceName
+        }
+      );
+      const type =
+        types[
+          getActionTypeKey(actionId, {
+            resourceName
+          })
+        ];
+
+      const initialItems = [
+        {
+          id: 1,
+          firstName: 'Olivier',
+          lastName: 'Louvignes'
+        }
+      ];
+      const customInitialState = {
+        items: initialItems,
+        item: initialItems[0]
+      };
+      const context = {
+        id: 1
+      };
+
+      const status = 'pending';
+      const pendingState = reducers[actionId](customInitialState, {
+        type,
+        status,
+        context,
+        options: actionOptions
+      });
+      expect(pendingState).toEqual({
+        ...customInitialState,
+        isFetchingItem: true,
+        didInvalidateItem: true
       });
     });
   });

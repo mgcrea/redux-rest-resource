@@ -49,12 +49,15 @@ const defaultReducers = {
   },
   fetch: (state, action) => {
     switch (action.status) {
-      case 'pending':
+      case 'pending': {
+        const actionOpts = action.options || {};
         return {
           ...state,
           isFetching: true,
-          didInvalidate: true
+          didInvalidate: true,
+          ...(actionOpts.clearState ? {items: []} : {})
         };
+      }
       case 'resolved': {
         const isPartialContent = action.code === 206;
         let items = [];
@@ -92,13 +95,15 @@ const defaultReducers = {
   },
   get: (state, action) => {
     switch (action.status) {
-      case 'pending':
+      case 'pending': {
+        const actionOpts = action.options || {};
         return {
           ...state,
-          item: null, // @NOTE alway reset the state first to prevent form-related race conditions
           isFetchingItem: true,
-          didInvalidateItem: true
+          didInvalidateItem: true,
+          ...(actionOpts.clearState ? {item: null} : {})
         };
+      }
       case 'resolved': {
         const actionOpts = action.options || {};
         const idKey = getIdKey(action, {multi: false});

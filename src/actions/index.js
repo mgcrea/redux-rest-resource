@@ -8,7 +8,7 @@ import {isFunction, isString, pick, ucfirst, getPluralName} from '../helpers/uti
 import {defaultTransformResponsePipeline} from '../defaults/pipeline';
 
 const SUPPORTED_FETCH_OPTS = ['url', 'method', 'headers', 'credentials', 'query', 'body', 'signal'];
-const SUPPORTED_REDUCE_OPTS = ['assignResponse', 'isArray', 'isPure'];
+const SUPPORTED_REDUCE_OPTS = ['clearState', 'assignResponse', 'isArray', 'isPure'];
 
 const getActionName = (
   actionId,

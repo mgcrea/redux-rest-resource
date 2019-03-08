@@ -3,7 +3,7 @@
 const defaultActions = {
   create: {method: 'POST'},
   fetch: {method: 'GET', isArray: true},
-  get: {method: 'GET'},
+  get: {method: 'GET', clearState: true},
   update: {method: 'PATCH'},
   updateMany: {method: 'PATCH', isArray: true, alias: 'update'},
   delete: {method: 'DELETE'},
