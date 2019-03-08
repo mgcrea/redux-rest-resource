@@ -44,6 +44,7 @@ const createAction = (
     dispatch({
       type,
       status: 'pending',
+      options: reduceOpts,
       context
     });
     // Prepare fetch options
