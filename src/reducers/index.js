@@ -101,7 +101,7 @@ const defaultReducers = {
         const idKey = getIdKey(action, {multi: false});
         const {context} = action;
         const {item} = state;
-        const hasConflictingContext = item && item[idKey] !== context[idKey];
+        const hasConflictingContext = item ? item[idKey] !== context[idKey] : false;
         const didInvalidate = !!actionOpts.invalidateState || hasConflictingContext;
         return {
           ...state,

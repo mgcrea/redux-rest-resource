@@ -1,7 +1,7 @@
 import expect from 'expect';
 import {values, snakeCase} from 'lodash';
 
-import {defaultActions, initialState} from '../../src/defaults';
+import {defaultActions, defaultState, initialState} from '../../src/defaults';
 import {createTypes, getActionTypeKey} from '../../src/types';
 import {createRootReducer, createReducers} from '../../src/reducers';
 import {combineReducers} from '../../src/reducers/helpers';
@@ -169,13 +169,18 @@ describe('defaultReducers', () => {
       let status;
 
       status = 'pending';
-      const pendingState = reducers[actionId](undefined, {
-        type,
-        status
-      });
+      const pendingState = reducers[actionId](
+        {...defaultState.fetch},
+        {
+          type,
+          status
+        }
+      );
       expect(pendingState).toEqual({
         isFetching: true,
-        didInvalidate: false
+        didInvalidate: false,
+        items: [],
+        lastUpdated: 0
       });
 
       status = 'resolved';
@@ -222,7 +227,9 @@ describe('defaultReducers', () => {
         })
       ).toEqual({
         didInvalidate: false,
-        isFetching: false
+        isFetching: false,
+        items: [],
+        lastUpdated: 0
       });
     });
     it('partial-content fetch => first range [0 to 2] with 3 old items', () => {
@@ -412,15 +419,20 @@ describe('defaultReducers', () => {
     let status;
 
     status = 'pending';
-    const pendingState = reducers[actionId](undefined, {
-      type,
-      status,
-      options: defaultActions[actionId],
-      context
-    });
+    const pendingState = reducers[actionId](
+      {...defaultState.get},
+      {
+        type,
+        status,
+        options: defaultActions[actionId],
+        context
+      }
+    );
     expect(pendingState).toEqual({
       isFetchingItem: true,
-      didInvalidateItem: false
+      didInvalidateItem: false,
+      item: null,
+      lastUpdatedItem: 0
     });
 
     status = 'resolved';
@@ -457,7 +469,9 @@ describe('defaultReducers', () => {
       })
     ).toEqual({
       isFetchingItem: false,
-      didInvalidateItem: false
+      didInvalidateItem: false,
+      item: null,
+      lastUpdatedItem: 0
     });
   });
   it('should handle UPDATE action', () => {
@@ -1482,7 +1496,7 @@ describe('reducer options', () => {
         item: null
       });
     });
-    it.only('should automatically invalidateState when context changes for GET action', () => {
+    it('should automatically invalidateState when context changes for GET action', () => {
       const actionId = 'get';
       const actionOptions = {
         ...defaultActions[actionId]
