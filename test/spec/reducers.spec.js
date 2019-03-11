@@ -1482,6 +1482,61 @@ describe('reducer options', () => {
         item: null
       });
     });
+    it.only('should automatically invalidateState when context changes for GET action', () => {
+      const actionId = 'get';
+      const actionOptions = {
+        ...defaultActions[actionId]
+      };
+      const reducers = createReducers(
+        {
+          ...defaultActions,
+          [actionId]: actionOptions
+        },
+        {
+          resourceName
+        }
+      );
+      const type =
+        types[
+          getActionTypeKey(actionId, {
+            resourceName
+          })
+        ];
+
+      const initialItems = [
+        {
+          id: 1,
+          firstName: 'Olivier',
+          lastName: 'Louvignes'
+        },
+        {
+          id: 2,
+          firstName: 'Nathan',
+          lastName: 'Ducrey'
+        }
+      ];
+      const customInitialState = {
+        items: initialItems,
+        item: initialItems[0]
+      };
+      const context = {
+        id: 2
+      };
+
+      const status = 'pending';
+      const pendingState = reducers[actionId](customInitialState, {
+        type,
+        status,
+        context,
+        options: actionOptions
+      });
+      expect(pendingState).toEqual({
+        ...customInitialState,
+        isFetchingItem: true,
+        didInvalidateItem: true,
+        item: null
+      });
+    });
   });
 });
 

@@ -98,7 +98,11 @@ const defaultReducers = {
     switch (action.status) {
       case 'pending': {
         const actionOpts = action.options || {};
-        const didInvalidate = !!actionOpts.invalidateState;
+        const idKey = getIdKey(action, {multi: false});
+        const {context} = action;
+        const {item} = state;
+        const hasConflictingContext = item && item[idKey] !== context[idKey];
+        const didInvalidate = !!actionOpts.invalidateState || hasConflictingContext;
         return {
           ...state,
           isFetchingItem: true,
