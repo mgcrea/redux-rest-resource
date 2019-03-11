@@ -51,11 +51,12 @@ const defaultReducers = {
     switch (action.status) {
       case 'pending': {
         const actionOpts = action.options || {};
+        const didInvalidate = !!actionOpts.invalidateState;
         return {
           ...state,
           isFetching: true,
-          didInvalidate: true,
-          ...(actionOpts.clearState ? {items: []} : {})
+          didInvalidate,
+          ...(didInvalidate ? {items: []} : {})
         };
       }
       case 'resolved': {
@@ -97,11 +98,12 @@ const defaultReducers = {
     switch (action.status) {
       case 'pending': {
         const actionOpts = action.options || {};
+        const didInvalidate = !!actionOpts.invalidateState;
         return {
           ...state,
           isFetchingItem: true,
-          didInvalidateItem: true,
-          ...(actionOpts.clearState ? {item: null} : {})
+          didInvalidateItem: didInvalidate,
+          ...(didInvalidate ? {item: null} : {})
         };
       }
       case 'resolved': {

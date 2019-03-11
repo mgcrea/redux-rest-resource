@@ -179,9 +179,7 @@ describe('defaultActions', () => {
         firstName: 'Olivier'
       };
       const code = 200;
-      const options = {
-        clearState: true
-      };
+      const options = {};
       nock(host)
         .get(`/users/${context.id}`)
         .reply(code, body);
@@ -321,9 +319,7 @@ describe('defaultActions', () => {
         firstName: 'Olivier'
       };
       const code = 200;
-      const options = {
-        clearState: true
-      };
+      const options = {};
       nock(host)
         .get(`/users/${context.id}`)
         .reply(code, body, {
@@ -2381,15 +2377,15 @@ describe('reduce options', () => {
         });
     });
   });
-  describe('`clearState` option', () => {
+  describe('`invalidateState` option', () => {
     it('should support action override', () => {
-      const clearState = true;
+      const invalidateState = true;
       const actionFuncs = createActions(
         {
           ...defaultActions,
           fetch: {
             ...defaultActions.fetch,
-            clearState
+            invalidateState
           }
         },
         {
@@ -2413,7 +2409,7 @@ describe('reduce options', () => {
       const code = 200;
       const options = {
         isArray: true,
-        clearState
+        invalidateState
       };
       nock(host)
         .get('/users')
