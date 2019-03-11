@@ -99,9 +99,8 @@ const defaultReducers = {
       case 'pending': {
         const actionOpts = action.options || {};
         const idKey = getIdKey(action, {multi: false});
-        const {context} = action;
-        const {item} = state;
-        const hasConflictingContext = item ? item[idKey] !== context[idKey] : false;
+        const id = isObject(action.context) ? action.context[idKey] : action.context;
+        const hasConflictingContext = state.item ? state.item[idKey] !== id : false;
         const didInvalidate = !!actionOpts.invalidateState || hasConflictingContext;
         return {
           ...state,
