@@ -1121,6 +1121,59 @@ describe('fetch options', () => {
         expect(actions).toEqual(expectedActions);
       });
     });
+    it('should support relative urls for array methods', () => {
+      const overridenUrl = './aggregate';
+      const actionFuncs = createActions(
+        {
+          ...defaultActions,
+          aggregate: {method: 'GET', gerundName: 'aggregating', url: overridenUrl, isArray: true}
+        },
+        {
+          resourceName,
+          url
+        }
+      );
+      const actionId = 'aggregate';
+      const action = getActionName(actionId, {
+        resourceName,
+        isArray: true
+      });
+      const type = '@@resource/USER/AGGREGATE';
+      const context = {};
+      const body = {
+        ok: 1
+      };
+      const code = 200;
+      const options = {isArray: true};
+      nock(host)
+        .get(`/users/aggregate`)
+        .reply(code, body);
+      const store = mockStore({
+        users: {}
+      });
+      const expectedActions = [
+        {
+          status: 'pending',
+          type,
+          context,
+          options
+        },
+        {
+          status: 'resolved',
+          type,
+          context,
+          options,
+          body,
+          code,
+          receivedAt: null
+        }
+      ];
+      return store.dispatch(actionFuncs[action](context)).then(() => {
+        const actions = store.getActions();
+        actions[1].receivedAt = null;
+        expect(actions).toEqual(expectedActions);
+      });
+    });
   });
   describe('`method` option', () => {
     it('should support action override', () => {
