@@ -2494,4 +2494,62 @@ describe('reduce options', () => {
       });
     });
   });
+  describe('`beforeError` hook', () => {
+    it('should support action override', () => {
+      const beforeError = jest.fn(error => {
+        return error;
+      });
+      const actionFuncs = createActions(
+        {
+          ...defaultActions
+        },
+        {
+          beforeError: [beforeError],
+          resourceName,
+          url
+        }
+      );
+      const actionId = 'fetch';
+      const action = getActionName(actionId, {
+        resourceName,
+        isArray: true
+      });
+      const type = '@@resource/USER/FETCH';
+      const context = {};
+      const options = {
+        isArray: true
+      };
+      nock(host)
+        .get('/users')
+        .replyWithError('something awful happened');
+      const store = mockStore({
+        users: {}
+      });
+      const expectedActions = [
+        {
+          status: 'pending',
+          type,
+          context,
+          options
+        },
+        {
+          status: 'rejected',
+          type,
+          context,
+          options,
+          code: null,
+          body: 'request to http://localhost:3000/users failed, reason: something awful happened',
+          receivedAt: null
+        }
+      ];
+      return expect(store.dispatch(actionFuncs[action](context)))
+        .rejects.toBeDefined()
+        .then(() => {
+          const actions = store.getActions();
+          actions[1].receivedAt = null;
+          expect(actions).toEqual(expectedActions);
+          expect(beforeError.mock.calls.length).toBe(1);
+        });
+    });
+  });
 });

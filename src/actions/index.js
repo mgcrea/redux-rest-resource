@@ -87,7 +87,11 @@ const createAction = (
           ...payload
         })
       ) // eslint-disable-line
-      .catch(err => {
+      .catch(initialErr => {
+        // beforeError hook
+        const err = actionOpts.beforeError
+          ? actionOpts.beforeError.reduce((errSoFar, beforeErrorHook) => beforeErrorHook(errSoFar), initialErr)
+          : initialErr;
         // Catch HttpErrors
         if (err.statusCode) {
           dispatch({
