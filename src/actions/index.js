@@ -140,20 +140,20 @@ const createActions = (
         url: `${globalOpts.url}${url.substr(1)}`
       };
     }
-    const actionOpts = {
-      ...globalOpts,
-      ...actions[actionId]
-    };
-    const actionName = getActionName(actionId, {
-      resourceName,
-      resourcePluralName,
-      isArray: actionOpts.isArray,
-      alias: actionOpts.alias
-    });
+    const actionOpts = actions[actionId];
+    const actionName = actionOpts.name
+      ? actionOpts.name
+      : getActionName(actionId, {
+          resourceName,
+          resourcePluralName,
+          isArray: actionOpts.isArray,
+          alias: actionOpts.alias
+        });
     actionFuncs[actionName] = createAction(actionId, {
       resourceName,
       resourcePluralName,
       scope,
+      ...globalOpts,
       ...actionOpts
     });
     return actionFuncs;

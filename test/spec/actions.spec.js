@@ -15,6 +15,12 @@ const resourceName = 'user';
 const host = 'http://localhost:3000';
 const url = `${host}/users/:id`;
 
+const checkActionMethodSignature = (getState, {actionId} = {}) => {
+  expect(typeof getState).toBe('function');
+  expect(typeof actionId).toBe('string');
+  expect(typeof getState()).toBe('object');
+};
+
 describe('createActions', () => {
   describe('when using a resource', () => {
     it('should return an object with properly named keys', () => {
@@ -596,6 +602,13 @@ describe('custom actions', () => {
       method: 'POST',
       url: `${url}/promote`
     },
+    applications: {
+      name: 'fetchApplications',
+      gerundName: 'fetchingApplications',
+      method: 'GET',
+      isArray: true,
+      url: `${url}/applications`
+    },
     merge: {
       method: 'POST',
       isArray: true
@@ -626,6 +639,49 @@ describe('custom actions', () => {
     const options = {};
     nock(host)
       .post(`/users/${context.id}/promote`, context)
+      .reply(code, body);
+    const store = mockStore({
+      users: {}
+    });
+    const expectedActions = [
+      {
+        status: 'pending',
+        type,
+        context,
+        options
+      },
+      {
+        status: 'resolved',
+        type,
+        context,
+        options,
+        body,
+        code,
+        receivedAt: null
+      }
+    ];
+    return store.dispatch(actionFuncs[action](context)).then(() => {
+      const actions = store.getActions();
+      actions[1].receivedAt = null;
+      expect(actions).toEqual(expectedActions);
+    });
+  });
+  it('with a custom action name', () => {
+    const action = 'fetchApplications';
+    const type = '@@resource/USER/APPLICATIONS';
+    const context = {
+      id: 1
+    };
+    const body = [
+      {
+        id: 1,
+        name: 'Foo'
+      }
+    ];
+    const code = 200;
+    const options = {isArray: true};
+    nock(host)
+      .get(`/users/${context.id}/applications`)
       .reply(code, body);
     const store = mockStore({
       users: {}
@@ -798,15 +854,139 @@ describe('custom pure actions', () => {
   });
 });
 
+describe('other options', () => {
+  afterEach(() => {
+    nock.cleanAll();
+  });
+  describe('`alias` option', () => {
+    it('should support action override', () => {
+      const alias = 'grab';
+      const actionFuncs = createActions(
+        {
+          ...defaultActions,
+          fetch: {
+            ...defaultActions.fetch,
+            alias
+          }
+        },
+        {
+          resourceName,
+          url
+        }
+      );
+      const actionId = 'fetch';
+      const action = getActionName(actionId, {
+        alias,
+        resourceName,
+        isArray: true
+      });
+      const type = '@@resource/USER/FETCH';
+      const context = {};
+      const body = [
+        {
+          id: 1,
+          firstName: 'Olivier'
+        }
+      ];
+      const code = 200;
+      const options = {
+        isArray: true
+      };
+      nock(host)
+        .get('/users')
+        .reply(code, body);
+      const store = mockStore({
+        users: {}
+      });
+      const expectedActions = [
+        {
+          status: 'pending',
+          type,
+          context,
+          options
+        },
+        {
+          status: 'resolved',
+          type,
+          context,
+          options,
+          body,
+          code,
+          receivedAt: null
+        }
+      ];
+      return store.dispatch(actionFuncs[action](context)).then(() => {
+        const actions = store.getActions();
+        actions[1].receivedAt = null;
+        expect(actions).toEqual(expectedActions);
+      });
+    });
+  });
+  describe('`name` option', () => {
+    it('should support action override', () => {
+      const name = 'grabWorkers';
+      const actionFuncs = createActions(
+        {
+          ...defaultActions,
+          fetch: {
+            ...defaultActions.fetch,
+            name
+          }
+        },
+        {
+          resourceName,
+          url
+        }
+      );
+      const action = name;
+      const type = '@@resource/USER/FETCH';
+      const context = {};
+      const body = [
+        {
+          id: 1,
+          firstName: 'Olivier'
+        }
+      ];
+      const code = 200;
+      const options = {
+        isArray: true
+      };
+      nock(host)
+        .get('/users')
+        .reply(code, body);
+      const store = mockStore({
+        users: {}
+      });
+      const expectedActions = [
+        {
+          status: 'pending',
+          type,
+          context,
+          options
+        },
+        {
+          status: 'resolved',
+          type,
+          context,
+          options,
+          body,
+          code,
+          receivedAt: null
+        }
+      ];
+      return store.dispatch(actionFuncs[action](context)).then(() => {
+        const actions = store.getActions();
+        actions[1].receivedAt = null;
+        expect(actions).toEqual(expectedActions);
+      });
+    });
+  });
+});
+
 describe('fetch options', () => {
   afterEach(() => {
     nock.cleanAll();
   });
-  const checkActionMethodSignature = (getState, {actionId} = {}) => {
-    expect(typeof getState).toBe('function');
-    expect(typeof actionId).toBe('string');
-    expect(typeof getState()).toBe('object');
-  };
   describe('`transformResponse` option', () => {
     it('should support action options', () => {
       const transformResponse = res => ({
