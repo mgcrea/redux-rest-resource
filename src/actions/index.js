@@ -3,7 +3,7 @@
 import {getActionType, getTypesScope, scopeType} from '../types';
 import {applyTransformPipeline, buildTransformPipeline} from './transform';
 import {parseUrlParams} from '../helpers/url';
-import fetch, {buildFetchUrl, buildFetchOpts} from '../helpers/fetch';
+import fetch, {buildFetchUrl, buildFetchOpts, HttpError} from '../helpers/fetch';
 import {isFunction, isString, pick, ucfirst, getPluralName} from '../helpers/util';
 import {defaultTransformResponsePipeline} from '../defaults/pipeline';
 
@@ -92,8 +92,11 @@ const createAction = (
         const err = actionOpts.beforeError
           ? actionOpts.beforeError.reduce((errSoFar, beforeErrorHook) => beforeErrorHook(errSoFar), initialErr)
           : initialErr;
+        if (!err) {
+          return;
+        }
         // Catch HttpErrors
-        if (err.statusCode) {
+        if (err instanceof HttpError) {
           dispatch({
             type,
             status: 'rejected',
