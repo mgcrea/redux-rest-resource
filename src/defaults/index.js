@@ -10,6 +10,11 @@ const defaultActions = {
   deleteMany: {method: 'DELETE', isArray: true, alias: 'delete'}
 };
 
+
+const defaultFetchOpts = {
+    useFormData: true
+};
+
 const defaultHeaders = {
   Accept: 'application/json',
   'Content-Type': 'application/json'
@@ -51,4 +56,4 @@ const defaultGlobals = {
   fetch
 };
 
-export {defaultGlobals, defaultActions, defaultHeaders, defaultIdKeys, defaultState, initialState};
+export {defaultGlobals, defaultActions, defaultHeaders, defaultIdKeys, defaultState, defaultFetchOpts, initialState};
