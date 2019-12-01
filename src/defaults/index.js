@@ -48,7 +48,7 @@ const initialState = Object.keys(defaultState).reduce((soFar, key) => ({...soFar
 
 const defaultGlobals = {
   Promise,
-  fetch
+  fetch: (typeof fetch !== 'undefined') ? fetch : null
 };
 
 export {defaultGlobals, defaultActions, defaultHeaders, defaultIdKeys, defaultState, initialState};
