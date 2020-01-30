@@ -1,8 +1,8 @@
 language: node_js
 sudo: false
 node_js:
-  - "8"
-  - "stable"
+  - 'lts/*'
+  - 'stable'
 
 env:
   global:
@@ -10,12 +10,13 @@ env:
 
 before_script:
   - date --rfc-2822
+  - yarn global add codecov
 
 script:
-  - npm test
-  - npm run lint
-  - npm run format:check
-  - npm run test:coverage
+  - yarn run spec:coverage
+  - yarn run typecheck
+  - yarn run lint
+  - yarn run pretty
 
 after_script:
   - cat coverage/lcov.info | codacy-coverage

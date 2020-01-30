@@ -1,6 +1,6 @@
-/* global fetch */
+import {ActionsOptions, State} from '../typings';
 
-const defaultActions = {
+const defaultActions: ActionsOptions = {
   create: {method: 'POST'},
   fetch: {method: 'GET', isArray: true},
   get: {method: 'GET'},
@@ -10,7 +10,7 @@ const defaultActions = {
   deleteMany: {method: 'DELETE', isArray: true, alias: 'delete'}
 };
 
-const defaultHeaders = {
+const defaultHeaders: RequestInit['headers'] = {
   Accept: 'application/json',
   'Content-Type': 'application/json'
 };
@@ -20,7 +20,7 @@ const defaultIdKeys = {
   plural: 'ids'
 };
 
-const defaultState = {
+const defaultState: Record<string, Partial<State>> = {
   create: {
     isCreating: false
   },
@@ -44,7 +44,10 @@ const defaultState = {
   }
 };
 
-const initialState = Object.keys(defaultState).reduce((soFar, key) => ({...soFar, ...defaultState[key]}), {});
+const initialState: State = Object.keys(defaultState).reduce<State>(
+  (soFar, key) => ({...soFar, ...defaultState[key]}),
+  {} as State
+);
 
 const defaultGlobals = {
   Promise,

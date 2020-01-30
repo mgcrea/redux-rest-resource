@@ -44,7 +44,7 @@ describe('createActions', () => {
         resourceName,
         url
       });
-      const expectedValuesFn = action => expect(typeof action).toBe('function');
+      const expectedValuesFn = (action) => expect(typeof action).toBe('function');
       values(actionFuncs).forEach(expectedValuesFn);
     });
   });
@@ -61,7 +61,7 @@ describe('createActions', () => {
         resourceName,
         url
       });
-      const expectedValuesFn = action => expect(typeof action).toBe('function');
+      const expectedValuesFn = (action) => expect(typeof action).toBe('function');
       values(actionFuncs).forEach(expectedValuesFn);
     });
   });
@@ -114,7 +114,7 @@ describe('defaultActions', () => {
           receivedAt: null
         }
       ];
-      return store.dispatch(actionFuncs[action](context)).then(res => {
+      return store.dispatch(actionFuncs[action](context)).then((res) => {
         res.receivedAt = null;
         expect(res).toEqual(expectedActions[1]);
         const actions = store.getActions();
@@ -163,7 +163,7 @@ describe('defaultActions', () => {
           receivedAt: null
         }
       ];
-      return store.dispatch(actionFuncs[action](context)).then(res => {
+      return store.dispatch(actionFuncs[action](context)).then((res) => {
         res.receivedAt = null;
         expect(res).toEqual(expectedActions[1]);
         const actions = store.getActions();
@@ -209,7 +209,7 @@ describe('defaultActions', () => {
           receivedAt: null
         }
       ];
-      return store.dispatch(actionFuncs[action](context)).then(res => {
+      return store.dispatch(actionFuncs[action](context)).then((res) => {
         res.receivedAt = null;
         expect(res).toEqual(expectedActions[1]);
         const actions = store.getActions();
@@ -255,7 +255,7 @@ describe('defaultActions', () => {
           receivedAt: null
         }
       ];
-      return store.dispatch(actionFuncs[action](context)).then(res => {
+      return store.dispatch(actionFuncs[action](context)).then((res) => {
         res.receivedAt = null;
         expect(res).toEqual(expectedActions[1]);
         const actions = store.getActions();
@@ -300,7 +300,7 @@ describe('defaultActions', () => {
           receivedAt: null
         }
       ];
-      return store.dispatch(actionFuncs[action](context)).then(res => {
+      return store.dispatch(actionFuncs[action](context)).then((res) => {
         res.receivedAt = null;
         expect(res).toEqual(expectedActions[1]);
         const actions = store.getActions();
@@ -351,7 +351,7 @@ describe('defaultActions', () => {
           receivedAt: null
         }
       ];
-      return store.dispatch(actionFuncs[action](context)).then(res => {
+      return store.dispatch(actionFuncs[action](context)).then((res) => {
         res.receivedAt = null;
         expect(res).toEqual(expectedActions[1]);
         const actions = store.getActions();
@@ -394,7 +394,7 @@ describe('defaultActions', () => {
           receivedAt: null
         }
       ];
-      return store.dispatch(actionFuncs[action](context)).then(res => {
+      return store.dispatch(actionFuncs[action](context)).then((res) => {
         res.receivedAt = null;
         expect(res).toEqual(expectedActions[1]);
         const actions = store.getActions();
@@ -437,7 +437,7 @@ describe('defaultActions', () => {
           receivedAt: null
         }
       ];
-      return store.dispatch(actionFuncs[action](context)).then(res => {
+      return store.dispatch(actionFuncs[action](context)).then((res) => {
         res.receivedAt = null;
         expect(res).toEqual(expectedActions[1]);
         const actions = store.getActions();
@@ -528,7 +528,7 @@ describe('defaultActions', () => {
       ];
       let thrownErr;
       return expect(
-        store.dispatch(actionFuncs[action](context)).catch(err => {
+        store.dispatch(actionFuncs[action](context)).catch((err) => {
           thrownErr = err;
           throw err;
         })
@@ -577,13 +577,13 @@ describe('defaultActions', () => {
       ];
       let thrownErr;
       return expect(
-        store.dispatch(actionFuncs[action](context)).catch(err => {
+        store.dispatch(actionFuncs[action](context)).catch((err) => {
           thrownErr = err;
           throw err;
         })
       )
         .rejects.toBeDefined()
-        .then(err => {
+        .then((err) => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
           expect(thrownErr.status).toEqual(code);
@@ -750,7 +750,7 @@ describe('custom actions', () => {
         receivedAt: null
       }
     ];
-    return store.dispatch(actionFuncs[action](context)).then(res => {
+    return store.dispatch(actionFuncs[action](context)).then((res) => {
       const actions = store.getActions();
       actions[1].receivedAt = null;
       expect(actions).toEqual(expectedActions);
@@ -797,7 +797,7 @@ describe('custom actions', () => {
         receivedAt: null
       }
     ];
-    return store.dispatch(actionFuncs[action](context)).then(res => {
+    return store.dispatch(actionFuncs[action](context)).then((res) => {
       const actions = store.getActions();
       actions[1].receivedAt = null;
       expect(actions).toEqual(expectedActions);
@@ -989,9 +989,9 @@ describe('fetch options', () => {
   });
   describe('`transformResponse` option', () => {
     it('should support action options', () => {
-      const transformResponse = res => ({
+      const transformResponse = (res) => ({
         ...res,
-        body: res.body.map(item => ({
+        body: res.body.map((item) => ({
           ...item,
           foo: 'bar'
         }))
@@ -1044,7 +1044,7 @@ describe('fetch options', () => {
           type,
           context,
           options,
-          body: body.map(item => ({
+          body: body.map((item) => ({
             ...item,
             foo: 'bar'
           })),
@@ -2676,7 +2676,7 @@ describe('reduce options', () => {
   });
   describe('`beforeError` hook', () => {
     it('should support action override', () => {
-      const beforeError = jest.fn(error => {
+      const beforeError = jest.fn((error) => {
         return error;
       });
       const actionFuncs = createActions(

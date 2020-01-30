@@ -1,15 +1,19 @@
-import {isObject, isString, startsWith, endsWith} from './util';
+import {defaultGlobals, defaultHeaders, defaultIdKeys} from '../defaults';
+import {Context} from '../typings/index';
 import {
   encodeUriQuery,
   encodeUriSegment,
-  replaceUrlParamFromUrl,
   replaceQueryStringParamFromUrl,
+  replaceUrlParamFromUrl,
   splitUrlByProtocolAndDomain
 } from './url';
-import {defaultGlobals, defaultHeaders, defaultIdKeys} from '../defaults';
+import {endsWith, isObject, isString, startsWith, toString} from './util';
 
 export class HttpError extends Error {
-  constructor(statusCode = 500, {body, message = 'HttpError'}) {
+  statusCode: number;
+  status: number;
+  body: unknown;
+  constructor(statusCode = 500, {body, message = 'HttpError'}: {body?: unknown; message?: string}) {
     super(message);
     this.name = this.constructor.name;
     this.message = message;
@@ -25,7 +29,15 @@ export class HttpError extends Error {
   }
 }
 
-export const buildFetchUrl = (context, {url, urlParams, stripTrailingSlashes = true}) => {
+type BuildFetchUrlOptions = {
+  url: string;
+  urlParams: Record<string, {isQueryParamValue?: boolean}>;
+  stripTrailingSlashes?: boolean;
+};
+export const buildFetchUrl = (
+  context: Context,
+  {url, urlParams, stripTrailingSlashes = true}: BuildFetchUrlOptions
+): string => {
   const [protocolAndDomain = '', remainderUrl] = splitUrlByProtocolAndDomain(url);
   // Replace urlParams with values from context
   let builtUrl = Object.keys(urlParams).reduce((wipUrl, urlParam) => {
@@ -37,7 +49,9 @@ export const buildFetchUrl = (context, {url, urlParams, stripTrailingSlashes = t
       : context;
     const value = contextAsObject[urlParam] || ''; // self.defaults[urlParam];
     if (value) {
-      const encodedValue = urlParamInfo.isQueryParamValue ? encodeUriQuery(value, true) : encodeUriSegment(value);
+      const encodedValue = urlParamInfo.isQueryParamValue
+        ? encodeUriQuery(toString(value), true)
+        : encodeUriSegment(toString(value));
       return replaceUrlParamFromUrl(wipUrl, urlParam, encodedValue);
     }
     return replaceUrlParamFromUrl(wipUrl, urlParam);
@@ -49,8 +63,17 @@ export const buildFetchUrl = (context, {url, urlParams, stripTrailingSlashes = t
   return protocolAndDomain + builtUrl;
 };
 
-export const buildFetchOpts = (context, {method, headers, credentials, query, body}) => {
-  const opts = {
+type FetchOptions = RequestInit & {
+  query?: Record<string, unknown>;
+  Promise?: PromiseConstructor;
+};
+
+export const buildFetchOpts = (
+  context: Context,
+  {method, headers, credentials, query, body}: FetchOptions
+): FetchOptions => {
+  const opts: FetchOptions = {
+    method: 'GET',
     headers: defaultHeaders
   };
   if (method) {
@@ -68,7 +91,7 @@ export const buildFetchOpts = (context, {method, headers, credentials, query, bo
   if (query) {
     opts.query = query;
   }
-  const hasBody = /^(POST|PUT|PATCH|DELETE)$/i.test(opts.method);
+  const hasBody = /^(POST|PUT|PATCH|DELETE)$/i.test(opts.method as string);
   if (body) {
     opts.body = isString(body) ? body : JSON.stringify(body);
   } else if (hasBody && context) {
@@ -82,7 +105,7 @@ export const buildFetchOpts = (context, {method, headers, credentials, query, bo
   return opts;
 };
 
-export const parseResponse = res => {
+export const parseResponse = (res: Response): Promise<unknown> => {
   const contentType = res.headers.get('Content-Type');
   // @NOTE parses 'application/problem+json; charset=utf-8' for example
   // see https://tools.ietf.org/html/rfc6839
@@ -91,19 +114,20 @@ export const parseResponse = res => {
   return res[isJson ? 'json' : 'text']();
 };
 
-const fetch = (url, options = {}) => {
+const fetch = async (url: string, options: FetchOptions = {}): Promise<Response> => {
   // Support options.query
-  const builtUrl = Object.keys(options.query || []).reduce((wipUrl, queryParam) => {
-    const queryParamValue = isString(options.query[queryParam])
-      ? options.query[queryParam]
-      : JSON.stringify(options.query[queryParam]);
+  const query = isObject(options.query) ? options.query : {};
+  const builtUrl = Object.keys(query).reduce((wipUrl, queryParam) => {
+    const queryParamValue: string = isString(query[queryParam])
+      ? (query[queryParam] as string)
+      : JSON.stringify(query[queryParam]);
     return replaceQueryStringParamFromUrl(wipUrl, queryParam, queryParamValue);
   }, url);
   return (options.Promise || defaultGlobals.Promise)
     .resolve((defaultGlobals.fetch || fetch)(builtUrl, options))
-    .then(res => {
+    .then((res) => {
       if (!res.ok) {
-        return parseResponse(res).then(body => {
+        return parseResponse(res).then((body) => {
           throw new HttpError(res.status, {
             body
           });

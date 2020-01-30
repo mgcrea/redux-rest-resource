@@ -8,7 +8,7 @@ const NUMBER_REGEX = /^[0-9]+$/;
  * custom method because encodeURIComponent is too aggressive and encodes stuff that doesn't
  * have to be encoded per http://tools.ietf.org/html/rfc3986
  */
-export const encodeUriQuery = (val, pctEncodeSpaces) =>
+export const encodeUriQuery = (val: string, pctEncodeSpaces: boolean): string =>
   encodeURIComponent(val)
     .replace(/%40/gi, '@')
     .replace(/%3A/gi, ':')
@@ -21,14 +21,14 @@ export const encodeUriQuery = (val, pctEncodeSpaces) =>
  * http://www.ietf.org/rfc/rfc3986.txt with regards to the character set
  * (pchar) allowed in path segments
  */
-export const encodeUriSegment = val =>
+export const encodeUriSegment = (val: string): string =>
   encodeUriQuery(val, true)
     .replace(/%26/gi, '&')
     .replace(/%3D/gi, '=')
     .replace(/%2B/gi, '+');
 
-export const parseUrlParams = url =>
-  url.split(/\W/).reduce((urlParams, param) => {
+export const parseUrlParams = (url: string): Record<string, {isQueryParamValue?: boolean}> =>
+  url.split(/\W/).reduce<Record<string, {isQueryParamValue?: boolean}>>((urlParams, param) => {
     if (!NUMBER_REGEX.test(param) && param && new RegExp(`(^|[^\\\\]):${param}(\\W|$)`).test(url)) {
       urlParams[param] = {
         // eslint-disable-line no-param-reassign
@@ -38,21 +38,21 @@ export const parseUrlParams = url =>
     return urlParams;
   }, {});
 
-export const replaceUrlParamFromUrl = (url, urlParam, replace = '') =>
+export const replaceUrlParamFromUrl = (url: string, urlParam: string, replace = ''): string =>
   url.replace(
     new RegExp(`(/?):${urlParam}(\\W|$)`, 'g'),
-    (match, leadingSlashes, tail) => (replace ? leadingSlashes : '') + replace + tail
+    (_match, leadingSlashes, tail) => (replace ? leadingSlashes : '') + replace + tail
   );
 
-export const replaceQueryStringParamFromUrl = (url, key, value) => {
+export const replaceQueryStringParamFromUrl = (url: string, key: string, value: string): string => {
   const re = new RegExp(`([?&])${key}=.*?(&|$)`, 'i');
   const sep = url.indexOf('?') !== -1 ? '&' : '?';
   return url.match(re) ? url.replace(re, `$1${key}=${value}$2`) : `${url}${sep}${key}=${value}`;
 };
 
-export const splitUrlByProtocolAndDomain = url => {
-  let protocolAndDomain;
-  const remainderUrl = url.replace(PROTOCOL_AND_DOMAIN_REGEX, match => {
+export const splitUrlByProtocolAndDomain = (url: string): [string, string] => {
+  let protocolAndDomain = '';
+  const remainderUrl = url.replace(PROTOCOL_AND_DOMAIN_REGEX, (match) => {
     protocolAndDomain = match;
     return '';
   });

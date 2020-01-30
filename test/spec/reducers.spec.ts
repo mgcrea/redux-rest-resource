@@ -16,7 +16,7 @@ describe('createReducers', () => {
       resourceName
     });
     expect(typeof reducers).toBe('object');
-    const expectedValuesFn = reducer => expect(typeof reducer).toBe('function');
+    const expectedValuesFn = (reducer) => expect(typeof reducer).toBe('function');
     values(reducers).forEach(expectedValuesFn);
   });
   it('should return a reduce function', () => {
