@@ -7,6 +7,7 @@ export type AnyItem = Record<string, unknown>;
 
 export type ActionOptions = {
   method: RequestInit['method'];
+  assignResponse?: boolean;
   isArray?: boolean;
   alias?: string;
   url?: string;
