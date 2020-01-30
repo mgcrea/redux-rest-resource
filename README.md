@@ -18,6 +18,8 @@ Saves you from writing a lot of boilerplate code and ensures that your code stay
 
 - Relies on [fetch](https://fetch.spec.whatwg.org/) to perform HTTP requests.
 
+- Built with [TypeScript](https://www.typescriptlang.org/) for static type checking with exported types along the library.
+
 ## [Documentation](https://mgcrea.gitbook.io/redux-rest-resource/)
 
 **Check the [full documentation](https://mgcrea.gitbook.io/redux-rest-resource/)** (built with [gitbook](https://github.com/GitbookIO/gitbook)).
