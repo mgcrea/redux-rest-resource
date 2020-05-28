@@ -22,10 +22,7 @@ export const encodeUriQuery = (val: string, pctEncodeSpaces: boolean): string =>
  * (pchar) allowed in path segments
  */
 export const encodeUriSegment = (val: string): string =>
-  encodeUriQuery(val, true)
-    .replace(/%26/gi, '&')
-    .replace(/%3D/gi, '=')
-    .replace(/%2B/gi, '+');
+  encodeUriQuery(val, true).replace(/%26/gi, '&').replace(/%3D/gi, '=').replace(/%2B/gi, '+');
 
 export const parseUrlParams = (url: string): Record<string, {isQueryParamValue?: boolean}> =>
   url.split(/\W/).reduce<Record<string, {isQueryParamValue?: boolean}>>((urlParams, param) => {

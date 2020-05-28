@@ -15,7 +15,7 @@
     "spec:coverage": "yarn spec --coverage",
     "lint": "eslint --ext .ts src/",
     "typecheck": "tsc",
-    "pretty": "prettier --check '{src,test}/**/*.ts'",
+    "pretty": "prettier --write '{src,test}/**/*.ts'",
     "build": "yarn build:source && yarn build:typings",
     "build:source": "babel --source-maps --extensions .js,.ts --out-dir lib/ --delete-dir-on-start --ignore **/__tests__ src/",
     "build:typings": "tsc --declaration",

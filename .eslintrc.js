@@ -16,7 +16,8 @@ module.exports = {
     node: true
   },
   rules: {
-    '@typescript-eslint/triple-slash-reference': 'off'
+    '@typescript-eslint/triple-slash-reference': 'off',
+    '@typescript-eslint/ban-types': 'off'
     // '@typescript-eslint/no-explicit-any': 'off',
     // '@typescript-eslint/no-use-before-define': 'off',
     // '@typescript-eslint/explicit-member-accessibility': 'off',

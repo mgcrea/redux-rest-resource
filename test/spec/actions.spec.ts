@@ -91,9 +91,7 @@ describe('defaultActions', () => {
       };
       const code = 200;
       const options = {};
-      nock(host)
-        .post('/users', context)
-        .reply(code, body);
+      nock(host).post('/users', context).reply(code, body);
       const store = mockStore({
         users: {}
       });
@@ -140,9 +138,7 @@ describe('defaultActions', () => {
       const options = {
         isArray: true
       };
-      nock(host)
-        .get('/users')
-        .reply(code, body);
+      nock(host).get('/users').reply(code, body);
       const store = mockStore({
         users: {}
       });
@@ -186,9 +182,7 @@ describe('defaultActions', () => {
       };
       const code = 200;
       const options = {};
-      nock(host)
-        .get(`/users/${context.id}`)
-        .reply(code, body);
+      nock(host).get(`/users/${context.id}`).reply(code, body);
       const store = mockStore({
         users: {}
       });
@@ -232,9 +226,7 @@ describe('defaultActions', () => {
       };
       const code = 200;
       const options = {};
-      nock(host)
-        .patch(`/users/${context.id}`, context)
-        .reply(code, body);
+      nock(host).patch(`/users/${context.id}`, context).reply(code, body);
       const store = mockStore({
         users: {}
       });
@@ -277,9 +269,7 @@ describe('defaultActions', () => {
       };
       const code = 200;
       const options = {};
-      nock(host)
-        .delete(`/users/${context.id}`)
-        .reply(code, body);
+      nock(host).delete(`/users/${context.id}`).reply(code, body);
       const store = mockStore({
         users: {}
       });
@@ -326,11 +316,9 @@ describe('defaultActions', () => {
       };
       const code = 200;
       const options = {};
-      nock(host)
-        .get(`/users/${context.id}`)
-        .reply(code, body, {
-          'Content-Type': 'application/problem+json; charset=utf-8'
-        });
+      nock(host).get(`/users/${context.id}`).reply(code, body, {
+        'Content-Type': 'application/problem+json; charset=utf-8'
+      });
       const store = mockStore({
         users: {}
       });
@@ -371,9 +359,7 @@ describe('defaultActions', () => {
       const body = '';
       const code = 200;
       const options = {};
-      nock(host)
-        .delete(`/users/${context.id}`)
-        .reply(code);
+      nock(host).delete(`/users/${context.id}`).reply(code);
       const store = mockStore({
         users: {}
       });
@@ -414,9 +400,7 @@ describe('defaultActions', () => {
       const body = 'foobar';
       const code = 200;
       const options = {};
-      nock(host)
-        .delete(`/users/${context.id}`)
-        .reply(code, body);
+      nock(host).delete(`/users/${context.id}`).reply(code, body);
       const store = mockStore({
         users: {}
       });
@@ -459,9 +443,7 @@ describe('defaultActions', () => {
       const options = {
         isArray: true
       };
-      nock(host)
-        .get('/users')
-        .replyWithError('something awful happened');
+      nock(host).get('/users').replyWithError('something awful happened');
       const store = mockStore({
         users: {}
       });
@@ -503,9 +485,7 @@ describe('defaultActions', () => {
       };
       const code = 400;
       const options = {isArray: true};
-      nock(host)
-        .get('/users')
-        .reply(code, body);
+      nock(host).get('/users').reply(code, body);
       const store = mockStore({
         users: {}
       });
@@ -552,9 +532,7 @@ describe('defaultActions', () => {
       const body = '<html><body><h1>something awful happened</h1></body></html>';
       const code = 400;
       const options = {isArray: true};
-      nock(host)
-        .get('/users')
-        .reply(code, body);
+      nock(host).get('/users').reply(code, body);
       const store = mockStore({
         users: {}
       });
@@ -637,9 +615,7 @@ describe('custom actions', () => {
     };
     const code = 200;
     const options = {};
-    nock(host)
-      .post(`/users/${context.id}/promote`, context)
-      .reply(code, body);
+    nock(host).post(`/users/${context.id}/promote`, context).reply(code, body);
     const store = mockStore({
       users: {}
     });
@@ -680,9 +656,7 @@ describe('custom actions', () => {
     ];
     const code = 200;
     const options = {isArray: true};
-    nock(host)
-      .get(`/users/${context.id}/applications`)
-      .reply(code, body);
+    nock(host).get(`/users/${context.id}/applications`).reply(code, body);
     const store = mockStore({
       users: {}
     });
@@ -727,9 +701,7 @@ describe('custom actions', () => {
     const options = {
       isArray: true
     };
-    nock(host)
-      .post('/users')
-      .reply(code, body);
+    nock(host).post('/users').reply(code, body);
     const store = mockStore({
       users: {}
     });
@@ -774,9 +746,7 @@ describe('custom actions', () => {
     };
     const code = 200;
     const options = {};
-    nock(host)
-      .patch(`/users/${context.id}/folders/${context.folder}`, context)
-      .reply(code, body);
+    nock(host).patch(`/users/${context.id}/folders/${context.folder}`, context).reply(code, body);
     const store = mockStore({
       users: {}
     });
@@ -892,9 +862,7 @@ describe('other options', () => {
       const options = {
         isArray: true
       };
-      nock(host)
-        .get('/users')
-        .reply(code, body);
+      nock(host).get('/users').reply(code, body);
       const store = mockStore({
         users: {}
       });
@@ -951,9 +919,7 @@ describe('other options', () => {
       const options = {
         isArray: true
       };
-      nock(host)
-        .get('/users')
-        .reply(code, body);
+      nock(host).get('/users').reply(code, body);
       const store = mockStore({
         users: {}
       });
@@ -1026,9 +992,7 @@ describe('fetch options', () => {
       const options = {
         isArray: true
       };
-      nock(host)
-        .get('/users')
-        .reply(code, body);
+      nock(host).get('/users').reply(code, body);
       const store = mockStore({
         users: {}
       });
@@ -1092,9 +1056,7 @@ describe('fetch options', () => {
       const options = {
         isArray: true
       };
-      nock(host)
-        .get('/teams')
-        .reply(code, body);
+      nock(host).get('/teams').reply(code, body);
       const store = mockStore({
         users: {}
       });
@@ -1156,9 +1118,7 @@ describe('fetch options', () => {
       const options = {
         isArray: true
       };
-      nock(host)
-        .get('/teams')
-        .reply(code, body);
+      nock(host).get('/teams').reply(code, body);
       const store = mockStore({
         users: {}
       });
@@ -1208,9 +1168,7 @@ describe('fetch options', () => {
       const options = {
         isArray: true
       };
-      nock(host)
-        .get('/teams')
-        .reply(code, body);
+      nock(host).get('/teams').reply(code, body);
       const store = mockStore({
         users: {}
       });
@@ -1272,9 +1230,7 @@ describe('fetch options', () => {
       };
       const code = 200;
       const options = {};
-      nock(host)
-        .patch(`/users/${context.id}/merge`, context)
-        .reply(code, body);
+      nock(host).patch(`/users/${context.id}/merge`, context).reply(code, body);
       const store = mockStore({
         users: {}
       });
@@ -1325,9 +1281,7 @@ describe('fetch options', () => {
       };
       const code = 200;
       const options = {isArray: true};
-      nock(host)
-        .get(`/users/aggregate`)
-        .reply(code, body);
+      nock(host).get(`/users/aggregate`).reply(code, body);
       const store = mockStore({
         users: {}
       });
@@ -1388,9 +1342,7 @@ describe('fetch options', () => {
       const options = {
         isArray: true
       };
-      nock(host)
-        .patch('/users')
-        .reply(code, body);
+      nock(host).patch('/users').reply(code, body);
       const store = mockStore({
         users: {}
       });
@@ -1452,9 +1404,7 @@ describe('fetch options', () => {
       const options = {
         isArray: true
       };
-      nock(host)
-        .patch('/users')
-        .reply(code, body);
+      nock(host).patch('/users').reply(code, body);
       const store = mockStore({
         users: {}
       });
@@ -1504,9 +1454,7 @@ describe('fetch options', () => {
       const options = {
         isArray: true
       };
-      nock(host)
-        .patch('/users')
-        .reply(code, body);
+      nock(host).patch('/users').reply(code, body);
       const store = mockStore({
         users: {}
       });
@@ -1575,9 +1523,7 @@ describe('fetch options', () => {
       const options = {
         isArray: true
       };
-      nock(host)
-        .get('/users?foo=bar')
-        .reply(code, body);
+      nock(host).get('/users?foo=bar').reply(code, body);
       const store = mockStore({
         users: {}
       });
@@ -1641,9 +1587,7 @@ describe('fetch options', () => {
       const options = {
         isArray: true
       };
-      nock(host)
-        .get('/users?foo=bar')
-        .reply(code, body);
+      nock(host).get('/users?foo=bar').reply(code, body);
       const store = mockStore({
         users: {}
       });
@@ -1695,9 +1639,7 @@ describe('fetch options', () => {
       const options = {
         isArray: true
       };
-      nock(host)
-        .get('/users?foo=bar')
-        .reply(code, body);
+      nock(host).get('/users?foo=bar').reply(code, body);
       const store = mockStore({
         users: {}
       });
@@ -1826,10 +1768,7 @@ describe('fetch options', () => {
       const options = {
         isArray: true
       };
-      nock(host)
-        .get('/users')
-        .matchHeader('X-Custom-Default-Header', 'foobar')
-        .reply(code, body);
+      nock(host).get('/users').matchHeader('X-Custom-Default-Header', 'foobar').reply(code, body);
       const store = mockStore({
         users: {}
       });
@@ -1890,10 +1829,7 @@ describe('fetch options', () => {
       const options = {
         isArray: true
       };
-      nock(host)
-        .get('/users')
-        .matchHeader('X-Custom-Header', 'foobar')
-        .reply(code, body);
+      nock(host).get('/users').matchHeader('X-Custom-Header', 'foobar').reply(code, body);
       const store = mockStore({
         users: {}
       });
@@ -1957,10 +1893,7 @@ describe('fetch options', () => {
       const options = {
         isArray: true
       };
-      nock(host)
-        .get('/users')
-        .matchHeader('X-Custom-Header', 'foobar')
-        .reply(code, body);
+      nock(host).get('/users').matchHeader('X-Custom-Header', 'foobar').reply(code, body);
       const store = mockStore({
         users: {}
       });
@@ -2012,10 +1945,7 @@ describe('fetch options', () => {
       const options = {
         isArray: true
       };
-      nock(host)
-        .get('/users')
-        .matchHeader('X-Custom-Header', 'foobar')
-        .reply(code, body);
+      nock(host).get('/users').matchHeader('X-Custom-Header', 'foobar').reply(code, body);
       const store = mockStore({
         users: {}
       });
@@ -2276,10 +2206,7 @@ describe('fetch options', () => {
       const options = {
         isArray: true
       };
-      nock(host)
-        .get('/users')
-        .socketDelay(2000)
-        .reply(code, body);
+      nock(host).get('/users').socketDelay(2000).reply(code, body);
       const store = mockStore({
         users: {}
       });
@@ -2330,9 +2257,7 @@ describe('fetch options', () => {
       };
       const code = 200;
       const options = {};
-      nock(host)
-        .patch(`/users/${context.id}`, contextBody)
-        .reply(code, body);
+      nock(host).patch(`/users/${context.id}`, contextBody).reply(code, body);
       const store = mockStore({
         users: {}
       });
@@ -2404,9 +2329,7 @@ describe('reduce options', () => {
       const options = {
         isArray: true
       };
-      nock(host)
-        .post('/users', context)
-        .reply(code, body);
+      nock(host).post('/users', context).reply(code, body);
       const store = mockStore({
         users: {}
       });
@@ -2455,9 +2378,7 @@ describe('reduce options', () => {
       const options = {
         isArray: true
       };
-      nock(host)
-        .patch(`/users/${context.id}`, context)
-        .reply(code, body);
+      nock(host).patch(`/users/${context.id}`, context).reply(code, body);
       const store = mockStore({
         users: {}
       });
@@ -2523,9 +2444,7 @@ describe('reduce options', () => {
       const options = {
         assignResponse: true
       };
-      nock(host)
-        .patch(`/users/${context.id}`, context)
-        .reply(code, body);
+      nock(host).patch(`/users/${context.id}`, context).reply(code, body);
       const store = mockStore({
         users: {}
       });
@@ -2574,9 +2493,7 @@ describe('reduce options', () => {
       const options = {
         assignResponse: true
       };
-      nock(host)
-        .patch(`/users/${context.id}`, context)
-        .reply(code, body);
+      nock(host).patch(`/users/${context.id}`, context).reply(code, body);
       const store = mockStore({
         users: {}
       });
@@ -2644,9 +2561,7 @@ describe('reduce options', () => {
         isArray: true,
         invalidateState
       };
-      nock(host)
-        .get('/users')
-        .reply(code, body);
+      nock(host).get('/users').reply(code, body);
       const store = mockStore({
         users: {}
       });
@@ -2699,9 +2614,7 @@ describe('reduce options', () => {
       const options = {
         isArray: true
       };
-      nock(host)
-        .get('/users')
-        .replyWithError('something awful happened');
+      nock(host).get('/users').replyWithError('something awful happened');
       const store = mockStore({
         users: {}
       });
