@@ -1,7 +1,7 @@
 {
   "name": "redux-rest-resource",
   "description": "Generates types, actions and reducers for you to easily interact with any REST API.",
-  "version": "0.24.3",
+  "version": "0.24.4",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "author": "Olivier Louvignes <olivier@mgcrea.io>",
