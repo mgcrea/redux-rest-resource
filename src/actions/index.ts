@@ -55,9 +55,8 @@ const createAction = (
   // Context usage changes with resolved method:
   // - GET/DELETE will be used to resolve query params (eg. /users/:id)
   // - POST/PATCH will be used to resolve query params (eg. /users/:id) and as request body
-  return (context: Context, propContextOpts?: ContextOptions) => (dispatch, getState): Promise<Action> => {
+  return (context: Context, contextOpts: ContextOptions = {}) => (dispatch, getState): Promise<Action> => {
     // Prepare reduce options
-    const contextOpts = propContextOpts || {};
     const reduceOpts: ReduceOptions = {
       ...pick(actionOpts, ...SUPPORTED_REDUCE_OPTS),
       ...pick(contextOpts, ...SUPPORTED_REDUCE_OPTS)

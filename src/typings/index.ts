@@ -72,5 +72,5 @@ export type Reducer<S = State, A = Action> = (state: S, action: A) => S;
 
 export type AsyncActionCreator = (
   context: Context,
-  contextOpts: ContextOptions
+  contextOpts?: ContextOptions
 ) => ThunkAction<Promise<Action>, State, void, Action>;
