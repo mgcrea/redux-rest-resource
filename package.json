@@ -20,7 +20,7 @@
     "build:source": "babel --source-maps --extensions .js,.ts --out-dir lib/ --delete-dir-on-start --ignore **/__tests__ src/",
     "build:typings": "tsc --declaration",
     "build:watch": "yarn build --watch --verbose",
-    "prepublish": "yarn build"
+    "prepare": "yarn build"
   },
   "dependencies": {
     "@babel/runtime": "^7.10.1"
