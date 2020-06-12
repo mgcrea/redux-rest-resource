@@ -1,5 +1,5 @@
 import {defaultGlobals, defaultHeaders, defaultIdKeys} from '../defaults';
-import {Context} from '../typings/index';
+import {Context, FetchOptions} from '../typings/index';
 import {
   encodeUriQuery,
   encodeUriSegment,
@@ -63,11 +63,6 @@ export const buildFetchUrl = (
   return protocolAndDomain + builtUrl;
 };
 
-type FetchOptions = RequestInit & {
-  query?: Record<string, unknown>;
-  Promise?: PromiseConstructor;
-};
-
 export const buildFetchOpts = (
   context: Context,
   {method, headers, credentials, query, body}: FetchOptions
@@ -124,7 +119,7 @@ const fetch = async (url: string, options: FetchOptions = {}): Promise<Response>
     return replaceQueryStringParamFromUrl(wipUrl, queryParam, queryParamValue);
   }, url);
   return (options.Promise || defaultGlobals.Promise)
-    .resolve((defaultGlobals.fetch || fetch)(builtUrl, options))
+    .resolve((defaultGlobals.fetch || fetch)(builtUrl, options as RequestInit))
     .then((res) => {
       if (!res.ok) {
         return parseResponse(res).then((body) => {

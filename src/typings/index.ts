@@ -39,12 +39,14 @@ export type ReduceOptions = {
   gerundName?: string;
 };
 
-export type FetchOptions = Pick<RequestInit, 'method' | 'headers' | 'credentials' | 'body' | 'signal'> & {
+export type FetchOptions = Pick<RequestInit, 'method' | 'headers' | 'credentials' | 'signal'> & {
   url?: string;
   query?: Record<string, unknown>;
+  body?: string | Record<string, unknown> | Array<unknown>;
+  Promise?: PromiseConstructor;
 };
 
-export type Context = Record<string, unknown>;
+export type Context = string | Record<string, unknown>;
 
 export type ContextOptions = FetchOptions & ReduceOptions;
 
