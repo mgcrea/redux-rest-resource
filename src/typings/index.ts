@@ -6,12 +6,14 @@ import {ThunkAction} from 'redux-thunk';
 export type AnyItem = Record<string, unknown>;
 
 export type ActionOptions = {
-  method: RequestInit['method'];
-  assignResponse?: boolean;
-  isArray?: boolean;
   alias?: string;
-  url?: string;
+  assignResponse?: boolean;
+  gerundName?: string;
+  isArray?: boolean;
+  isPure?: boolean;
+  method: RequestInit['method'];
   name?: string;
+  url?: string;
 };
 
 export type ActionsOptions = Record<string, ActionOptions>;
