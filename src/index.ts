@@ -14,6 +14,7 @@ export {fetch, HttpError};
 
 export type CreateResourceOptions = {
   name: string;
+  url: string;
   pluralName: string;
   actions: Record<string, ActionOptions>;
   mergeDefaultActions: boolean;
