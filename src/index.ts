@@ -7,21 +7,19 @@ import fetch, {HttpError} from './helpers/fetch';
 import {mergeObjects, pick} from './helpers/util';
 import {createReducer, createReducers, createRootReducer} from './reducers';
 import {createType, createTypes, getTypesScope, scopeTypes} from './types';
-import {ActionOptions, ActionsOptions, AsyncActionCreator, FetchOptions, Reducer, Types} from './typings';
+import {ActionOptions, ActionsOptions, AsyncActionCreator, Reducer, Types} from './typings';
 export * from './defaults';
 export {combineReducers, mergeReducers, reduceReducers} from './reducers/helpers';
 export * from './typings';
 export {fetch, HttpError};
 
-export type CreateResourceOptions = {
+export type CreateResourceOptions = CreateActionOptions & {
   name: string;
-  url: string;
   pluralName: string;
   actions: Record<string, ActionOptions>;
   mergeDefaultActions: boolean;
   pick: string[];
   scope?: string;
-  credentials?: FetchOptions['credentials'];
 };
 
 export type Resource = {
@@ -51,7 +49,7 @@ export function createResource({
   }
   const types = createTypes(resolvedActions, {resourceName, resourcePluralName, scope});
   const actions = createActions(resolvedActions, {resourceName, resourcePluralName, scope, url, ...otherOptions});
-  const reducers = createReducers(resolvedActions, {});
+  const reducers = createReducers(resolvedActions, otherOptions);
   const rootReducer = createRootReducer(reducers, {resourceName, scope});
   return {
     actions,
