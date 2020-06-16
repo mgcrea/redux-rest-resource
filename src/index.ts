@@ -1,13 +1,13 @@
 // https://github.com/angular/angular.js/blob/master/src/ngResource/resource.js
 // var User = $resource('/user/:userId', {userId:'@id'});
 
-import {createAction, createActions, getActionName} from './actions';
+import {createAction, CreateActionOptions, createActions, getActionName} from './actions';
 import {defaultActions} from './defaults';
 import fetch, {HttpError} from './helpers/fetch';
 import {mergeObjects, pick} from './helpers/util';
 import {createReducer, createReducers, createRootReducer} from './reducers';
 import {createType, createTypes, getTypesScope, scopeTypes} from './types';
-import {ActionOptions, ActionsOptions, AsyncActionCreator, Reducer, Types} from './typings';
+import {ActionOptions, ActionsOptions, AsyncActionCreator, ReduceOptions, Reducer, Types} from './typings';
 export * from './defaults';
 export {combineReducers, mergeReducers, reduceReducers} from './reducers/helpers';
 export * from './typings';
@@ -31,13 +31,13 @@ export type Resource = {
 };
 
 export function createResource({
+  url,
   name: resourceName,
   pluralName: resourcePluralName,
   actions: givenActions = {},
   mergeDefaultActions = true,
   pick: pickedActions = [],
-  scope,
-  ...args
+  scope
 }: CreateResourceOptions): Resource {
   // Merge passed actions with common defaults
   let resolvedActions: ActionsOptions = mergeDefaultActions
@@ -47,9 +47,9 @@ export function createResource({
   if (pickedActions.length) {
     resolvedActions = pick(resolvedActions, ...pickedActions) as ActionsOptions;
   }
-  const types = createTypes(resolvedActions, {resourceName, resourcePluralName, ...args});
-  const actions = createActions(resolvedActions, {resourceName, resourcePluralName, scope, ...args});
-  const reducers = createReducers(resolvedActions, args);
+  const types = createTypes(resolvedActions, {resourceName, resourcePluralName, scope});
+  const actions = createActions(resolvedActions, {resourceName, resourcePluralName, scope, url});
+  const reducers = createReducers(resolvedActions, {});
   const rootReducer = createRootReducer(reducers, {resourceName, scope});
   return {
     actions,
@@ -59,12 +59,13 @@ export function createResource({
   };
 }
 
-export type CreateResourceActionOptions = {
-  name: string;
-  pluralName: string;
-  method?: RequestInit['method'];
-  isArray?: boolean;
-};
+export type CreateResourceActionOptions = ReduceOptions &
+  CreateActionOptions & {
+    name: string;
+    pluralName: string;
+    method?: RequestInit['method'];
+    isArray?: boolean;
+  };
 
 export type ResourceAction = {
   actions: Record<string, AsyncActionCreator>;

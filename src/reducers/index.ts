@@ -1,7 +1,7 @@
 import {initialState} from '../defaults';
 import {find, getGerundName, getIdKey, isFunction, isObject, ucfirst} from '../helpers/util';
 import {getActionType, getTypesScope} from '../types';
-import {Action, ActionsOptions, AnyItem, ReduceOptions, Reducer, State} from '../typings';
+import {Action, ActionsOptions, AnyItem, Context, ReduceOptions, Reducer, State} from '../typings';
 
 type ReducerMapObject = Record<string, Reducer<State, Action>>;
 
@@ -15,7 +15,7 @@ const getUpdateArrayData = (action: Action, itemId: string | number): AnyItem | 
       })
     : Object.keys(action.context).reduce<AnyItem>((soFar, key) => {
         if (key !== 'ids') {
-          soFar[key] = action.context[key];
+          soFar[key] = action.context[key as keyof Context];
         }
         return soFar;
       }, {});
@@ -201,7 +201,7 @@ const defaultReducers: ReducerMapObject = {
         const actionOpts = action.options || {};
         const idKey = getIdKey(action, {multi: false});
         const idKeyMulti = getIdKey(action, {multi: true});
-        const {[idKeyMulti]: ids} = actionOpts.query || action.context;
+        const {[idKeyMulti as keyof Context]: ids} = actionOpts.query || action.context;
 
         const updatedItems = state.items.map((item) => {
           if (!ids || (ids as string[]).includes(item[idKey] as string)) {
@@ -249,7 +249,7 @@ const defaultReducers: ReducerMapObject = {
         };
       case 'resolved': {
         const idKey = getIdKey(action, {multi: false});
-        const id = action.context[idKey] || action.context;
+        const id = action.context[idKey as keyof Context] || action.context;
         return {
           ...state,
           isDeleting: false,
@@ -277,7 +277,7 @@ const defaultReducers: ReducerMapObject = {
         const actionOpts = action.options || {};
         const idKey = getIdKey(action, {multi: false});
         const idKeyMulti = getIdKey(action, {multi: true});
-        const {[idKeyMulti]: ids} = actionOpts.query || action.context;
+        const {[idKeyMulti as keyof Context]: ids} = actionOpts.query || action.context;
 
         if (!ids) {
           return {

@@ -38,7 +38,7 @@ const getActionName = (
   {resourceName, resourcePluralName = getPluralName(resourceName), isArray = false, alias}: GetActionNameOptions
 ): string => (!resourceName ? actionId : `${alias || actionId}${ucfirst(isArray ? resourcePluralName : resourceName)}`);
 
-type CreateActionOptions = {
+export type CreateActionOptions = {
   scope?: string;
   stripTrailingSlashes?: boolean;
   transformResponse?: AnyTransform;
