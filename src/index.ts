@@ -7,7 +7,7 @@ import fetch, {HttpError} from './helpers/fetch';
 import {mergeObjects, pick} from './helpers/util';
 import {createReducer, createReducers, createRootReducer} from './reducers';
 import {createType, createTypes, getTypesScope, scopeTypes} from './types';
-import {ActionOptions, ActionsOptions, AsyncActionCreator, ReduceOptions, Reducer, Types} from './typings';
+import {ActionOptions, ActionsOptions, AsyncActionCreator, FetchOptions, Reducer, Types} from './typings';
 export * from './defaults';
 export {combineReducers, mergeReducers, reduceReducers} from './reducers/helpers';
 export * from './typings';
@@ -21,6 +21,7 @@ export type CreateResourceOptions = {
   mergeDefaultActions: boolean;
   pick: string[];
   scope?: string;
+  credentials?: FetchOptions['credentials'];
 };
 
 export type Resource = {
@@ -37,7 +38,8 @@ export function createResource({
   actions: givenActions = {},
   mergeDefaultActions = true,
   pick: pickedActions = [],
-  scope
+  scope,
+  ...otherOptions
 }: CreateResourceOptions): Resource {
   // Merge passed actions with common defaults
   let resolvedActions: ActionsOptions = mergeDefaultActions
@@ -48,7 +50,7 @@ export function createResource({
     resolvedActions = pick(resolvedActions, ...pickedActions) as ActionsOptions;
   }
   const types = createTypes(resolvedActions, {resourceName, resourcePluralName, scope});
-  const actions = createActions(resolvedActions, {resourceName, resourcePluralName, scope, url});
+  const actions = createActions(resolvedActions, {resourceName, resourcePluralName, scope, url, ...otherOptions});
   const reducers = createReducers(resolvedActions, {});
   const rootReducer = createRootReducer(reducers, {resourceName, scope});
   return {
@@ -59,13 +61,12 @@ export function createResource({
   };
 }
 
-export type CreateResourceActionOptions = ReduceOptions &
-  CreateActionOptions & {
-    name: string;
-    pluralName: string;
-    method?: RequestInit['method'];
-    isArray?: boolean;
-  };
+export type CreateResourceActionOptions = CreateActionOptions & {
+  name: string;
+  pluralName: string;
+  method?: RequestInit['method'];
+  isArray?: boolean;
+};
 
 export type ResourceAction = {
   actions: Record<string, AsyncActionCreator>;
