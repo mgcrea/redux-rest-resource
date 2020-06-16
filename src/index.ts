@@ -10,6 +10,7 @@ import {createType, createTypes, getTypesScope, scopeTypes} from './types';
 import {ActionOptions, ActionsOptions, AsyncActionCreator, Reducer, Types} from './typings';
 export * from './defaults';
 export {combineReducers, mergeReducers, reduceReducers} from './reducers/helpers';
+export * from './typings';
 export {fetch, HttpError};
 
 export type CreateResourceOptions = {
