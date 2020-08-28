@@ -50,7 +50,7 @@ export type FetchOptions = Pick<RequestInit, 'method' | 'headers' | 'credentials
 
 export type Context = string | Record<string, unknown>;
 
-export type ContextOptions = FetchOptions & ReduceOptions;
+export type ContextOptions = Partial<FetchOptions & ReduceOptions>;
 
 export type ContentRange = {
   unit: string | number;
@@ -63,7 +63,7 @@ export type Types = Record<string, string>;
 
 export type Action = ReduxAction<string> & {
   status: 'pending' | 'resolved' | 'rejected';
-  options: FetchOptions & ReduceOptions;
+  options: ContextOptions;
   context: Context;
   code?: Response['status'] | null;
   body?: unknown;

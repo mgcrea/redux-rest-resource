@@ -4,7 +4,7 @@
 import {createAction, CreateActionOptions, createActions, getActionName} from './actions';
 import {defaultActions} from './defaults';
 import fetch, {HttpError} from './helpers/fetch';
-import {mergeObjects, pick} from './helpers/util';
+import {mergeObjects, pick, getPluralName} from './helpers/util';
 import {createReducer, createReducers, createRootReducer} from './reducers';
 import {createType, createTypes, getTypesScope, scopeTypes} from './types';
 import {ActionOptions, ActionsOptions, AsyncActionCreator, Reducer, Types} from './typings';
@@ -14,11 +14,12 @@ export * from './typings';
 export {fetch, HttpError};
 
 export type CreateResourceOptions = CreateActionOptions & {
+  url: string;
   name: string;
-  pluralName: string;
-  actions: Record<string, ActionOptions>;
-  mergeDefaultActions: boolean;
-  pick: string[];
+  pluralName?: string;
+  actions?: Record<string, ActionOptions>;
+  mergeDefaultActions?: boolean;
+  pick?: string[];
   scope?: string;
 };
 
@@ -32,7 +33,7 @@ export type Resource = {
 export function createResource({
   url,
   name: resourceName,
-  pluralName: resourcePluralName,
+  pluralName: resourcePluralName = getPluralName(resourceName),
   actions: givenActions = {},
   mergeDefaultActions = true,
   pick: pickedActions = [],
