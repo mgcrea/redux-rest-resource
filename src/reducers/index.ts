@@ -29,7 +29,7 @@ const getUpdateArrayData = (action: Action, itemId: string | number): UnknownObj
 };
 
 const defaultReducers: ReducerMapObject = {
-  create: (state, action): State => {
+  create: (state = initialState, action): State => {
     switch (action.status) {
       case 'pending':
         // Add object to store as soon as possible?
@@ -57,7 +57,7 @@ const defaultReducers: ReducerMapObject = {
         return state;
     }
   },
-  fetch: (state, action) => {
+  fetch: (state = initialState, action) => {
     switch (action.status) {
       case 'pending': {
         const actionOpts = action.options || {};
@@ -104,7 +104,7 @@ const defaultReducers: ReducerMapObject = {
         return state;
     }
   },
-  get: (state, action) => {
+  get: (state = initialState, action) => {
     switch (action.status) {
       case 'pending': {
         const actionOpts = action.options || {};
@@ -150,7 +150,7 @@ const defaultReducers: ReducerMapObject = {
         return state;
     }
   },
-  update: (state, action) => {
+  update: (state = initialState, action) => {
     switch (action.status) {
       case 'pending':
         // Update object in store as soon as possible?
@@ -195,7 +195,7 @@ const defaultReducers: ReducerMapObject = {
         return state;
     }
   },
-  updateMany: (state, action) => {
+  updateMany: (state = initialState, action) => {
     switch (action.status) {
       case 'pending':
         // Update object in store as soon as possible?
@@ -246,7 +246,7 @@ const defaultReducers: ReducerMapObject = {
         return state;
     }
   },
-  delete: (state, action) => {
+  delete: (state = initialState, action) => {
     switch (action.status) {
       case 'pending':
         // Update object in store as soon as possible?
@@ -272,7 +272,7 @@ const defaultReducers: ReducerMapObject = {
         return state;
     }
   },
-  deleteMany: (state, action) => {
+  deleteMany: (state = initialState, action) => {
     switch (action.status) {
       case 'pending':
         // Update object in store as soon as possible?
@@ -328,7 +328,7 @@ const createReducer = <T extends UnknownObject>(actionId: string, actionOpts: Re
   // Custom actions
   const gerundName = actionOpts.gerundName || getGerundName(actionId);
   const gerundStateKey = `is${ucfirst(gerundName)}`;
-  return (state, action): State<T> => {
+  return (state = initialState as State<T>, action): State<T> => {
     switch (action.status) {
       case 'pending':
         // Update object in store as soon as possible?

@@ -1,7 +1,7 @@
 import expect from 'expect';
 import {values, snakeCase} from 'lodash';
 
-import {defaultActions, defaultState, initialState} from '../../src/defaults';
+import {defaultActions, defaultState, initialState as defaultInitialState} from '../../src/defaults';
 import {createTypes, getActionTypeKey} from '../../src/types';
 import {createRootReducer, createReducers} from '../../src/reducers';
 import {combineReducers} from '../../src/reducers/helpers';
@@ -9,6 +9,7 @@ import {parseContentRangeHeader} from '../../src/helpers/util';
 
 // Configuration
 const resourceName = 'user';
+const initialState = {};
 
 describe('createReducers', () => {
   it('should return a reduce function', () => {
@@ -35,7 +36,7 @@ describe('createReducers', () => {
     const rootReducer = createRootReducer(reducers, {
       resourceName
     });
-    expect(rootReducer(undefined, {})).toEqual(initialState);
+    expect(rootReducer(undefined, {})).toEqual(defaultInitialState);
   });
 });
 
@@ -65,7 +66,7 @@ describe('defaultReducers', () => {
       status,
       context
     };
-    const pendingState = reducers[actionId](undefined, pendingAction);
+    const pendingState = reducers[actionId](initialState, pendingAction);
     expect(pendingState).toEqual({
       isCreating: true
     });
@@ -111,7 +112,7 @@ describe('defaultReducers', () => {
     let status;
 
     status = 'pending';
-    const pendingState = reducers[actionId](undefined, {
+    const pendingState = reducers[actionId](initialState, {
       type,
       status
     });
@@ -1064,7 +1065,7 @@ describe('custom reducers', () => {
       status,
       context
     };
-    const pendingState = reducers[actionId](undefined, pendingAction);
+    const pendingState = reducers[actionId](initialState, pendingAction);
     expect(pendingState).toEqual({
       isRunning: true
     });
@@ -1108,7 +1109,7 @@ describe('custom reducers', () => {
     let status;
 
     status = 'pending';
-    const pendingState = reducers[actionId](undefined, {
+    const pendingState = reducers[actionId](initialState, {
       type,
       status
     });
@@ -1189,7 +1190,7 @@ describe('custom pure reducers', () => {
       body,
       receivedAt
     };
-    expect(reducers[actionId](undefined, resolvedAction)).toEqual({
+    expect(reducers[actionId](initialState, resolvedAction)).toEqual({
       item: null
     });
   });
@@ -1583,7 +1584,7 @@ describe('rootReducer', () => {
       status,
       context
     };
-    const pendingState = rootReducer(undefined, pendingAction);
+    const pendingState = rootReducer(initialState, pendingAction);
     expect(pendingState).toEqual({
       ...initialState,
       isCreating: true
@@ -1659,7 +1660,7 @@ describe('rootReducer', () => {
       status,
       context
     };
-    const pendingState = rootReducer(undefined, pendingAction);
+    const pendingState = rootReducer(initialState, pendingAction);
     expect(pendingState).toEqual({
       ...initialState,
       isRunning: true

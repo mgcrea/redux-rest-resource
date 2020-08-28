@@ -1,6 +1,6 @@
 /// <reference path="index.d.ts" />
 
-import {Action as ReduxAction} from 'redux';
+import {Action as ReduxAction, Reducer as ReduxReducer} from 'redux';
 import {ThunkAction} from 'redux-thunk';
 
 export type UnknownObject = Record<string, unknown>;
@@ -71,7 +71,7 @@ export type Action = ReduxAction<string> & {
   contentRange?: ContentRange;
 };
 
-export type Reducer<T = UnknownObject> = (state: State<T>, action: Action) => State<T>;
+export type Reducer<T = UnknownObject> = ReduxReducer<State<T>, Action>;
 export type ReducerMapObject<T = UnknownObject> = Record<string, Reducer<T>>;
 
 export type AsyncActionCreator = (
