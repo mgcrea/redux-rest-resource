@@ -75,7 +75,7 @@ export type Reducer<T = UnknownObject> = ReduxReducer<State<T>, Action>;
 export type ReducerMapObject<T = UnknownObject> = Record<string, Reducer<T>>;
 
 export type AsyncActionCreator = (
-  context: Context,
+  context?: Context,
   contextOpts?: ContextOptions
 ) => ThunkAction<Promise<Action>, State, void, Action>;
 
