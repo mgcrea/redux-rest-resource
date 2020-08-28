@@ -1,19 +1,26 @@
 import {initialState} from '../defaults';
 import {find, getGerundName, getIdKey, isFunction, isObject, ucfirst} from '../helpers/util';
 import {getActionType, getTypesScope} from '../types';
-import {Action, ActionsOptions, AnyItem, Context, ReduceOptions, Reducer, State} from '../typings';
+import {
+  Action,
+  ActionsOptions,
+  Context,
+  ReduceOptions,
+  Reducer,
+  State,
+  ReducerMapObject,
+  UnknownObject
+} from '../typings';
 
-type ReducerMapObject = Record<string, Reducer<State, Action>>;
-
-const getUpdateArrayData = (action: Action, itemId: string | number): AnyItem | undefined => {
+const getUpdateArrayData = (action: Action, itemId: string | number): UnknownObject | undefined => {
   const actionOpts = action.options || {};
   const idKey = getIdKey(action, {multi: false});
 
   return actionOpts.assignResponse
-    ? find(action.body as Array<AnyItem>, {
+    ? find(action.body as Array<UnknownObject>, {
         [idKey]: itemId
       })
-    : Object.keys(action.context).reduce<AnyItem>((soFar, key) => {
+    : Object.keys(action.context).reduce<UnknownObject>((soFar, key) => {
         if (key !== 'ids') {
           soFar[key] = action.context[key as keyof Context];
         }
@@ -39,7 +46,7 @@ const defaultReducers: ReducerMapObject = {
         return {
           ...state,
           isCreating: false,
-          items: [...(state.items || []), action.body as AnyItem]
+          items: [...(state.items || []), action.body as UnknownObject]
         };
       case 'rejected':
         return {
@@ -64,20 +71,20 @@ const defaultReducers: ReducerMapObject = {
       }
       case 'resolved': {
         const isPartialContent = action.code === 206;
-        let items: AnyItem[] = [];
+        let items: UnknownObject[] = [];
         if (isPartialContent && action.contentRange) {
           const {contentRange} = action;
           if (contentRange.first > 0) {
             items = items.concat(state.items.slice(0, contentRange.last));
           }
           for (let i = contentRange.first; i <= contentRange.last; i += 1) {
-            const newItem = (action.body as AnyItem[])[i - contentRange.first];
+            const newItem = (action.body as UnknownObject[])[i - contentRange.first];
             if (newItem != null) {
               items.push(newItem);
             }
           }
         } else {
-          items = items.concat(action.body as AnyItem);
+          items = items.concat(action.body as UnknownObject);
         }
 
         return {
@@ -115,7 +122,7 @@ const defaultReducers: ReducerMapObject = {
       case 'resolved': {
         const actionOpts = action.options || {};
         const idKey = getIdKey(action, {multi: false});
-        const item = action.body as AnyItem;
+        const item = action.body as UnknownObject;
         const update: {items?: State['items']} = {};
         if (actionOpts.assignResponse) {
           const updatedItems = state.items;
@@ -156,7 +163,7 @@ const defaultReducers: ReducerMapObject = {
         const idKey = getIdKey(action, {multi: false});
         const id = isObject(action.context) ? action.context[idKey] : action.context;
         const actionOpts = action.options || {};
-        const update = (actionOpts.assignResponse ? action.body : action.context) as AnyItem;
+        const update = (actionOpts.assignResponse ? action.body : action.context) as UnknownObject;
         const listItemIndex = state.items.findIndex((el) => el[idKey] === id);
         const updatedItems = state.items.slice();
         if (listItemIndex !== -1) {
@@ -305,7 +312,7 @@ const defaultReducers: ReducerMapObject = {
   }
 };
 
-const createReducer = (actionId: string, actionOpts: ReduceOptions): Reducer<State, Action> => {
+const createReducer = <T extends UnknownObject>(actionId: string, actionOpts: ReduceOptions<T>): Reducer<T> => {
   // Custom reducers
   if (actionOpts.reduce && isFunction(actionOpts.reduce)) {
     return actionOpts.reduce;
@@ -316,12 +323,12 @@ const createReducer = (actionId: string, actionOpts: ReduceOptions): Reducer<Sta
   }
   // Default reducers
   if (defaultReducers[actionId]) {
-    return defaultReducers[actionId];
+    return defaultReducers[actionId] as Reducer<T>;
   }
   // Custom actions
   const gerundName = actionOpts.gerundName || getGerundName(actionId);
   const gerundStateKey = `is${ucfirst(gerundName)}`;
-  return (state, action): State => {
+  return (state, action): State<T> => {
     switch (action.status) {
       case 'pending':
         // Update object in store as soon as possible?
@@ -345,15 +352,18 @@ const createReducer = (actionId: string, actionOpts: ReduceOptions): Reducer<Sta
   };
 };
 
-const createReducers = (actions: ActionsOptions = {}, globalOpts: ReduceOptions): ReducerMapObject => {
+const createReducers = <T extends UnknownObject>(
+  actions: ActionsOptions = {},
+  globalOpts: ReduceOptions<T>
+): ReducerMapObject<T> => {
   const actionKeys = Object.keys(actions);
-  return actionKeys.reduce<Record<string, Reducer>>((actionReducers, actionId) => {
+  return actionKeys.reduce<ReducerMapObject<T>>((actionReducers, actionId) => {
     const actionOpts = {
       ...globalOpts,
       ...actions[actionId]
     };
     const reducerKey = getActionType(actionId).toLowerCase();
-    actionReducers[reducerKey] = createReducer(actionId, actionOpts);
+    actionReducers[reducerKey] = createReducer<T>(actionId, actionOpts);
     return actionReducers;
   }, {});
 };
@@ -363,14 +373,14 @@ type CreateRootReducerOptions = {
   scope?: string;
 };
 
-const createRootReducer = (
-  reducers: ReducerMapObject = {},
+const createRootReducer = <T extends UnknownObject>(
+  reducers: ReducerMapObject<T> = {},
   {resourceName, scope = getTypesScope(resourceName)}: CreateRootReducerOptions
-): Reducer<State, Action> => {
+): Reducer<T> => {
   const scopeNamespace = scope ? `${scope}/` : '';
-  const rootReducer: Reducer<State, Action> = (
+  const rootReducer: Reducer<T> = (
     state = {
-      ...initialState
+      ...(initialState as State<T>)
     },
     action
   ) => {

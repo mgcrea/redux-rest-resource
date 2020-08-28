@@ -3,7 +3,7 @@
 import {Action as ReduxAction} from 'redux';
 import {ThunkAction} from 'redux-thunk';
 
-export type AnyItem = Record<string, unknown>;
+export type UnknownObject = Record<string, unknown>;
 
 export type ActionOptions = {
   alias?: string;
@@ -18,7 +18,7 @@ export type ActionOptions = {
 
 export type ActionsOptions = Record<string, ActionOptions>;
 
-export type State<T = AnyItem> = {
+export type State<T = UnknownObject> = {
   didInvalidate: boolean;
   didInvalidateItem: boolean;
   isCreating: boolean;
@@ -32,12 +32,12 @@ export type State<T = AnyItem> = {
   lastUpdatedItem: number;
 };
 
-export type ReduceOptions = {
+export type ReduceOptions<T extends UnknownObject = UnknownObject> = {
   invalidateState?: boolean;
   assignResponse?: boolean;
   isArray?: boolean;
   isPure?: boolean;
-  reduce?: Reducer;
+  reduce?: Reducer<T>;
   gerundName?: string;
 };
 
@@ -71,8 +71,8 @@ export type Action = ReduxAction<string> & {
   contentRange?: ContentRange;
 };
 
-export type Reducer<S = State, A = Action> = (state: S, action: A) => S;
-// export type Reducer = ReduxReducer<State, Action>;
+export type Reducer<T = UnknownObject> = (state: State<T>, action: Action) => State<T>;
+export type ReducerMapObject<T = UnknownObject> = Record<string, Reducer<T>>;
 
 export type AsyncActionCreator = (
   context: Context,

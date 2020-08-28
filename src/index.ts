@@ -7,7 +7,15 @@ import fetch, {HttpError} from './helpers/fetch';
 import {mergeObjects, pick, getPluralName} from './helpers/util';
 import {createReducer, createReducers, createRootReducer} from './reducers';
 import {createType, createTypes, getTypesScope, scopeTypes} from './types';
-import {ActionOptions, ActionsOptions, AsyncActionCreator, Reducer, Types} from './typings';
+import {
+  ActionOptions,
+  ActionsOptions,
+  AsyncActionCreator,
+  Reducer,
+  Types,
+  UnknownObject,
+  ReduceOptions
+} from './typings';
 export * from './defaults';
 export {combineReducers, mergeReducers, reduceReducers} from './reducers/helpers';
 export * from './typings';
@@ -23,14 +31,14 @@ export type CreateResourceOptions = CreateActionOptions & {
   scope?: string;
 };
 
-export type Resource = {
+export type Resource<T extends UnknownObject> = {
   actions: Record<string, AsyncActionCreator>;
-  reducers: Reducer;
-  rootReducer: Reducer;
+  reducers: Reducer<T>;
+  rootReducer: Reducer<T>;
   types: Types;
 };
 
-export function createResource({
+export function createResource<T extends UnknownObject = UnknownObject>({
   url,
   name: resourceName,
   pluralName: resourcePluralName = getPluralName(resourceName),
@@ -39,7 +47,7 @@ export function createResource({
   pick: pickedActions = [],
   scope,
   ...otherOptions
-}: CreateResourceOptions): Resource {
+}: CreateResourceOptions): Resource<T> {
   // Merge passed actions with common defaults
   let resolvedActions: ActionsOptions = mergeDefaultActions
     ? (mergeObjects({}, defaultActions, givenActions) as ActionsOptions)
@@ -50,8 +58,8 @@ export function createResource({
   }
   const types = createTypes(resolvedActions, {resourceName, resourcePluralName, scope});
   const actions = createActions(resolvedActions, {resourceName, resourcePluralName, scope, url, ...otherOptions});
-  const reducers = createReducers(resolvedActions, otherOptions);
-  const rootReducer = createRootReducer(reducers, {resourceName, scope});
+  const reducers = createReducers<T>(resolvedActions, otherOptions as ReduceOptions<T>);
+  const rootReducer = createRootReducer<T>(reducers, {resourceName, scope});
   return {
     actions,
     reducers: rootReducer, // breaking change
