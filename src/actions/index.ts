@@ -14,6 +14,7 @@ import {
   State
 } from '../typings';
 import {AnyTransform, applyTransformPipeline, buildTransformPipeline} from './transform';
+import {BeforeErrorPipeline} from 'src/typings';
 
 const SUPPORTED_FETCH_OPTS: Array<keyof FetchOptions> = [
   'url',
@@ -43,7 +44,7 @@ export type CreateActionOptions = FetchOptions &
     scope?: string;
     stripTrailingSlashes?: boolean;
     transformResponse?: AnyTransform;
-    beforeError?: Array<(err: Error) => Error>;
+    beforeError?: BeforeErrorPipeline;
   };
 
 const createAction = (
@@ -126,9 +127,16 @@ const createAction = (
       .catch((initialErr: Error) => {
         // beforeError hook
         const err = actionOpts.beforeError
-          ? actionOpts.beforeError.reduce((errSoFar, beforeErrorHook) => beforeErrorHook(errSoFar), initialErr)
+          ? actionOpts.beforeError.reduce<Error | null>(
+              (errSoFar, beforeErrorHook) => (errSoFar ? beforeErrorHook(errSoFar) : null),
+              initialErr
+            )
           : initialErr;
-        if (!(err instanceof Error)) {
+        if (err === null) {
+          // no-op action
+          return {type} as Action;
+        }
+        if (!(err instanceof Error) && 'type' in err) {
           return err as Action;
         }
         // Catch HttpErrors
@@ -165,7 +173,7 @@ type CreateActionsOptions = {
   scope?: string;
   stripTrailingSlashes?: boolean;
   transformResponse?: AnyTransform;
-  beforeError?: Array<(err: Error) => Error>;
+  beforeError?: BeforeErrorPipeline;
 } & FetchOptions &
   ReduceOptions;
 

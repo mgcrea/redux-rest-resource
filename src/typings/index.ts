@@ -78,3 +78,5 @@ export type AsyncActionCreator = (
   context: Context,
   contextOpts?: ContextOptions
 ) => ThunkAction<Promise<Action>, State, void, Action>;
+
+export type BeforeErrorPipeline = Array<(err: Error) => Error | null>;
