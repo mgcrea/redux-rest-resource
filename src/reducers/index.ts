@@ -11,18 +11,23 @@ import {
   ReducerMapObject,
   UnknownObject
 } from '../typings';
+import {isPlainObject} from 'lodash';
 
 const getUpdateArrayData = (action: Action, itemId: string | number): UnknownObject | undefined => {
   const actionOpts = action.options || {};
   const idKey = getIdKey(action, {multi: false});
+  if (!isPlainObject(action.context)) {
+    return {};
+  }
+  const actionContext = action.context as UnknownObject;
 
   return actionOpts.assignResponse
     ? find(action.body as Array<UnknownObject>, {
         [idKey]: itemId
       })
-    : Object.keys(action.context).reduce<UnknownObject>((soFar, key) => {
+    : Object.keys(actionContext).reduce<UnknownObject>((soFar, key) => {
         if (key !== 'ids') {
-          soFar[key] = action.context[key as keyof Context];
+          soFar[key] = actionContext[key as keyof Context];
         }
         return soFar;
       }, {});
@@ -255,6 +260,11 @@ const defaultReducers: ReducerMapObject = {
           isDeleting: true
         };
       case 'resolved': {
+        // @NOTE Do not update items array when an empty context was provided
+        // Can happen with custom resource not using id params
+        if (!action.context) {
+          return {...state, isDeleting: false};
+        }
         const idKey = getIdKey(action, {multi: false});
         const id = action.context[idKey as keyof Context] || action.context;
         return {

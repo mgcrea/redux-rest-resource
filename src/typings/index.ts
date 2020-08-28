@@ -48,7 +48,7 @@ export type FetchOptions = Pick<RequestInit, 'method' | 'headers' | 'credentials
   Promise?: PromiseConstructor;
 };
 
-export type Context = string | Record<string, unknown>;
+export type Context = undefined | string | Record<string, unknown>;
 
 export type ContextOptions = Partial<FetchOptions & ReduceOptions>;
 
