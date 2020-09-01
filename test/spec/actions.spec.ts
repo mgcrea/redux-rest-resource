@@ -2206,7 +2206,7 @@ describe('fetch options', () => {
       const options = {
         isArray: true
       };
-      nock(host).get('/users').socketDelay(2000).reply(code, body);
+      nock(host).get('/users').delayConnection(2000).reply(code, body);
       const store = mockStore({
         users: {}
       });

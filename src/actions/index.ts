@@ -29,7 +29,7 @@ const SUPPORTED_REDUCE_OPTS: Array<keyof ReduceOptions> = ['invalidateState', 'a
 
 type GetActionNameOptions = {
   resourceName: string;
-  resourcePluralName: string;
+  resourcePluralName?: string;
   isArray?: boolean;
   alias?: string;
 };
@@ -169,7 +169,7 @@ const createAction = (
 
 type CreateActionsOptions = {
   resourceName: string;
-  resourcePluralName: string;
+  resourcePluralName?: string;
   scope?: string;
   stripTrailingSlashes?: boolean;
   transformResponse?: AnyTransform;

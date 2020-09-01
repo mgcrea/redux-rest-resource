@@ -30,13 +30,19 @@ Saves you from writing a lot of boilerplate code and ensures that your code stay
 
 Basically using a REST endpoint with Redux can be done with only a few lines:
 
-```js
+```ts
 import {createResource} from 'redux-rest-resource';
 
 const hostUrl = 'https://api.mlab.com:443/api/1/databases/sandbox/collections';
 const apiKey = 'xvDjirE9MCIi800xMxi4EKeTm8e9FUBR';
 
-export const {types, actions, rootReducer} = createResource({
+type User = {
+  id: string;
+  firstName: string;
+  lastName: string;
+};
+
+export const {types, actions, rootReducer} = createResource<User>({
   name: 'user',
   url: `${hostUrl}/users/:id?apiKey=${apiKey}`
 });
