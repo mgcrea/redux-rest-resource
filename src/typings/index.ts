@@ -11,7 +11,7 @@ export type ActionOptions = {
   gerundName?: string;
   isArray?: boolean;
   isPure?: boolean;
-  method: RequestInit['method'];
+  method?: RequestInit['method'];
   name?: string;
   url?: string;
 };

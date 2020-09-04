@@ -96,5 +96,5 @@ export const parseContentRangeHeader = (string: string): ContentRange | null => 
   return null;
 };
 
-export const getIdKey = (_action: Action, {multi = false}): string =>
+export const getIdKey = (_action: Action, {multi = false}: {multi: boolean}): string =>
   multi ? defaultIdKeys.plural : defaultIdKeys.singular;
