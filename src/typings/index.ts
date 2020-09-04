@@ -78,6 +78,15 @@ export type AsyncActionCreator<T = unknown> = (
   contextOpts?: ContextOptions
 ) => ThunkAction<Promise<Action<T>>, State, void, Action<T>>;
 
+export type AsyncActionCreatorsMapObject<T = unknown> = Record<string, AsyncActionCreator<T>>;
+
+export type UnwrapAsyncActionCreatorsMapObject<T extends Record<string, AsyncActionCreator>> = T extends Record<
+  string,
+  AsyncActionCreator<infer A>
+>
+  ? Record<string, (context?: Context, contextOpts?: ContextOptions) => Promise<Action<A>>>
+  : T;
+
 export type BeforeErrorPipeline = Array<(err: Error) => Error | null>;
 
 /*

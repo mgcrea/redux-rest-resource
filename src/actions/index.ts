@@ -1,4 +1,4 @@
-import {BeforeErrorPipeline} from 'src/typings';
+import {BeforeErrorPipeline, AsyncActionCreatorsMapObject} from 'src/typings';
 import {defaultTransformResponsePipeline} from '../defaults/pipeline';
 import fetch, {buildFetchOpts, buildFetchUrl, HttpError, SerializableResponse} from '../helpers/fetch';
 import {parseUrlParams} from '../helpers/url';
@@ -185,9 +185,9 @@ const createActions = (
     scope = getTypesScope(resourceName),
     ...globalOpts
   }: CreateActionsOptions
-): Record<string, AsyncActionCreator> => {
+): AsyncActionCreatorsMapObject => {
   const actionKeys = Object.keys(actions);
-  return actionKeys.reduce<Record<string, AsyncActionCreator>>((actionFuncs, actionId) => {
+  return actionKeys.reduce<AsyncActionCreatorsMapObject>((actionFuncs, actionId) => {
     // Add support for relative url override
     const {url} = actions[actionId];
 
