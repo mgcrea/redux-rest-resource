@@ -2,8 +2,11 @@ import {defaultGlobals} from '../defaults';
 
 export type AnyTransform<T = unknown> = (value: T) => Promise<T>;
 
-const buildTransformPipeline = (initial: Array<AnyTransform>, transform?: AnyTransform): Array<AnyTransform> => {
-  let transformResponsePipeline: Array<AnyTransform>;
+const buildTransformPipeline = <T = unknown>(
+  initial: Array<AnyTransform<T>>,
+  transform?: AnyTransform<T>
+): Array<AnyTransform<T>> => {
+  let transformResponsePipeline: Array<AnyTransform<T>>;
   if (transform) {
     transformResponsePipeline = Array.isArray(transform) ? transform : [...initial, transform];
   } else {

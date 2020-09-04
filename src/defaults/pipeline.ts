@@ -1,24 +1,16 @@
-import {parseResponse} from '../helpers/fetch';
+import {SerializableResponse} from '../helpers/fetch';
 import {parseContentRangeHeader, toString} from '../helpers/util';
-import {ContentRange} from '../typings';
-
-type DefaultTransformedResponse = {
-  body: unknown;
-  code: Response['status'];
-  contentRange?: ContentRange | null;
-};
 
 const defaultTransformResponsePipeline = [
-  (res: Response): Promise<DefaultTransformedResponse> =>
-    parseResponse(res).then((body) => {
-      const transformedResponse: DefaultTransformedResponse = {body, code: res.status};
-      // Add support for Content-Range parsing when a partial http code is used
-      const isPartialContent = res.status === 206;
-      if (isPartialContent) {
-        transformedResponse.contentRange = parseContentRangeHeader(toString(res.headers.get('Content-Range')));
-      }
-      return transformedResponse;
-    })
+  // Default plugin to parse headers['Content-Range']
+  async (res: SerializableResponse): Promise<SerializableResponse> => {
+    const {payload} = res;
+    const isPartialContent = payload.status === 206;
+    if (isPartialContent) {
+      res.contentRange = parseContentRangeHeader(toString(payload.headers['Content-Range']));
+    }
+    return res;
+  }
 ];
 
 export {defaultTransformResponsePipeline};

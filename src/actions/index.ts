@@ -1,5 +1,6 @@
+import {BeforeErrorPipeline} from 'src/typings';
 import {defaultTransformResponsePipeline} from '../defaults/pipeline';
-import fetch, {buildFetchOpts, buildFetchUrl, HttpError} from '../helpers/fetch';
+import fetch, {buildFetchOpts, buildFetchUrl, HttpError, SerializableResponse} from '../helpers/fetch';
 import {parseUrlParams} from '../helpers/url';
 import {getPluralName, isFunction, isObject, isString, pick, ucfirst} from '../helpers/util';
 import {getActionType, getTypesScope, scopeType} from '../types';
@@ -14,7 +15,6 @@ import {
   State
 } from '../typings';
 import {AnyTransform, applyTransformPipeline, buildTransformPipeline} from './transform';
-import {BeforeErrorPipeline} from 'src/typings';
 
 const SUPPORTED_FETCH_OPTS: Array<keyof FetchOptions> = [
   'url',
@@ -43,7 +43,7 @@ export type CreateActionOptions = FetchOptions &
   ReduceOptions & {
     scope?: string;
     stripTrailingSlashes?: boolean;
-    transformResponse?: AnyTransform;
+    transformResponse?: AnyTransform<SerializableResponse>;
     beforeError?: BeforeErrorPipeline;
   };
 
@@ -110,18 +110,18 @@ const createAction = (
     const finalFetchOpts = buildFetchOpts(context, eligibleFetchOptions);
     return fetch(finalFetchUrl, finalFetchOpts)
       .then(
-        applyTransformPipeline(
-          buildTransformPipeline(defaultTransformResponsePipeline as Array<AnyTransform>, actionOpts.transformResponse)
+        applyTransformPipeline<SerializableResponse>(
+          buildTransformPipeline(defaultTransformResponsePipeline, actionOpts.transformResponse)
         )
       )
-      .then((payload) =>
+      .then((serializedRes) =>
         dispatch({
           type,
           status: 'resolved',
           context,
           options: reduceOpts,
           receivedAt: Date.now(),
-          ...(isObject(payload) ? (payload as Partial<Action>) : {})
+          ...(isObject(serializedRes) ? serializedRes : {})
         })
       )
       .catch((initialErr: Error) => {
@@ -155,7 +155,7 @@ const createAction = (
           dispatch({
             type,
             status: 'rejected',
-            code: null,
+            code: 0,
             body: err.message,
             context,
             options: reduceOpts,
@@ -172,7 +172,7 @@ type CreateActionsOptions = {
   resourcePluralName?: string;
   scope?: string;
   stripTrailingSlashes?: boolean;
-  transformResponse?: AnyTransform;
+  transformResponse?: AnyTransform<SerializableResponse>;
   beforeError?: BeforeErrorPipeline;
 } & FetchOptions &
   ReduceOptions;

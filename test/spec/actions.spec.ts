@@ -82,7 +82,6 @@ describe('defaultActions', () => {
       const action = getActionName(actionId, {
         resourceName
       });
-      const type = '@@resource/USER/CREATE';
       const context = {
         firstName: 'Olivier'
       };
@@ -90,34 +89,16 @@ describe('defaultActions', () => {
         ok: true
       };
       const code = 200;
-      const options = {};
       nock(host).post('/users', context).reply(code, body);
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       return store.dispatch(actionFuncs[action](context)).then((res) => {
         res.receivedAt = null;
-        expect(res).toEqual(expectedActions[1]);
+        expect(res).toMatchSnapshot();
         const actions = store.getActions();
         actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
+        expect(actions).toMatchSnapshot();
       });
     });
     it('.fetch()', () => {
@@ -126,7 +107,6 @@ describe('defaultActions', () => {
         resourceName,
         isArray: true
       });
-      const type = '@@resource/USER/FETCH';
       const context = {};
       const body = [
         {
@@ -135,36 +115,17 @@ describe('defaultActions', () => {
         }
       ];
       const code = 200;
-      const options = {
-        isArray: true
-      };
+
       nock(host).get('/users').reply(code, body);
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       return store.dispatch(actionFuncs[action](context)).then((res) => {
         res.receivedAt = null;
-        expect(res).toEqual(expectedActions[1]);
+        expect(res).toMatchSnapshot();
         const actions = store.getActions();
         actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
+        expect(actions).toMatchSnapshot();
       });
     });
     it('.get()', () => {
@@ -172,7 +133,6 @@ describe('defaultActions', () => {
       const action = getActionName(actionId, {
         resourceName
       });
-      const type = '@@resource/USER/GET';
       const context = {
         id: 1
       };
@@ -181,34 +141,16 @@ describe('defaultActions', () => {
         firstName: 'Olivier'
       };
       const code = 200;
-      const options = {};
       nock(host).get(`/users/${context.id}`).reply(code, body);
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       return store.dispatch(actionFuncs[action](context)).then((res) => {
         res.receivedAt = null;
-        expect(res).toEqual(expectedActions[1]);
+        expect(res).toMatchSnapshot();
         const actions = store.getActions();
         actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
+        expect(actions).toMatchSnapshot();
       });
     });
     it('.update()', () => {
@@ -216,7 +158,6 @@ describe('defaultActions', () => {
       const action = getActionName(actionId, {
         resourceName
       });
-      const type = '@@resource/USER/UPDATE';
       const context = {
         id: 1,
         firstName: 'Olivier'
@@ -225,34 +166,16 @@ describe('defaultActions', () => {
         ok: true
       };
       const code = 200;
-      const options = {};
       nock(host).patch(`/users/${context.id}`, context).reply(code, body);
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       return store.dispatch(actionFuncs[action](context)).then((res) => {
         res.receivedAt = null;
-        expect(res).toEqual(expectedActions[1]);
+        expect(res).toMatchSnapshot();
         const actions = store.getActions();
         actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
+        expect(actions).toMatchSnapshot();
       });
     });
     it('.delete()', () => {
@@ -260,7 +183,6 @@ describe('defaultActions', () => {
       const action = getActionName(actionId, {
         resourceName
       });
-      const type = '@@resource/USER/DELETE';
       const context = {
         id: 1
       };
@@ -268,34 +190,16 @@ describe('defaultActions', () => {
         ok: true
       };
       const code = 200;
-      const options = {};
       nock(host).delete(`/users/${context.id}`).reply(code, body);
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       return store.dispatch(actionFuncs[action](context)).then((res) => {
         res.receivedAt = null;
-        expect(res).toEqual(expectedActions[1]);
+        expect(res).toMatchSnapshot();
         const actions = store.getActions();
         actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
+        expect(actions).toMatchSnapshot();
       });
     });
   });
@@ -306,7 +210,6 @@ describe('defaultActions', () => {
       const action = getActionName(actionId, {
         resourceName
       });
-      const type = '@@resource/USER/GET';
       const context = {
         id: 1
       };
@@ -315,36 +218,18 @@ describe('defaultActions', () => {
         firstName: 'Olivier'
       };
       const code = 200;
-      const options = {};
       nock(host).get(`/users/${context.id}`).reply(code, body, {
         'Content-Type': 'application/problem+json; charset=utf-8'
       });
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       return store.dispatch(actionFuncs[action](context)).then((res) => {
         res.receivedAt = null;
-        expect(res).toEqual(expectedActions[1]);
+        expect(res).toMatchSnapshot();
         const actions = store.getActions();
         actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
+        expect(actions).toMatchSnapshot();
       });
     });
     it('.fetch() with an empty body', () => {
@@ -352,40 +237,20 @@ describe('defaultActions', () => {
       const action = getActionName(actionId, {
         resourceName
       });
-      const type = '@@resource/USER/DELETE';
       const context = {
         id: 1
       };
-      const body = '';
       const code = 200;
-      const options = {};
       nock(host).delete(`/users/${context.id}`).reply(code);
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       return store.dispatch(actionFuncs[action](context)).then((res) => {
         res.receivedAt = null;
-        expect(res).toEqual(expectedActions[1]);
+        expect(res).toMatchSnapshot();
         const actions = store.getActions();
         actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
+        expect(actions).toMatchSnapshot();
       });
     });
     it('.fetch() with an non-json body', () => {
@@ -393,40 +258,21 @@ describe('defaultActions', () => {
       const action = getActionName(actionId, {
         resourceName
       });
-      const type = '@@resource/USER/DELETE';
       const context = {
         id: 1
       };
       const body = 'foobar';
       const code = 200;
-      const options = {};
       nock(host).delete(`/users/${context.id}`).reply(code, body);
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       return store.dispatch(actionFuncs[action](context)).then((res) => {
         res.receivedAt = null;
-        expect(res).toEqual(expectedActions[1]);
+        expect(res).toMatchSnapshot();
         const actions = store.getActions();
         actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
+        expect(actions).toMatchSnapshot();
       });
     });
   });
@@ -438,38 +284,17 @@ describe('defaultActions', () => {
         resourceName,
         isArray: true
       });
-      const type = '@@resource/USER/FETCH';
       const context = {};
-      const options = {
-        isArray: true
-      };
       nock(host).get('/users').replyWithError('something awful happened');
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'rejected',
-          type,
-          context,
-          options,
-          code: null,
-          body: 'request to http://localhost:3000/users failed, reason: something awful happened',
-          receivedAt: null
-        }
-      ];
       return expect(store.dispatch(actionFuncs[action](context)))
         .rejects.toBeDefined()
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
-          expect(actions).toEqual(expectedActions);
+          expect(actions).toMatchSnapshot();
         });
     });
     it('.fetch() with JSON response errors', () => {
@@ -478,34 +303,15 @@ describe('defaultActions', () => {
         resourceName,
         isArray: true
       });
-      const type = '@@resource/USER/FETCH';
       const context = {};
       const body = {
         err: 'something awful happened'
       };
       const code = 400;
-      const options = {isArray: true};
       nock(host).get('/users').reply(code, body);
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'rejected',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       let thrownErr;
       return expect(
         store.dispatch(actionFuncs[action](context)).catch((err) => {
@@ -518,7 +324,7 @@ describe('defaultActions', () => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
           expect(thrownErr.status).toEqual(code);
-          expect(actions).toEqual(expectedActions);
+          expect(actions).toMatchSnapshot();
         });
     });
     it('.fetch() with HTML response errors', () => {
@@ -527,32 +333,13 @@ describe('defaultActions', () => {
         resourceName,
         isArray: true
       });
-      const type = '@@resource/USER/FETCH';
       const context = {};
       const body = '<html><body><h1>something awful happened</h1></body></html>';
       const code = 400;
-      const options = {isArray: true};
       nock(host).get('/users').reply(code, body);
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'rejected',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       let thrownErr;
       return expect(
         store.dispatch(actionFuncs[action](context)).catch((err) => {
@@ -561,11 +348,11 @@ describe('defaultActions', () => {
         })
       )
         .rejects.toBeDefined()
-        .then((err) => {
+        .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
           expect(thrownErr.status).toEqual(code);
-          expect(actions).toEqual(expectedActions);
+          expect(actions).toMatchSnapshot();
         });
     });
   });
@@ -605,7 +392,6 @@ describe('custom actions', () => {
     const action = getActionName(actionId, {
       resourceName
     });
-    const type = '@@resource/USER/PROMOTE';
     const context = {
       id: 1,
       firstName: 'Olivier'
@@ -614,37 +400,18 @@ describe('custom actions', () => {
       ok: true
     };
     const code = 200;
-    const options = {};
     nock(host).post(`/users/${context.id}/promote`, context).reply(code, body);
     const store = mockStore({
       users: {}
     });
-    const expectedActions = [
-      {
-        status: 'pending',
-        type,
-        context,
-        options
-      },
-      {
-        status: 'resolved',
-        type,
-        context,
-        options,
-        body,
-        code,
-        receivedAt: null
-      }
-    ];
     return store.dispatch(actionFuncs[action](context)).then(() => {
       const actions = store.getActions();
       actions[1].receivedAt = null;
-      expect(actions).toEqual(expectedActions);
+      expect(actions).toMatchSnapshot();
     });
   });
   it('with a custom action name', () => {
     const action = 'fetchApplications';
-    const type = '@@resource/USER/APPLICATIONS';
     const context = {
       id: 1
     };
@@ -655,32 +422,14 @@ describe('custom actions', () => {
       }
     ];
     const code = 200;
-    const options = {isArray: true};
     nock(host).get(`/users/${context.id}/applications`).reply(code, body);
     const store = mockStore({
       users: {}
     });
-    const expectedActions = [
-      {
-        status: 'pending',
-        type,
-        context,
-        options
-      },
-      {
-        status: 'resolved',
-        type,
-        context,
-        options,
-        body,
-        code,
-        receivedAt: null
-      }
-    ];
     return store.dispatch(actionFuncs[action](context)).then(() => {
       const actions = store.getActions();
       actions[1].receivedAt = null;
-      expect(actions).toEqual(expectedActions);
+      expect(actions).toMatchSnapshot();
     });
   });
   it('.merge()', () => {
@@ -689,7 +438,6 @@ describe('custom actions', () => {
       resourceName,
       isArray: true
     });
-    const type = '@@resource/USER/MERGE';
     const context = {};
     const body = [
       {
@@ -698,34 +446,14 @@ describe('custom actions', () => {
       }
     ];
     const code = 200;
-    const options = {
-      isArray: true
-    };
     nock(host).post('/users').reply(code, body);
     const store = mockStore({
       users: {}
     });
-    const expectedActions = [
-      {
-        status: 'pending',
-        type,
-        context,
-        options
-      },
-      {
-        status: 'resolved',
-        type,
-        context,
-        options,
-        body,
-        code,
-        receivedAt: null
-      }
-    ];
     return store.dispatch(actionFuncs[action](context)).then((res) => {
       const actions = store.getActions();
       actions[1].receivedAt = null;
-      expect(actions).toEqual(expectedActions);
+      expect(actions).toMatchSnapshot();
       expect(res.body).toEqual(actions[1].body);
     });
   });
@@ -734,7 +462,6 @@ describe('custom actions', () => {
     const action = getActionName(actionId, {
       resourceName
     });
-    const type = '@@resource/USER/EDIT_FOLDER';
     const context = {
       id: 1,
       folder: 2,
@@ -745,32 +472,14 @@ describe('custom actions', () => {
       name: 'New Name'
     };
     const code = 200;
-    const options = {};
     nock(host).patch(`/users/${context.id}/folders/${context.folder}`, context).reply(code, body);
     const store = mockStore({
       users: {}
     });
-    const expectedActions = [
-      {
-        status: 'pending',
-        type,
-        context,
-        options
-      },
-      {
-        status: 'resolved',
-        type,
-        context,
-        options,
-        body,
-        code,
-        receivedAt: null
-      }
-    ];
     return store.dispatch(actionFuncs[action](context)).then((res) => {
       const actions = store.getActions();
       actions[1].receivedAt = null;
-      expect(actions).toEqual(expectedActions);
+      expect(actions).toMatchSnapshot();
       expect(res.body).toEqual(actions[1].body);
     });
   });
@@ -783,7 +492,7 @@ describe('custom pure actions', () => {
   const customActions = {
     clear: {
       isPure: true,
-      reduce: (state, action) => ({
+      reduce: (state, _action) => ({
         ...state,
         item: null
       })
@@ -798,7 +507,6 @@ describe('custom pure actions', () => {
     const action = getActionName(actionId, {
       resourceName
     });
-    const type = '@@resource/USER/CLEAR';
     const context = {
       id: 1,
       firstName: 'Olivier'
@@ -806,20 +514,9 @@ describe('custom pure actions', () => {
     const store = mockStore({
       users: {}
     });
-    const options = {
-      isPure: true
-    };
-    const expectedActions = [
-      {
-        status: 'resolved',
-        type,
-        context,
-        options
-      }
-    ];
     return store.dispatch(actionFuncs[action](context)).then(() => {
       const actions = store.getActions();
-      expect(actions).toEqual(expectedActions);
+      expect(actions).toMatchSnapshot();
     });
   });
 });
@@ -850,7 +547,6 @@ describe('other options', () => {
         resourceName,
         isArray: true
       });
-      const type = '@@resource/USER/FETCH';
       const context = {};
       const body = [
         {
@@ -859,34 +555,14 @@ describe('other options', () => {
         }
       ];
       const code = 200;
-      const options = {
-        isArray: true
-      };
       nock(host).get('/users').reply(code, body);
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
+        expect(actions).toMatchSnapshot();
       });
     });
   });
@@ -907,7 +583,6 @@ describe('other options', () => {
         }
       );
       const action = name;
-      const type = '@@resource/USER/FETCH';
       const context = {};
       const body = [
         {
@@ -916,34 +591,14 @@ describe('other options', () => {
         }
       ];
       const code = 200;
-      const options = {
-        isArray: true
-      };
       nock(host).get('/users').reply(code, body);
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
+        expect(actions).toMatchSnapshot();
       });
     });
   });
@@ -980,7 +635,6 @@ describe('fetch options', () => {
         resourceName,
         isArray: true
       });
-      const type = '@@resource/USER/FETCH';
       const context = {};
       const body = [
         {
@@ -989,37 +643,14 @@ describe('fetch options', () => {
         }
       ];
       const code = 200;
-      const options = {
-        isArray: true
-      };
       nock(host).get('/users').reply(code, body);
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body: body.map((item) => ({
-            ...item,
-            foo: 'bar'
-          })),
-          code,
-          receivedAt: null
-        }
-      ];
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
+        expect(actions).toMatchSnapshot();
       });
     });
   });
@@ -1044,7 +675,6 @@ describe('fetch options', () => {
         resourceName,
         isArray: true
       });
-      const type = '@@resource/USER/FETCH';
       const context = {};
       const body = [
         {
@@ -1053,34 +683,14 @@ describe('fetch options', () => {
         }
       ];
       const code = 200;
-      const options = {
-        isArray: true
-      };
       nock(host).get('/teams').reply(code, body);
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
+        expect(actions).toMatchSnapshot();
       });
     });
     it('should support action override via function', () => {
@@ -1106,7 +716,6 @@ describe('fetch options', () => {
         resourceName,
         isArray: true
       });
-      const type = '@@resource/USER/FETCH';
       const context = {};
       const body = [
         {
@@ -1115,34 +724,14 @@ describe('fetch options', () => {
         }
       ];
       const code = 200;
-      const options = {
-        isArray: true
-      };
       nock(host).get('/teams').reply(code, body);
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
+        expect(actions).toMatchSnapshot();
       });
     });
     it('should support context override', () => {
@@ -1156,7 +745,6 @@ describe('fetch options', () => {
         resourceName,
         isArray: true
       });
-      const type = '@@resource/USER/FETCH';
       const context = {};
       const body = [
         {
@@ -1165,30 +753,10 @@ describe('fetch options', () => {
         }
       ];
       const code = 200;
-      const options = {
-        isArray: true
-      };
       nock(host).get('/teams').reply(code, body);
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       return store
         .dispatch(
           actionFuncs[action](context, {
@@ -1198,7 +766,7 @@ describe('fetch options', () => {
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
-          expect(actions).toEqual(expectedActions);
+          expect(actions).toMatchSnapshot();
         });
     });
     it('should support relative urls', () => {
@@ -1220,7 +788,6 @@ describe('fetch options', () => {
       const action = getActionName(actionId, {
         resourceName
       });
-      const type = '@@resource/USER/UPDATE';
       const context = {
         id: 1,
         firstName: 'Olivier'
@@ -1229,32 +796,14 @@ describe('fetch options', () => {
         ok: 1
       };
       const code = 200;
-      const options = {};
       nock(host).patch(`/users/${context.id}/merge`, context).reply(code, body);
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
+        expect(actions).toMatchSnapshot();
       });
     });
     it('should support relative urls for array methods', () => {
@@ -1274,38 +823,19 @@ describe('fetch options', () => {
         resourceName,
         isArray: true
       });
-      const type = '@@resource/USER/AGGREGATE';
       const context = {};
       const body = {
         ok: 1
       };
       const code = 200;
-      const options = {isArray: true};
       nock(host).get(`/users/aggregate`).reply(code, body);
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
+        expect(actions).toMatchSnapshot();
       });
     });
   });
@@ -1330,7 +860,6 @@ describe('fetch options', () => {
         resourceName,
         isArray: true
       });
-      const type = '@@resource/USER/FETCH';
       const context = {};
       const body = [
         {
@@ -1339,34 +868,14 @@ describe('fetch options', () => {
         }
       ];
       const code = 200;
-      const options = {
-        isArray: true
-      };
       nock(host).patch('/users').reply(code, body);
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
+        expect(actions).toMatchSnapshot();
       });
     });
     it('should support action override via function', () => {
@@ -1392,7 +901,7 @@ describe('fetch options', () => {
         resourceName,
         isArray: true
       });
-      const type = '@@resource/USER/FETCH';
+      const type = '@@resource/USER/FETC';
       const context = {};
       const body = [
         {
@@ -1401,34 +910,14 @@ describe('fetch options', () => {
         }
       ];
       const code = 200;
-      const options = {
-        isArray: true
-      };
       nock(host).patch('/users').reply(code, body);
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
+        expect(actions).toMatchSnapshot();
       });
     });
     it('should support context override', () => {
@@ -1442,7 +931,6 @@ describe('fetch options', () => {
         resourceName,
         isArray: true
       });
-      const type = '@@resource/USER/FETCH';
       const context = {};
       const body = [
         {
@@ -1451,30 +939,10 @@ describe('fetch options', () => {
         }
       ];
       const code = 200;
-      const options = {
-        isArray: true
-      };
       nock(host).patch('/users').reply(code, body);
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       return store
         .dispatch(
           actionFuncs[action](context, {
@@ -1484,7 +952,7 @@ describe('fetch options', () => {
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
-          expect(actions).toEqual(expectedActions);
+          expect(actions).toMatchSnapshot();
         });
     });
   });
@@ -1511,7 +979,6 @@ describe('fetch options', () => {
         resourceName,
         isArray: true
       });
-      const type = '@@resource/USER/FETCH';
       const context = {};
       const body = [
         {
@@ -1520,34 +987,14 @@ describe('fetch options', () => {
         }
       ];
       const code = 200;
-      const options = {
-        isArray: true
-      };
       nock(host).get('/users?foo=bar').reply(code, body);
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
+        expect(actions).toMatchSnapshot();
       });
     });
     it('should support action override via function', () => {
@@ -1591,27 +1038,10 @@ describe('fetch options', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
+        expect(actions).toMatchSnapshot();
       });
     });
     it('should support context override', () => {
@@ -1643,23 +1073,6 @@ describe('fetch options', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       return store
         .dispatch(
           actionFuncs[action](context, {
@@ -1669,7 +1082,7 @@ describe('fetch options', () => {
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
-          expect(actions).toEqual(expectedActions);
+          expect(actions).toMatchSnapshot();
         });
     });
     it('should support non-string query params', () => {
@@ -1712,23 +1125,6 @@ describe('fetch options', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       return store
         .dispatch(
           actionFuncs[action](context, {
@@ -1738,7 +1134,7 @@ describe('fetch options', () => {
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
-          expect(actions).toEqual(expectedActions);
+          expect(actions).toMatchSnapshot();
         });
     });
   });
@@ -1772,27 +1168,10 @@ describe('fetch options', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
+        expect(actions).toMatchSnapshot();
       });
     });
     it('should support action override', () => {
@@ -1833,27 +1212,10 @@ describe('fetch options', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
+        expect(actions).toMatchSnapshot();
       });
     });
     it('should support action override via function', () => {
@@ -1897,27 +1259,10 @@ describe('fetch options', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
+        expect(actions).toMatchSnapshot();
       });
     });
     it('should support context override', () => {
@@ -1949,23 +1294,6 @@ describe('fetch options', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       return store
         .dispatch(
           actionFuncs[action](context, {
@@ -1975,7 +1303,7 @@ describe('fetch options', () => {
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
-          expect(actions).toEqual(expectedActions);
+          expect(actions).toMatchSnapshot();
         });
     });
   });
@@ -2020,27 +1348,10 @@ describe('fetch options', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
+        expect(actions).toMatchSnapshot();
       });
     });
     it('should support action override via function', () => {
@@ -2066,7 +1377,6 @@ describe('fetch options', () => {
         resourceName,
         isArray: true
       });
-      const type = '@@resource/USER/FETCH';
       const context = {};
       const body = [
         {
@@ -2075,9 +1385,6 @@ describe('fetch options', () => {
         }
       ];
       const code = 200;
-      const options = {
-        isArray: true
-      };
       nock(host)
         .get('/users')
         // .matchHeader('Access-Control-Allow-Origin', '*')
@@ -2086,27 +1393,10 @@ describe('fetch options', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
+        expect(actions).toMatchSnapshot();
       });
     });
     it('should support context override', () => {
@@ -2120,7 +1410,6 @@ describe('fetch options', () => {
         resourceName,
         isArray: true
       });
-      const type = '@@resource/USER/FETCH';
       const context = {};
       const body = [
         {
@@ -2129,9 +1418,6 @@ describe('fetch options', () => {
         }
       ];
       const code = 200;
-      const options = {
-        isArray: true
-      };
       nock(host)
         .get('/users')
         // .matchHeader('Access-Control-Allow-Origin', '*')
@@ -2140,23 +1426,6 @@ describe('fetch options', () => {
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       return store
         .dispatch(
           actionFuncs[action](context, {
@@ -2166,7 +1435,7 @@ describe('fetch options', () => {
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
-          expect(actions).toEqual(expectedActions);
+          expect(actions).toMatchSnapshot();
         });
     });
   });
@@ -2194,7 +1463,6 @@ describe('fetch options', () => {
         resourceName,
         isArray: true
       });
-      const type = '@@resource/USER/FETCH';
       const context = {};
       const body = [
         {
@@ -2203,34 +1471,14 @@ describe('fetch options', () => {
         }
       ];
       const code = 200;
-      const options = {
-        isArray: true
-      };
       nock(host).get('/users').delayConnection(2000).reply(code, body);
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
+        expect(actions).toMatchSnapshot();
       });
     });
   });
@@ -2248,7 +1496,6 @@ describe('fetch options', () => {
       const action = getActionName(actionId, {
         resourceName
       });
-      const type = '@@resource/USER/UPDATE';
       const context = {
         id: 1
       };
@@ -2256,28 +1503,10 @@ describe('fetch options', () => {
         ok: true
       };
       const code = 200;
-      const options = {};
       nock(host).patch(`/users/${context.id}`, contextBody).reply(code, body);
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       return store
         .dispatch(
           actionFuncs[action](context, {
@@ -2287,7 +1516,7 @@ describe('fetch options', () => {
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
-          expect(actions).toEqual(expectedActions);
+          expect(actions).toMatchSnapshot();
         });
     });
   });
@@ -2318,7 +1547,6 @@ describe('reduce options', () => {
         resourceName,
         isArray: true
       });
-      const type = '@@resource/USER/CREATE';
       const context = {
         firstName: 'Olivier'
       };
@@ -2326,34 +1554,14 @@ describe('reduce options', () => {
         ok: 1
       };
       const code = 200;
-      const options = {
-        isArray: true
-      };
       nock(host).post('/users', context).reply(code, body);
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
+        expect(actions).toMatchSnapshot();
       });
     });
     it('should support context override', () => {
@@ -2366,7 +1574,6 @@ describe('reduce options', () => {
       const action = getActionName(actionId, {
         resourceName
       });
-      const type = '@@resource/USER/UPDATE';
       const context = {
         id: 1,
         firstName: 'Olivier'
@@ -2375,30 +1582,10 @@ describe('reduce options', () => {
         ok: 1
       };
       const code = 200;
-      const options = {
-        isArray: true
-      };
       nock(host).patch(`/users/${context.id}`, context).reply(code, body);
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       return store
         .dispatch(
           actionFuncs[action](context, {
@@ -2408,7 +1595,7 @@ describe('reduce options', () => {
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
-          expect(actions).toEqual(expectedActions);
+          expect(actions).toMatchSnapshot();
         });
     });
   });
@@ -2432,7 +1619,6 @@ describe('reduce options', () => {
       const action = getActionName(actionId, {
         resourceName
       });
-      const type = '@@resource/USER/UPDATE';
       const context = {
         id: 1,
         firstName: 'Olivier'
@@ -2441,34 +1627,14 @@ describe('reduce options', () => {
         ok: 1
       };
       const code = 200;
-      const options = {
-        assignResponse: true
-      };
       nock(host).patch(`/users/${context.id}`, context).reply(code, body);
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
+        expect(actions).toMatchSnapshot();
       });
     });
     it('should support context override', () => {
@@ -2481,7 +1647,6 @@ describe('reduce options', () => {
       const action = getActionName(actionId, {
         resourceName
       });
-      const type = '@@resource/USER/UPDATE';
       const context = {
         id: 1,
         firstName: 'Olivier'
@@ -2490,30 +1655,10 @@ describe('reduce options', () => {
         ok: 1
       };
       const code = 200;
-      const options = {
-        assignResponse: true
-      };
       nock(host).patch(`/users/${context.id}`, context).reply(code, body);
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       return store
         .dispatch(
           actionFuncs[action](context, {
@@ -2523,7 +1668,7 @@ describe('reduce options', () => {
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
-          expect(actions).toEqual(expectedActions);
+          expect(actions).toMatchSnapshot();
         });
     });
   });
@@ -2548,7 +1693,6 @@ describe('reduce options', () => {
         resourceName,
         isArray: true
       });
-      const type = '@@resource/USER/FETCH';
       const context = {};
       const body = [
         {
@@ -2557,35 +1701,14 @@ describe('reduce options', () => {
         }
       ];
       const code = 200;
-      const options = {
-        isArray: true,
-        invalidateState
-      };
       nock(host).get('/users').reply(code, body);
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'resolved',
-          type,
-          context,
-          options,
-          body,
-          code,
-          receivedAt: null
-        }
-      ];
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
         actions[1].receivedAt = null;
-        expect(actions).toEqual(expectedActions);
+        expect(actions).toMatchSnapshot();
       });
     });
   });
@@ -2609,38 +1732,17 @@ describe('reduce options', () => {
         resourceName,
         isArray: true
       });
-      const type = '@@resource/USER/FETCH';
       const context = {};
-      const options = {
-        isArray: true
-      };
       nock(host).get('/users').replyWithError('something awful happened');
       const store = mockStore({
         users: {}
       });
-      const expectedActions = [
-        {
-          status: 'pending',
-          type,
-          context,
-          options
-        },
-        {
-          status: 'rejected',
-          type,
-          context,
-          options,
-          code: null,
-          body: 'request to http://localhost:3000/users failed, reason: something awful happened',
-          receivedAt: null
-        }
-      ];
       return expect(store.dispatch(actionFuncs[action](context)))
         .rejects.toBeDefined()
         .then(() => {
           const actions = store.getActions();
           actions[1].receivedAt = null;
-          expect(actions).toEqual(expectedActions);
+          expect(actions).toMatchSnapshot();
           expect(beforeError.mock.calls.length).toBe(1);
         });
     });

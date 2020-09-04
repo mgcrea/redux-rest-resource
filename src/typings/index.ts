@@ -2,6 +2,7 @@
 
 import {Action as ReduxAction, Reducer as ReduxReducer} from 'redux';
 import {ThunkAction} from 'redux-thunk';
+import {SerializableResponse} from 'src/helpers/fetch';
 
 export type UnknownObject = Record<string, unknown>;
 
@@ -61,22 +62,28 @@ export type ContentRange = {
 
 export type Types = Record<string, string>;
 
-export type Action = ReduxAction<string> & {
-  status: 'pending' | 'resolved' | 'rejected';
-  options: ContextOptions;
-  context: Context;
-  code?: Response['status'] | null;
-  body?: unknown;
-  receivedAt?: number;
-  contentRange?: ContentRange;
-};
+export type Action<T = unknown> = ReduxAction<string> &
+  Partial<SerializableResponse<T>> & {
+    status: 'pending' | 'resolved' | 'rejected';
+    options: ContextOptions;
+    context: Context;
+    receivedAt?: number;
+  };
 
 export type Reducer<T = UnknownObject> = ReduxReducer<State<T>, Action>;
 export type ReducerMapObject<T = UnknownObject> = Record<string, Reducer<T>>;
 
-export type AsyncActionCreator = (
+export type AsyncActionCreator<T = unknown> = (
   context?: Context,
   contextOpts?: ContextOptions
-) => ThunkAction<Promise<Action>, State, void, Action>;
+) => ThunkAction<Promise<Action<T>>, State, void, Action<T>>;
 
 export type BeforeErrorPipeline = Array<(err: Error) => Error | null>;
+
+/*
+export type ThunkAction<R, S, E, A extends Action> = (
+  dispatch: ThunkDispatch<S, E, A>,
+  getState: () => S,
+  extraArgument: E
+) => R;
+*/

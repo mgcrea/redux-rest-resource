@@ -1,0 +1,1759 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`custom actions .editFolder() 1`] = `
+Array [
+  Object {
+    "context": Object {
+      "folder": 2,
+      "id": 1,
+      "name": "New Name",
+    },
+    "options": Object {},
+    "status": "pending",
+    "type": "@@resource/USER/EDIT_FOLDER",
+  },
+  Object {
+    "body": Object {
+      "folder": 2,
+      "name": "New Name",
+    },
+    "code": 200,
+    "context": Object {
+      "folder": 2,
+      "id": 1,
+      "name": "New Name",
+    },
+    "options": Object {},
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/EDIT_FOLDER",
+  },
+]
+`;
+
+exports[`custom actions .merge() 1`] = `
+Array [
+  Object {
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "status": "pending",
+    "type": "@@resource/USER/MERGE",
+  },
+  Object {
+    "body": Array [
+      Object {
+        "firstName": "Olivier",
+        "id": 1,
+      },
+    ],
+    "code": 200,
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/MERGE",
+  },
+]
+`;
+
+exports[`custom actions .promote() 1`] = `
+Array [
+  Object {
+    "context": Object {
+      "firstName": "Olivier",
+      "id": 1,
+    },
+    "options": Object {},
+    "status": "pending",
+    "type": "@@resource/USER/PROMOTE",
+  },
+  Object {
+    "body": Object {
+      "ok": true,
+    },
+    "code": 200,
+    "context": Object {
+      "firstName": "Olivier",
+      "id": 1,
+    },
+    "options": Object {},
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/PROMOTE",
+  },
+]
+`;
+
+exports[`custom actions with a custom action name 1`] = `
+Array [
+  Object {
+    "context": Object {
+      "id": 1,
+    },
+    "options": Object {
+      "isArray": true,
+    },
+    "status": "pending",
+    "type": "@@resource/USER/APPLICATIONS",
+  },
+  Object {
+    "body": Array [
+      Object {
+        "id": 1,
+        "name": "Foo",
+      },
+    ],
+    "code": 200,
+    "context": Object {
+      "id": 1,
+    },
+    "options": Object {
+      "isArray": true,
+    },
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/APPLICATIONS",
+  },
+]
+`;
+
+exports[`custom pure actions .clear() 1`] = `
+Array [
+  Object {
+    "context": Object {
+      "firstName": "Olivier",
+      "id": 1,
+    },
+    "options": Object {
+      "isPure": true,
+    },
+    "status": "resolved",
+    "type": "@@resource/USER/CLEAR",
+  },
+]
+`;
+
+exports[`defaultActions crudOperations .create() 1`] = `
+Object {
+  "body": Object {
+    "ok": true,
+  },
+  "code": 200,
+  "context": Object {
+    "firstName": "Olivier",
+  },
+  "options": Object {},
+  "payload": Object {
+    "headers": Object {
+      "content-type": "application/json",
+    },
+    "ok": true,
+    "status": 200,
+  },
+  "receivedAt": null,
+  "status": "resolved",
+  "type": "@@resource/USER/CREATE",
+}
+`;
+
+exports[`defaultActions crudOperations .create() 2`] = `
+Array [
+  Object {
+    "context": Object {
+      "firstName": "Olivier",
+    },
+    "options": Object {},
+    "status": "pending",
+    "type": "@@resource/USER/CREATE",
+  },
+  Object {
+    "body": Object {
+      "ok": true,
+    },
+    "code": 200,
+    "context": Object {
+      "firstName": "Olivier",
+    },
+    "options": Object {},
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/CREATE",
+  },
+]
+`;
+
+exports[`defaultActions crudOperations .delete() 1`] = `
+Object {
+  "body": Object {
+    "ok": true,
+  },
+  "code": 200,
+  "context": Object {
+    "id": 1,
+  },
+  "options": Object {},
+  "payload": Object {
+    "headers": Object {
+      "content-type": "application/json",
+    },
+    "ok": true,
+    "status": 200,
+  },
+  "receivedAt": null,
+  "status": "resolved",
+  "type": "@@resource/USER/DELETE",
+}
+`;
+
+exports[`defaultActions crudOperations .delete() 2`] = `
+Array [
+  Object {
+    "context": Object {
+      "id": 1,
+    },
+    "options": Object {},
+    "status": "pending",
+    "type": "@@resource/USER/DELETE",
+  },
+  Object {
+    "body": Object {
+      "ok": true,
+    },
+    "code": 200,
+    "context": Object {
+      "id": 1,
+    },
+    "options": Object {},
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/DELETE",
+  },
+]
+`;
+
+exports[`defaultActions crudOperations .fetch() 1`] = `
+Object {
+  "body": Array [
+    Object {
+      "firstName": "Olivier",
+      "id": 1,
+    },
+  ],
+  "code": 200,
+  "context": Object {},
+  "options": Object {
+    "isArray": true,
+  },
+  "payload": Object {
+    "headers": Object {
+      "content-type": "application/json",
+    },
+    "ok": true,
+    "status": 200,
+  },
+  "receivedAt": null,
+  "status": "resolved",
+  "type": "@@resource/USER/FETCH",
+}
+`;
+
+exports[`defaultActions crudOperations .fetch() 2`] = `
+Array [
+  Object {
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "status": "pending",
+    "type": "@@resource/USER/FETCH",
+  },
+  Object {
+    "body": Array [
+      Object {
+        "firstName": "Olivier",
+        "id": 1,
+      },
+    ],
+    "code": 200,
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/FETCH",
+  },
+]
+`;
+
+exports[`defaultActions crudOperations .get() 1`] = `
+Object {
+  "body": Object {
+    "firstName": "Olivier",
+    "id": 1,
+  },
+  "code": 200,
+  "context": Object {
+    "id": 1,
+  },
+  "options": Object {},
+  "payload": Object {
+    "headers": Object {
+      "content-type": "application/json",
+    },
+    "ok": true,
+    "status": 200,
+  },
+  "receivedAt": null,
+  "status": "resolved",
+  "type": "@@resource/USER/GET",
+}
+`;
+
+exports[`defaultActions crudOperations .get() 2`] = `
+Array [
+  Object {
+    "context": Object {
+      "id": 1,
+    },
+    "options": Object {},
+    "status": "pending",
+    "type": "@@resource/USER/GET",
+  },
+  Object {
+    "body": Object {
+      "firstName": "Olivier",
+      "id": 1,
+    },
+    "code": 200,
+    "context": Object {
+      "id": 1,
+    },
+    "options": Object {},
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/GET",
+  },
+]
+`;
+
+exports[`defaultActions crudOperations .update() 1`] = `
+Object {
+  "body": Object {
+    "ok": true,
+  },
+  "code": 200,
+  "context": Object {
+    "firstName": "Olivier",
+    "id": 1,
+  },
+  "options": Object {},
+  "payload": Object {
+    "headers": Object {
+      "content-type": "application/json",
+    },
+    "ok": true,
+    "status": 200,
+  },
+  "receivedAt": null,
+  "status": "resolved",
+  "type": "@@resource/USER/UPDATE",
+}
+`;
+
+exports[`defaultActions crudOperations .update() 2`] = `
+Array [
+  Object {
+    "context": Object {
+      "firstName": "Olivier",
+      "id": 1,
+    },
+    "options": Object {},
+    "status": "pending",
+    "type": "@@resource/USER/UPDATE",
+  },
+  Object {
+    "body": Object {
+      "ok": true,
+    },
+    "code": 200,
+    "context": Object {
+      "firstName": "Olivier",
+      "id": 1,
+    },
+    "options": Object {},
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/UPDATE",
+  },
+]
+`;
+
+exports[`defaultActions errorHandling .fetch() with HTML response errors 1`] = `
+Array [
+  Object {
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "status": "pending",
+    "type": "@@resource/USER/FETCH",
+  },
+  Object {
+    "body": "<html><body><h1>something awful happened</h1></body></html>",
+    "code": 400,
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "receivedAt": null,
+    "status": "rejected",
+    "type": "@@resource/USER/FETCH",
+  },
+]
+`;
+
+exports[`defaultActions errorHandling .fetch() with JSON response errors 1`] = `
+Array [
+  Object {
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "status": "pending",
+    "type": "@@resource/USER/FETCH",
+  },
+  Object {
+    "body": Object {
+      "err": "something awful happened",
+    },
+    "code": 400,
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "receivedAt": null,
+    "status": "rejected",
+    "type": "@@resource/USER/FETCH",
+  },
+]
+`;
+
+exports[`defaultActions errorHandling .fetch() with request errors 1`] = `
+Array [
+  Object {
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "status": "pending",
+    "type": "@@resource/USER/FETCH",
+  },
+  Object {
+    "body": "request to http://localhost:3000/users failed, reason: something awful happened",
+    "code": 0,
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "receivedAt": null,
+    "status": "rejected",
+    "type": "@@resource/USER/FETCH",
+  },
+]
+`;
+
+exports[`defaultActions exoticResponses .fetch() with an empty body 1`] = `
+Object {
+  "body": "",
+  "code": 200,
+  "context": Object {
+    "id": 1,
+  },
+  "options": Object {},
+  "payload": Object {
+    "headers": Object {},
+    "ok": true,
+    "status": 200,
+  },
+  "receivedAt": null,
+  "status": "resolved",
+  "type": "@@resource/USER/DELETE",
+}
+`;
+
+exports[`defaultActions exoticResponses .fetch() with an empty body 2`] = `
+Array [
+  Object {
+    "context": Object {
+      "id": 1,
+    },
+    "options": Object {},
+    "status": "pending",
+    "type": "@@resource/USER/DELETE",
+  },
+  Object {
+    "body": "",
+    "code": 200,
+    "context": Object {
+      "id": 1,
+    },
+    "options": Object {},
+    "payload": Object {
+      "headers": Object {},
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/DELETE",
+  },
+]
+`;
+
+exports[`defaultActions exoticResponses .fetch() with an exotic json Content-Type 1`] = `
+Object {
+  "body": Object {
+    "firstName": "Olivier",
+    "id": 1,
+  },
+  "code": 200,
+  "context": Object {
+    "id": 1,
+  },
+  "options": Object {},
+  "payload": Object {
+    "headers": Object {
+      "content-type": "application/problem+json; charset=utf-8",
+    },
+    "ok": true,
+    "status": 200,
+  },
+  "receivedAt": null,
+  "status": "resolved",
+  "type": "@@resource/USER/GET",
+}
+`;
+
+exports[`defaultActions exoticResponses .fetch() with an exotic json Content-Type 2`] = `
+Array [
+  Object {
+    "context": Object {
+      "id": 1,
+    },
+    "options": Object {},
+    "status": "pending",
+    "type": "@@resource/USER/GET",
+  },
+  Object {
+    "body": Object {
+      "firstName": "Olivier",
+      "id": 1,
+    },
+    "code": 200,
+    "context": Object {
+      "id": 1,
+    },
+    "options": Object {},
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/problem+json; charset=utf-8",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/GET",
+  },
+]
+`;
+
+exports[`defaultActions exoticResponses .fetch() with an non-json body 1`] = `
+Object {
+  "body": "foobar",
+  "code": 200,
+  "context": Object {
+    "id": 1,
+  },
+  "options": Object {},
+  "payload": Object {
+    "headers": Object {},
+    "ok": true,
+    "status": 200,
+  },
+  "receivedAt": null,
+  "status": "resolved",
+  "type": "@@resource/USER/DELETE",
+}
+`;
+
+exports[`defaultActions exoticResponses .fetch() with an non-json body 2`] = `
+Array [
+  Object {
+    "context": Object {
+      "id": 1,
+    },
+    "options": Object {},
+    "status": "pending",
+    "type": "@@resource/USER/DELETE",
+  },
+  Object {
+    "body": "foobar",
+    "code": 200,
+    "context": Object {
+      "id": 1,
+    },
+    "options": Object {},
+    "payload": Object {
+      "headers": Object {},
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/DELETE",
+  },
+]
+`;
+
+exports[`fetch options \`body\` option should support context override 1`] = `
+Array [
+  Object {
+    "context": Object {
+      "id": 1,
+    },
+    "options": Object {},
+    "status": "pending",
+    "type": "@@resource/USER/UPDATE",
+  },
+  Object {
+    "body": Object {
+      "ok": true,
+    },
+    "code": 200,
+    "context": Object {
+      "id": 1,
+    },
+    "options": Object {},
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/UPDATE",
+  },
+]
+`;
+
+exports[`fetch options \`credentials\` option should support action override 1`] = `
+Array [
+  Object {
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "status": "pending",
+    "type": "@@resource/USER/FETCH",
+  },
+  Object {
+    "body": Array [
+      Object {
+        "firstName": "Olivier",
+        "id": 1,
+      },
+    ],
+    "code": 200,
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/FETCH",
+  },
+]
+`;
+
+exports[`fetch options \`credentials\` option should support action override via function 1`] = `
+Array [
+  Object {
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "status": "pending",
+    "type": "@@resource/USER/FETCH",
+  },
+  Object {
+    "body": Array [
+      Object {
+        "firstName": "Olivier",
+        "id": 1,
+      },
+    ],
+    "code": 200,
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/FETCH",
+  },
+]
+`;
+
+exports[`fetch options \`credentials\` option should support context override 1`] = `
+Array [
+  Object {
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "status": "pending",
+    "type": "@@resource/USER/FETCH",
+  },
+  Object {
+    "body": Array [
+      Object {
+        "firstName": "Olivier",
+        "id": 1,
+      },
+    ],
+    "code": 200,
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/FETCH",
+  },
+]
+`;
+
+exports[`fetch options \`headers\` option should support action override 1`] = `
+Array [
+  Object {
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "status": "pending",
+    "type": "@@resource/USER/FETCH",
+  },
+  Object {
+    "body": Array [
+      Object {
+        "firstName": "Olivier",
+        "id": 1,
+      },
+    ],
+    "code": 200,
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/FETCH",
+  },
+]
+`;
+
+exports[`fetch options \`headers\` option should support action override via function 1`] = `
+Array [
+  Object {
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "status": "pending",
+    "type": "@@resource/USER/FETCH",
+  },
+  Object {
+    "body": Array [
+      Object {
+        "firstName": "Olivier",
+        "id": 1,
+      },
+    ],
+    "code": 200,
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/FETCH",
+  },
+]
+`;
+
+exports[`fetch options \`headers\` option should support context override 1`] = `
+Array [
+  Object {
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "status": "pending",
+    "type": "@@resource/USER/FETCH",
+  },
+  Object {
+    "body": Array [
+      Object {
+        "firstName": "Olivier",
+        "id": 1,
+      },
+    ],
+    "code": 200,
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/FETCH",
+  },
+]
+`;
+
+exports[`fetch options \`headers\` option should support defaults override 1`] = `
+Array [
+  Object {
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "status": "pending",
+    "type": "@@resource/USER/FETCH",
+  },
+  Object {
+    "body": Array [
+      Object {
+        "firstName": "Olivier",
+        "id": 1,
+      },
+    ],
+    "code": 200,
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/FETCH",
+  },
+]
+`;
+
+exports[`fetch options \`method\` option should support action override 1`] = `
+Array [
+  Object {
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "status": "pending",
+    "type": "@@resource/USER/FETCH",
+  },
+  Object {
+    "body": Array [
+      Object {
+        "firstName": "Olivier",
+        "id": 1,
+      },
+    ],
+    "code": 200,
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/FETCH",
+  },
+]
+`;
+
+exports[`fetch options \`method\` option should support action override via function 1`] = `
+Array [
+  Object {
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "status": "pending",
+    "type": "@@resource/USER/FETCH",
+  },
+  Object {
+    "body": Array [
+      Object {
+        "firstName": "Olivier",
+        "id": 1,
+      },
+    ],
+    "code": 200,
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/FETCH",
+  },
+]
+`;
+
+exports[`fetch options \`method\` option should support context override 1`] = `
+Array [
+  Object {
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "status": "pending",
+    "type": "@@resource/USER/FETCH",
+  },
+  Object {
+    "body": Array [
+      Object {
+        "firstName": "Olivier",
+        "id": 1,
+      },
+    ],
+    "code": 200,
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/FETCH",
+  },
+]
+`;
+
+exports[`fetch options \`query\` option should support action override 1`] = `
+Array [
+  Object {
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "status": "pending",
+    "type": "@@resource/USER/FETCH",
+  },
+  Object {
+    "body": Array [
+      Object {
+        "firstName": "Olivier",
+        "id": 1,
+      },
+    ],
+    "code": 200,
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/FETCH",
+  },
+]
+`;
+
+exports[`fetch options \`query\` option should support action override via function 1`] = `
+Array [
+  Object {
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "status": "pending",
+    "type": "@@resource/USER/FETCH",
+  },
+  Object {
+    "body": Array [
+      Object {
+        "firstName": "Olivier",
+        "id": 1,
+      },
+    ],
+    "code": 200,
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/FETCH",
+  },
+]
+`;
+
+exports[`fetch options \`query\` option should support context override 1`] = `
+Array [
+  Object {
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "status": "pending",
+    "type": "@@resource/USER/FETCH",
+  },
+  Object {
+    "body": Array [
+      Object {
+        "firstName": "Olivier",
+        "id": 1,
+      },
+    ],
+    "code": 200,
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/FETCH",
+  },
+]
+`;
+
+exports[`fetch options \`query\` option should support non-string query params 1`] = `
+Array [
+  Object {
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "status": "pending",
+    "type": "@@resource/USER/FETCH",
+  },
+  Object {
+    "body": Array [
+      Object {
+        "firstName": "Olivier",
+        "id": 1,
+      },
+    ],
+    "code": 200,
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/FETCH",
+  },
+]
+`;
+
+exports[`fetch options \`signal\` option should support action override 1`] = `
+Array [
+  Object {
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "status": "pending",
+    "type": "@@resource/USER/FETCH",
+  },
+  Object {
+    "body": Array [
+      Object {
+        "firstName": "Olivier",
+        "id": 1,
+      },
+    ],
+    "code": 200,
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/FETCH",
+  },
+]
+`;
+
+exports[`fetch options \`transformResponse\` option should support action options 1`] = `
+Array [
+  Object {
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "status": "pending",
+    "type": "@@resource/USER/FETCH",
+  },
+  Object {
+    "body": Array [
+      Object {
+        "firstName": "Olivier",
+        "foo": "bar",
+        "id": 1,
+      },
+    ],
+    "code": 200,
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/FETCH",
+  },
+]
+`;
+
+exports[`fetch options \`url\` option should support action override 1`] = `
+Array [
+  Object {
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "status": "pending",
+    "type": "@@resource/USER/FETCH",
+  },
+  Object {
+    "body": Array [
+      Object {
+        "firstName": "Olivier",
+        "id": 1,
+      },
+    ],
+    "code": 200,
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/FETCH",
+  },
+]
+`;
+
+exports[`fetch options \`url\` option should support action override via function 1`] = `
+Array [
+  Object {
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "status": "pending",
+    "type": "@@resource/USER/FETCH",
+  },
+  Object {
+    "body": Array [
+      Object {
+        "firstName": "Olivier",
+        "id": 1,
+      },
+    ],
+    "code": 200,
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/FETCH",
+  },
+]
+`;
+
+exports[`fetch options \`url\` option should support context override 1`] = `
+Array [
+  Object {
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "status": "pending",
+    "type": "@@resource/USER/FETCH",
+  },
+  Object {
+    "body": Array [
+      Object {
+        "firstName": "Olivier",
+        "id": 1,
+      },
+    ],
+    "code": 200,
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/FETCH",
+  },
+]
+`;
+
+exports[`fetch options \`url\` option should support relative urls 1`] = `
+Array [
+  Object {
+    "context": Object {
+      "firstName": "Olivier",
+      "id": 1,
+    },
+    "options": Object {},
+    "status": "pending",
+    "type": "@@resource/USER/UPDATE",
+  },
+  Object {
+    "body": Object {
+      "ok": 1,
+    },
+    "code": 200,
+    "context": Object {
+      "firstName": "Olivier",
+      "id": 1,
+    },
+    "options": Object {},
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/UPDATE",
+  },
+]
+`;
+
+exports[`fetch options \`url\` option should support relative urls for array methods 1`] = `
+Array [
+  Object {
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "status": "pending",
+    "type": "@@resource/USER/AGGREGATE",
+  },
+  Object {
+    "body": Object {
+      "ok": 1,
+    },
+    "code": 200,
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/AGGREGATE",
+  },
+]
+`;
+
+exports[`other options \`alias\` option should support action override 1`] = `
+Array [
+  Object {
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "status": "pending",
+    "type": "@@resource/USER/FETCH",
+  },
+  Object {
+    "body": Array [
+      Object {
+        "firstName": "Olivier",
+        "id": 1,
+      },
+    ],
+    "code": 200,
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/FETCH",
+  },
+]
+`;
+
+exports[`other options \`name\` option should support action override 1`] = `
+Array [
+  Object {
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "status": "pending",
+    "type": "@@resource/USER/FETCH",
+  },
+  Object {
+    "body": Array [
+      Object {
+        "firstName": "Olivier",
+        "id": 1,
+      },
+    ],
+    "code": 200,
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/FETCH",
+  },
+]
+`;
+
+exports[`reduce options \`assignResponse\` option should support action override 1`] = `
+Array [
+  Object {
+    "context": Object {
+      "firstName": "Olivier",
+      "id": 1,
+    },
+    "options": Object {
+      "assignResponse": true,
+    },
+    "status": "pending",
+    "type": "@@resource/USER/UPDATE",
+  },
+  Object {
+    "body": Object {
+      "ok": 1,
+    },
+    "code": 200,
+    "context": Object {
+      "firstName": "Olivier",
+      "id": 1,
+    },
+    "options": Object {
+      "assignResponse": true,
+    },
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/UPDATE",
+  },
+]
+`;
+
+exports[`reduce options \`assignResponse\` option should support context override 1`] = `
+Array [
+  Object {
+    "context": Object {
+      "firstName": "Olivier",
+      "id": 1,
+    },
+    "options": Object {
+      "assignResponse": true,
+    },
+    "status": "pending",
+    "type": "@@resource/USER/UPDATE",
+  },
+  Object {
+    "body": Object {
+      "ok": 1,
+    },
+    "code": 200,
+    "context": Object {
+      "firstName": "Olivier",
+      "id": 1,
+    },
+    "options": Object {
+      "assignResponse": true,
+    },
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/UPDATE",
+  },
+]
+`;
+
+exports[`reduce options \`beforeError\` hook should support action override 1`] = `
+Array [
+  Object {
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "status": "pending",
+    "type": "@@resource/USER/FETCH",
+  },
+  Object {
+    "body": "request to http://localhost:3000/users failed, reason: something awful happened",
+    "code": 0,
+    "context": Object {},
+    "options": Object {
+      "isArray": true,
+    },
+    "receivedAt": null,
+    "status": "rejected",
+    "type": "@@resource/USER/FETCH",
+  },
+]
+`;
+
+exports[`reduce options \`invalidateState\` option should support action override 1`] = `
+Array [
+  Object {
+    "context": Object {},
+    "options": Object {
+      "invalidateState": true,
+      "isArray": true,
+    },
+    "status": "pending",
+    "type": "@@resource/USER/FETCH",
+  },
+  Object {
+    "body": Array [
+      Object {
+        "firstName": "Olivier",
+        "id": 1,
+      },
+    ],
+    "code": 200,
+    "context": Object {},
+    "options": Object {
+      "invalidateState": true,
+      "isArray": true,
+    },
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/FETCH",
+  },
+]
+`;
+
+exports[`reduce options \`isArray\` option should support action override 1`] = `
+Array [
+  Object {
+    "context": Object {
+      "firstName": "Olivier",
+    },
+    "options": Object {
+      "isArray": true,
+    },
+    "status": "pending",
+    "type": "@@resource/USER/CREATE",
+  },
+  Object {
+    "body": Object {
+      "ok": 1,
+    },
+    "code": 200,
+    "context": Object {
+      "firstName": "Olivier",
+    },
+    "options": Object {
+      "isArray": true,
+    },
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/CREATE",
+  },
+]
+`;
+
+exports[`reduce options \`isArray\` option should support context override 1`] = `
+Array [
+  Object {
+    "context": Object {
+      "firstName": "Olivier",
+      "id": 1,
+    },
+    "options": Object {
+      "isArray": true,
+    },
+    "status": "pending",
+    "type": "@@resource/USER/UPDATE",
+  },
+  Object {
+    "body": Object {
+      "ok": 1,
+    },
+    "code": 200,
+    "context": Object {
+      "firstName": "Olivier",
+      "id": 1,
+    },
+    "options": Object {
+      "isArray": true,
+    },
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/UPDATE",
+  },
+]
+`;

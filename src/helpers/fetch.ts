@@ -1,5 +1,5 @@
 import {defaultGlobals, defaultHeaders, defaultIdKeys} from '../defaults';
-import {Context, FetchOptions} from '../typings/index';
+import {Context, FetchOptions, ContentRange} from '../typings';
 import {
   encodeUriQuery,
   encodeUriSegment,
@@ -100,7 +100,7 @@ export const buildFetchOpts = (
   return opts;
 };
 
-export const parseResponse = (res: Response): Promise<unknown> => {
+export const parseResponseBody = <T = unknown>(res: Response): Promise<T> => {
   const contentType = res.headers.get('Content-Type');
   // @NOTE parses 'application/problem+json; charset=utf-8' for example
   // see https://tools.ietf.org/html/rfc6839
@@ -109,7 +109,28 @@ export const parseResponse = (res: Response): Promise<unknown> => {
   return res[isJson ? 'json' : 'text']();
 };
 
-const fetch = async (url: string, options: FetchOptions = {}): Promise<Response> => {
+export interface SerializableResponse<T = unknown> {
+  body: T;
+  code: Response['status']; // @deprecated
+  payload: Pick<Response, 'status' | 'ok'> & {
+    headers: Record<string, string>;
+    [s: string]: unknown;
+  };
+  contentRange?: ContentRange | null;
+  [s: string]: unknown;
+}
+
+export const serializeResponse = async <T = unknown>(res: Response): Promise<SerializableResponse<T>> => ({
+  body: await parseResponseBody<T>(res),
+  code: res.status, // @depreacted,
+  payload: {
+    headers: Object.fromEntries(res.headers.entries()),
+    status: res.status,
+    ok: res.ok
+  }
+});
+
+const fetch = async <T>(url: string, options: FetchOptions = {}): Promise<SerializableResponse<T>> => {
   // Support options.query
   const query = isObject(options.query) ? options.query : {};
   const builtUrl = Object.keys(query).reduce((wipUrl, queryParam) => {
@@ -120,15 +141,14 @@ const fetch = async (url: string, options: FetchOptions = {}): Promise<Response>
   }, url);
   return (options.Promise || defaultGlobals.Promise)
     .resolve((defaultGlobals.fetch || fetch)(builtUrl, options as RequestInit))
-    .then((res) => {
+    .then(async (res) => {
       if (!res.ok) {
-        return parseResponse(res).then((body) => {
-          throw new HttpError(res.status, {
-            body
-          });
+        const body = await parseResponseBody(res);
+        throw new HttpError(res.status, {
+          body
         });
       }
-      return res;
+      return serializeResponse(res);
     });
 };
 
