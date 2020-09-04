@@ -80,10 +80,9 @@ export type AsyncActionCreator<T = unknown> = (
 
 export type AsyncActionCreatorsMapObject<T = unknown> = Record<string, AsyncActionCreator<T>>;
 
-export type UnwrapAsyncActionCreatorsMapObject<T extends Record<string, AsyncActionCreator>> = T extends Record<
-  string,
-  AsyncActionCreator<infer A>
->
+export type UnwrapAsyncActionCreatorsMapObject<
+  T extends Record<string, AsyncActionCreator>
+> = T extends AsyncActionCreatorsMapObject<infer A>
   ? Record<string, (context?: Context, contextOpts?: ContextOptions) => Promise<Action<A>>>
   : T;
 
