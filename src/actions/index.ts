@@ -1,6 +1,12 @@
 import {BeforeErrorPipeline, AsyncActionCreatorsMapObject} from 'src/typings';
 import {defaultTransformResponsePipeline} from '../defaults/pipeline';
-import fetch, {buildFetchOpts, buildFetchUrl, HttpError, SerializableResponse} from '../helpers/fetch';
+import fetch, {
+  buildFetchOpts,
+  buildFetchUrl,
+  HttpError,
+  SerializableResponse,
+  serializeResponse
+} from '../helpers/fetch';
 import {parseUrlParams} from '../helpers/url';
 import {getPluralName, isFunction, isObject, isString, pick, ucfirst} from '../helpers/util';
 import {getActionType, getTypesScope, scopeType} from '../types';
@@ -109,6 +115,7 @@ const createAction = (
     });
     const finalFetchOpts = buildFetchOpts(context, eligibleFetchOptions);
     return fetch(finalFetchUrl, finalFetchOpts)
+      .then(serializeResponse)
       .then(
         applyTransformPipeline<SerializableResponse>(
           buildTransformPipeline(defaultTransformResponsePipeline, actionOpts.transformResponse)

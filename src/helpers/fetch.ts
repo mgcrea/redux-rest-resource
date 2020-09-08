@@ -130,7 +130,7 @@ export const serializeResponse = async <T = unknown>(res: Response): Promise<Ser
   }
 });
 
-const fetch = async <T>(url: string, options: FetchOptions = {}): Promise<SerializableResponse<T>> => {
+const fetch = async (url: string, options: FetchOptions = {}): Promise<Response> => {
   // Support options.query
   const query = isObject(options.query) ? options.query : {};
   const builtUrl = Object.keys(query).reduce((wipUrl, queryParam) => {
@@ -148,7 +148,7 @@ const fetch = async <T>(url: string, options: FetchOptions = {}): Promise<Serial
           body
         });
       }
-      return serializeResponse(res);
+      return res;
     });
 };
 
