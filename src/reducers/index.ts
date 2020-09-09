@@ -115,7 +115,7 @@ const defaultReducers: ReducerMapObject = {
         const actionOpts = action.options || {};
         const idKey = getIdKey(action, {multi: false});
         const id = isObject(action.context) ? action.context[idKey] : action.context;
-        const hasConflictingContext = state.item ? state.item[idKey] !== id : false;
+        const hasConflictingContext = id && state.item ? state.item[idKey] !== id : false;
         const didInvalidate = !!actionOpts.invalidateState || hasConflictingContext;
         return {
           ...state,
