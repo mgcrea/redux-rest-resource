@@ -1467,6 +1467,100 @@ describe('reducer options', () => {
     });
   });
   describe('`mergeResponse` option', () => {
+    it('should handle GET action with a custom mergeItem', () => {
+      const actionId = 'get';
+      const mergeResponse = true;
+      const assignResponse = true;
+      const mergeItem = (prev, next) => ({...next, foo: 'bar'});
+
+      const options = {
+        ...defaultActions[actionId],
+        assignResponse,
+        mergeResponse
+      };
+      const reducers = createReducers<User>(
+        {
+          ...defaultActions,
+          [actionId]: options
+        },
+        {mergeItem}
+      );
+      const type =
+        types[
+          getActionTypeKey(actionId, {
+            resourceName
+          })
+        ];
+
+      const initialItem = {
+        id: 1,
+        firstName: 'Olivier',
+        lastName: 'Louvignes'
+      };
+      const initialItems = [initialItem];
+      const customInitialState = {
+        item: initialItem,
+        items: initialItems
+      };
+      const context = {
+        id: 1
+      };
+      let status;
+
+      status = 'pending';
+      const pendingState = reducers[actionId](customInitialState, {
+        type,
+        status,
+        options,
+        context
+      });
+      expect(pendingState).toEqual({
+        ...customInitialState,
+        isFetchingItem: true,
+        didInvalidateItem: false
+      });
+
+      status = 'resolved';
+      const body = {
+        id: 1,
+        firstName: 'Olivia'
+      };
+      const receivedAt = Date.now();
+      const expectedItem = Object.assign(body, {foo: 'bar'});
+      expect(
+        reducers[actionId](pendingState, {
+          type,
+          status,
+          context,
+          options,
+          body,
+          receivedAt
+        })
+      ).toEqual({
+        isFetchingItem: false,
+        didInvalidateItem: false,
+        items: [expectedItem],
+        item: expectedItem,
+        lastUpdatedItem: receivedAt
+      });
+
+      status = 'rejected';
+      expect(
+        reducers[actionId](pendingState, {
+          type,
+          status,
+          context,
+          options,
+          err: {},
+          receivedAt
+        })
+      ).toEqual({
+        ...customInitialState,
+        didInvalidateItem: false,
+        isFetchingItem: false
+      });
+    });
+
     it('should handle GET action', () => {
       const actionId = 'get';
       const mergeResponse = true;

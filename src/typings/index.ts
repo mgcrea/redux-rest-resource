@@ -48,7 +48,7 @@ export type ReduceOptions<T extends UnknownObject = UnknownObject> = {
   isArray?: boolean;
   isPure?: boolean;
   reduce?: Reducer<T>;
-  merge?: (prev: T, next: Partial<T>) => T;
+  mergeItem?: (prev: T | null, next: Partial<T>) => T;
   gerundName?: string;
 };
 

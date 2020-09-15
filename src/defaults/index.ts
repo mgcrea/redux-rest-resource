@@ -1,4 +1,4 @@
-import {ConfigActionOptions, DefaultActionVerb, State} from '../typings';
+import {ConfigActionOptions, DefaultActionVerb, State, UnknownObject} from '../typings';
 
 const defaultActions: Record<DefaultActionVerb, ConfigActionOptions> = {
   create: {method: 'POST', assignResponse: true},
@@ -48,6 +48,10 @@ const initialState: State = Object.keys(defaultState).reduce<State>(
   (soFar, key) => ({...soFar, ...defaultState[key]}),
   {} as State
 );
+
+export const defaultMergeItem = <T extends UnknownObject>(prevItem: T | null, nextItem: Partial<T>): T => {
+  return Object.assign(prevItem || {}, nextItem) as T;
+};
 
 const defaultGlobals = {
   Promise,

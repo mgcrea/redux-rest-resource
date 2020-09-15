@@ -1,5 +1,5 @@
 import {isPlainObject} from 'lodash';
-import {initialState as defaultInitialState} from '../defaults';
+import {defaultMergeItem, initialState as defaultInitialState} from '../defaults';
 import {find, getGerundName, getIdKey, isFunction, isObject, ucfirst} from '../helpers/util';
 import {getActionType, getTypesScope} from '../types';
 import {
@@ -33,9 +33,9 @@ const getUpdateArrayData = (action: Action, itemId: string | number): UnknownObj
       }, {});
 };
 
-const createDefaultReducers = <T extends UnknownObject>(_reduceOptions: ReduceOptions<T>): ReducerMapObject<T> => {
+const createDefaultReducers = <T extends UnknownObject>(reduceOptions: ReduceOptions<T>): ReducerMapObject<T> => {
   const initialState = defaultInitialState as State<T>;
-  const mergeItem = Object.assign;
+  const mergeItem = reduceOptions.mergeItem || defaultMergeItem;
   return {
     create: (state = initialState, action): State<T> => {
       const actionOpts = action.options || {};
@@ -124,7 +124,7 @@ const createDefaultReducers = <T extends UnknownObject>(_reduceOptions: ReduceOp
         }
         case 'resolved': {
           const partialItem = action.body as Partial<T>;
-          const nextItem = (actionOpts.mergeResponse ? mergeItem(state.item || {}, partialItem) : partialItem) as T;
+          const nextItem = (actionOpts.mergeResponse ? mergeItem(state.item, partialItem) : partialItem) as T;
           const nextState: Partial<State<T>> = {item: nextItem};
           if (actionOpts.assignResponse) {
             const idKey = getIdKey(action, {multi: false});

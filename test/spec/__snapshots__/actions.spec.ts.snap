@@ -116,6 +116,7 @@ Array [
       "id": 1,
     },
     "options": Object {
+      "gerundName": "fetchingApplications",
       "isArray": true,
     },
     "status": "pending",
@@ -133,6 +134,7 @@ Array [
       "id": 1,
     },
     "options": Object {
+      "gerundName": "fetchingApplications",
       "isArray": true,
     },
     "payload": Object {
@@ -158,6 +160,7 @@ Array [
     },
     "options": Object {
       "isPure": true,
+      "reduce": [Function],
     },
     "status": "resolved",
     "type": "@@resource/USER/CLEAR",
@@ -174,7 +177,9 @@ Object {
   "context": Object {
     "firstName": "Olivier",
   },
-  "options": Object {},
+  "options": Object {
+    "assignResponse": true,
+  },
   "payload": Object {
     "headers": Object {
       "content-type": "application/json",
@@ -194,7 +199,9 @@ Array [
     "context": Object {
       "firstName": "Olivier",
     },
-    "options": Object {},
+    "options": Object {
+      "assignResponse": true,
+    },
     "status": "pending",
     "type": "@@resource/USER/CREATE",
   },
@@ -206,7 +213,9 @@ Array [
     "context": Object {
       "firstName": "Olivier",
     },
-    "options": Object {},
+    "options": Object {
+      "assignResponse": true,
+    },
     "payload": Object {
       "headers": Object {
         "content-type": "application/json",
@@ -1442,6 +1451,7 @@ Array [
   Object {
     "context": Object {},
     "options": Object {
+      "gerundName": "aggregating",
       "isArray": true,
     },
     "status": "pending",
@@ -1454,6 +1464,7 @@ Array [
     "code": 200,
     "context": Object {},
     "options": Object {
+      "gerundName": "aggregating",
       "isArray": true,
     },
     "payload": Object {
@@ -1689,6 +1700,7 @@ Array [
       "firstName": "Olivier",
     },
     "options": Object {
+      "assignResponse": true,
       "isArray": true,
     },
     "status": "pending",
@@ -1703,6 +1715,7 @@ Array [
       "firstName": "Olivier",
     },
     "options": Object {
+      "assignResponse": true,
       "isArray": true,
     },
     "payload": Object {
