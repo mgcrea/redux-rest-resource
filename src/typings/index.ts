@@ -1,6 +1,6 @@
 /// <reference path="index.d.ts" />
 
-import {Action as ReduxAction, AnyAction as AnyReduxAction /*, Reducer as ReduxReducer */} from 'redux';
+import {Action as ReduxAction, Reducer as ReduxReducer} from 'redux';
 import {ThunkAction} from 'redux-thunk';
 import {SerializableResponse} from 'src/helpers/fetch';
 
@@ -81,11 +81,11 @@ export type Action<T = unknown> = ReduxAction<string> &
     receivedAt?: number;
   };
 
-export type RequiredReduxReducer<S = UnknownObject, A extends ReduxAction = AnyReduxAction> = (
-  state: S,
-  action: A
-) => S;
-export type Reducer<T = UnknownObject> = RequiredReduxReducer<State<T>, Action>;
+// export type RequiredReduxReducer<S = UnknownObject, A extends ReduxAction = AnyReduxAction> = (
+//   state: S,
+//   action: A
+// ) => S;
+export type Reducer<T = UnknownObject> = ReduxReducer<State<T>, Action>;
 export type ReducerMapObject<T = UnknownObject> = Record<string, Reducer<T>>;
 
 export type AsyncActionCreator<T = unknown> = (
