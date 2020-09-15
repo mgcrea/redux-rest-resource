@@ -1,23 +1,31 @@
 /// <reference path="index.d.ts" />
 
-import {Action as ReduxAction, Reducer as ReduxReducer} from 'redux';
+import {Action as ReduxAction, AnyAction as AnyReduxAction /*, Reducer as ReduxReducer */} from 'redux';
 import {ThunkAction} from 'redux-thunk';
 import {SerializableResponse} from 'src/helpers/fetch';
 
 export type UnknownObject = Record<string, unknown>;
 
-export type ActionOptions = {
-  alias?: string;
-  assignResponse?: boolean;
-  gerundName?: string;
-  isArray?: boolean;
-  isPure?: boolean;
-  method?: RequestInit['method'];
-  name?: string;
-  url?: string;
-};
+export type SupportedReduceConfigActionOptionKeys =
+  | 'invalidateState'
+  | 'assignResponse'
+  | 'mergeResponse'
+  | 'isArray'
+  | 'isPure';
+export type SupportedReduceConfigActionOptions = Pick<ReduceOptions, SupportedReduceConfigActionOptionKeys>;
+export type SupportedFetchConfigActionOptionKeys = 'url' | 'method' | 'headers' | 'credentials' | 'query' | 'body';
+export type SupportedFetchConfigActionOptions = Pick<FetchOptions, SupportedFetchConfigActionOptionKeys>;
 
-export type ActionsOptions = Record<string, ActionOptions>;
+export type ConfigActionOptions = SupportedReduceConfigActionOptions &
+  SupportedFetchConfigActionOptions & {
+    alias?: string;
+    gerundName?: string;
+    name?: string;
+  };
+
+export type DefaultActionVerb = 'create' | 'fetch' | 'get' | 'update' | 'updateMany' | 'delete' | 'deleteMany';
+
+export type ConfigActionsOptions = Record<DefaultActionVerb | string, ConfigActionOptions>;
 
 export type State<T = UnknownObject> = {
   didInvalidate: boolean;
@@ -36,9 +44,11 @@ export type State<T = UnknownObject> = {
 export type ReduceOptions<T extends UnknownObject = UnknownObject> = {
   invalidateState?: boolean;
   assignResponse?: boolean;
+  mergeResponse?: boolean;
   isArray?: boolean;
   isPure?: boolean;
   reduce?: Reducer<T>;
+  merge?: (prev: T, next: Partial<T>) => T;
   gerundName?: string;
 };
 
@@ -51,6 +61,7 @@ export type FetchOptions = Pick<RequestInit, 'method' | 'headers' | 'credentials
 
 export type Context = undefined | string | Record<string, unknown>;
 
+// @TODO vs ActionOptions?
 export type ContextOptions = Partial<FetchOptions & ReduceOptions>;
 
 export type ContentRange = {
@@ -70,7 +81,11 @@ export type Action<T = unknown> = ReduxAction<string> &
     receivedAt?: number;
   };
 
-export type Reducer<T = UnknownObject> = ReduxReducer<State<T>, Action>;
+export type RequiredReduxReducer<S = UnknownObject, A extends ReduxAction = AnyReduxAction> = (
+  state: S,
+  action: A
+) => S;
+export type Reducer<T = UnknownObject> = RequiredReduxReducer<State<T>, Action>;
 export type ReducerMapObject<T = UnknownObject> = Record<string, Reducer<T>>;
 
 export type AsyncActionCreator<T = unknown> = (

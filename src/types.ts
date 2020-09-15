@@ -1,5 +1,5 @@
 import {getPluralName, mapObject, upperSnakeCase} from './helpers/util';
-import {ActionsOptions, Types} from './typings';
+import {ConfigActionsOptions, Types} from './typings';
 
 const scopeType = (type: string, scope?: string): string => (scope ? `${scope}/${type}` : type);
 
@@ -11,8 +11,8 @@ const getTypesScope = (resourceName: string): string =>
 
 type GetActionTypeKeyOptions = {
   resourceName: string;
-  resourcePluralName: string;
-  isArray: boolean;
+  resourcePluralName?: string;
+  isArray?: boolean;
 };
 
 const getActionTypeKey = (
@@ -27,7 +27,7 @@ const getActionType = (actionId: string): string => upperSnakeCase(actionId);
 
 type CreateTypeOptions = {
   resourceName: string;
-  resourcePluralName: string;
+  resourcePluralName?: string;
   isArray?: boolean;
   alias?: string;
 };
@@ -48,12 +48,12 @@ const createType = (
 
 type CreateTypesOptions = {
   resourceName: string;
-  resourcePluralName: string;
+  resourcePluralName?: string;
   scope?: string;
 };
 
 const createTypes = (
-  actions: ActionsOptions = {},
+  actions: ConfigActionsOptions = {},
   {resourceName, resourcePluralName, scope = getTypesScope(resourceName)}: CreateTypesOptions
 ): Types => {
   const rawTypes = Object.keys(actions).reduce((types, actionId) => {

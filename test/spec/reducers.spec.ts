@@ -6,34 +6,30 @@ import {createTypes, getActionTypeKey} from '../../src/types';
 import {createRootReducer, createReducers} from '../../src/reducers';
 import {combineReducers} from '../../src/reducers/helpers';
 import {parseContentRangeHeader} from '../../src/helpers/util';
+import {State} from '../../src';
 
 // Configuration
+type User = {id: number; firstName: string};
 const resourceName = 'user';
-const initialState = {};
+const initialState = {} as State<User>;
 
 describe('createReducers', () => {
   it('should return a reduce function', () => {
-    const reducers = createReducers(defaultActions, {
-      resourceName
-    });
+    const reducers = createReducers<User>(defaultActions, {});
     expect(typeof reducers).toBe('object');
     const expectedValuesFn = (reducer) => expect(typeof reducer).toBe('function');
     values(reducers).forEach(expectedValuesFn);
   });
   it('should return a reduce function', () => {
-    const reducers = createReducers(defaultActions, {
-      resourceName
-    });
-    const rootReducer = createRootReducer(reducers, {
+    const reducers = createReducers<User>(defaultActions, {});
+    const rootReducer = createRootReducer<User>(reducers, {
       resourceName
     });
     expect(typeof rootReducer).toBe('function');
   });
   it('should return the initial state', () => {
-    const reducers = createReducers(defaultActions, {
-      resourceName
-    });
-    const rootReducer = createRootReducer(reducers, {
+    const reducers = createReducers<User>(defaultActions, {});
+    const rootReducer = createRootReducer<User>(reducers, {
       resourceName
     });
     expect(rootReducer(undefined, {})).toEqual(defaultInitialState);
@@ -44,9 +40,7 @@ describe('defaultReducers', () => {
   const types = createTypes(defaultActions, {
     resourceName
   });
-  const reducers = createReducers(defaultActions, {
-    resourceName
-  });
+  const reducers = createReducers<User>(defaultActions, {});
   it('should handle CREATE action', () => {
     const actionId = 'create';
     const type =
@@ -64,7 +58,10 @@ describe('defaultReducers', () => {
     const pendingAction = {
       type,
       status,
-      context
+      context,
+      options: {
+        assignResponse: true
+      }
     };
     const pendingState = reducers[actionId](initialState, pendingAction);
     expect(pendingState).toEqual({
@@ -82,7 +79,10 @@ describe('defaultReducers', () => {
       status,
       context,
       body,
-      receivedAt
+      receivedAt,
+      options: {
+        assignResponse: true
+      }
     };
     expect(reducers[actionId](pendingState, resolvedAction)).toEqual({
       isCreating: false,
@@ -241,7 +241,7 @@ describe('defaultReducers', () => {
             resourceName
           })
         ];
-      const oldItems = [
+      const oldItems: User[] = [
         {
           id: 1,
           firstName: 'Olivier'
@@ -261,7 +261,7 @@ describe('defaultReducers', () => {
       const pendingState = reducers[actionId](
         {
           items: oldItems
-        },
+        } as State<User>,
         {
           type,
           status
@@ -329,7 +329,7 @@ describe('defaultReducers', () => {
             resourceName
           })
         ];
-      const oldItems = [
+      const oldItems: User[] = [
         {
           id: 1,
           firstName: 'Olivier'
@@ -349,7 +349,7 @@ describe('defaultReducers', () => {
       const pendingState = reducers[actionId](
         {
           items: oldItems
-        },
+        } as State<User>,
         {
           type,
           status
@@ -388,6 +388,90 @@ describe('defaultReducers', () => {
         isFetching: false,
         didInvalidate: false,
         items: oldItems.concat(body),
+        lastUpdated: receivedAt
+      });
+
+      status = 'rejected';
+      expect(
+        reducers[actionId](pendingState, {
+          type,
+          status,
+          err: {},
+          receivedAt
+        })
+      ).toEqual({
+        didInvalidate: false,
+        isFetching: false,
+        items: oldItems
+      });
+    });
+    it('partial-content fetch => next range [2 to 3] with 3 old items with overlap', () => {
+      const actionId = 'fetch';
+      const type =
+        types[
+          getActionTypeKey(actionId, {
+            resourceName
+          })
+        ];
+      const oldItems: User[] = [
+        {
+          id: 1,
+          firstName: 'Olivier'
+        },
+        {
+          id: 2,
+          firstName: 'Romain'
+        },
+        {
+          id: 3,
+          firstName: 'someone'
+        }
+      ];
+      let status;
+
+      status = 'pending';
+      const pendingState = reducers[actionId](
+        {
+          items: oldItems
+        } as State<User>,
+        {
+          type,
+          status
+        }
+      );
+      expect(pendingState).toEqual({
+        isFetching: true,
+        didInvalidate: false,
+        items: oldItems
+      });
+
+      status = 'resolved';
+      const code = 206;
+      const contentRange = parseContentRangeHeader('users 2-3/2');
+      const body = [
+        {
+          id: 3,
+          firstName: 'somebody'
+        },
+        {
+          id: 4,
+          firstName: 'someone else'
+        }
+      ];
+      const receivedAt = Date.now();
+      expect(
+        reducers[actionId](pendingState, {
+          type,
+          status,
+          body,
+          receivedAt,
+          code,
+          contentRange
+        })
+      ).toEqual({
+        isFetching: false,
+        didInvalidate: false,
+        items: oldItems.slice(0, 2).concat(body),
         lastUpdated: receivedAt
       });
 
@@ -1043,7 +1127,7 @@ describe('custom reducers', () => {
   const types = createTypes(customActions, {
     resourceName
   });
-  const reducers = createReducers(customActions, {
+  const reducers = createReducers<User>(customActions, {
     resourceName
   });
   it('should handle RUN action', () => {
@@ -1163,7 +1247,7 @@ describe('custom pure reducers', () => {
   const types = createTypes(customActions, {
     resourceName
   });
-  const reducers = createReducers(customActions, {
+  const reducers = createReducers<User>(customActions, {
     resourceName
   });
   it('should handle CLEAR action', () => {
@@ -1209,15 +1293,10 @@ describe('reducer options', () => {
         ...defaultActions[actionId],
         assignResponse
       };
-      const reducers = createReducers(
-        {
-          ...defaultActions,
-          [actionId]: options
-        },
-        {
-          resourceName
-        }
-      );
+      const reducers = createReducers<User>({
+        ...defaultActions,
+        [actionId]: options
+      });
       const type =
         types[
           getActionTypeKey(actionId, {
@@ -1297,18 +1376,13 @@ describe('reducer options', () => {
     it('should handle UPDATE action', () => {
       const actionId = 'update';
       const assignResponse = true;
-      const reducers = createReducers(
-        {
-          ...defaultActions,
-          [actionId]: {
-            ...defaultActions[actionId],
-            assignResponse
-          }
-        },
-        {
-          resourceName
+      const reducers = createReducers<User>({
+        ...defaultActions,
+        [actionId]: {
+          ...defaultActions[actionId],
+          assignResponse
         }
-      );
+      });
       const type =
         types[
           getActionTypeKey(actionId, {
@@ -1392,6 +1466,95 @@ describe('reducer options', () => {
       });
     });
   });
+  describe('`mergeResponse` option', () => {
+    it('should handle GET action', () => {
+      const actionId = 'get';
+      const mergeResponse = true;
+
+      const options = {
+        ...defaultActions[actionId],
+        mergeResponse
+      };
+      const reducers = createReducers<User>({
+        ...defaultActions,
+        [actionId]: options
+      });
+      const type =
+        types[
+          getActionTypeKey(actionId, {
+            resourceName
+          })
+        ];
+
+      const initialItem = {
+        id: 1,
+        firstName: 'Olivier',
+        lastName: 'Louvignes'
+      };
+      const initialItems = [initialItem];
+      const customInitialState = {
+        item: initialItem,
+        items: initialItems
+      };
+      const context = {
+        id: 1
+      };
+      let status;
+
+      status = 'pending';
+      const pendingState = reducers[actionId](customInitialState, {
+        type,
+        status,
+        options,
+        context
+      });
+      expect(pendingState).toEqual({
+        ...customInitialState,
+        isFetchingItem: true,
+        didInvalidateItem: false
+      });
+
+      status = 'resolved';
+      const body = {
+        id: 1,
+        firstName: 'Olivia'
+      };
+      const receivedAt = Date.now();
+      const expectedItem = Object.assign(initialItem, body);
+      expect(
+        reducers[actionId](pendingState, {
+          type,
+          status,
+          context,
+          options,
+          body,
+          receivedAt
+        })
+      ).toEqual({
+        isFetchingItem: false,
+        didInvalidateItem: false,
+        items: [expectedItem],
+        item: expectedItem,
+        lastUpdatedItem: receivedAt
+      });
+
+      status = 'rejected';
+      expect(
+        reducers[actionId](pendingState, {
+          type,
+          status,
+          context,
+          options,
+          err: {},
+          receivedAt
+        })
+      ).toEqual({
+        ...customInitialState,
+        didInvalidateItem: false,
+        isFetchingItem: false
+      });
+    });
+  });
   describe('`invalidateState` option', () => {
     it('should handle FETCH action', () => {
       const actionId = 'fetch';
@@ -1400,15 +1563,10 @@ describe('reducer options', () => {
         ...defaultActions[actionId],
         invalidateState
       };
-      const reducers = createReducers(
-        {
-          ...defaultActions,
-          [actionId]: actionOptions
-        },
-        {
-          resourceName
-        }
-      );
+      const reducers = createReducers<User>({
+        ...defaultActions,
+        [actionId]: actionOptions
+      });
       const type =
         types[
           getActionTypeKey(actionId, {
@@ -1452,15 +1610,10 @@ describe('reducer options', () => {
         ...defaultActions[actionId],
         invalidateState
       };
-      const reducers = createReducers(
-        {
-          ...defaultActions,
-          [actionId]: actionOptions
-        },
-        {
-          resourceName
-        }
-      );
+      const reducers = createReducers<User>({
+        ...defaultActions,
+        [actionId]: actionOptions
+      });
       const type =
         types[
           getActionTypeKey(actionId, {
@@ -1502,15 +1655,10 @@ describe('reducer options', () => {
       const actionOptions = {
         ...defaultActions[actionId]
       };
-      const reducers = createReducers(
-        {
-          ...defaultActions,
-          [actionId]: actionOptions
-        },
-        {
-          resourceName
-        }
-      );
+      const reducers = createReducers<User>({
+        ...defaultActions,
+        [actionId]: actionOptions
+      });
       const type =
         types[
           getActionTypeKey(actionId, {
@@ -1560,10 +1708,8 @@ describe('rootReducer', () => {
     const types = createTypes(defaultActions, {
       resourceName
     });
-    const reducers = createReducers(defaultActions, {
-      resourceName
-    });
-    const rootReducer = createRootReducer(reducers, {
+    const reducers = createReducers<User>(defaultActions, {});
+    const rootReducer = createRootReducer<User>(reducers, {
       resourceName
     });
     const actionId = 'create';
@@ -1582,7 +1728,10 @@ describe('rootReducer', () => {
     const pendingAction = {
       type,
       status,
-      context
+      context,
+      options: {
+        assignResponse: true
+      }
     };
     const pendingState = rootReducer(initialState, pendingAction);
     expect(pendingState).toEqual({
@@ -1601,7 +1750,10 @@ describe('rootReducer', () => {
       status,
       context,
       body,
-      receivedAt
+      receivedAt,
+      options: {
+        assignResponse: true
+      }
     };
     expect(rootReducer(pendingState, resolvedAction)).toEqual({
       ...initialState,
@@ -1636,10 +1788,10 @@ describe('rootReducer', () => {
     const types = createTypes(customActions, {
       resourceName
     });
-    const reducers = createReducers(customActions, {
+    const reducers = createReducers<User>(customActions, {
       resourceName
     });
-    const rootReducer = createRootReducer(reducers, {
+    const rootReducer = createRootReducer<User>(reducers, {
       resourceName
     });
     const actionId = 'run';
@@ -1715,10 +1867,10 @@ describe('rootReducer', () => {
     const types = createTypes(customActions, {
       resourceName
     });
-    const reducers = createReducers(customActions, {
+    const reducers = createReducers<User>(customActions, {
       resourceName
     });
-    const rootReducer = createRootReducer(reducers, {
+    const rootReducer = createRootReducer<User>(reducers, {
       resourceName
     });
     const actionId = 'mockAll';
@@ -1755,16 +1907,16 @@ describe('rootReducer', () => {
 describe('helpers', () => {
   describe('combineReducers', () => {
     it('should properly combine two reducer functions as a single object', () => {
-      const fooReducers = createRootReducer(
-        createReducers(defaultActions, {
+      const fooReducers = createRootReducer<User>(
+        createReducers<User>(defaultActions, {
           resourceName: 'foo'
         }),
         {
           resourceName: 'foo'
         }
       );
-      const barReducers = createRootReducer(
-        createReducers(defaultActions, {
+      const barReducers = createRootReducer<User>(
+        createReducers<User>(defaultActions, {
           resourceName: 'bar'
         }),
         {
@@ -1788,16 +1940,16 @@ describe('helpers', () => {
       ).toEqual(['foo', 'bar']);
     });
     it('should properly combine two reducer functions as two objects', () => {
-      const fooReducers = createRootReducer(
-        createReducers(defaultActions, {
+      const fooReducers = createRootReducer<User>(
+        createReducers<User>(defaultActions, {
           resourceName: 'foo'
         }),
         {
           resourceName: 'foo'
         }
       );
-      const barReducers = createRootReducer(
-        createReducers(defaultActions, {
+      const barReducers = createRootReducer<User>(
+        createReducers<User>(defaultActions, {
           resourceName: 'bar'
         }),
         {

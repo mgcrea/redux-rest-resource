@@ -7,15 +7,7 @@ import fetch, {HttpError} from './helpers/fetch';
 import {mergeObjects, pick, getPluralName} from './helpers/util';
 import {createReducer, createReducers, createRootReducer} from './reducers';
 import {createType, createTypes, getTypesScope, scopeTypes} from './types';
-import {
-  ActionOptions,
-  ActionsOptions,
-  AsyncActionCreator,
-  Reducer,
-  Types,
-  UnknownObject,
-  ReduceOptions
-} from './typings';
+import {ConfigActionsOptions, AsyncActionCreator, Reducer, Types, UnknownObject, ReduceOptions} from './typings';
 export * from './defaults';
 export {combineReducers, mergeReducers, reduceReducers} from './reducers/helpers';
 export * from './typings';
@@ -25,7 +17,7 @@ export type CreateResourceOptions = CreateActionOptions & {
   url: string;
   name: string;
   pluralName?: string;
-  actions?: Record<string, ActionOptions>;
+  actions?: ConfigActionsOptions;
   mergeDefaultActions?: boolean;
   pick?: string[];
   scope?: string;
@@ -49,12 +41,12 @@ export function createResource<T extends UnknownObject = UnknownObject>({
   ...otherOptions
 }: CreateResourceOptions): Resource<T> {
   // Merge passed actions with common defaults
-  let resolvedActions: ActionsOptions = mergeDefaultActions
-    ? (mergeObjects({}, defaultActions, givenActions) as ActionsOptions)
+  let resolvedActions = mergeDefaultActions
+    ? (mergeObjects({}, defaultActions, givenActions) as ConfigActionsOptions)
     : givenActions;
   // Eventually pick selected actions
   if (pickedActions.length) {
-    resolvedActions = pick(resolvedActions, ...pickedActions) as ActionsOptions;
+    resolvedActions = pick(resolvedActions, ...pickedActions) as ConfigActionsOptions;
   }
   const types = createTypes(resolvedActions, {resourceName, resourcePluralName, scope});
   const actions = createActions(resolvedActions, {resourceName, resourcePluralName, scope, url, ...otherOptions});

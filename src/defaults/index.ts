@@ -1,7 +1,7 @@
-import {ActionsOptions, State} from '../typings';
+import {ConfigActionOptions, DefaultActionVerb, State} from '../typings';
 
-const defaultActions: ActionsOptions = {
-  create: {method: 'POST'},
+const defaultActions: Record<DefaultActionVerb, ConfigActionOptions> = {
+  create: {method: 'POST', assignResponse: true},
   fetch: {method: 'GET', isArray: true},
   get: {method: 'GET'},
   update: {method: 'PATCH'},

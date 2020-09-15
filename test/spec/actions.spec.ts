@@ -1057,7 +1057,6 @@ describe('fetch options', () => {
         resourceName,
         isArray: true
       });
-      const type = '@@resource/USER/FETCH';
       const context = {};
       const body = [
         {
@@ -1066,9 +1065,6 @@ describe('fetch options', () => {
         }
       ];
       const code = 200;
-      const options = {
-        isArray: true
-      };
       nock(host).get('/users?foo=bar').reply(code, body);
       const store = mockStore({
         users: {}
@@ -1105,7 +1101,6 @@ describe('fetch options', () => {
         resourceName,
         isArray: true
       });
-      const type = '@@resource/USER/FETCH';
       const context = {};
       const body = [
         {
@@ -1114,9 +1109,6 @@ describe('fetch options', () => {
         }
       ];
       const code = 200;
-      const options = {
-        isArray: true
-      };
       nock(host)
         .get(
           '/users?select=[%22firstName%22,%22lastName%22]&populate=[%7B%22path%22:%22team%22,%22model%22:%22Team%22,%22select%22:[%22id%22,%22name%22]%7D]'
@@ -1152,7 +1144,6 @@ describe('fetch options', () => {
         resourceName,
         isArray: true
       });
-      const type = '@@resource/USER/FETCH';
       const context = {};
       const body = [
         {
@@ -1161,9 +1152,6 @@ describe('fetch options', () => {
         }
       ];
       const code = 200;
-      const options = {
-        isArray: true
-      };
       nock(host).get('/users').matchHeader('X-Custom-Default-Header', 'foobar').reply(code, body);
       const store = mockStore({
         users: {}
@@ -1196,7 +1184,6 @@ describe('fetch options', () => {
         resourceName,
         isArray: true
       });
-      const type = '@@resource/USER/FETCH';
       const context = {};
       const body = [
         {
@@ -1205,9 +1192,7 @@ describe('fetch options', () => {
         }
       ];
       const code = 200;
-      const options = {
-        isArray: true
-      };
+
       nock(host).get('/users').matchHeader('X-Custom-Header', 'foobar').reply(code, body);
       const store = mockStore({
         users: {}
@@ -1243,7 +1228,6 @@ describe('fetch options', () => {
         resourceName,
         isArray: true
       });
-      const type = '@@resource/USER/FETCH';
       const context = {};
       const body = [
         {
@@ -1252,9 +1236,7 @@ describe('fetch options', () => {
         }
       ];
       const code = 200;
-      const options = {
-        isArray: true
-      };
+
       nock(host).get('/users').matchHeader('X-Custom-Header', 'foobar').reply(code, body);
       const store = mockStore({
         users: {}
@@ -1278,7 +1260,6 @@ describe('fetch options', () => {
         resourceName,
         isArray: true
       });
-      const type = '@@resource/USER/FETCH';
       const context = {};
       const body = [
         {
@@ -1287,9 +1268,7 @@ describe('fetch options', () => {
         }
       ];
       const code = 200;
-      const options = {
-        isArray: true
-      };
+
       nock(host).get('/users').matchHeader('X-Custom-Header', 'foobar').reply(code, body);
       const store = mockStore({
         users: {}
@@ -1328,7 +1307,6 @@ describe('fetch options', () => {
         resourceName,
         isArray: true
       });
-      const type = '@@resource/USER/FETCH';
       const context = {};
       const body = [
         {
@@ -1337,9 +1315,7 @@ describe('fetch options', () => {
         }
       ];
       const code = 200;
-      const options = {
-        isArray: true
-      };
+
       nock(host)
         .get('/users')
         // .matchHeader('Access-Control-Allow-Origin', '*')
@@ -1444,7 +1420,7 @@ describe('fetch options', () => {
     it('should support action override', () => {
       const controller = new AbortController();
       const {signal} = controller;
-      const timeoutId = setTimeout(() => controller.abort(), 100);
+      // const timeoutId = setTimeout(() => controller.abort(), 100);
       const actionFuncs = createActions(
         {
           ...defaultActions,

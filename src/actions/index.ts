@@ -12,7 +12,7 @@ import {getPluralName, isFunction, isObject, isString, pick, ucfirst} from '../h
 import {getActionType, getTypesScope, scopeType} from '../types';
 import {
   Action,
-  ActionsOptions,
+  ConfigActionsOptions,
   AsyncActionCreator,
   Context,
   ContextOptions,
@@ -21,17 +21,16 @@ import {
   State
 } from '../typings';
 import {AnyTransform, applyTransformPipeline, buildTransformPipeline} from './transform';
-
-const SUPPORTED_FETCH_OPTS: Array<keyof FetchOptions> = [
-  'url',
-  'method',
-  'headers',
-  'credentials',
-  'query',
-  'body',
-  'signal'
-];
-const SUPPORTED_REDUCE_OPTS: Array<keyof ReduceOptions> = ['invalidateState', 'assignResponse', 'isArray', 'isPure'];
+export const SUPPORTED_FETCH_OPTS = ['url', 'method', 'headers', 'credentials', 'query', 'body', 'signal'] as const;
+export const SUPPORTED_REDUCE_OPTS = [
+  'invalidateState',
+  'assignResponse',
+  'mergeResponse',
+  'gerundName',
+  'reduce',
+  'isArray',
+  'isPure'
+] as const;
 
 type GetActionNameOptions = {
   resourceName: string;
@@ -51,6 +50,7 @@ export type CreateActionOptions = FetchOptions &
     stripTrailingSlashes?: boolean;
     transformResponse?: AnyTransform<SerializableResponse>;
     beforeError?: BeforeErrorPipeline;
+    alias?: string;
   };
 
 const createAction = (
@@ -185,7 +185,7 @@ type CreateActionsOptions = {
   ReduceOptions;
 
 const createActions = (
-  actions: ActionsOptions = {},
+  actions: ConfigActionsOptions = {},
   {
     resourceName,
     resourcePluralName = getPluralName(resourceName),

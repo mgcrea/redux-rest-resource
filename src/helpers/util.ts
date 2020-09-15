@@ -83,7 +83,6 @@ export const getPluralName = (name = ''): string => (name.endsWith('s') ? name :
 export const parseContentRangeHeader = (string: string): ContentRange | null => {
   if (typeof string === 'string') {
     const matches = string.match(/^(\w+) (\d+)-(\d+)\/(\d+|\*)/);
-
     if (matches) {
       return {
         unit: matches[1],
