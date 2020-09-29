@@ -33,10 +33,11 @@ type BuildFetchUrlOptions = {
   url: string;
   urlParams: Record<string, {isQueryParamValue?: boolean}>;
   stripTrailingSlashes?: boolean;
+  isArray?: boolean;
 };
 export const buildFetchUrl = (
   context: Context,
-  {url, urlParams, stripTrailingSlashes = true}: BuildFetchUrlOptions
+  {url, urlParams, isArray = false, stripTrailingSlashes = true}: BuildFetchUrlOptions
 ): string => {
   const [protocolAndDomain = '', remainderUrl] = splitUrlByProtocolAndDomain(url);
   // Replace urlParams with values from context
@@ -53,6 +54,8 @@ export const buildFetchUrl = (
         ? encodeUriQuery(toString(value), true)
         : encodeUriSegment(toString(value));
       return replaceUrlParamFromUrl(wipUrl, urlParam, encodedValue);
+    } else if (!isArray && urlParam === defaultIdKeys.singular) {
+      throw new Error(`Failed to resolve required "${urlParam}" from context=${JSON.stringify(context)}`);
     }
     return replaceUrlParamFromUrl(wipUrl, urlParam);
   }, remainderUrl);

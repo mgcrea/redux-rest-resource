@@ -1648,6 +1648,99 @@ describe('reduce options', () => {
         });
     });
   });
+
+  // it('.get()', () => {
+  //   const actionId = 'get';
+  //   const action = getActionName(actionId, {
+  //     resourceName
+  //   });
+  //   const context = {
+  //     id: 1
+  //   };
+  //   const body = {
+  //     id: 1,
+  //     firstName: 'Olivier'
+  //   };
+  //   const code = 200;
+  //   nock(host).get(`/users/${context.id}`).reply(code, body);
+  //   const store = mockStore({
+  //     users: {}
+  //   });
+  //   return store.dispatch(actionFuncs[action](context)).then((res) => {
+  //     res.receivedAt = null;
+  //     expect(res).toMatchSnapshot();
+  //     const actions = store.getActions();
+  //     actions[1].receivedAt = null;
+  //     expect(actions).toMatchSnapshot();
+  //   });
+  // });
+  describe('`mergeResponse` option', () => {
+    it('should support action override', () => {
+      const mergeResponse = true;
+      const actionId = 'get';
+      const action = getActionName(actionId, {
+        resourceName
+      });
+      const actionFuncs = createActions(
+        {
+          ...defaultActions,
+          [actionId]: {
+            ...defaultActions[actionId],
+            mergeResponse
+          }
+        },
+        {
+          resourceName,
+          url
+        }
+      );
+      const context = {id: 1};
+      const body = {
+        id: 1,
+        firstName: 'John'
+      };
+      const code = 200;
+      nock(host).get(`/users/${context.id}`).reply(code, body);
+      const store = mockStore();
+      return store.dispatch(actionFuncs[action](context)).then(() => {
+        const actions = store.getActions();
+        actions[1].receivedAt = null;
+        expect(actions).toMatchSnapshot();
+      });
+    });
+    it.only('should support context override', () => {
+      const mergeResponse = true;
+      const actionId = 'get';
+      const action = getActionName(actionId, {
+        resourceName
+      });
+      const actionFuncs = createActions(defaultActions, {
+        resourceName,
+        url
+      });
+      const context = {id: 1};
+      const body = {
+        id: 1,
+        firstName: 'John'
+      };
+      const code = 200;
+      nock(host).get(`/users/${context.id}`).reply(code, body);
+      const store = mockStore({
+        users: {}
+      });
+      return store
+        .dispatch(
+          actionFuncs[action](context, {
+            mergeResponse
+          })
+        )
+        .then(() => {
+          const actions = store.getActions();
+          actions[1].receivedAt = null;
+          expect(actions).toMatchSnapshot();
+        });
+    });
+  });
   describe('`invalidateState` option', () => {
     it('should support action override', () => {
       const invalidateState = true;

@@ -1770,3 +1770,79 @@ Array [
   },
 ]
 `;
+
+exports[`reduce options \`mergeResponse\` option should support action override 1`] = `
+Array [
+  Object {
+    "context": Object {
+      "id": 1,
+    },
+    "options": Object {
+      "mergeResponse": true,
+    },
+    "status": "pending",
+    "type": "@@resource/USER/GET",
+  },
+  Object {
+    "body": Object {
+      "firstName": "John",
+      "id": 1,
+    },
+    "code": 200,
+    "context": Object {
+      "id": 1,
+    },
+    "options": Object {
+      "mergeResponse": true,
+    },
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/GET",
+  },
+]
+`;
+
+exports[`reduce options \`mergeResponse\` option should support context override 1`] = `
+Array [
+  Object {
+    "context": Object {
+      "id": 1,
+    },
+    "options": Object {
+      "mergeResponse": true,
+    },
+    "status": "pending",
+    "type": "@@resource/USER/GET",
+  },
+  Object {
+    "body": Object {
+      "firstName": "John",
+      "id": 1,
+    },
+    "code": 200,
+    "context": Object {
+      "id": 1,
+    },
+    "options": Object {
+      "mergeResponse": true,
+    },
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/GET",
+  },
+]
+`;

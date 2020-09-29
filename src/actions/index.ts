@@ -111,7 +111,8 @@ const createAction = (
     const finalFetchUrl = buildFetchUrl(context, {
       url,
       urlParams,
-      stripTrailingSlashes
+      stripTrailingSlashes,
+      isArray: actionOpts.isArray
     });
     const finalFetchOpts = buildFetchOpts(context, eligibleFetchOptions);
     return fetch(finalFetchUrl, finalFetchOpts)

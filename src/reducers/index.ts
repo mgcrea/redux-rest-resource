@@ -125,7 +125,7 @@ const createDefaultReducers = <T extends UnknownObject>(reduceOptions: ReduceOpt
         case 'resolved': {
           const partialItem = action.body as Partial<T>;
           const nextItem = (actionOpts.mergeResponse ? mergeItem(state.item, partialItem) : partialItem) as T;
-          const nextState: Partial<State<T>> = {item: nextItem};
+          const nextState: Partial<State<T>> = {item: {...nextItem}};
           if (actionOpts.assignResponse) {
             const idKey = getIdKey(action, {multi: false});
             const prevListItemIndex = state.items.findIndex((el) => el[idKey] === partialItem[idKey]);
@@ -154,6 +154,7 @@ const createDefaultReducers = <T extends UnknownObject>(reduceOptions: ReduceOpt
       }
     },
     update: (state = initialState, action) => {
+      const actionOpts = action.options || {};
       switch (action.status) {
         case 'pending':
           // Update object in store as soon as possible?
@@ -165,7 +166,6 @@ const createDefaultReducers = <T extends UnknownObject>(reduceOptions: ReduceOpt
           // Assign context or returned object
           const idKey = getIdKey(action, {multi: false});
           const id = isObject(action.context) ? action.context[idKey] : action.context;
-          const actionOpts = action.options || {};
           const update = (actionOpts.assignResponse ? action.body : action.context) as UnknownObject;
           const listItemIndex = state.items.findIndex((el) => el[idKey] === id);
           const updatedItems = state.items.slice();

@@ -521,12 +521,10 @@ describe('defaultReducers', () => {
     });
 
     status = 'resolved';
-    const body = [
-      {
-        id: 1,
-        firstName: 'Olivier'
-      }
-    ];
+    const body = {
+      id: 1,
+      firstName: 'Olivier'
+    };
     const receivedAt = Date.now();
     expect(
       reducers[actionId](pendingState, {
