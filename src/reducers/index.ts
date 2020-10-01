@@ -46,11 +46,12 @@ const getIdFromAction = (action: Action, {multi}: {multi: boolean}): [string, un
   if (isString(context)) {
     return [idKey, context];
   }
-  throw new Error(
-    `Failed to resolve id with key="${idKey}" from context=${JSON.stringify(context)} or params=${JSON.stringify(
-      params
-    )}`
-  );
+  return [idKey, undefined];
+  // throw new Error(
+  //   `Failed to resolve id with key="${idKey}" from context=${JSON.stringify(context)} or params=${JSON.stringify(
+  //     params
+  //   )}`
+  // );
 };
 
 const createDefaultReducers = <T extends UnknownObject>(reduceOptions: ReduceOptions<T>): ReducerMapObject<T> => {
@@ -184,7 +185,7 @@ const createDefaultReducers = <T extends UnknownObject>(reduceOptions: ReduceOpt
         case 'resolved': {
           // Assign context or returned object
           const [idKey, id] = getIdFromAction(action, {multi: false});
-          const update = (actionOpts.assignResponse ? action.body : action.context) as UnknownObject;
+          const update = (actionOpts.assignResponse ? action.body : action.context) as Partial<T>;
           const listItemIndex = state.items.findIndex((el) => el[idKey] === id);
           const updatedItems = state.items.slice();
           if (listItemIndex !== -1) {
@@ -193,13 +194,7 @@ const createDefaultReducers = <T extends UnknownObject>(reduceOptions: ReduceOpt
               ...update
             };
           }
-          const updatedItem =
-            state.item && state.item[idKey] === id
-              ? {
-                  ...state.item,
-                  ...update
-                }
-              : state.item;
+          const updatedItem = state.item && state.item[idKey] === id ? mergeItem(state.item, update) : state.item;
           return {
             ...state,
             isUpdating: false,
@@ -283,7 +278,7 @@ const createDefaultReducers = <T extends UnknownObject>(reduceOptions: ReduceOpt
           return {
             ...state,
             isDeleting: false,
-            items: [...state.items.filter((el) => el[idKey] !== id)]
+            items: [...state.items.filter((el) => id && el[idKey] !== id)]
           };
         }
         case 'rejected':
