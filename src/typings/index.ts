@@ -50,6 +50,7 @@ export type ReduceOptions<T extends UnknownObject = UnknownObject> = {
   reduce?: Reducer<T>;
   mergeItem?: (prev: T | null, next: Partial<T>) => T;
   gerundName?: string;
+  params?: Record<string, string>;
 };
 
 export type FetchOptions = Pick<RequestInit, 'method' | 'headers' | 'credentials' | 'signal'> & {

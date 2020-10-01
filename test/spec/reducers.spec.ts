@@ -635,6 +635,84 @@ describe('defaultReducers', () => {
     });
   });
 
+  it('should handle UPDATE action with id in params object', () => {
+    const actionId = 'update';
+    const type =
+      types[
+        getActionTypeKey(actionId, {
+          resourceName
+        })
+      ];
+    const initialItems = [
+      {
+        id: 1,
+        firstName: 'Olivier',
+        lastName: 'Louvignes'
+      }
+    ];
+    const customInitialState = {
+      items: initialItems,
+      item: initialItems[0]
+    };
+    const context = {
+      firstName: 'Olivia'
+    };
+    let status;
+
+    status = 'pending';
+    const pendingState = reducers[actionId](customInitialState, {
+      type,
+      status,
+      context
+    });
+    expect(pendingState).toEqual({
+      ...customInitialState,
+      isUpdating: true
+    });
+
+    status = 'resolved';
+    const body = {
+      ok: true
+    };
+    const receivedAt = Date.now();
+    const expectedItems = [
+      {
+        id: 1,
+        firstName: 'Olivia',
+        lastName: 'Louvignes'
+      }
+    ];
+    const expectedItem = expectedItems[0];
+    expect(
+      reducers[actionId](pendingState, {
+        type,
+        status,
+        context,
+        options: {params: {id: 1}},
+        body,
+        receivedAt
+      })
+    ).toEqual({
+      isUpdating: false,
+      items: expectedItems,
+      item: expectedItem
+    });
+
+    status = 'rejected';
+    expect(
+      reducers[actionId](pendingState, {
+        type,
+        status,
+        context,
+        err: {},
+        receivedAt
+      })
+    ).toEqual({
+      ...customInitialState,
+      isUpdating: false
+    });
+  });
+
   it('should handle UPDATE_MANY action with ids in context object', () => {
     const actionId = snakeCase('updateMany');
     const type =
@@ -722,7 +800,7 @@ describe('defaultReducers', () => {
       isUpdatingMany: false
     });
   });
-  it('should handle UPDATE_MANY action with ids in query object', () => {
+  it('should handle UPDATE_MANY action with ids in params object', () => {
     const actionId = snakeCase('updateMany');
     const type =
       types[
@@ -786,6 +864,7 @@ describe('defaultReducers', () => {
         status,
         context,
         body,
+        options: {params: {ids: [1, 2]}},
         receivedAt
       })
     ).toEqual({
@@ -800,7 +879,7 @@ describe('defaultReducers', () => {
         type,
         status,
         context,
-        query: {ids: [1, 2]},
+        options: {params: {ids: [1, 2]}},
         err: {},
         receivedAt
       })
@@ -872,8 +951,7 @@ describe('defaultReducers', () => {
         context,
         body,
         receivedAt,
-        query: {ids: [1, 2]},
-        options: {assignResponse: true}
+        options: {params: {ids: [1, 2]}, assignResponse: true}
       })
     ).toEqual({
       isUpdatingMany: false,
@@ -962,7 +1040,7 @@ describe('defaultReducers', () => {
       isDeleting: false
     });
   });
-  it('should handle DELETE_MANY action with ids in query object', () => {
+  it('should handle DELETE_MANY action with ids in params object', () => {
     const actionId = snakeCase('deleteMany');
     const type =
       types[
@@ -993,8 +1071,7 @@ describe('defaultReducers', () => {
     const pendingState = reducers[actionId](customInitialState, {
       type,
       status,
-      context,
-      query: {ids: [1, 2]}
+      context
     });
     expect(pendingState).toEqual({
       ...customInitialState,
@@ -1013,6 +1090,9 @@ describe('defaultReducers', () => {
         type,
         status,
         context,
+        options: {
+          params: {ids: [1, 2]}
+        },
         body,
         receivedAt
       })

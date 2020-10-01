@@ -1086,6 +1086,52 @@ Array [
 ]
 `;
 
+exports[`fetch options \`params\` option should support context override 1`] = `
+Array [
+  Object {
+    "context": Object {
+      "firstName": "Olivia",
+    },
+    "options": Object {
+      "isArray": true,
+      "params": Object {
+        "id": 1,
+      },
+    },
+    "status": "pending",
+    "type": "@@resource/USER/UPDATE_MANY",
+  },
+  Object {
+    "body": Array [
+      Object {
+        "firstName": "Olivier",
+        "id": 1,
+      },
+    ],
+    "code": 200,
+    "context": Object {
+      "firstName": "Olivia",
+    },
+    "options": Object {
+      "isArray": true,
+      "params": Object {
+        "id": 1,
+      },
+    },
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": true,
+      "status": 200,
+    },
+    "receivedAt": null,
+    "status": "resolved",
+    "type": "@@resource/USER/UPDATE_MANY",
+  },
+]
+`;
+
 exports[`fetch options \`query\` option should support action override 1`] = `
 Array [
   Object {

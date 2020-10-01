@@ -1,6 +1,6 @@
 import {isPlainObject} from 'lodash';
 import {defaultMergeItem, initialState as defaultInitialState} from '../defaults';
-import {find, getGerundName, getIdKey, isFunction, isObject, ucfirst} from '../helpers/util';
+import {find, getGerundName, getIdKey, isFunction, isObject, isString, ucfirst} from '../helpers/util';
 import {getActionType, getTypesScope} from '../types';
 import {
   Action,
@@ -31,6 +31,26 @@ const getUpdateArrayData = (action: Action, itemId: string | number): UnknownObj
         }
         return soFar;
       }, {});
+};
+
+const getIdFromAction = (action: Action, {multi}: {multi: boolean}): [string, unknown] => {
+  const idKey = getIdKey(action, {multi});
+  const {context, options = {}} = action;
+  const {params = {}} = options;
+  if (params[idKey]) {
+    return [idKey, params[idKey]];
+  }
+  if (isObject(context) && context[idKey]) {
+    return [idKey, context[idKey]];
+  }
+  if (isString(context)) {
+    return [idKey, context];
+  }
+  throw new Error(
+    `Failed to resolve id with key="${idKey}" from context=${JSON.stringify(context)} or params=${JSON.stringify(
+      params
+    )}`
+  );
 };
 
 const createDefaultReducers = <T extends UnknownObject>(reduceOptions: ReduceOptions<T>): ReducerMapObject<T> => {
@@ -111,8 +131,7 @@ const createDefaultReducers = <T extends UnknownObject>(reduceOptions: ReduceOpt
       const actionOpts = action.options || {};
       switch (action.status) {
         case 'pending': {
-          const idKey = getIdKey(action, {multi: false});
-          const id = isObject(action.context) ? action.context[idKey] : action.context;
+          const [idKey, id] = getIdFromAction(action, {multi: false});
           const hasConflictingContext = id && state.item ? state.item[idKey] !== id : false;
           const didInvalidate = !!actionOpts.invalidateState || hasConflictingContext;
           return {
@@ -164,8 +183,7 @@ const createDefaultReducers = <T extends UnknownObject>(reduceOptions: ReduceOpt
           };
         case 'resolved': {
           // Assign context or returned object
-          const idKey = getIdKey(action, {multi: false});
-          const id = isObject(action.context) ? action.context[idKey] : action.context;
+          const [idKey, id] = getIdFromAction(action, {multi: false});
           const update = (actionOpts.assignResponse ? action.body : action.context) as UnknownObject;
           const listItemIndex = state.items.findIndex((el) => el[idKey] === id);
           const updatedItems = state.items.slice();
@@ -208,10 +226,8 @@ const createDefaultReducers = <T extends UnknownObject>(reduceOptions: ReduceOpt
           };
         case 'resolved': {
           // Assign context or returned object
-          const actionOpts = action.options || {};
           const idKey = getIdKey(action, {multi: false});
-          const idKeyMulti = getIdKey(action, {multi: true});
-          const {[idKeyMulti as keyof Context]: ids} = actionOpts.query || action.context;
+          const [, ids] = getIdFromAction(action, {multi: true});
 
           const updatedItems = state.items.map((item) => {
             if (!ids || (ids as string[]).includes(item[idKey] as string)) {
@@ -263,8 +279,7 @@ const createDefaultReducers = <T extends UnknownObject>(reduceOptions: ReduceOpt
           if (!action.context) {
             return {...state, isDeleting: false};
           }
-          const idKey = getIdKey(action, {multi: false});
-          const id = action.context[idKey as keyof Context] || action.context;
+          const [idKey, id] = getIdFromAction(action, {multi: false});
           return {
             ...state,
             isDeleting: false,
@@ -289,10 +304,8 @@ const createDefaultReducers = <T extends UnknownObject>(reduceOptions: ReduceOpt
             isDeletingMany: true
           };
         case 'resolved': {
-          const actionOpts = action.options || {};
           const idKey = getIdKey(action, {multi: false});
-          const idKeyMulti = getIdKey(action, {multi: true});
-          const {[idKeyMulti as keyof Context]: ids} = actionOpts.query || action.context;
+          const [, ids] = getIdFromAction(action, {multi: true});
 
           if (!ids) {
             return {

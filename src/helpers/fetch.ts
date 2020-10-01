@@ -33,28 +33,30 @@ type BuildFetchUrlOptions = {
   url: string;
   urlParams: Record<string, {isQueryParamValue?: boolean}>;
   stripTrailingSlashes?: boolean;
+  method?: string;
+  params?: Record<string, string>;
   isArray?: boolean;
 };
 export const buildFetchUrl = (
   context: Context,
-  {url, urlParams, isArray = false, stripTrailingSlashes = true}: BuildFetchUrlOptions
+  {url, method = 'get', urlParams, params = {}, isArray = false, stripTrailingSlashes = true}: BuildFetchUrlOptions
 ): string => {
   const [protocolAndDomain = '', remainderUrl] = splitUrlByProtocolAndDomain(url);
+  const contextAsObject = !isObject(context)
+    ? {
+        [defaultIdKeys.singular]: context
+      }
+    : context;
   // Replace urlParams with values from context
   let builtUrl = Object.keys(urlParams).reduce((wipUrl, urlParam) => {
     const urlParamInfo = urlParams[urlParam];
-    const contextAsObject = !isObject(context)
-      ? {
-          [defaultIdKeys.singular]: context
-        }
-      : context;
-    const value = contextAsObject[urlParam] || ''; // self.defaults[urlParam];
+    const value = params[urlParam] || contextAsObject[urlParam] || ''; // self.defaults[urlParam];
     if (value) {
       const encodedValue = urlParamInfo.isQueryParamValue
         ? encodeUriQuery(toString(value), true)
         : encodeUriSegment(toString(value));
       return replaceUrlParamFromUrl(wipUrl, urlParam, encodedValue);
-    } else if (!isArray && urlParam === defaultIdKeys.singular) {
+    } else if (!isArray && urlParam === defaultIdKeys.singular && !['post'].includes(method.toLowerCase())) {
       throw new Error(`Failed to resolve required "${urlParam}" from context=${JSON.stringify(context)}`);
     }
     return replaceUrlParamFromUrl(wipUrl, urlParam);

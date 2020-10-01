@@ -23,13 +23,14 @@ import {
 import {AnyTransform, applyTransformPipeline, buildTransformPipeline} from './transform';
 export const SUPPORTED_FETCH_OPTS = ['url', 'method', 'headers', 'credentials', 'query', 'body', 'signal'] as const;
 export const SUPPORTED_REDUCE_OPTS = [
-  'invalidateState',
   'assignResponse',
-  'mergeResponse',
   'gerundName',
-  'reduce',
+  'invalidateState',
   'isArray',
-  'isPure'
+  'isPure',
+  'mergeResponse',
+  'params',
+  'reduce'
 ] as const;
 
 type GetActionNameOptions = {
@@ -108,13 +109,15 @@ const createAction = (
     const {url = '', ...eligibleFetchOptions} = resolvedfetchOpts;
     // Build fetch url and options
     const urlParams = parseUrlParams(url);
+    const finalFetchOpts = buildFetchOpts(context, eligibleFetchOptions);
     const finalFetchUrl = buildFetchUrl(context, {
       url,
+      method: finalFetchOpts.method,
+      params: reduceOpts.params,
       urlParams,
       stripTrailingSlashes,
       isArray: actionOpts.isArray
     });
-    const finalFetchOpts = buildFetchOpts(context, eligibleFetchOptions);
     return fetch(finalFetchUrl, finalFetchOpts)
       .then(serializeResponse)
       .then(

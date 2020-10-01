@@ -15,7 +15,7 @@ const resourceName = 'user';
 const host = 'http://localhost:3000';
 const url = `${host}/users/:id`;
 
-const checkActionMethodSignature = (getState, {actionId} = {}) => {
+const checkActionMethodSignature = (getState, {actionId = ''} = {}) => {
   expect(typeof getState).toBe('function');
   expect(typeof actionId).toBe('string');
   expect(typeof getState()).toBe('object');
@@ -1130,6 +1130,37 @@ describe('fetch options', () => {
         });
     });
   });
+  describe('`params` option', () => {
+    it('should support context override', () => {
+      const params = {
+        id: 1
+      };
+      const actionFuncs = createActions(defaultActions, {
+        resourceName,
+        url
+      });
+      const actionId = 'update';
+      const action = getActionName(actionId, {
+        resourceName,
+        isArray: true
+      });
+      const context = {firstName: 'Olivia'};
+      const body = [
+        {
+          id: 1,
+          firstName: 'Olivier'
+        }
+      ];
+      const code = 200;
+      nock(host).patch(`/users/${params.id}`).reply(code, body);
+      const store = mockStore({});
+      return store.dispatch(actionFuncs[action](context, {params})).then(() => {
+        const actions = store.getActions();
+        actions[1].receivedAt = null;
+        expect(actions).toMatchSnapshot();
+      });
+    });
+  });
   describe('`headers` option', () => {
     Object.assign(defaultHeaders, {
       'X-Custom-Default-Header': 'foobar'
@@ -1708,7 +1739,7 @@ describe('reduce options', () => {
         expect(actions).toMatchSnapshot();
       });
     });
-    it.only('should support context override', () => {
+    it('should support context override', () => {
       const mergeResponse = true;
       const actionId = 'get';
       const action = getActionName(actionId, {
