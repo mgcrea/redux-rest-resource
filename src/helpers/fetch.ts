@@ -13,7 +13,11 @@ export class HttpError extends Error {
   statusCode: number;
   status: number;
   body: unknown;
-  constructor(statusCode = 500, {body, message = 'HttpError'}: {body?: unknown; message?: string}) {
+  headers: Record<string, string> = {};
+  constructor(
+    statusCode = 500,
+    {body, message = 'HttpError', headers}: {body?: unknown; message?: string; headers?: Response['headers']}
+  ) {
     super(message);
     this.name = this.constructor.name;
     this.message = message;
@@ -26,6 +30,9 @@ export class HttpError extends Error {
     this.statusCode = statusCode;
     this.status = statusCode;
     this.body = body;
+    if (headers) {
+      this.headers = Object.fromEntries(headers.entries());
+    }
   }
 }
 
@@ -127,7 +134,7 @@ export interface SerializableResponse<T = unknown> {
 
 export const serializeResponse = async <T = unknown>(res: Response): Promise<SerializableResponse<T>> => ({
   body: await parseResponseBody<T>(res),
-  code: res.status, // @depreacted,
+  code: res.status, // @deprecated,
   payload: {
     headers: Object.fromEntries(res.headers.entries()),
     status: res.status,
@@ -150,7 +157,9 @@ const fetch = async (url: string, options: FetchOptions = {}): Promise<Response>
       if (!res.ok) {
         const body = await parseResponseBody(res);
         throw new HttpError(res.status, {
-          body
+          body,
+          message: res.statusText,
+          headers: res.headers
         });
       }
       return res;

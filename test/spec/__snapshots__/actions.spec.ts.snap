@@ -482,6 +482,11 @@ Array [
     "options": Object {
       "isArray": true,
     },
+    "payload": Object {
+      "headers": Object {},
+      "ok": false,
+      "status": 400,
+    },
     "receivedAt": null,
     "status": "rejected",
     "type": "@@resource/USER/FETCH",
@@ -507,6 +512,13 @@ Array [
     "context": Object {},
     "options": Object {
       "isArray": true,
+    },
+    "payload": Object {
+      "headers": Object {
+        "content-type": "application/json",
+      },
+      "ok": false,
+      "status": 400,
     },
     "receivedAt": null,
     "status": "rejected",
