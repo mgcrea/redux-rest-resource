@@ -8,7 +8,7 @@ import fetch, {
   serializeResponse
 } from '../helpers/fetch';
 import {parseUrlParams} from '../helpers/url';
-import {getPluralName, isFunction, isObject, isString, pick, ucfirst} from '../helpers/util';
+import {getPluralName, isFunction, isString, pick, ucfirst} from '../helpers/util';
 import {getActionType, getTypesScope, scopeType} from '../types';
 import {
   ConfigActionsOptions,
@@ -175,10 +175,10 @@ const createAction = (
         if (nextErr === null) {
           return payload;
         }
-        if (!(err instanceof Error) && isObject(err)) {
-          return err;
+        if (!(nextErr instanceof Error)) {
+          return nextErr;
         }
-        throw err;
+        throw nextErr;
       });
   };
 };
