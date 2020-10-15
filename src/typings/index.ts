@@ -74,13 +74,12 @@ export type ContentRange = {
 
 export type Types = Record<string, string>;
 
-export type Action<T = unknown> = ReduxAction<string> &
-  Partial<SerializableResponse<T>> & {
-    status: 'pending' | 'resolved' | 'rejected';
-    options: ContextOptions;
-    context: Context;
-    receivedAt?: number;
-  };
+export type Action<T = unknown> = ReduxAction<string> & {
+  status: 'pending' | 'resolved' | 'rejected';
+  options: ContextOptions;
+  context: Context;
+  payload?: Partial<SerializableResponse<T>>;
+};
 
 // export type RequiredReduxReducer<S = UnknownObject, A extends ReduxAction = AnyReduxAction> = (
 //   state: S,
@@ -92,7 +91,7 @@ export type ReducerMapObject<T = UnknownObject> = Record<string, Reducer<T>>;
 export type AsyncActionCreator<T = unknown> = (
   context?: Context,
   contextOpts?: ContextOptions
-) => ThunkAction<Promise<Action<T>>, State, void, Action<T>>;
+) => ThunkAction<Promise<unknown>, State, void, Action<T>>;
 
 export type AsyncActionCreatorsMapObject<T = unknown> = Record<string, AsyncActionCreator<T>>;
 

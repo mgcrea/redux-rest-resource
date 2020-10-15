@@ -124,22 +124,21 @@ export const parseResponseBody = <T = unknown>(res: Response): Promise<T> => {
 export interface SerializableResponse<T = unknown> {
   body: T;
   code: Response['status']; // @deprecated
-  payload: Pick<Response, 'status' | 'ok'> & {
-    headers: Record<string, string>;
-    [s: string]: unknown;
-  };
+  status: Response['status'];
+  headers: Record<string, string>;
+  ok: Response['ok'];
   contentRange?: ContentRange | null;
+  receivedAt: number;
   [s: string]: unknown;
 }
 
 export const serializeResponse = async <T = unknown>(res: Response): Promise<SerializableResponse<T>> => ({
   body: await parseResponseBody<T>(res),
   code: res.status, // @deprecated,
-  payload: {
-    headers: Object.fromEntries(res.headers.entries()),
-    status: res.status,
-    ok: res.ok
-  }
+  status: res.status,
+  headers: Object.fromEntries(res.headers.entries()),
+  receivedAt: Date.now(),
+  ok: res.ok
 });
 
 const fetch = async (url: string, options: FetchOptions = {}): Promise<Response> => {

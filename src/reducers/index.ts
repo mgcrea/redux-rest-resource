@@ -22,7 +22,7 @@ const getUpdateArrayData = (action: Action, itemId: string | number): UnknownObj
   const actionContext = action.context as UnknownObject;
 
   return actionOpts.assignResponse
-    ? find(action.body as Array<UnknownObject>, {
+    ? find(action.payload?.body as Array<UnknownObject>, {
         [idKey]: itemId
       })
     : Object.keys(actionContext).reduce<UnknownObject>((soFar, key) => {
@@ -70,7 +70,7 @@ const createDefaultReducers = <T extends UnknownObject>(reduceOptions: ReduceOpt
         case 'resolved': {
           const nextState: Partial<State<T>> = {};
           if (actionOpts.assignResponse) {
-            const createdItem = action.body as T;
+            const createdItem = action.payload?.body as T;
             nextState.items = (state.items || []).concat(createdItem);
           }
           return {
@@ -102,9 +102,9 @@ const createDefaultReducers = <T extends UnknownObject>(reduceOptions: ReduceOpt
         }
         case 'resolved': {
           const nextState: Partial<State<T>> = {};
-          nextState.items = action.body as T[];
-          const {contentRange} = action;
-          const isPartialContent = action.code === 206;
+          const {body, contentRange, code, receivedAt = Date.now()} = action.payload || {};
+          nextState.items = body as T[];
+          const isPartialContent = code === 206;
           if (isPartialContent && contentRange && contentRange.first > 0) {
             nextState.items = state.items
               .slice(0, contentRange.first)
@@ -115,7 +115,7 @@ const createDefaultReducers = <T extends UnknownObject>(reduceOptions: ReduceOpt
             ...state,
             isFetching: false,
             didInvalidate: false,
-            lastUpdated: action.receivedAt as number,
+            lastUpdated: receivedAt,
             ...nextState
           };
         }
@@ -143,7 +143,8 @@ const createDefaultReducers = <T extends UnknownObject>(reduceOptions: ReduceOpt
           };
         }
         case 'resolved': {
-          const partialItem = action.body as Partial<T>;
+          const {body, receivedAt = Date.now()} = action.payload || {};
+          const partialItem = body as Partial<T>;
           const nextItem = (actionOpts.mergeResponse ? mergeItem(state.item, partialItem) : partialItem) as T;
           const nextState: Partial<State<T>> = {item: {...nextItem}};
           if (actionOpts.assignResponse) {
@@ -160,7 +161,7 @@ const createDefaultReducers = <T extends UnknownObject>(reduceOptions: ReduceOpt
             ...state,
             isFetchingItem: false,
             didInvalidateItem: false,
-            lastUpdatedItem: action.receivedAt as number,
+            lastUpdatedItem: receivedAt,
             ...nextState
           };
         }
@@ -185,7 +186,7 @@ const createDefaultReducers = <T extends UnknownObject>(reduceOptions: ReduceOpt
         case 'resolved': {
           // Assign context or returned object
           const [idKey, id] = getIdFromAction(action, {multi: false});
-          const update = (actionOpts.assignResponse ? action.body : action.context) as Partial<T>;
+          const update = (actionOpts.assignResponse ? action.payload?.body : action.context) as Partial<T>;
           const listItemIndex = state.items.findIndex((el) => el[idKey] === id);
           const updatedItems = state.items.slice();
           if (listItemIndex !== -1) {

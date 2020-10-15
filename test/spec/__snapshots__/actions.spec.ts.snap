@@ -13,11 +13,6 @@ Array [
     "type": "@@resource/USER/EDIT_FOLDER",
   },
   Object {
-    "body": Object {
-      "folder": 2,
-      "name": "New Name",
-    },
-    "code": 200,
     "context": Object {
       "folder": 2,
       "id": 1,
@@ -25,13 +20,18 @@ Array [
     },
     "options": Object {},
     "payload": Object {
+      "body": Object {
+        "folder": 2,
+        "name": "New Name",
+      },
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/EDIT_FOLDER",
   },
@@ -49,25 +49,25 @@ Array [
     "type": "@@resource/USER/MERGE",
   },
   Object {
-    "body": Array [
-      Object {
-        "firstName": "Olivier",
-        "id": 1,
-      },
-    ],
-    "code": 200,
     "context": Object {},
     "options": Object {
       "isArray": true,
     },
     "payload": Object {
+      "body": Array [
+        Object {
+          "firstName": "Olivier",
+          "id": 1,
+        },
+      ],
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/MERGE",
   },
@@ -86,23 +86,23 @@ Array [
     "type": "@@resource/USER/PROMOTE",
   },
   Object {
-    "body": Object {
-      "ok": true,
-    },
-    "code": 200,
     "context": Object {
       "firstName": "Olivier",
       "id": 1,
     },
     "options": Object {},
     "payload": Object {
+      "body": Object {
+        "ok": true,
+      },
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/PROMOTE",
   },
@@ -123,13 +123,6 @@ Array [
     "type": "@@resource/USER/APPLICATIONS",
   },
   Object {
-    "body": Array [
-      Object {
-        "id": 1,
-        "name": "Foo",
-      },
-    ],
-    "code": 200,
     "context": Object {
       "id": 1,
     },
@@ -138,13 +131,20 @@ Array [
       "isArray": true,
     },
     "payload": Object {
+      "body": Array [
+        Object {
+          "id": 1,
+          "name": "Foo",
+        },
+      ],
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/APPLICATIONS",
   },
@@ -174,22 +174,12 @@ Object {
     "ok": true,
   },
   "code": 200,
-  "context": Object {
-    "firstName": "Olivier",
+  "headers": Object {
+    "content-type": "application/json",
   },
-  "options": Object {
-    "assignResponse": true,
-  },
-  "payload": Object {
-    "headers": Object {
-      "content-type": "application/json",
-    },
-    "ok": true,
-    "status": 200,
-  },
+  "ok": true,
   "receivedAt": null,
-  "status": "resolved",
-  "type": "@@resource/USER/CREATE",
+  "status": 200,
 }
 `;
 
@@ -206,10 +196,6 @@ Array [
     "type": "@@resource/USER/CREATE",
   },
   Object {
-    "body": Object {
-      "ok": true,
-    },
-    "code": 200,
     "context": Object {
       "firstName": "Olivier",
     },
@@ -217,13 +203,17 @@ Array [
       "assignResponse": true,
     },
     "payload": Object {
+      "body": Object {
+        "ok": true,
+      },
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/CREATE",
   },
@@ -236,20 +226,12 @@ Object {
     "ok": true,
   },
   "code": 200,
-  "context": Object {
-    "id": 1,
+  "headers": Object {
+    "content-type": "application/json",
   },
-  "options": Object {},
-  "payload": Object {
-    "headers": Object {
-      "content-type": "application/json",
-    },
-    "ok": true,
-    "status": 200,
-  },
+  "ok": true,
   "receivedAt": null,
-  "status": "resolved",
-  "type": "@@resource/USER/DELETE",
+  "status": 200,
 }
 `;
 
@@ -264,22 +246,22 @@ Array [
     "type": "@@resource/USER/DELETE",
   },
   Object {
-    "body": Object {
-      "ok": true,
-    },
-    "code": 200,
     "context": Object {
       "id": 1,
     },
     "options": Object {},
     "payload": Object {
+      "body": Object {
+        "ok": true,
+      },
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/DELETE",
   },
@@ -295,20 +277,12 @@ Object {
     },
   ],
   "code": 200,
-  "context": Object {},
-  "options": Object {
-    "isArray": true,
+  "headers": Object {
+    "content-type": "application/json",
   },
-  "payload": Object {
-    "headers": Object {
-      "content-type": "application/json",
-    },
-    "ok": true,
-    "status": 200,
-  },
+  "ok": true,
   "receivedAt": null,
-  "status": "resolved",
-  "type": "@@resource/USER/FETCH",
+  "status": 200,
 }
 `;
 
@@ -323,25 +297,25 @@ Array [
     "type": "@@resource/USER/FETCH",
   },
   Object {
-    "body": Array [
-      Object {
-        "firstName": "Olivier",
-        "id": 1,
-      },
-    ],
-    "code": 200,
     "context": Object {},
     "options": Object {
       "isArray": true,
     },
     "payload": Object {
+      "body": Array [
+        Object {
+          "firstName": "Olivier",
+          "id": 1,
+        },
+      ],
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/FETCH",
   },
@@ -355,20 +329,12 @@ Object {
     "id": 1,
   },
   "code": 200,
-  "context": Object {
-    "id": 1,
+  "headers": Object {
+    "content-type": "application/json",
   },
-  "options": Object {},
-  "payload": Object {
-    "headers": Object {
-      "content-type": "application/json",
-    },
-    "ok": true,
-    "status": 200,
-  },
+  "ok": true,
   "receivedAt": null,
-  "status": "resolved",
-  "type": "@@resource/USER/GET",
+  "status": 200,
 }
 `;
 
@@ -383,23 +349,23 @@ Array [
     "type": "@@resource/USER/GET",
   },
   Object {
-    "body": Object {
-      "firstName": "Olivier",
-      "id": 1,
-    },
-    "code": 200,
     "context": Object {
       "id": 1,
     },
     "options": Object {},
     "payload": Object {
+      "body": Object {
+        "firstName": "Olivier",
+        "id": 1,
+      },
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/GET",
   },
@@ -412,21 +378,12 @@ Object {
     "ok": true,
   },
   "code": 200,
-  "context": Object {
-    "firstName": "Olivier",
-    "id": 1,
+  "headers": Object {
+    "content-type": "application/json",
   },
-  "options": Object {},
-  "payload": Object {
-    "headers": Object {
-      "content-type": "application/json",
-    },
-    "ok": true,
-    "status": 200,
-  },
+  "ok": true,
   "receivedAt": null,
-  "status": "resolved",
-  "type": "@@resource/USER/UPDATE",
+  "status": 200,
 }
 `;
 
@@ -442,23 +399,23 @@ Array [
     "type": "@@resource/USER/UPDATE",
   },
   Object {
-    "body": Object {
-      "ok": true,
-    },
-    "code": 200,
     "context": Object {
       "firstName": "Olivier",
       "id": 1,
     },
     "options": Object {},
     "payload": Object {
+      "body": Object {
+        "ok": true,
+      },
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/UPDATE",
   },
@@ -476,18 +433,18 @@ Array [
     "type": "@@resource/USER/FETCH",
   },
   Object {
-    "body": "<html><body><h1>something awful happened</h1></body></html>",
-    "code": 400,
     "context": Object {},
     "options": Object {
       "isArray": true,
     },
     "payload": Object {
+      "body": "<html><body><h1>something awful happened</h1></body></html>",
+      "code": 400,
       "headers": Object {},
       "ok": false,
+      "receivedAt": null,
       "status": 400,
     },
-    "receivedAt": null,
     "status": "rejected",
     "type": "@@resource/USER/FETCH",
   },
@@ -505,22 +462,22 @@ Array [
     "type": "@@resource/USER/FETCH",
   },
   Object {
-    "body": Object {
-      "err": "something awful happened",
-    },
-    "code": 400,
     "context": Object {},
     "options": Object {
       "isArray": true,
     },
     "payload": Object {
+      "body": Object {
+        "err": "something awful happened",
+      },
+      "code": 400,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": false,
+      "receivedAt": null,
       "status": 400,
     },
-    "receivedAt": null,
     "status": "rejected",
     "type": "@@resource/USER/FETCH",
   },
@@ -538,13 +495,18 @@ Array [
     "type": "@@resource/USER/FETCH",
   },
   Object {
-    "body": "request to http://localhost:3000/users failed, reason: something awful happened",
-    "code": 0,
     "context": Object {},
     "options": Object {
       "isArray": true,
     },
-    "receivedAt": null,
+    "payload": Object {
+      "body": "request to http://localhost:3000/users failed, reason: something awful happened",
+      "code": 0,
+      "headers": Object {},
+      "ok": false,
+      "receivedAt": null,
+      "status": 0,
+    },
     "status": "rejected",
     "type": "@@resource/USER/FETCH",
   },
@@ -555,18 +517,10 @@ exports[`defaultActions exoticResponses .fetch() with an empty body 1`] = `
 Object {
   "body": "",
   "code": 200,
-  "context": Object {
-    "id": 1,
-  },
-  "options": Object {},
-  "payload": Object {
-    "headers": Object {},
-    "ok": true,
-    "status": 200,
-  },
+  "headers": Object {},
+  "ok": true,
   "receivedAt": null,
-  "status": "resolved",
-  "type": "@@resource/USER/DELETE",
+  "status": 200,
 }
 `;
 
@@ -581,18 +535,18 @@ Array [
     "type": "@@resource/USER/DELETE",
   },
   Object {
-    "body": "",
-    "code": 200,
     "context": Object {
       "id": 1,
     },
     "options": Object {},
     "payload": Object {
+      "body": "",
+      "code": 200,
       "headers": Object {},
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/DELETE",
   },
@@ -606,20 +560,12 @@ Object {
     "id": 1,
   },
   "code": 200,
-  "context": Object {
-    "id": 1,
+  "headers": Object {
+    "content-type": "application/problem+json; charset=utf-8",
   },
-  "options": Object {},
-  "payload": Object {
-    "headers": Object {
-      "content-type": "application/problem+json; charset=utf-8",
-    },
-    "ok": true,
-    "status": 200,
-  },
+  "ok": true,
   "receivedAt": null,
-  "status": "resolved",
-  "type": "@@resource/USER/GET",
+  "status": 200,
 }
 `;
 
@@ -634,23 +580,23 @@ Array [
     "type": "@@resource/USER/GET",
   },
   Object {
-    "body": Object {
-      "firstName": "Olivier",
-      "id": 1,
-    },
-    "code": 200,
     "context": Object {
       "id": 1,
     },
     "options": Object {},
     "payload": Object {
+      "body": Object {
+        "firstName": "Olivier",
+        "id": 1,
+      },
+      "code": 200,
       "headers": Object {
         "content-type": "application/problem+json; charset=utf-8",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/GET",
   },
@@ -661,18 +607,10 @@ exports[`defaultActions exoticResponses .fetch() with an non-json body 1`] = `
 Object {
   "body": "foobar",
   "code": 200,
-  "context": Object {
-    "id": 1,
-  },
-  "options": Object {},
-  "payload": Object {
-    "headers": Object {},
-    "ok": true,
-    "status": 200,
-  },
+  "headers": Object {},
+  "ok": true,
   "receivedAt": null,
-  "status": "resolved",
-  "type": "@@resource/USER/DELETE",
+  "status": 200,
 }
 `;
 
@@ -687,18 +625,18 @@ Array [
     "type": "@@resource/USER/DELETE",
   },
   Object {
-    "body": "foobar",
-    "code": 200,
     "context": Object {
       "id": 1,
     },
     "options": Object {},
     "payload": Object {
+      "body": "foobar",
+      "code": 200,
       "headers": Object {},
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/DELETE",
   },
@@ -716,22 +654,22 @@ Array [
     "type": "@@resource/USER/UPDATE",
   },
   Object {
-    "body": Object {
-      "ok": true,
-    },
-    "code": 200,
     "context": Object {
       "id": 1,
     },
     "options": Object {},
     "payload": Object {
+      "body": Object {
+        "ok": true,
+      },
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/UPDATE",
   },
@@ -749,25 +687,25 @@ Array [
     "type": "@@resource/USER/FETCH",
   },
   Object {
-    "body": Array [
-      Object {
-        "firstName": "Olivier",
-        "id": 1,
-      },
-    ],
-    "code": 200,
     "context": Object {},
     "options": Object {
       "isArray": true,
     },
     "payload": Object {
+      "body": Array [
+        Object {
+          "firstName": "Olivier",
+          "id": 1,
+        },
+      ],
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/FETCH",
   },
@@ -785,25 +723,25 @@ Array [
     "type": "@@resource/USER/FETCH",
   },
   Object {
-    "body": Array [
-      Object {
-        "firstName": "Olivier",
-        "id": 1,
-      },
-    ],
-    "code": 200,
     "context": Object {},
     "options": Object {
       "isArray": true,
     },
     "payload": Object {
+      "body": Array [
+        Object {
+          "firstName": "Olivier",
+          "id": 1,
+        },
+      ],
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/FETCH",
   },
@@ -821,25 +759,25 @@ Array [
     "type": "@@resource/USER/FETCH",
   },
   Object {
-    "body": Array [
-      Object {
-        "firstName": "Olivier",
-        "id": 1,
-      },
-    ],
-    "code": 200,
     "context": Object {},
     "options": Object {
       "isArray": true,
     },
     "payload": Object {
+      "body": Array [
+        Object {
+          "firstName": "Olivier",
+          "id": 1,
+        },
+      ],
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/FETCH",
   },
@@ -857,25 +795,25 @@ Array [
     "type": "@@resource/USER/FETCH",
   },
   Object {
-    "body": Array [
-      Object {
-        "firstName": "Olivier",
-        "id": 1,
-      },
-    ],
-    "code": 200,
     "context": Object {},
     "options": Object {
       "isArray": true,
     },
     "payload": Object {
+      "body": Array [
+        Object {
+          "firstName": "Olivier",
+          "id": 1,
+        },
+      ],
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/FETCH",
   },
@@ -893,25 +831,25 @@ Array [
     "type": "@@resource/USER/FETCH",
   },
   Object {
-    "body": Array [
-      Object {
-        "firstName": "Olivier",
-        "id": 1,
-      },
-    ],
-    "code": 200,
     "context": Object {},
     "options": Object {
       "isArray": true,
     },
     "payload": Object {
+      "body": Array [
+        Object {
+          "firstName": "Olivier",
+          "id": 1,
+        },
+      ],
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/FETCH",
   },
@@ -929,25 +867,25 @@ Array [
     "type": "@@resource/USER/FETCH",
   },
   Object {
-    "body": Array [
-      Object {
-        "firstName": "Olivier",
-        "id": 1,
-      },
-    ],
-    "code": 200,
     "context": Object {},
     "options": Object {
       "isArray": true,
     },
     "payload": Object {
+      "body": Array [
+        Object {
+          "firstName": "Olivier",
+          "id": 1,
+        },
+      ],
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/FETCH",
   },
@@ -965,25 +903,25 @@ Array [
     "type": "@@resource/USER/FETCH",
   },
   Object {
-    "body": Array [
-      Object {
-        "firstName": "Olivier",
-        "id": 1,
-      },
-    ],
-    "code": 200,
     "context": Object {},
     "options": Object {
       "isArray": true,
     },
     "payload": Object {
+      "body": Array [
+        Object {
+          "firstName": "Olivier",
+          "id": 1,
+        },
+      ],
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/FETCH",
   },
@@ -1001,25 +939,25 @@ Array [
     "type": "@@resource/USER/FETCH",
   },
   Object {
-    "body": Array [
-      Object {
-        "firstName": "Olivier",
-        "id": 1,
-      },
-    ],
-    "code": 200,
     "context": Object {},
     "options": Object {
       "isArray": true,
     },
     "payload": Object {
+      "body": Array [
+        Object {
+          "firstName": "Olivier",
+          "id": 1,
+        },
+      ],
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/FETCH",
   },
@@ -1037,25 +975,25 @@ Array [
     "type": "@@resource/USER/FETCH",
   },
   Object {
-    "body": Array [
-      Object {
-        "firstName": "Olivier",
-        "id": 1,
-      },
-    ],
-    "code": 200,
     "context": Object {},
     "options": Object {
       "isArray": true,
     },
     "payload": Object {
+      "body": Array [
+        Object {
+          "firstName": "Olivier",
+          "id": 1,
+        },
+      ],
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/FETCH",
   },
@@ -1073,25 +1011,25 @@ Array [
     "type": "@@resource/USER/FETCH",
   },
   Object {
-    "body": Array [
-      Object {
-        "firstName": "Olivier",
-        "id": 1,
-      },
-    ],
-    "code": 200,
     "context": Object {},
     "options": Object {
       "isArray": true,
     },
     "payload": Object {
+      "body": Array [
+        Object {
+          "firstName": "Olivier",
+          "id": 1,
+        },
+      ],
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/FETCH",
   },
@@ -1114,13 +1052,6 @@ Array [
     "type": "@@resource/USER/UPDATE_MANY",
   },
   Object {
-    "body": Array [
-      Object {
-        "firstName": "Olivier",
-        "id": 1,
-      },
-    ],
-    "code": 200,
     "context": Object {
       "firstName": "Olivia",
     },
@@ -1131,13 +1062,20 @@ Array [
       },
     },
     "payload": Object {
+      "body": Array [
+        Object {
+          "firstName": "Olivier",
+          "id": 1,
+        },
+      ],
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/UPDATE_MANY",
   },
@@ -1155,25 +1093,25 @@ Array [
     "type": "@@resource/USER/FETCH",
   },
   Object {
-    "body": Array [
-      Object {
-        "firstName": "Olivier",
-        "id": 1,
-      },
-    ],
-    "code": 200,
     "context": Object {},
     "options": Object {
       "isArray": true,
     },
     "payload": Object {
+      "body": Array [
+        Object {
+          "firstName": "Olivier",
+          "id": 1,
+        },
+      ],
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/FETCH",
   },
@@ -1191,25 +1129,25 @@ Array [
     "type": "@@resource/USER/FETCH",
   },
   Object {
-    "body": Array [
-      Object {
-        "firstName": "Olivier",
-        "id": 1,
-      },
-    ],
-    "code": 200,
     "context": Object {},
     "options": Object {
       "isArray": true,
     },
     "payload": Object {
+      "body": Array [
+        Object {
+          "firstName": "Olivier",
+          "id": 1,
+        },
+      ],
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/FETCH",
   },
@@ -1227,25 +1165,25 @@ Array [
     "type": "@@resource/USER/FETCH",
   },
   Object {
-    "body": Array [
-      Object {
-        "firstName": "Olivier",
-        "id": 1,
-      },
-    ],
-    "code": 200,
     "context": Object {},
     "options": Object {
       "isArray": true,
     },
     "payload": Object {
+      "body": Array [
+        Object {
+          "firstName": "Olivier",
+          "id": 1,
+        },
+      ],
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/FETCH",
   },
@@ -1263,25 +1201,25 @@ Array [
     "type": "@@resource/USER/FETCH",
   },
   Object {
-    "body": Array [
-      Object {
-        "firstName": "Olivier",
-        "id": 1,
-      },
-    ],
-    "code": 200,
     "context": Object {},
     "options": Object {
       "isArray": true,
     },
     "payload": Object {
+      "body": Array [
+        Object {
+          "firstName": "Olivier",
+          "id": 1,
+        },
+      ],
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/FETCH",
   },
@@ -1299,25 +1237,25 @@ Array [
     "type": "@@resource/USER/FETCH",
   },
   Object {
-    "body": Array [
-      Object {
-        "firstName": "Olivier",
-        "id": 1,
-      },
-    ],
-    "code": 200,
     "context": Object {},
     "options": Object {
       "isArray": true,
     },
     "payload": Object {
+      "body": Array [
+        Object {
+          "firstName": "Olivier",
+          "id": 1,
+        },
+      ],
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/FETCH",
   },
@@ -1335,26 +1273,26 @@ Array [
     "type": "@@resource/USER/FETCH",
   },
   Object {
-    "body": Array [
-      Object {
-        "firstName": "Olivier",
-        "foo": "bar",
-        "id": 1,
-      },
-    ],
-    "code": 200,
     "context": Object {},
     "options": Object {
       "isArray": true,
     },
     "payload": Object {
+      "body": Array [
+        Object {
+          "firstName": "Olivier",
+          "foo": "bar",
+          "id": 1,
+        },
+      ],
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/FETCH",
   },
@@ -1372,25 +1310,25 @@ Array [
     "type": "@@resource/USER/FETCH",
   },
   Object {
-    "body": Array [
-      Object {
-        "firstName": "Olivier",
-        "id": 1,
-      },
-    ],
-    "code": 200,
     "context": Object {},
     "options": Object {
       "isArray": true,
     },
     "payload": Object {
+      "body": Array [
+        Object {
+          "firstName": "Olivier",
+          "id": 1,
+        },
+      ],
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/FETCH",
   },
@@ -1408,25 +1346,25 @@ Array [
     "type": "@@resource/USER/FETCH",
   },
   Object {
-    "body": Array [
-      Object {
-        "firstName": "Olivier",
-        "id": 1,
-      },
-    ],
-    "code": 200,
     "context": Object {},
     "options": Object {
       "isArray": true,
     },
     "payload": Object {
+      "body": Array [
+        Object {
+          "firstName": "Olivier",
+          "id": 1,
+        },
+      ],
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/FETCH",
   },
@@ -1444,25 +1382,25 @@ Array [
     "type": "@@resource/USER/FETCH",
   },
   Object {
-    "body": Array [
-      Object {
-        "firstName": "Olivier",
-        "id": 1,
-      },
-    ],
-    "code": 200,
     "context": Object {},
     "options": Object {
       "isArray": true,
     },
     "payload": Object {
+      "body": Array [
+        Object {
+          "firstName": "Olivier",
+          "id": 1,
+        },
+      ],
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/FETCH",
   },
@@ -1481,23 +1419,23 @@ Array [
     "type": "@@resource/USER/UPDATE",
   },
   Object {
-    "body": Object {
-      "ok": 1,
-    },
-    "code": 200,
     "context": Object {
       "firstName": "Olivier",
       "id": 1,
     },
     "options": Object {},
     "payload": Object {
+      "body": Object {
+        "ok": 1,
+      },
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/UPDATE",
   },
@@ -1516,23 +1454,23 @@ Array [
     "type": "@@resource/USER/AGGREGATE",
   },
   Object {
-    "body": Object {
-      "ok": 1,
-    },
-    "code": 200,
     "context": Object {},
     "options": Object {
       "gerundName": "aggregating",
       "isArray": true,
     },
     "payload": Object {
+      "body": Object {
+        "ok": 1,
+      },
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/AGGREGATE",
   },
@@ -1550,25 +1488,25 @@ Array [
     "type": "@@resource/USER/FETCH",
   },
   Object {
-    "body": Array [
-      Object {
-        "firstName": "Olivier",
-        "id": 1,
-      },
-    ],
-    "code": 200,
     "context": Object {},
     "options": Object {
       "isArray": true,
     },
     "payload": Object {
+      "body": Array [
+        Object {
+          "firstName": "Olivier",
+          "id": 1,
+        },
+      ],
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/FETCH",
   },
@@ -1586,25 +1524,25 @@ Array [
     "type": "@@resource/USER/FETCH",
   },
   Object {
-    "body": Array [
-      Object {
-        "firstName": "Olivier",
-        "id": 1,
-      },
-    ],
-    "code": 200,
     "context": Object {},
     "options": Object {
       "isArray": true,
     },
     "payload": Object {
+      "body": Array [
+        Object {
+          "firstName": "Olivier",
+          "id": 1,
+        },
+      ],
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/FETCH",
   },
@@ -1625,10 +1563,6 @@ Array [
     "type": "@@resource/USER/UPDATE",
   },
   Object {
-    "body": Object {
-      "ok": 1,
-    },
-    "code": 200,
     "context": Object {
       "firstName": "Olivier",
       "id": 1,
@@ -1637,13 +1571,17 @@ Array [
       "assignResponse": true,
     },
     "payload": Object {
+      "body": Object {
+        "ok": 1,
+      },
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/UPDATE",
   },
@@ -1664,10 +1602,6 @@ Array [
     "type": "@@resource/USER/UPDATE",
   },
   Object {
-    "body": Object {
-      "ok": 1,
-    },
-    "code": 200,
     "context": Object {
       "firstName": "Olivier",
       "id": 1,
@@ -1676,13 +1610,17 @@ Array [
       "assignResponse": true,
     },
     "payload": Object {
+      "body": Object {
+        "ok": 1,
+      },
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/UPDATE",
   },
@@ -1700,13 +1638,18 @@ Array [
     "type": "@@resource/USER/FETCH",
   },
   Object {
-    "body": "request to http://localhost:3000/users failed, reason: something awful happened",
-    "code": 0,
     "context": Object {},
     "options": Object {
       "isArray": true,
     },
-    "receivedAt": null,
+    "payload": Object {
+      "body": "request to http://localhost:3000/users failed, reason: something awful happened",
+      "code": 0,
+      "headers": Object {},
+      "ok": false,
+      "receivedAt": null,
+      "status": 0,
+    },
     "status": "rejected",
     "type": "@@resource/USER/FETCH",
   },
@@ -1725,26 +1668,26 @@ Array [
     "type": "@@resource/USER/FETCH",
   },
   Object {
-    "body": Array [
-      Object {
-        "firstName": "Olivier",
-        "id": 1,
-      },
-    ],
-    "code": 200,
     "context": Object {},
     "options": Object {
       "invalidateState": true,
       "isArray": true,
     },
     "payload": Object {
+      "body": Array [
+        Object {
+          "firstName": "Olivier",
+          "id": 1,
+        },
+      ],
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/FETCH",
   },
@@ -1765,10 +1708,6 @@ Array [
     "type": "@@resource/USER/CREATE",
   },
   Object {
-    "body": Object {
-      "ok": 1,
-    },
-    "code": 200,
     "context": Object {
       "firstName": "Olivier",
     },
@@ -1777,13 +1716,17 @@ Array [
       "isArray": true,
     },
     "payload": Object {
+      "body": Object {
+        "ok": 1,
+      },
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/CREATE",
   },
@@ -1804,10 +1747,6 @@ Array [
     "type": "@@resource/USER/UPDATE",
   },
   Object {
-    "body": Object {
-      "ok": 1,
-    },
-    "code": 200,
     "context": Object {
       "firstName": "Olivier",
       "id": 1,
@@ -1816,13 +1755,17 @@ Array [
       "isArray": true,
     },
     "payload": Object {
+      "body": Object {
+        "ok": 1,
+      },
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/UPDATE",
   },
@@ -1842,11 +1785,6 @@ Array [
     "type": "@@resource/USER/GET",
   },
   Object {
-    "body": Object {
-      "firstName": "John",
-      "id": 1,
-    },
-    "code": 200,
     "context": Object {
       "id": 1,
     },
@@ -1854,13 +1792,18 @@ Array [
       "mergeResponse": true,
     },
     "payload": Object {
+      "body": Object {
+        "firstName": "John",
+        "id": 1,
+      },
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/GET",
   },
@@ -1880,11 +1823,6 @@ Array [
     "type": "@@resource/USER/GET",
   },
   Object {
-    "body": Object {
-      "firstName": "John",
-      "id": 1,
-    },
-    "code": 200,
     "context": Object {
       "id": 1,
     },
@@ -1892,13 +1830,18 @@ Array [
       "mergeResponse": true,
     },
     "payload": Object {
+      "body": Object {
+        "firstName": "John",
+        "id": 1,
+      },
+      "code": 200,
       "headers": Object {
         "content-type": "application/json",
       },
       "ok": true,
+      "receivedAt": null,
       "status": 200,
     },
-    "receivedAt": null,
     "status": "resolved",
     "type": "@@resource/USER/GET",
   },

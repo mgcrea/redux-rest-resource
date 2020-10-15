@@ -78,8 +78,10 @@ describe('defaultReducers', () => {
       type,
       status,
       context,
-      body,
-      receivedAt,
+      payload: {
+        body,
+        receivedAt
+      },
       options: {
         assignResponse: true
       }
@@ -94,8 +96,10 @@ describe('defaultReducers', () => {
       type,
       status,
       context,
-      err: {},
-      receivedAt
+      payload: {
+        receivedAt
+      },
+      options: {}
     };
     expect(reducers[actionId](pendingState, rejectedAction)).toEqual({
       isCreating: false
@@ -114,7 +118,9 @@ describe('defaultReducers', () => {
     status = 'pending';
     const pendingState = reducers[actionId](initialState, {
       type,
-      status
+      status,
+      options: {},
+      context: {}
     });
     expect(pendingState).toEqual({
       isFetching: true,
@@ -134,9 +140,13 @@ describe('defaultReducers', () => {
       reducers[actionId](pendingState, {
         type,
         status,
-        body,
-        receivedAt,
-        code
+        payload: {
+          body,
+          receivedAt,
+          code
+        },
+        options: {},
+        context: {}
       })
     ).toEqual({
       isFetching: false,
@@ -150,8 +160,11 @@ describe('defaultReducers', () => {
       reducers[actionId](pendingState, {
         type,
         status,
-        err: {},
-        receivedAt
+        payload: {
+          receivedAt
+        },
+        options: {},
+        context: {}
       })
     ).toEqual({
       didInvalidate: false,
@@ -206,10 +219,14 @@ describe('defaultReducers', () => {
         reducers[actionId](pendingState, {
           type,
           status,
-          body,
-          receivedAt,
-          code,
-          contentRange
+          payload: {
+            body,
+            receivedAt,
+            contentRange,
+            code
+          },
+          context: {},
+          options: {}
         })
       ).toEqual({
         isFetching: false,
@@ -223,8 +240,11 @@ describe('defaultReducers', () => {
         reducers[actionId](pendingState, {
           type,
           status,
-          err: {},
-          receivedAt
+          payload: {
+            receivedAt
+          },
+          context: {},
+          options: {}
         })
       ).toEqual({
         didInvalidate: false,
@@ -264,7 +284,9 @@ describe('defaultReducers', () => {
         } as State<User>,
         {
           type,
-          status
+          status,
+          context: {},
+          options: {}
         }
       );
       expect(pendingState).toEqual({
@@ -295,10 +317,14 @@ describe('defaultReducers', () => {
         reducers[actionId](pendingState, {
           type,
           status,
-          body,
-          receivedAt,
-          code,
-          contentRange
+          payload: {
+            body,
+            receivedAt,
+            contentRange,
+            code
+          },
+          context: {},
+          options: {}
         })
       ).toEqual({
         isFetching: false,
@@ -312,8 +338,11 @@ describe('defaultReducers', () => {
         reducers[actionId](pendingState, {
           type,
           status,
-          err: {},
-          receivedAt
+          payload: {
+            receivedAt
+          },
+          context: {},
+          options: {}
         })
       ).toEqual({
         didInvalidate: false,
@@ -352,7 +381,9 @@ describe('defaultReducers', () => {
         } as State<User>,
         {
           type,
-          status
+          status,
+          context: {},
+          options: {}
         }
       );
       expect(pendingState).toEqual({
@@ -379,10 +410,14 @@ describe('defaultReducers', () => {
         reducers[actionId](pendingState, {
           type,
           status,
-          body,
-          receivedAt,
-          code,
-          contentRange
+          payload: {
+            body,
+            receivedAt,
+            contentRange,
+            code
+          },
+          context: {},
+          options: {}
         })
       ).toEqual({
         isFetching: false,
@@ -396,8 +431,11 @@ describe('defaultReducers', () => {
         reducers[actionId](pendingState, {
           type,
           status,
-          err: {},
-          receivedAt
+          payload: {
+            receivedAt
+          },
+          context: {},
+          options: {}
         })
       ).toEqual({
         didInvalidate: false,
@@ -436,7 +474,9 @@ describe('defaultReducers', () => {
         } as State<User>,
         {
           type,
-          status
+          status,
+          context: {},
+          options: {}
         }
       );
       expect(pendingState).toEqual({
@@ -463,10 +503,14 @@ describe('defaultReducers', () => {
         reducers[actionId](pendingState, {
           type,
           status,
-          body,
-          receivedAt,
-          code,
-          contentRange
+          payload: {
+            body,
+            receivedAt,
+            contentRange,
+            code
+          },
+          context: {},
+          options: {}
         })
       ).toEqual({
         isFetching: false,
@@ -480,8 +524,11 @@ describe('defaultReducers', () => {
         reducers[actionId](pendingState, {
           type,
           status,
-          err: {},
-          receivedAt
+          payload: {
+            receivedAt
+          },
+          context: {},
+          options: {}
         })
       ).toEqual({
         didInvalidate: false,
@@ -531,8 +578,11 @@ describe('defaultReducers', () => {
         type,
         status,
         context,
-        body,
-        receivedAt
+        payload: {
+          body,
+          receivedAt
+        },
+        options: {}
       })
     ).toEqual({
       isFetchingItem: false,
@@ -547,8 +597,10 @@ describe('defaultReducers', () => {
         type,
         status,
         context,
-        err: {},
-        receivedAt
+        payload: {
+          receivedAt
+        },
+        options: {}
       })
     ).toEqual({
       isFetchingItem: false,
@@ -611,8 +663,11 @@ describe('defaultReducers', () => {
         type,
         status,
         context,
-        body,
-        receivedAt
+        payload: {
+          body,
+          receivedAt
+        },
+        options: {}
       })
     ).toEqual({
       isUpdating: false,
@@ -626,8 +681,10 @@ describe('defaultReducers', () => {
         type,
         status,
         context,
-        err: {},
-        receivedAt
+        payload: {
+          receivedAt
+        },
+        options: {}
       })
     ).toEqual({
       ...customInitialState,
@@ -704,8 +761,10 @@ describe('defaultReducers', () => {
         type,
         status,
         context,
-        err: {},
-        receivedAt
+        payload: {
+          receivedAt
+        },
+        options: {}
       })
     ).toEqual({
       ...customInitialState,
@@ -777,8 +836,11 @@ describe('defaultReducers', () => {
         type,
         status,
         context,
-        body,
-        receivedAt
+        payload: {
+          body,
+          receivedAt
+        },
+        options: {}
       })
     ).toEqual({
       isUpdatingMany: false,
@@ -792,8 +854,10 @@ describe('defaultReducers', () => {
         type,
         status,
         context,
-        err: {},
-        receivedAt
+        payload: {
+          receivedAt
+        },
+        options: {}
       })
     ).toEqual({
       ...customInitialState,
@@ -880,8 +944,9 @@ describe('defaultReducers', () => {
         status,
         context,
         options: {params: {ids: [1, 2]}},
-        err: {},
-        receivedAt
+        payload: {
+          receivedAt
+        }
       })
     ).toEqual({
       ...customInitialState,
@@ -949,8 +1014,10 @@ describe('defaultReducers', () => {
         type,
         status,
         context,
-        body,
-        receivedAt,
+        payload: {
+          body,
+          receivedAt
+        },
         options: {params: {ids: [1, 2]}, assignResponse: true}
       })
     ).toEqual({
@@ -965,8 +1032,10 @@ describe('defaultReducers', () => {
         type,
         status,
         context,
-        err: {},
-        receivedAt
+        payload: {
+          receivedAt
+        },
+        options: {}
       })
     ).toEqual({
       ...customInitialState,
@@ -1018,8 +1087,11 @@ describe('defaultReducers', () => {
         type,
         status,
         context,
-        body,
-        receivedAt
+        payload: {
+          body,
+          receivedAt
+        },
+        options: {}
       })
     ).toEqual({
       isDeleting: false,
@@ -1032,8 +1104,10 @@ describe('defaultReducers', () => {
         type,
         status,
         context,
-        err: {},
-        receivedAt
+        payload: {
+          receivedAt
+        },
+        options: {}
       })
     ).toEqual({
       ...customInitialState,
@@ -1108,8 +1182,10 @@ describe('defaultReducers', () => {
         type,
         status,
         context,
-        err: {},
-        receivedAt
+        payload: {
+          receivedAt
+        },
+        options: {}
       })
     ).toEqual({
       ...customInitialState,
@@ -1166,8 +1242,11 @@ describe('defaultReducers', () => {
         type,
         status,
         context,
-        body,
-        receivedAt
+        payload: {
+          body,
+          receivedAt
+        },
+        options: {}
       })
     ).toEqual({
       isDeletingMany: false,
@@ -1181,8 +1260,10 @@ describe('defaultReducers', () => {
         type,
         status,
         context,
-        err: {},
-        receivedAt
+        payload: {
+          receivedAt
+        },
+        options: {}
       })
     ).toEqual({
       ...customInitialState,
@@ -1253,8 +1334,10 @@ describe('custom reducers', () => {
       type,
       status,
       context,
-      err: {},
-      receivedAt
+      payload: {
+        receivedAt
+      },
+      options: {}
     };
     expect(reducers[actionId](pendingState, rejectedAction)).toEqual({
       isRunning: false
@@ -1303,8 +1386,10 @@ describe('custom reducers', () => {
       reducers[actionId](pendingState, {
         type,
         status,
-        err: {},
-        receivedAt
+        payload: {
+          receivedAt
+        },
+        options: {}
       })
     ).toEqual({
       isMerging: false
@@ -1424,8 +1509,10 @@ describe('reducer options', () => {
           status,
           context,
           options,
-          body,
-          receivedAt
+          payload: {
+            body,
+            receivedAt
+          }
         })
       ).toEqual({
         isFetchingItem: false,
@@ -1442,8 +1529,9 @@ describe('reducer options', () => {
           status,
           context,
           options,
-          err: {},
-          receivedAt
+          payload: {
+            receivedAt
+          }
         })
       ).toEqual({
         ...customInitialState,
@@ -1519,8 +1607,10 @@ describe('reducer options', () => {
           status,
           context,
           options,
-          body,
-          receivedAt
+          payload: {
+            body,
+            receivedAt
+          }
         })
       ).toEqual({
         ...customInitialState,
@@ -1535,8 +1625,9 @@ describe('reducer options', () => {
           status,
           context,
           options,
-          err: {},
-          receivedAt
+          payload: {
+            receivedAt
+          }
         })
       ).toEqual({
         ...customInitialState,
@@ -1611,8 +1702,10 @@ describe('reducer options', () => {
           status,
           context,
           options,
-          body,
-          receivedAt
+          payload: {
+            body,
+            receivedAt
+          }
         })
       ).toEqual({
         isFetchingItem: false,
@@ -1629,8 +1722,11 @@ describe('reducer options', () => {
           status,
           context,
           options,
-          err: {},
-          receivedAt
+          payload: {
+            receivedAt
+          },
+          context: {},
+          options: {}
         })
       ).toEqual({
         ...customInitialState,
@@ -1717,8 +1813,11 @@ describe('reducer options', () => {
           status,
           context,
           options,
-          err: {},
-          receivedAt
+          payload: {
+            receivedAt
+          },
+          context: {},
+          options: {}
         })
       ).toEqual({
         ...customInitialState,
@@ -1921,8 +2020,10 @@ describe('rootReducer', () => {
       type,
       status,
       context,
-      body,
-      receivedAt,
+      payload: {
+        body,
+        receivedAt
+      },
       options: {
         assignResponse: true
       }
@@ -1938,8 +2039,10 @@ describe('rootReducer', () => {
       type,
       status,
       context,
-      err: {},
-      receivedAt
+      payload: {
+        receivedAt
+      },
+      options: {}
     };
     expect(rootReducer(pendingState, rejectedAction)).toEqual({
       ...initialState,
@@ -2013,8 +2116,10 @@ describe('rootReducer', () => {
       type,
       status,
       context,
-      err: {},
-      receivedAt
+      payload: {
+        receivedAt
+      },
+      options: {}
     };
     expect(rootReducer(pendingState, rejectedAction)).toEqual({
       ...initialState,

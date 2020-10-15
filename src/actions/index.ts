@@ -11,7 +11,6 @@ import {parseUrlParams} from '../helpers/url';
 import {getPluralName, isFunction, isObject, isString, pick, ucfirst} from '../helpers/util';
 import {getActionType, getTypesScope, scopeType} from '../types';
 import {
-  Action,
   ConfigActionsOptions,
   AsyncActionCreator,
   Context,
@@ -63,7 +62,10 @@ const createAction = (
   // Context usage changes with resolved method:
   // - GET/DELETE will be used to resolve query params (eg. /users/:id)
   // - POST/PATCH will be used to resolve query params (eg. /users/:id) and as request body
-  return (context: Context, contextOpts: ContextOptions = {}) => (dispatch, getState): Promise<Action> => {
+  return (context: Context, contextOpts: ContextOptions = {}) => (
+    dispatch,
+    getState
+  ): Promise<SerializableResponse | null> => {
     // Prepare reduce options
     const reduceOpts: ReduceOptions = {
       ...pick(actionOpts, ...SUPPORTED_REDUCE_OPTS),
@@ -71,14 +73,13 @@ const createAction = (
     };
     // Support pure actions
     if (actionOpts.isPure) {
-      return Promise.resolve(
-        dispatch({
-          type,
-          status: 'resolved',
-          options: reduceOpts,
-          context
-        })
-      );
+      dispatch({
+        type,
+        status: 'resolved',
+        options: reduceOpts,
+        context
+      });
+      return Promise.resolve(null);
     }
     // First dispatch a pending action
     dispatch({
@@ -125,53 +126,57 @@ const createAction = (
           buildTransformPipeline(defaultTransformResponsePipeline, actionOpts.transformResponse)
         )
       )
-      .then((serializedRes) =>
+      .then((payload) => {
         dispatch({
           type,
           status: 'resolved',
           context,
           options: reduceOpts,
-          receivedAt: Date.now(),
-          ...(isObject(serializedRes) ? serializedRes : {})
-        })
-      )
-      .catch((initialErr: Error) => {
+          payload
+        });
+        return payload;
+      })
+      .catch((err: Error) => {
+        const payload: SerializableResponse =
+          err instanceof HttpError
+            ? {
+                body: err.body,
+                headers: err.headers,
+                code: err.status, // deprecated
+                status: err.status,
+                ok: false,
+                receivedAt: Date.now()
+              }
+            : {
+                body: err.message,
+                headers: {},
+                code: 0, // deprecated
+                status: 0,
+                ok: false,
+                receivedAt: Date.now()
+              };
+
         // beforeError hook
-        const err = actionOpts.beforeError
+        const nextErr = actionOpts.beforeError
           ? actionOpts.beforeError.reduce<Error | null>(
               (errSoFar, beforeErrorHook) => (errSoFar ? beforeErrorHook(errSoFar) : null),
-              initialErr
+              err
             )
-          : initialErr;
-        if (err === null) {
-          // no-op action
-          return {type} as Action;
+          : err;
+
+        dispatch({
+          type,
+          status: 'rejected',
+          context,
+          options: reduceOpts,
+          payload
+        });
+
+        if (nextErr === null) {
+          return payload;
         }
-        if (!(err instanceof Error) && 'type' in err) {
-          return err as Action;
-        }
-        // Catch HttpErrors
-        if (err instanceof HttpError) {
-          dispatch({
-            type,
-            status: 'rejected',
-            code: err.status,
-            body: err.body,
-            context,
-            options: reduceOpts,
-            receivedAt: Date.now()
-          });
-          // Catch regular Errors
-        } else {
-          dispatch({
-            type,
-            status: 'rejected',
-            code: 0,
-            body: err.message,
-            context,
-            options: reduceOpts,
-            receivedAt: Date.now()
-          });
+        if (!(err instanceof Error) && isObject(err)) {
+          return err;
         }
         throw err;
       });

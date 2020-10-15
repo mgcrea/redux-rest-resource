@@ -97,7 +97,7 @@ describe('defaultActions', () => {
         res.receivedAt = null;
         expect(res).toMatchSnapshot();
         const actions = store.getActions();
-        actions[1].receivedAt = null;
+        actions[1].payload.receivedAt = null;
         expect(actions).toMatchSnapshot();
       });
     });
@@ -124,7 +124,7 @@ describe('defaultActions', () => {
         res.receivedAt = null;
         expect(res).toMatchSnapshot();
         const actions = store.getActions();
-        actions[1].receivedAt = null;
+        actions[1].payload.receivedAt = null;
         expect(actions).toMatchSnapshot();
       });
     });
@@ -149,7 +149,7 @@ describe('defaultActions', () => {
         res.receivedAt = null;
         expect(res).toMatchSnapshot();
         const actions = store.getActions();
-        actions[1].receivedAt = null;
+        actions[1].payload.receivedAt = null;
         expect(actions).toMatchSnapshot();
       });
     });
@@ -174,7 +174,7 @@ describe('defaultActions', () => {
         res.receivedAt = null;
         expect(res).toMatchSnapshot();
         const actions = store.getActions();
-        actions[1].receivedAt = null;
+        actions[1].payload.receivedAt = null;
         expect(actions).toMatchSnapshot();
       });
     });
@@ -198,7 +198,7 @@ describe('defaultActions', () => {
         res.receivedAt = null;
         expect(res).toMatchSnapshot();
         const actions = store.getActions();
-        actions[1].receivedAt = null;
+        actions[1].payload.receivedAt = null;
         expect(actions).toMatchSnapshot();
       });
     });
@@ -228,7 +228,7 @@ describe('defaultActions', () => {
         res.receivedAt = null;
         expect(res).toMatchSnapshot();
         const actions = store.getActions();
-        actions[1].receivedAt = null;
+        actions[1].payload.receivedAt = null;
         expect(actions).toMatchSnapshot();
       });
     });
@@ -249,7 +249,7 @@ describe('defaultActions', () => {
         res.receivedAt = null;
         expect(res).toMatchSnapshot();
         const actions = store.getActions();
-        actions[1].receivedAt = null;
+        actions[1].payload.receivedAt = null;
         expect(actions).toMatchSnapshot();
       });
     });
@@ -271,7 +271,7 @@ describe('defaultActions', () => {
         res.receivedAt = null;
         expect(res).toMatchSnapshot();
         const actions = store.getActions();
-        actions[1].receivedAt = null;
+        actions[1].payload.receivedAt = null;
         expect(actions).toMatchSnapshot();
       });
     });
@@ -293,7 +293,7 @@ describe('defaultActions', () => {
         .rejects.toBeDefined()
         .then(() => {
           const actions = store.getActions();
-          actions[1].receivedAt = null;
+          actions[1].payload.receivedAt = null;
           expect(actions).toMatchSnapshot();
         });
     });
@@ -322,7 +322,7 @@ describe('defaultActions', () => {
         .rejects.toBeDefined()
         .then(() => {
           const actions = store.getActions();
-          actions[1].receivedAt = null;
+          actions[1].payload.receivedAt = null;
           expect(thrownErr.status).toEqual(code);
           expect(actions).toMatchSnapshot();
         });
@@ -350,7 +350,7 @@ describe('defaultActions', () => {
         .rejects.toBeDefined()
         .then(() => {
           const actions = store.getActions();
-          actions[1].receivedAt = null;
+          actions[1].payload.receivedAt = null;
           expect(thrownErr.status).toEqual(code);
           expect(actions).toMatchSnapshot();
         });
@@ -406,7 +406,7 @@ describe('custom actions', () => {
     });
     return store.dispatch(actionFuncs[action](context)).then(() => {
       const actions = store.getActions();
-      actions[1].receivedAt = null;
+      actions[1].payload.receivedAt = null;
       expect(actions).toMatchSnapshot();
     });
   });
@@ -428,7 +428,7 @@ describe('custom actions', () => {
     });
     return store.dispatch(actionFuncs[action](context)).then(() => {
       const actions = store.getActions();
-      actions[1].receivedAt = null;
+      actions[1].payload.receivedAt = null;
       expect(actions).toMatchSnapshot();
     });
   });
@@ -452,9 +452,9 @@ describe('custom actions', () => {
     });
     return store.dispatch(actionFuncs[action](context)).then((res) => {
       const actions = store.getActions();
-      actions[1].receivedAt = null;
+      actions[1].payload.receivedAt = null;
       expect(actions).toMatchSnapshot();
-      expect(res.body).toEqual(actions[1].body);
+      expect(res.body).toEqual(actions[1].payload.body);
     });
   });
   it('.editFolder()', () => {
@@ -478,9 +478,9 @@ describe('custom actions', () => {
     });
     return store.dispatch(actionFuncs[action](context)).then((res) => {
       const actions = store.getActions();
-      actions[1].receivedAt = null;
+      actions[1].payload.receivedAt = null;
       expect(actions).toMatchSnapshot();
-      expect(res.body).toEqual(actions[1].body);
+      expect(res.body).toEqual(actions[1].payload.body);
     });
   });
 });
@@ -561,7 +561,7 @@ describe('other options', () => {
       });
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
-        actions[1].receivedAt = null;
+        actions[1].payload.receivedAt = null;
         expect(actions).toMatchSnapshot();
       });
     });
@@ -597,7 +597,7 @@ describe('other options', () => {
       });
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
-        actions[1].receivedAt = null;
+        actions[1].payload.receivedAt = null;
         expect(actions).toMatchSnapshot();
       });
     });
@@ -649,7 +649,7 @@ describe('fetch options', () => {
       });
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
-        actions[1].receivedAt = null;
+        actions[1].payload.receivedAt = null;
         expect(actions).toMatchSnapshot();
       });
     });
@@ -689,7 +689,7 @@ describe('fetch options', () => {
       });
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
-        actions[1].receivedAt = null;
+        actions[1].payload.receivedAt = null;
         expect(actions).toMatchSnapshot();
       });
     });
@@ -730,7 +730,7 @@ describe('fetch options', () => {
       });
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
-        actions[1].receivedAt = null;
+        actions[1].payload.receivedAt = null;
         expect(actions).toMatchSnapshot();
       });
     });
@@ -765,7 +765,7 @@ describe('fetch options', () => {
         )
         .then(() => {
           const actions = store.getActions();
-          actions[1].receivedAt = null;
+          actions[1].payload.receivedAt = null;
           expect(actions).toMatchSnapshot();
         });
     });
@@ -802,7 +802,7 @@ describe('fetch options', () => {
       });
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
-        actions[1].receivedAt = null;
+        actions[1].payload.receivedAt = null;
         expect(actions).toMatchSnapshot();
       });
     });
@@ -834,7 +834,7 @@ describe('fetch options', () => {
       });
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
-        actions[1].receivedAt = null;
+        actions[1].payload.receivedAt = null;
         expect(actions).toMatchSnapshot();
       });
     });
@@ -874,7 +874,7 @@ describe('fetch options', () => {
       });
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
-        actions[1].receivedAt = null;
+        actions[1].payload.receivedAt = null;
         expect(actions).toMatchSnapshot();
       });
     });
@@ -916,7 +916,7 @@ describe('fetch options', () => {
       });
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
-        actions[1].receivedAt = null;
+        actions[1].payload.receivedAt = null;
         expect(actions).toMatchSnapshot();
       });
     });
@@ -951,7 +951,7 @@ describe('fetch options', () => {
         )
         .then(() => {
           const actions = store.getActions();
-          actions[1].receivedAt = null;
+          actions[1].payload.receivedAt = null;
           expect(actions).toMatchSnapshot();
         });
     });
@@ -993,7 +993,7 @@ describe('fetch options', () => {
       });
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
-        actions[1].receivedAt = null;
+        actions[1].payload.receivedAt = null;
         expect(actions).toMatchSnapshot();
       });
     });
@@ -1040,7 +1040,7 @@ describe('fetch options', () => {
       });
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
-        actions[1].receivedAt = null;
+        actions[1].payload.receivedAt = null;
         expect(actions).toMatchSnapshot();
       });
     });
@@ -1077,7 +1077,7 @@ describe('fetch options', () => {
         )
         .then(() => {
           const actions = store.getActions();
-          actions[1].receivedAt = null;
+          actions[1].payload.receivedAt = null;
           expect(actions).toMatchSnapshot();
         });
     });
@@ -1125,7 +1125,7 @@ describe('fetch options', () => {
         )
         .then(() => {
           const actions = store.getActions();
-          actions[1].receivedAt = null;
+          actions[1].payload.receivedAt = null;
           expect(actions).toMatchSnapshot();
         });
     });
@@ -1156,7 +1156,7 @@ describe('fetch options', () => {
       const store = mockStore({});
       return store.dispatch(actionFuncs[action](context, {params})).then(() => {
         const actions = store.getActions();
-        actions[1].receivedAt = null;
+        actions[1].payload.receivedAt = null;
         expect(actions).toMatchSnapshot();
       });
     });
@@ -1189,7 +1189,7 @@ describe('fetch options', () => {
       });
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
-        actions[1].receivedAt = null;
+        actions[1].payload.receivedAt = null;
         expect(actions).toMatchSnapshot();
       });
     });
@@ -1230,7 +1230,7 @@ describe('fetch options', () => {
       });
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
-        actions[1].receivedAt = null;
+        actions[1].payload.receivedAt = null;
         expect(actions).toMatchSnapshot();
       });
     });
@@ -1274,7 +1274,7 @@ describe('fetch options', () => {
       });
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
-        actions[1].receivedAt = null;
+        actions[1].payload.receivedAt = null;
         expect(actions).toMatchSnapshot();
       });
     });
@@ -1312,7 +1312,7 @@ describe('fetch options', () => {
         )
         .then(() => {
           const actions = store.getActions();
-          actions[1].receivedAt = null;
+          actions[1].payload.receivedAt = null;
           expect(actions).toMatchSnapshot();
         });
     });
@@ -1357,7 +1357,7 @@ describe('fetch options', () => {
       });
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
-        actions[1].receivedAt = null;
+        actions[1].payload.receivedAt = null;
         expect(actions).toMatchSnapshot();
       });
     });
@@ -1402,7 +1402,7 @@ describe('fetch options', () => {
       });
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
-        actions[1].receivedAt = null;
+        actions[1].payload.receivedAt = null;
         expect(actions).toMatchSnapshot();
       });
     });
@@ -1441,7 +1441,7 @@ describe('fetch options', () => {
         )
         .then(() => {
           const actions = store.getActions();
-          actions[1].receivedAt = null;
+          actions[1].payload.receivedAt = null;
           expect(actions).toMatchSnapshot();
         });
     });
@@ -1484,7 +1484,7 @@ describe('fetch options', () => {
       });
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
-        actions[1].receivedAt = null;
+        actions[1].payload.receivedAt = null;
         expect(actions).toMatchSnapshot();
       });
     });
@@ -1522,7 +1522,7 @@ describe('fetch options', () => {
         )
         .then(() => {
           const actions = store.getActions();
-          actions[1].receivedAt = null;
+          actions[1].payload.receivedAt = null;
           expect(actions).toMatchSnapshot();
         });
     });
@@ -1567,7 +1567,7 @@ describe('reduce options', () => {
       });
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
-        actions[1].receivedAt = null;
+        actions[1].payload.receivedAt = null;
         expect(actions).toMatchSnapshot();
       });
     });
@@ -1601,7 +1601,7 @@ describe('reduce options', () => {
         )
         .then(() => {
           const actions = store.getActions();
-          actions[1].receivedAt = null;
+          actions[1].payload.receivedAt = null;
           expect(actions).toMatchSnapshot();
         });
     });
@@ -1640,7 +1640,7 @@ describe('reduce options', () => {
       });
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
-        actions[1].receivedAt = null;
+        actions[1].payload.receivedAt = null;
         expect(actions).toMatchSnapshot();
       });
     });
@@ -1674,7 +1674,7 @@ describe('reduce options', () => {
         )
         .then(() => {
           const actions = store.getActions();
-          actions[1].receivedAt = null;
+          actions[1].payload.receivedAt = null;
           expect(actions).toMatchSnapshot();
         });
     });
@@ -1701,7 +1701,7 @@ describe('reduce options', () => {
   //     res.receivedAt = null;
   //     expect(res).toMatchSnapshot();
   //     const actions = store.getActions();
-  //     actions[1].receivedAt = null;
+  //     actions[1].payload.receivedAt = null;
   //     expect(actions).toMatchSnapshot();
   //   });
   // });
@@ -1735,7 +1735,7 @@ describe('reduce options', () => {
       const store = mockStore();
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
-        actions[1].receivedAt = null;
+        actions[1].payload.receivedAt = null;
         expect(actions).toMatchSnapshot();
       });
     });
@@ -1767,7 +1767,7 @@ describe('reduce options', () => {
         )
         .then(() => {
           const actions = store.getActions();
-          actions[1].receivedAt = null;
+          actions[1].payload.receivedAt = null;
           expect(actions).toMatchSnapshot();
         });
     });
@@ -1807,7 +1807,7 @@ describe('reduce options', () => {
       });
       return store.dispatch(actionFuncs[action](context)).then(() => {
         const actions = store.getActions();
-        actions[1].receivedAt = null;
+        actions[1].payload.receivedAt = null;
         expect(actions).toMatchSnapshot();
       });
     });
@@ -1841,7 +1841,7 @@ describe('reduce options', () => {
         .rejects.toBeDefined()
         .then(() => {
           const actions = store.getActions();
-          actions[1].receivedAt = null;
+          actions[1].payload.receivedAt = null;
           expect(actions).toMatchSnapshot();
           expect(beforeError.mock.calls.length).toBe(1);
         });
