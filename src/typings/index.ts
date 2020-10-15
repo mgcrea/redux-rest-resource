@@ -91,7 +91,7 @@ export type ReducerMapObject<T = UnknownObject> = Record<string, Reducer<T>>;
 export type AsyncActionCreator<T = unknown> = (
   context?: Context,
   contextOpts?: ContextOptions
-) => ThunkAction<Promise<unknown>, State, void, Action<T>>;
+) => ThunkAction<Promise<SerializableResponse | null>, State, void, Action<T>>;
 
 export type AsyncActionCreatorsMapObject<T = unknown> = Record<string, AsyncActionCreator<T>>;
 
