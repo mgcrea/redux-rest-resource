@@ -10,6 +10,14 @@
 
 Dead simple and ready-to-use store module for handling HTTP REST resources.
 
+## 🚧 Deprecation notice
+
+**This project is no longer maintained as better alternatives came out.**
+
+**Please use [RTK-Query](https://redux-toolkit.js.org/tutorials/rtk-query) from the [Redux Toolkit](https://github.com/reduxjs/redux-toolkit) project instead.**
+
+## Description
+
 Generates types, actions and reducers for you to easily interact with any REST API.
 
 Saves you from writing a lot of boilerplate code and ensures that your code stays [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself).
